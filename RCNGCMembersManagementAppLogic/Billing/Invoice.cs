@@ -12,23 +12,44 @@ namespace RCNGCMembersManagementAppLogic.Billing
     public class Invoice
     {
         string invoiceID;
+        DateTime issueDate;
         string memberID;
         string clientFullName;
         List<Transaction> invoiceDetail;
+        List<Bill> invoiceBills;
 
-        public Invoice(ClubMember clubMember, ClubService clubService)
+        public Invoice(ClubMember clubMember, ClubService clubService, DateTime issueDate)
         {
             this.invoiceID = GetNextInvoiceId();
+            this.issueDate = issueDate;
             this.memberID = clubMember.MemberID;
             this.clientFullName = clubMember.FullName;
             invoiceDetail = new List<Transaction>();
             Transaction simpleServiceTransaction = new Transaction(clubService.Description, 1, clubService.Cost,0,0);
             invoiceDetail.Add(simpleServiceTransaction);
+            invoiceBills = new List<Bill>();
+            AddBillForInvoiceTotal(clubService.Description, issueDate, issueDate.AddDays(30));
         }
 
-        public decimal AmountWithTaxes
+        public decimal NetAmount
         {
-            get { return 20; }
+            get { return CalculateInvoiceAmounts(true); }
+        }
+
+        public decimal GrossAmount
+        {
+            get { return CalculateInvoiceAmounts(false); }
+        }
+
+        public decimal BillsTotalAmountToCollect
+        {
+            get { return GetBillsTotalAmount(Bill.billPaymentResult.ToCollect); }
+        }
+
+        public void AddBillForInvoiceTotal(string description, DateTime issueDate, DateTime dueDate)
+        {
+            Bill invoiceBill = new Bill(invoiceID + "/1", description, NetAmount, issueDate, dueDate);
+            invoiceBills.Add(invoiceBill);
         }
 
         private string GetNextInvoiceId()
@@ -46,5 +67,14 @@ namespace RCNGCMembersManagementAppLogic.Billing
             return amount;
         }
 
+        private decimal GetBillsTotalAmount(Bill.billPaymentResult paymentResult)
+        {
+            decimal amount = 0;
+            foreach (Bill bill in invoiceBills)
+            {
+                if (bill.BillPaymentResult == paymentResult) amount += bill.Amount;
+            }
+            return amount;
+        }
     }
 }

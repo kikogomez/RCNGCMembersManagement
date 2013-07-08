@@ -87,6 +87,8 @@ this.ScenarioSetup(scenarioInfo);
  testRunner.When("I bill a this service", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line 11
  testRunner.Then("An invoice is created for the cost of the service", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line 12
+ testRunner.And("A single bill is generated for the total amount of the invoice", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
             this.ScenarioCleanup();
         }

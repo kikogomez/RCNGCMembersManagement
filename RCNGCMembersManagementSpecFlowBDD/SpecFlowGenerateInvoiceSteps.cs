@@ -32,13 +32,21 @@ namespace RCNGCMembersManagementSpecFlowBDD
         [When(@"I bill a this service")]
         public void WhenIBillAThisService()
         {
-            invoice = new Invoice(clubMember, clubService);
+            DateTime issueDate = DateTime.Now;
+            invoice = new Invoice(clubMember, clubService, issueDate);
         }
         
         [Then(@"An invoice is created for the cost of the service")]
         public void ThenAnInvoiceIsCreatedForTheCostOfTheService()
         {
-            Assert.AreEqual("50", invoice.AmountWithTaxes);
+            Assert.AreEqual(50, invoice.NetAmount);
         }
+
+        [Then(@"A single bill is generated for the total amount of the invoice")]
+        public void ThenASingleBillIsGeneratedForTheTotalAmountOfTheInvoice()
+        {
+            Assert.AreEqual(50, invoice.BillsTotalAmountToCollect);
+        }
+
     }
 }

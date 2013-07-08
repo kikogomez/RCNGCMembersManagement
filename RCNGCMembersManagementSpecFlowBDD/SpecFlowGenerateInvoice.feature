@@ -9,3 +9,5 @@ Scenario: Generate an invoice for a simple service
 	And the member use a club service
 	When I bill a this service
 	Then An invoice is created for the cost of the service
+	And A single bill is generated for the total amount of the invoice
+

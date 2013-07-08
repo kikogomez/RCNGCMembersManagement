@@ -145,4 +145,6 @@ $RECYCLE.BIN/
 
 # Mac crap
 .DS_Store
+/NDependOut/
+/NDependOut1/
 
