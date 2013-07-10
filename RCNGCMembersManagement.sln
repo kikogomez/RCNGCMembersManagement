@@ -13,6 +13,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RCNGCMembersManagementUnitT
 		{A2586E2D-F4A2-43EC-B332-DD46C73552B5} = {A2586E2D-F4A2-43EC-B332-DD46C73552B5}
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RCNGCMembersManagementMocks", "RCNGCMembersManagementMocks\RCNGCMembersManagementMocks.csproj", "{9E90AADF-FE10-4D21-8822-A2E4851E4A8D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -31,6 +33,10 @@ Global
 		{4FAE4A3E-9B52-4800-9C93-E715D8EB234A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4FAE4A3E-9B52-4800-9C93-E715D8EB234A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4FAE4A3E-9B52-4800-9C93-E715D8EB234A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9E90AADF-FE10-4D21-8822-A2E4851E4A8D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9E90AADF-FE10-4D21-8822-A2E4851E4A8D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9E90AADF-FE10-4D21-8822-A2E4851E4A8D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9E90AADF-FE10-4D21-8822-A2E4851E4A8D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

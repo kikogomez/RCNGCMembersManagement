@@ -4,6 +4,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using RCNGCMembersManagementAppLogic.MembersManaging;
 using RCNGCMembersManagementAppLogic.ClubServices;
 using RCNGCMembersManagementAppLogic.Billing;
+using RCNGCMembersManagementMocks;
 
 
 namespace RCNGCMembersManagementSpecFlowBDD
@@ -15,6 +16,7 @@ namespace RCNGCMembersManagementSpecFlowBDD
         ClubService clubService;
         Invoice invoice;
         Invoice secondInvoice;
+        InvoiceDataManagerMock invoiceDataManagerMock;
 
         [Given(@"I have a Club Member")]
         public void GivenIHaveAClubMember()
@@ -34,6 +36,8 @@ namespace RCNGCMembersManagementSpecFlowBDD
         public void WhenIBillAThisService()
         {
             DateTime issueDate = DateTime.Now;
+            invoiceDataManagerMock = new InvoiceDataManagerMock();
+            BillDataManager.Instance.SetInvoiceDataManagerCollaborator(invoiceDataManagerMock);
             invoice = new Invoice(clubMember, clubService, issueDate);
         }
         
@@ -52,7 +56,10 @@ namespace RCNGCMembersManagementSpecFlowBDD
         [Given(@"I generate an invoice")]
         public void GivenIGenerateAnInvoice()
         {
+            invoiceDataManagerMock = new InvoiceDataManagerMock();
+            BillDataManager.Instance.SetInvoiceDataManagerCollaborator(invoiceDataManagerMock);
             GivenIHaveAClubMember();
+            GivenTheMemberUseAClubService();
             WhenIBillAThisService();
         }
 

@@ -65,7 +65,8 @@ namespace RCNGCMembersManagementAppLogic.Billing
 
         private string GetNextInvoiceId()
         {
-            return "00001";
+            string invoicePrefix = "MMM";
+            return invoicePrefix + BillDataManager.Instance.GetNextInvoiceID().ToString("00000");
         }
 
         private decimal CalculateInvoiceAmounts(bool netAmount)
