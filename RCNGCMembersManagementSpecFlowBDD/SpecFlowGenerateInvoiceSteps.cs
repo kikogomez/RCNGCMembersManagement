@@ -14,6 +14,7 @@ namespace RCNGCMembersManagementSpecFlowBDD
         ClubMember clubMember;
         ClubService clubService;
         Invoice invoice;
+        Invoice secondInvoice;
 
         [Given(@"I have a Club Member")]
         public void GivenIHaveAClubMember()
@@ -29,7 +30,7 @@ namespace RCNGCMembersManagementSpecFlowBDD
             clubService = new ClubService(serviceDescription, serviceCost);
         }
         
-        [When(@"I bill a this service")]
+        [When(@"I bill this service")]
         public void WhenIBillAThisService()
         {
             DateTime issueDate = DateTime.Now;
@@ -47,6 +48,27 @@ namespace RCNGCMembersManagementSpecFlowBDD
         {
             Assert.AreEqual(50, invoice.BillsTotalAmountToCollect);
         }
+
+        [Given(@"I generate an invoice")]
+        public void GivenIGenerateAnInvoice()
+        {
+            GivenIHaveAClubMember();
+            WhenIBillAThisService();
+        }
+
+        [When(@"I generate a new invoice on the same year")]
+        public void WhenIGenerateANewInvoiceOnTheSameYear()
+        {
+            DateTime issueDate = invoice.IssueDate.AddSeconds(1); ;
+            secondInvoice = new Invoice(clubMember, clubService, issueDate);
+        }
+
+        [Then(@"the new invoice has a consecutive invoice ID")]
+        public void ThenTheNewInvoiceHasAConsecutiveInvoiceID()
+        {
+            Assert.AreEqual(int.Parse(invoice.InvoiceID.Substring(3)) + 1, int.Parse(secondInvoice.InvoiceID.Substring(3)));
+        }
+
 
     }
 }

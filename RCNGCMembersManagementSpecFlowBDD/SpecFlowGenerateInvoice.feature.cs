@@ -84,11 +84,29 @@ this.ScenarioSetup(scenarioInfo);
 #line 9
  testRunner.And("the member use a club service", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 10
- testRunner.When("I bill a this service", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+ testRunner.When("I bill this service", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line 11
  testRunner.Then("An invoice is created for the cost of the service", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line 12
  testRunner.And("A single bill is generated for the total amount of the invoice", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line hidden
+            this.ScenarioCleanup();
+        }
+        
+        [Microsoft.VisualStudio.TestTools.UnitTesting.TestMethodAttribute()]
+        [Microsoft.VisualStudio.TestTools.UnitTesting.DescriptionAttribute("Two consecutive invoices generated the same year have consecutive Invoice ID")]
+        [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("FeatureTitle", "SpecFlowGenerateInvoice")]
+        public virtual void TwoConsecutiveInvoicesGeneratedTheSameYearHaveConsecutiveInvoiceID()
+        {
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Two consecutive invoices generated the same year have consecutive Invoice ID", ((string[])(null)));
+#line 14
+this.ScenarioSetup(scenarioInfo);
+#line 15
+ testRunner.Given("I generate an invoice", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+#line 16
+ testRunner.When("I generate a new invoice on the same year", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#line 17
+ testRunner.Then("the new invoice has a consecutive invoice ID", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
             this.ScenarioCleanup();
         }

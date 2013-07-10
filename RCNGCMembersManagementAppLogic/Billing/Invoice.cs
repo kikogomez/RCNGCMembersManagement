@@ -31,6 +31,11 @@ namespace RCNGCMembersManagementAppLogic.Billing
             AddBillForInvoiceTotal(clubService.Description, issueDate, issueDate.AddDays(30));
         }
 
+        public string InvoiceID
+        {
+            get { return this.invoiceID; }
+        }
+
         public decimal NetAmount
         {
             get { return CalculateInvoiceAmounts(true); }
@@ -45,6 +50,12 @@ namespace RCNGCMembersManagementAppLogic.Billing
         {
             get { return GetBillsTotalAmount(Bill.billPaymentResult.ToCollect); }
         }
+
+        public DateTime IssueDate
+        {
+            get { return this.issueDate; }
+        }
+
 
         public void AddBillForInvoiceTotal(string description, DateTime issueDate, DateTime dueDate)
         {
