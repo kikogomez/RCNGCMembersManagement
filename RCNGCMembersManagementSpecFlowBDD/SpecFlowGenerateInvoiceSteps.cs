@@ -12,16 +12,26 @@ namespace RCNGCMembersManagementSpecFlowBDD
     [Binding]
     public class SpecFlowGenerateInvoiceSteps
     {
+        string lastInvoiceID;
         ClubMember clubMember;
         ClubService clubService;
         Invoice invoice;
         Invoice secondInvoice;
         InvoiceDataManagerMock invoiceDataManagerMock;
 
-        [Given(@"I have a Club Member")]
-        public void GivenIHaveAClubMember()
+        [Given(@"Last generated InvoiceID is ""(.*)""")]
+        public void GivenLastGeneratedInvoiceIDIs(string lastInvoiceID)
         {
-            clubMember = new ClubMember("00001", "Francisco", "Gomez-Caldito", "Viseas");
+            this.lastInvoiceID = lastInvoiceID;
+            invoiceDataManagerMock = new InvoiceDataManagerMock();
+            BillDataManager.Instance.SetInvoiceDataManagerCollaborator(invoiceDataManagerMock);
+            BillDataManager.Instance.SetInvoiceNumber(int.Parse(lastInvoiceID.Substring(7)));
+        }
+
+        [Given(@"A Club Member")]
+        public void GivenAClubMember(Table table)
+        {
+            clubMember = new ClubMember(table.Rows[0]["MemberID"], table.Rows[0]["Name"],table.Rows[0]["FirstSurname"],table.Rows[0]["SecondSurname"]);
         }
         
         [Given(@"the member use a club service")]
@@ -36,8 +46,6 @@ namespace RCNGCMembersManagementSpecFlowBDD
         public void WhenIBillAThisService()
         {
             DateTime issueDate = DateTime.Now;
-            invoiceDataManagerMock = new InvoiceDataManagerMock();
-            BillDataManager.Instance.SetInvoiceDataManagerCollaborator(invoiceDataManagerMock);
             invoice = new Invoice(clubMember, clubService, issueDate);
         }
         
@@ -56,9 +64,6 @@ namespace RCNGCMembersManagementSpecFlowBDD
         [Given(@"I generate an invoice")]
         public void GivenIGenerateAnInvoice()
         {
-            invoiceDataManagerMock = new InvoiceDataManagerMock();
-            BillDataManager.Instance.SetInvoiceDataManagerCollaborator(invoiceDataManagerMock);
-            GivenIHaveAClubMember();
             GivenTheMemberUseAClubService();
             WhenIBillAThisService();
         }
@@ -73,9 +78,8 @@ namespace RCNGCMembersManagementSpecFlowBDD
         [Then(@"the new invoice has a consecutive invoice ID")]
         public void ThenTheNewInvoiceHasAConsecutiveInvoiceID()
         {
-            Assert.AreEqual(int.Parse(invoice.InvoiceID.Substring(3)) + 1, int.Parse(secondInvoice.InvoiceID.Substring(3)));
+            Assert.AreEqual("MMM2013000024", invoice.InvoiceID);
+            Assert.AreEqual("MMM2013000025", secondInvoice.InvoiceID);
         }
-
-
     }
 }

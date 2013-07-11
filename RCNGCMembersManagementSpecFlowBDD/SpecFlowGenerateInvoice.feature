@@ -1,12 +1,16 @@
-﻿Feature: SpecFlowGenerateInvoice
+﻿Feature: Generating Invoices
 	In order to bill the club members
 	As a administrtative assistant
 	I want to generate invoices
 
-@mytag
+Background: 
+	Given Last generated InvoiceID is "MMM2013000023"
+	Given A Club Member
+	| MemberID | Name      | FirstSurname  | SecondSurname |
+	| 00001    | Francisco | Gomez-Caldito | Viseas        |
+
 Scenario: Generate an invoice for a simple service
-	Given I have a Club Member
-	And the member use a club service
+	Given the member use a club service
 	When I bill this service
 	Then An invoice is created for the cost of the service
 	And A single bill is generated for the total amount of the invoice

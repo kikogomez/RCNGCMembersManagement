@@ -67,7 +67,12 @@ namespace RCNGCMembersManagementAppLogic.Billing
 
         public int GetNextInvoiceID()
         {
-            return invoiceDataManager.GetNextInvoiceID();
+            return invoiceDataManager.GetNextInvoiceNumber();
+        }
+
+        public void SetInvoiceNumber(int invoiceNumber)
+        {
+            invoiceDataManager.SetInvoiceNumber(invoiceNumber);
         }
     }
 

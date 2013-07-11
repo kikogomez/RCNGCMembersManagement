@@ -9,15 +9,21 @@ namespace RCNGCMembersManagementMocks
 {
     public class InvoiceDataManagerMock : IInvoiceDataManager
     {
-        static int lastInvoiceID = 0;
+        static int lastInvoiceNumber = 0;
+
         public InvoiceDataManagerMock()
         {
         }
 
-        public int GetNextInvoiceID()
+        public int GetNextInvoiceNumber()
         {
-            lastInvoiceID++;
-            return lastInvoiceID;
+            lastInvoiceNumber++;
+            return lastInvoiceNumber;
+        }
+
+        public void SetInvoiceNumber(int invoiceNumber)
+        {
+            InvoiceDataManagerMock.lastInvoiceNumber = invoiceNumber;
         }
     }
 }

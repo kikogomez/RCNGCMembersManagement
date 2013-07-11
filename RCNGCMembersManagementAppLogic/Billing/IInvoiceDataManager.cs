@@ -8,6 +8,7 @@ namespace RCNGCMembersManagementAppLogic.Billing
 {
     public interface IInvoiceDataManager
     {
-        int GetNextInvoiceID();
+        int GetNextInvoiceNumber();
+        void SetInvoiceNumber(int invoiceNumber);
     }
 }
