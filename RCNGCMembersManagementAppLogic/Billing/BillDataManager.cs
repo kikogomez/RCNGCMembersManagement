@@ -65,14 +65,23 @@ namespace RCNGCMembersManagementAppLogic.Billing
             get { return instance; }
         }
 
-        public int GetNextInvoiceID()
+        public int GetNextInvoiceSequenceNumber()
         {
-            return invoiceDataManager.GetNextInvoiceNumber();
+            int invoiceNumber=invoiceDataManager.GetNextInvoiceSequenceNumber();
+            if (invoiceNumber < 1000000)
+            {
+                return invoiceNumber;
+            }
+            else
+            {
+                Exception e = new Exception("Only 999999 invoices per year");
+                throw e;
+            }
         }
 
         public void SetInvoiceNumber(int invoiceNumber)
         {
-            invoiceDataManager.SetInvoiceNumber(invoiceNumber);
+            invoiceDataManager.SetInvoiceSequenceNumber(invoiceNumber);
         }
     }
 

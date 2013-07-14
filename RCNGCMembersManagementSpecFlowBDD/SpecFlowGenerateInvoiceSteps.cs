@@ -46,7 +46,14 @@ namespace RCNGCMembersManagementSpecFlowBDD
         public void WhenIGenerateAnInvoiceForTheService()
         {
             DateTime issueDate = DateTime.Now;
-            invoice = new Invoice(clubMember, clubService, issueDate);
+            try
+            {
+                invoice = new Invoice(clubMember, clubService, issueDate);
+            }
+            catch (Exception e)
+            {
+                ScenarioContext.Current.Add("Exception_On_Invoice_Creation", e);
+            }
         }
 
         [Then(@"An invoice is created for the cost of the service")]
@@ -66,14 +73,7 @@ namespace RCNGCMembersManagementSpecFlowBDD
         {
 
             DateTime issueDate = invoice.IssueDate.AddSeconds(1);
-            try
-            {
-                secondInvoice = new Invoice(clubMember, clubService, issueDate);
-            }
-            catch (Exception e)
-            {
-                ScenarioContext.Current.Add("Exception_On_Invoice_Creation", e);
-            }
+            secondInvoice = new Invoice(clubMember, clubService, issueDate);
         }
 
         [Then(@"the new invoice has a consecutive invoice ID")]

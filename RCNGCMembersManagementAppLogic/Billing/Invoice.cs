@@ -20,7 +20,7 @@ namespace RCNGCMembersManagementAppLogic.Billing
 
         public Invoice(ClubMember clubMember, ClubService clubService, DateTime issueDate)
         {
-            this.invoiceID = GetNextInvoiceId();
+            this.invoiceID = GetNewInvoiceID();
             this.issueDate = issueDate;
             this.memberID = clubMember.MemberID;
             this.clientFullName = clubMember.FullName;
@@ -29,6 +29,7 @@ namespace RCNGCMembersManagementAppLogic.Billing
             invoiceDetail.Add(simpleServiceTransaction);
             invoiceBills = new List<Bill>();
             AddBillForInvoiceTotal(clubService.Description, issueDate, issueDate.AddDays(30));
+            UpdateInvoiceSequenceNumber();
         }
 
         public string InvoiceID
@@ -63,11 +64,22 @@ namespace RCNGCMembersManagementAppLogic.Billing
             invoiceBills.Add(invoiceBill);
         }
 
-        private string GetNextInvoiceId()
+        private string GetNewInvoiceID()
         {
             string invoicePrefix = "MMM";
             string invoiceYear = "2013";
-            return invoicePrefix + invoiceYear + BillDataManager.Instance.GetNextInvoiceID().ToString("000000");
+            return invoicePrefix + invoiceYear + BillDataManager.Instance.GetNextInvoiceSequenceNumber().ToString("000000");
+        }
+
+        private void UpdateInvoiceSequenceNumber()
+        {
+            int currentInvoiceSequenceNumber=ExtractInvoiceSequenceNumberFromInvoiceID();
+            BillDataManager.Instance.SetInvoiceNumber(currentInvoiceSequenceNumber);
+        }
+
+        private int ExtractInvoiceSequenceNumberFromInvoiceID()
+        {
+            return int.Parse(invoiceID.Substring(7));
         }
 
         private decimal CalculateInvoiceAmounts(bool netAmount)

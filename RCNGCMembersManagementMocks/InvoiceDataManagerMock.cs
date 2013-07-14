@@ -9,30 +9,26 @@ namespace RCNGCMembersManagementMocks
 {
     public class InvoiceDataManagerMock : IInvoiceDataManager
     {
-        static int lastInvoiceNumber = 0;
+        static int lastInvoiceSequenceNumber = 0;
 
         public InvoiceDataManagerMock()
         {
         }
 
-        public int GetNextInvoiceNumber()
+        public int NextInvoiceSequenceNumber
         {
-            if (lastInvoiceNumber < 999999)
-            {
-                lastInvoiceNumber++;
-                return lastInvoiceNumber;
-            }
-            else
-            {
-                //Exception e = new Exception("Only 999999 invoices per year");
-                Exception e = new Exception("DumbMessage");
-                throw e;
-            }
+            get { return GetNextInvoiceSequenceNumber(); }
+            set { SetInvoiceSequenceNumber(value); }
         }
 
-        public void SetInvoiceNumber(int invoiceNumber)
+        public int GetNextInvoiceSequenceNumber()
         {
-            InvoiceDataManagerMock.lastInvoiceNumber = invoiceNumber;
+            return lastInvoiceSequenceNumber + 1;
+        }
+
+        public void SetInvoiceSequenceNumber(int invoiceNumber)
+        {
+            InvoiceDataManagerMock.lastInvoiceSequenceNumber = invoiceNumber;
         }
     }
 }
