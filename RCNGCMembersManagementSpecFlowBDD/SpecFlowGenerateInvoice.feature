@@ -23,5 +23,6 @@ Scenario: Two consecutive invoices generated the same year have consecutive Invo
 
 Scenario: Up to 999999 invoices in a year
 	Given Last generated InvoiceID is "MMM2013999999"
+	Given The member use a club service
 	When I generate an invoice for the service
 	Then The application doesn't accept more than 999999 invoices in the year
