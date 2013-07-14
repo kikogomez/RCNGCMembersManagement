@@ -53,5 +53,5 @@ Scenario: Generate an invoice for multiple transactions with one tax type
 	| 2     | Rent a mouring              | Mouring May-June | 150.00    | 7   | 10       |
 
 	When I generate an invoice for this/these transaction/s
-	Then An invoice is created for the cost of the service: 53.50
-	And A single bill is generated for the total amount of the invoice: 53.50
+	Then An invoice is created for the cost of the service: 400.00
+	And A single bill is generated for the total amount of the invoice: 400.00
