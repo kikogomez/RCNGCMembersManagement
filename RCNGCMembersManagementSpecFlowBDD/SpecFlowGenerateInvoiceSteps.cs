@@ -33,22 +33,22 @@ namespace RCNGCMembersManagementSpecFlowBDD
         {
             clubMember = new ClubMember(table.Rows[0]["MemberID"], table.Rows[0]["Name"],table.Rows[0]["FirstSurname"],table.Rows[0]["SecondSurname"]);
         }
-        
-        [Given(@"the member use a club service")]
+
+        [Given(@"The member use a club service")]
         public void GivenTheMemberUseAClubService()
         {
             string serviceDescription = "Renting a Kajak";
             double serviceCost = 50;
             clubService = new ClubService(serviceDescription, serviceCost);
         }
-        
-        [When(@"I bill this service")]
-        public void WhenIBillAThisService()
+
+        [When(@"I generate an invoice for the service")]
+        public void WhenIGenerateAnInvoiceForTheService()
         {
             DateTime issueDate = DateTime.Now;
             invoice = new Invoice(clubMember, clubService, issueDate);
         }
-        
+
         [Then(@"An invoice is created for the cost of the service")]
         public void ThenAnInvoiceIsCreatedForTheCostOfTheService()
         {
@@ -61,18 +61,19 @@ namespace RCNGCMembersManagementSpecFlowBDD
             Assert.AreEqual(50, invoice.BillsTotalAmountToCollect);
         }
 
-        [Given(@"I generate an invoice")]
-        public void GivenIGenerateAnInvoice()
-        {
-            GivenTheMemberUseAClubService();
-            WhenIBillAThisService();
-        }
-
         [When(@"I generate a new invoice on the same year")]
         public void WhenIGenerateANewInvoiceOnTheSameYear()
         {
-            DateTime issueDate = invoice.IssueDate.AddSeconds(1); ;
-            secondInvoice = new Invoice(clubMember, clubService, issueDate);
+
+            DateTime issueDate = invoice.IssueDate.AddSeconds(1);
+            try
+            {
+                secondInvoice = new Invoice(clubMember, clubService, issueDate);
+            }
+            catch (Exception e)
+            {
+                ScenarioContext.Current.Add("Exception_On_Invoice_Creation", e);
+            }
         }
 
         [Then(@"the new invoice has a consecutive invoice ID")]
@@ -81,5 +82,13 @@ namespace RCNGCMembersManagementSpecFlowBDD
             Assert.AreEqual("MMM2013000024", invoice.InvoiceID);
             Assert.AreEqual("MMM2013000025", secondInvoice.InvoiceID);
         }
+
+        [Then(@"The application doesn't accept more than (.*) invoices in the year")]
+        public void ThenTheApplicationDoesnTAcceptMoreThanInvoicesInTheYear(int p0)
+        {
+            Exception exception = (Exception)ScenarioContext.Current["Exception_On_Invoice_Creation"];
+            Assert.AreEqual("Only 999999 invoices per year", exception.Message);
+        }
+
     }
 }

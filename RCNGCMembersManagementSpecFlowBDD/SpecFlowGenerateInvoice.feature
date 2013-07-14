@@ -10,13 +10,18 @@ Background:
 	| 00001    | Francisco | Gomez-Caldito | Viseas        |
 
 Scenario: Generate an invoice for a simple service
-	Given the member use a club service
-	When I bill this service
+	Given The member use a club service
+	When I generate an invoice for the service
 	Then An invoice is created for the cost of the service
 	And A single bill is generated for the total amount of the invoice
 
 Scenario: Two consecutive invoices generated the same year have consecutive Invoice ID
-	Given I generate an invoice
+	Given The member use a club service
+	When I generate an invoice for the service
 	When I generate a new invoice on the same year
 	Then the new invoice has a consecutive invoice ID
 
+Scenario: Up to 999999 invoices in a year
+	Given Last generated InvoiceID is "MMM2013999999"
+	When I generate an invoice for the service
+	Then The application doesn't accept more than 999999 invoices in the year

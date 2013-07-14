@@ -17,8 +17,17 @@ namespace RCNGCMembersManagementMocks
 
         public int GetNextInvoiceNumber()
         {
-            lastInvoiceNumber++;
-            return lastInvoiceNumber;
+            if (lastInvoiceNumber < 999999)
+            {
+                lastInvoiceNumber++;
+                return lastInvoiceNumber;
+            }
+            else
+            {
+                //Exception e = new Exception("Only 999999 invoices per year");
+                Exception e = new Exception("DumbMessage");
+                throw e;
+            }
         }
 
         public void SetInvoiceNumber(int invoiceNumber)
