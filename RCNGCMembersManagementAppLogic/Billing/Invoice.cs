@@ -25,10 +25,22 @@ namespace RCNGCMembersManagementAppLogic.Billing
             this.memberID = clubMember.MemberID;
             this.clientFullName = clubMember.FullName;
             invoiceDetail = new List<Transaction>();
-            Transaction simpleServiceTransaction = new Transaction(clubService.Description, 1, clubService.Cost,0,0);
+            Transaction simpleServiceTransaction = new Transaction(clubService, clubService.Description, 1, clubService.Cost,clubService.Tax,0);
             invoiceDetail.Add(simpleServiceTransaction);
             invoiceBills = new List<Bill>();
             AddBillForInvoiceTotal(clubService.Description, issueDate, issueDate.AddDays(30));
+            UpdateInvoiceSequenceNumber();
+        }
+
+        public Invoice(ClubMember clubMember, List<Transaction> transactionsList, DateTime issueDate)
+        {
+            this.invoiceID = GetNewInvoiceID();
+            this.issueDate = issueDate;
+            this.memberID = clubMember.MemberID;
+            this.clientFullName = clubMember.FullName;
+            invoiceDetail = transactionsList;
+            invoiceBills = new List<Bill>();
+            AddBillForInvoiceTotal("Club Services", issueDate, issueDate.AddDays(30));
             UpdateInvoiceSequenceNumber();
         }
 
@@ -73,13 +85,13 @@ namespace RCNGCMembersManagementAppLogic.Billing
 
         private void UpdateInvoiceSequenceNumber()
         {
-            int currentInvoiceSequenceNumber=ExtractInvoiceSequenceNumberFromInvoiceID();
+            uint currentInvoiceSequenceNumber=ExtractInvoiceSequenceNumberFromInvoiceID();
             BillDataManager.Instance.SetInvoiceNumber(currentInvoiceSequenceNumber);
         }
 
-        private int ExtractInvoiceSequenceNumberFromInvoiceID()
+        private uint ExtractInvoiceSequenceNumberFromInvoiceID()
         {
-            return int.Parse(invoiceID.Substring(7));
+            return uint.Parse(invoiceID.Substring(7));
         }
 
         private decimal CalculateInvoiceAmounts(bool netAmount)

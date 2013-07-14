@@ -13,5 +13,12 @@ namespace RCNGCMembersManagementUnitTests.Billing
         {
             BillDataManager.Instance.SetInvoiceNumber(1000000);
         }
+
+        [TestMethod]
+        [ExpectedException(typeof(System.ArgumentOutOfRangeException))]
+        public void CantSetInvoiceSequenceNumberTo0()
+        {
+            BillDataManager.Instance.SetInvoiceNumber(0);
+        }
     }
 }

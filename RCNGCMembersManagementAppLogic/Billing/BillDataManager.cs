@@ -6,44 +6,6 @@ using System.Threading.Tasks;
 
 namespace RCNGCMembersManagementAppLogic.Billing
 {
-/*    public sealed class Singleton
-    {
-        private static readonly Singleton instance = new Singleton();
-
-        private Singleton() { }
-
-        public static Singleton Instance
-        {
-            get
-            {
-                return instance;
-            }
-        }
-    }*/
-
-/*    public sealed class BillDataManager
-    {
-        private static readonly BillDataManager instance = new BillDataManager(invoiceDataManager);
-        
-        static IInvoiceDataManager invoiceDataManager;
-
-        private BillDataManager(IInvoiceDataManager invoiceDataMngr)
-        {
-            invoiceDataManager = invoiceDataMngr;
-        }
-
-        public static BillDataManager Instance
-        {
-            get { return instance; }
-        }
-
-        public int GetNextInvoiceID()
-        {
-            return invoiceDataManager.GetNextInvoiceID();
-        }
-    }
-*/
-
     public sealed class BillDataManager
     {
         private static readonly BillDataManager instance = new BillDataManager();
@@ -52,12 +14,6 @@ namespace RCNGCMembersManagementAppLogic.Billing
 
         private BillDataManager()
         {
-            //invoiceDataManager = invoiceDataMngr;
-        }
-
-        public void SetInvoiceDataManagerCollaborator(IInvoiceDataManager invoiceDataMngr)
-        {
-            invoiceDataManager = invoiceDataMngr;
         }
 
         public static BillDataManager Instance
@@ -65,39 +21,41 @@ namespace RCNGCMembersManagementAppLogic.Billing
             get { return instance; }
         }
 
-        public int GetNextInvoiceSequenceNumber()
+        public void SetInvoiceDataManagerCollaborator(IInvoiceDataManager invoiceDataMngr)
         {
-            int invoiceNumber=invoiceDataManager.GetNextInvoiceSequenceNumber();
-            if (invoiceNumber < 1000000)
+            invoiceDataManager = invoiceDataMngr;
+        }
+
+        public uint GetNextInvoiceSequenceNumber()
+        {
+            uint invoiceSequenceNumber=invoiceDataManager.GetNextInvoiceSequenceNumber();
+            if (invoiceSequenceNumber < 1000000)
             {
-                return invoiceNumber;
+                return invoiceSequenceNumber;
             }
             else
             {
-                Exception e = new Exception("Only 999999 invoices per year");
+                ArgumentOutOfRangeException e = new ArgumentOutOfRangeException("invoiceSequenceNumber", "Max 999999 invoices per year");
                 throw e;
             }
         }
 
-        public void SetInvoiceNumber(int invoiceNumber)
+        public void SetInvoiceNumber(uint invoiceSequenceNumber)
         {
-            invoiceDataManager.SetInvoiceSequenceNumber(invoiceNumber);
+            if (IsValidInvoiceSequenceNumber(invoiceSequenceNumber))
+            {
+                invoiceDataManager.SetInvoiceSequenceNumber(invoiceSequenceNumber);
+            }
+            else
+            {
+                throw new ArgumentOutOfRangeException("invoiceSequenceNumber", "Max 999999 invoices per year");
+            }
+
+        }
+
+        private bool IsValidInvoiceSequenceNumber(uint invoiceNumber)
+        {
+            return (1 <= invoiceNumber && invoiceNumber < 1000000);
         }
     }
-
-/*    public static class BillDataManager
-    {
-        static IInvoiceDataManager _invoiceDataManager;
-
-        public static BillDataManager(IInvoiceDataManager invoiceDataManager)
-        {
-            _invoiceDataManager = invoiceDataManager;
-        }
-
-        public static int GetNextInvoiceID()
-        {
-            return _invoiceDataManager.GetNextInvoiceID();
-        }
-    }
- */
 }

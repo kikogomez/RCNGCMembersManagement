@@ -3,19 +3,22 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using RCNGCMembersManagementAppLogic.ClubServices;
 
 namespace RCNGCMembersManagementAppLogic.Billing
 {
     public class Transaction
     {
+        ClubService service;
         string concept;
         int units;
         double unitCost;
         double taxValue;
         double discount;
 
-        public Transaction(string concept, int units, double unitCost, double taxValue, double discount)
+        public Transaction(ClubService service, string concept, int units, double unitCost, double taxValue, double discount)
         {
+            this.service = service;
             this.concept = concept;
             this.units = units;
             this.unitCost = unitCost;
@@ -38,7 +41,7 @@ namespace RCNGCMembersManagementAppLogic.Billing
             get { return unitCost; }
         }
 
-        public double TaxValue
+        public double TaxVaule
         {
             get { return taxValue; }
         }
