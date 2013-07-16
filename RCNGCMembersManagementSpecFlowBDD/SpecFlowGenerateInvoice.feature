@@ -48,10 +48,26 @@ Scenario: Up to 999999 invoices in a year
 
 Scenario: Generate an invoice for multiple transactions with one tax type
 	Given This set of transactions
+	| Units | Service Name   | Description              | Unit Cost | Tax | Discount |
+	| 1     | Rent a kajak   | Rent a kajak for one day | 50.00     | 7   | 0        |
+	| 2     | Rent a mouring | Mouring May-June         | 150.00    | 7   | 0        |
+	When I generate an invoice for this/these transaction/s
+	Then An invoice is created for the cost of the service: 374.50
+	And A single bill is generated for the total amount of the invoice: 374.50
+
+Scenario: Generate an invoice for multiple transactions with different tax type
+	Given This set of transactions
 	| Units | Service Name                | Description      | Unit Cost | Tax | Discount |
 	| 1     | Full Membership Monthly Fee | Monthly Fee June | 79.00     | 0   | 0        |
-	| 2     | Rent a mouring              | Mouring May-June | 150.00    | 7   | 10       |
-
+	| 2     | Rent a mouring              | Mouring May-June | 150.00    | 7   | 0        |
 	When I generate an invoice for this/these transaction/s
 	Then An invoice is created for the cost of the service: 400.00
 	And A single bill is generated for the total amount of the invoice: 400.00
+
+Scenario: Discounts on transactions must be applied before taxes
+	Given This set of transactions
+	| Units | Service Name                | Description      | Unit Cost | Tax | Discount |
+	| 1     | Rent a mouring              | Mouring May-June | 150.00    | 7   | 15       |
+	When I generate an invoice for this/these transaction/s
+	Then An invoice is created for the cost of the service: 136.43
+	And A single bill is generated for the total amount of the invoice: 136.43

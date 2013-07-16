@@ -56,9 +56,26 @@ namespace RCNGCMembersManagementAppLogic.Billing
             get { return Math.Round(GrossAmount * ((decimal)(1 + taxValue / 100)), 2, MidpointRounding.AwayFromZero); }
         }
 
+        private decimal unitCostWithDiscount()
+        {
+            return Math.Round((decimal)unitCost * ((decimal)(1 - discount / 100)), 2, MidpointRounding.AwayFromZero);
+        }
+
+        private decimal unitCostWithTax()
+        {
+            return Math.Round(unitCostWithDiscount() * ((decimal)(1 + taxValue / 100)), 2, MidpointRounding.AwayFromZero);
+        }
+
         private decimal CalculateGrossAmount()
         {
-            return Math.Round((decimal)unitCost * units, 2, MidpointRounding.AwayFromZero);
+            return Math.Round(unitCostWithDiscount() * units, 2, MidpointRounding.AwayFromZero);
         }
+
+        private decimal CalculateNetAmount()
+        {
+            return Math.Round(unitCostWithTax() * units, 2, MidpointRounding.AwayFromZero);
+        }
+
+
     }
 }

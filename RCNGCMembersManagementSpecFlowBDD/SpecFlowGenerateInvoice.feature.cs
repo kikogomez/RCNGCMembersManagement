@@ -231,10 +231,10 @@ this.FeatureBackground();
                         "Discount"});
             table5.AddRow(new string[] {
                         "1",
-                        "Full Membership Monthly Fee",
-                        "Monthly Fee June",
-                        "79.00",
-                        "0",
+                        "Rent a kajak",
+                        "Rent a kajak for one day",
+                        "50.00",
+                        "7",
                         "0"});
             table5.AddRow(new string[] {
                         "2",
@@ -242,15 +242,96 @@ this.FeatureBackground();
                         "Mouring May-June",
                         "150.00",
                         "7",
-                        "10"});
+                        "0"});
 #line 50
  testRunner.Given("This set of transactions", ((string)(null)), table5, "Given ");
-#line 55
+#line 54
  testRunner.When("I generate an invoice for this/these transaction/s", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#line 55
+ testRunner.Then("An invoice is created for the cost of the service: 374.50", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line 56
+ testRunner.And("A single bill is generated for the total amount of the invoice: 374.50", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line hidden
+            this.ScenarioCleanup();
+        }
+        
+        [Microsoft.VisualStudio.TestTools.UnitTesting.TestMethodAttribute()]
+        [Microsoft.VisualStudio.TestTools.UnitTesting.DescriptionAttribute("Generate an invoice for multiple transactions with different tax type")]
+        [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("FeatureTitle", "Generating Invoices")]
+        public virtual void GenerateAnInvoiceForMultipleTransactionsWithDifferentTaxType()
+        {
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Generate an invoice for multiple transactions with different tax type", ((string[])(null)));
+#line 58
+this.ScenarioSetup(scenarioInfo);
+#line 6
+this.FeatureBackground();
+#line hidden
+            TechTalk.SpecFlow.Table table6 = new TechTalk.SpecFlow.Table(new string[] {
+                        "Units",
+                        "Service Name",
+                        "Description",
+                        "Unit Cost",
+                        "Tax",
+                        "Discount"});
+            table6.AddRow(new string[] {
+                        "1",
+                        "Full Membership Monthly Fee",
+                        "Monthly Fee June",
+                        "79.00",
+                        "0",
+                        "0"});
+            table6.AddRow(new string[] {
+                        "2",
+                        "Rent a mouring",
+                        "Mouring May-June",
+                        "150.00",
+                        "7",
+                        "0"});
+#line 59
+ testRunner.Given("This set of transactions", ((string)(null)), table6, "Given ");
+#line 63
+ testRunner.When("I generate an invoice for this/these transaction/s", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#line 64
  testRunner.Then("An invoice is created for the cost of the service: 400.00", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
-#line 57
+#line 65
  testRunner.And("A single bill is generated for the total amount of the invoice: 400.00", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line hidden
+            this.ScenarioCleanup();
+        }
+        
+        [Microsoft.VisualStudio.TestTools.UnitTesting.TestMethodAttribute()]
+        [Microsoft.VisualStudio.TestTools.UnitTesting.DescriptionAttribute("Discounts on transactions must be applied before taxes")]
+        [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("FeatureTitle", "Generating Invoices")]
+        public virtual void DiscountsOnTransactionsMustBeAppliedBeforeTaxes()
+        {
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Discounts on transactions must be applied before taxes", ((string[])(null)));
+#line 67
+this.ScenarioSetup(scenarioInfo);
+#line 6
+this.FeatureBackground();
+#line hidden
+            TechTalk.SpecFlow.Table table7 = new TechTalk.SpecFlow.Table(new string[] {
+                        "Units",
+                        "Service Name",
+                        "Description",
+                        "Unit Cost",
+                        "Tax",
+                        "Discount"});
+            table7.AddRow(new string[] {
+                        "1",
+                        "Rent a mouring",
+                        "Mouring May-June",
+                        "150.00",
+                        "7",
+                        "15"});
+#line 68
+ testRunner.Given("This set of transactions", ((string)(null)), table7, "Given ");
+#line 71
+ testRunner.When("I generate an invoice for this/these transaction/s", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#line 72
+ testRunner.Then("An invoice is created for the cost of the service: 136.43", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line 73
+ testRunner.And("A single bill is generated for the total amount of the invoice: 136.43", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
             this.ScenarioCleanup();
         }
