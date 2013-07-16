@@ -323,14 +323,51 @@ this.FeatureBackground();
                         "Mouring May-June",
                         "150.00",
                         "7",
-                        "15"});
+                        "20"});
 #line 68
  testRunner.Given("This set of transactions", ((string)(null)), table7, "Given ");
 #line 71
  testRunner.When("I generate an invoice for this/these transaction/s", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line 72
- testRunner.Then("An invoice is created for the cost of the service: 136.43", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+ testRunner.Then("An invoice is created for the cost of the service: 128.40", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line 73
+ testRunner.And("A single bill is generated for the total amount of the invoice: 128.40", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line hidden
+            this.ScenarioCleanup();
+        }
+        
+        [Microsoft.VisualStudio.TestTools.UnitTesting.TestMethodAttribute()]
+        [Microsoft.VisualStudio.TestTools.UnitTesting.DescriptionAttribute("Rounding: Round to two decimals Away From Zero")]
+        [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("FeatureTitle", "Generating Invoices")]
+        public virtual void RoundingRoundToTwoDecimalsAwayFromZero()
+        {
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Rounding: Round to two decimals Away From Zero", ((string[])(null)));
+#line 75
+this.ScenarioSetup(scenarioInfo);
+#line 6
+this.FeatureBackground();
+#line hidden
+            TechTalk.SpecFlow.Table table8 = new TechTalk.SpecFlow.Table(new string[] {
+                        "Units",
+                        "Service Name",
+                        "Description",
+                        "Unit Cost",
+                        "Tax",
+                        "Discount"});
+            table8.AddRow(new string[] {
+                        "1",
+                        "Rent a mouring",
+                        "Mouring May-June",
+                        "150.00",
+                        "7",
+                        "15"});
+#line 76
+ testRunner.Given("This set of transactions", ((string)(null)), table8, "Given ");
+#line 79
+ testRunner.When("I generate an invoice for this/these transaction/s", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#line 80
+ testRunner.Then("An invoice is created for the cost of the service: 136.43", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line 81
  testRunner.And("A single bill is generated for the total amount of the invoice: 136.43", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
             this.ScenarioCleanup();

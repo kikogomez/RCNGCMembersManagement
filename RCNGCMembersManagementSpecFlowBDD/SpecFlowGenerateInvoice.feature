@@ -67,6 +67,14 @@ Scenario: Generate an invoice for multiple transactions with different tax type
 Scenario: Discounts on transactions must be applied before taxes
 	Given This set of transactions
 	| Units | Service Name                | Description      | Unit Cost | Tax | Discount |
+	| 1     | Rent a mouring              | Mouring May-June | 150.00    | 7   | 20       |
+	When I generate an invoice for this/these transaction/s
+	Then An invoice is created for the cost of the service: 128.40
+	And A single bill is generated for the total amount of the invoice: 128.40
+
+Scenario: Rounding: Round to two decimals Away From Zero
+	Given This set of transactions
+	| Units | Service Name                | Description      | Unit Cost | Tax | Discount |
 	| 1     | Rent a mouring              | Mouring May-June | 150.00    | 7   | 15       |
 	When I generate an invoice for this/these transaction/s
 	Then An invoice is created for the cost of the service: 136.43
