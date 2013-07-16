@@ -3,13 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-//using RCNGCMembersManagementAppLogic.ClubServices;
 
 namespace RCNGCMembersManagementAppLogic.Billing
 {
     public class Transaction
     {
-        //ClubServices service;
         string concept;
         int units;
         double unitCost;
@@ -23,31 +21,6 @@ namespace RCNGCMembersManagementAppLogic.Billing
             this.unitCost = unitCost;
             this.tax = tax;
             this.discount = discount;
-        }
-
-        public string Concept
-        {
-            get { return concept; }
-        }
-
-        public int Units
-        {
-            get { return units; }
-        }
-
-        public double UnitCost
-        {
-            get { return unitCost; }
-        }
-
-        public string TaxType
-        {
-            get { return tax.TaxType; }
-        }
-
-        public double TaxValue
-        {
-            get { return tax.TaxValue; }
         }
 
         public decimal GrossAmount
@@ -79,7 +52,5 @@ namespace RCNGCMembersManagementAppLogic.Billing
         {
             return Math.Round(unitCostWithTax() * units, 2, MidpointRounding.AwayFromZero);
         }
-
-
     }
 }

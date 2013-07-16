@@ -42,21 +42,10 @@ namespace RCNGCMembersManagementAppLogic.Billing
             get { return CalculateInvoiceAmounts(true); }
         }
 
-        public decimal GrossAmount
-        {
-            get { return CalculateInvoiceAmounts(false); }
-        }
-
         public decimal BillsTotalAmountToCollect
         {
             get { return GetBillsTotalAmount(Bill.billPaymentResult.ToCollect); }
         }
-
-        public DateTime IssueDate
-        {
-            get { return this.issueDate; }
-        }
-
 
         public void AddBillForInvoiceTotal(string description, DateTime issueDate, DateTime dueDate)
         {

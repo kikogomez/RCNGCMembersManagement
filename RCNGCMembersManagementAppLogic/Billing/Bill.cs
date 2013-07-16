@@ -27,24 +27,9 @@ namespace RCNGCMembersManagementAppLogic.Billing
 
         public enum billPaymentResult { ToCollect, Paid, Unpaid };
 
-        public string Description
-        {
-            get { return description; }
-        }
-
         public decimal Amount
         {
             get { return amount; }
-        }
-
-        public DateTime IssueDate
-        {
-            get { return issueDate; }
-        }
-
-        public DateTime DueDate
-        {
-            get { return dueDate; }
         }
 
         public billPaymentResult BillPaymentResult

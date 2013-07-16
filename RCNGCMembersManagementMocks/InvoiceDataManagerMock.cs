@@ -15,12 +15,6 @@ namespace RCNGCMembersManagementMocks
         {
         }
 
-        public uint NextInvoiceSequenceNumber
-        {
-            get { return GetNextInvoiceSequenceNumber(); }
-            set { SetInvoiceSequenceNumber(value); }
-        }
-
         public uint GetNextInvoiceSequenceNumber()
         {
             return lastInvoiceSequenceNumber + 1;
