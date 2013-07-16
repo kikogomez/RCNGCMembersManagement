@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using RCNGCMembersManagementAppLogic.Billing;
 
 namespace RCNGCMembersManagementAppLogic.ClubServices
 {
@@ -10,9 +11,9 @@ namespace RCNGCMembersManagementAppLogic.ClubServices
     {
         string description;
         double cost;
-        double tax;
+        Tax tax;
 
-        public ClubService(string description, double cost, double tax)
+        public ClubService(string description, double cost, Tax tax)
         {
             this.description = description;
             this.cost = cost;
@@ -29,7 +30,7 @@ namespace RCNGCMembersManagementAppLogic.ClubServices
             get { return cost; }
         }
 
-        public double Tax
+        public Tax Tax
         {
             get { return tax; }
         }

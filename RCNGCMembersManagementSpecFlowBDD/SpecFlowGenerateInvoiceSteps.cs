@@ -55,8 +55,7 @@ namespace RCNGCMembersManagementSpecFlowBDD
                 string serviceName = row["Service Name"];
                 double defaultCost = double.Parse(row["Default Cost"]);
                 string defaultTax = row["Default Tax"];
-                double defaultTaxValue = taxesList[defaultTax].TaxValue;
-                ClubService clubService = new ClubService(serviceName, defaultCost, defaultTaxValue);
+                ClubService clubService = new ClubService(serviceName, defaultCost, taxesList[defaultTax]);
                 servicesList.Add(serviceName, clubService);    
             }
         }
@@ -73,7 +72,7 @@ namespace RCNGCMembersManagementSpecFlowBDD
         {
             string serviceDescription = servicesTable.Rows[0]["Description"];
             double serviceCost = double.Parse(servicesTable.Rows[0]["Default Cost per Hour"]);
-            double tax = taxesList[servicesTable.Rows[0]["Default Tax"]].TaxValue;
+            Tax tax = taxesList[servicesTable.Rows[0]["Default Tax"]];
             ClubService clubService = new ClubService(serviceDescription, serviceCost, tax);
             ScenarioContext.Current.Add("A_Club_Service", clubService);
         }
