@@ -89,7 +89,7 @@ namespace RCNGCMembersManagementSpecFlowBDD
             DateTime issueDate = DateTime.Now;        
             try
             {
-                Invoice invoice = new Invoice(clubMember, TransactionListForSingleService((ClubService)ScenarioContext.Current["A_Club_Service"]), issueDate);
+                Invoice invoice = new Invoice(clubMember, TransactionListForSingleElement((ClubService)ScenarioContext.Current["A_Club_Service"]), issueDate);
                 ScenarioContext.Current.Add("Invoice", invoice);
             }
             catch (ArgumentOutOfRangeException e)
@@ -121,7 +121,8 @@ namespace RCNGCMembersManagementSpecFlowBDD
         public void WhenIGenerateAnInvoiceForTheSale()
         {
             DateTime issueDate = DateTime.Now;
-            Invoice invoice = new Invoice(clubMember, TransactionListForSingleSale((Product)ScenarioContext.Current["A_Sold_Product"]), issueDate);
+            //Invoice invoice = new Invoice(clubMember, TransactionListForSingleElement((Product)ScenarioContext.Current["A_Sold_Product"]), issueDate);
+            Invoice invoice = new Invoice(clubMember, TransactionListForSingleElement((Product)ScenarioContext.Current["A_Sold_Product"]), issueDate);
             ScenarioContext.Current.Add("Invoice", invoice);
         }
 
@@ -185,23 +186,21 @@ namespace RCNGCMembersManagementSpecFlowBDD
             ScenarioContext.Current.Add("Invoice", invoice);
         }
 
-        private List<Transaction> TransactionListForSingleService(ClubService service)
+        private List<Transaction> TransactionListForSingleElement(object element)
         {
             DateTime issueDate = DateTime.Now;
-            Transaction serviceCharge = new ServiceCharge(service, service.Description, 1, service.Cost, service.Tax, 0);
+            Transaction transaction;
+            if (element.GetType() == typeof(ClubService))
+            {
+                transaction = new ServiceCharge((ClubService)element, ((ClubService)element).Description, 1, ((ClubService)element).Cost, ((ClubService)element).Tax, 0);
+            }
+            else
+            {
+                transaction = new Sale((Product)element, ((Product)element).Description, 1, ((Product)element).Cost, ((Product)element).Tax, 0);
+            }
             List<Transaction> transactionsList = new List<Transaction>();
-            transactionsList.Add(serviceCharge);
+            transactionsList.Add(transaction);
             return transactionsList;
         }
-
-        private List<Transaction> TransactionListForSingleSale(Product product)
-        {
-            DateTime issueDate = DateTime.Now;
-            Transaction serviceCharge = new Sale(product, product.Description, 1, product.Cost, product.Tax, 0);
-            List<Transaction> transactionsList = new List<Transaction>();
-            transactionsList.Add(serviceCharge);
-            return transactionsList;
-        }
-
     }
 }
