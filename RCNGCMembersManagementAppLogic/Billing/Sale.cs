@@ -7,7 +7,7 @@ using RCNGCMembersManagementAppLogic.ClubStore;
 
 namespace RCNGCMembersManagementAppLogic.Billing
 {
-    class Sale: Transaction
+    public class Sale: Transaction
     {
         Product product;
         string concept;

@@ -18,34 +18,6 @@ namespace RCNGCMembersManagementAppLogic.Billing
         List<Transaction> invoiceDetail;
         List<Bill> invoiceBills;
 
-        public Invoice(ClubMember clubMember, ClubService clubService, DateTime issueDate)
-        {
-            this.invoiceID = GetNewInvoiceID();
-            this.issueDate = issueDate;
-            this.memberID = clubMember.MemberID;
-            this.clientFullName = clubMember.FullName;
-            invoiceDetail = new List<Transaction>();
-            Transaction simpleServiceTransaction = new ServiceCharge(clubService, clubService.Description, 1, clubService.Cost,clubService.Tax,0);
-            invoiceDetail.Add(simpleServiceTransaction);
-            invoiceBills = new List<Bill>();
-            AddBillForInvoiceTotal(clubService.Description, issueDate, issueDate.AddDays(30));
-            UpdateInvoiceSequenceNumber();
-        }
-
-        public Invoice(ClubMember clubMember, Product product, DateTime issueDate)
-        {
-            this.invoiceID = GetNewInvoiceID();
-            this.issueDate = issueDate;
-            this.memberID = clubMember.MemberID;
-            this.clientFullName = clubMember.FullName;
-            invoiceDetail = new List<Transaction>();
-            Transaction simpleServiceTransaction = new Sale(product, product.Description, 1, product.Cost, product.Tax, 0);
-            invoiceDetail.Add(simpleServiceTransaction);
-            invoiceBills = new List<Bill>();
-            AddBillForInvoiceTotal(product.Description, issueDate, issueDate.AddDays(30));
-            UpdateInvoiceSequenceNumber();
-        }
-
         public Invoice(ClubMember clubMember, List<Transaction> transactionsList, DateTime issueDate)
         {
             this.invoiceID = GetNewInvoiceID();

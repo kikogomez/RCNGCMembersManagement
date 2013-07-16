@@ -125,7 +125,11 @@ namespace RCNGCMembersManagementSpecFlowBDD
         public void WhenIGenerateAnInvoiceForTheSale()
         {
             DateTime issueDate = DateTime.Now;
-            Invoice invoice = new Invoice(clubMember, (Product)ScenarioContext.Current["A_Sold_Product"], issueDate);
+            Product product = (Product)ScenarioContext.Current["A_Sold_Product"];
+            Transaction productSale = new Sale(product, product.Description, 1, product.Cost, product.Tax, 0);
+            List<Transaction> transactionsList = new List<Transaction>();
+            transactionsList.Add(productSale);
+            Invoice invoice = new Invoice(clubMember, transactionsList, issueDate);
             ScenarioContext.Current.Add("Invoice", invoice);
         }
 
@@ -139,10 +143,12 @@ namespace RCNGCMembersManagementSpecFlowBDD
         [When(@"I generate a new invoice on the same year")]
         public void WhenIGenerateANewInvoiceOnTheSameYear()
         {
-
-            DateTime issueDate = ((Invoice)ScenarioContext.Current["Invoice"]).IssueDate.AddSeconds(1);
-            ClubService clubService = (ClubService)ScenarioContext.Current["A_Club_Service"];
-            Invoice secondInvoice = new Invoice(clubMember, (ClubService)ScenarioContext.Current["A_Club_Service"], issueDate);
+            DateTime issueDate = DateTime.Now;
+            ClubService service = (ClubService)ScenarioContext.Current["A_Club_Service"];
+            Transaction serviceCharge = new ServiceCharge(service, service.Description, 1, service.Cost, service.Tax, 0);
+            List<Transaction> transactionsList = new List<Transaction>();
+            transactionsList.Add(serviceCharge);
+            Invoice secondInvoice = new Invoice(clubMember, transactionsList, issueDate);
             ScenarioContext.Current.Add("Second_Invoice", secondInvoice);
         }
 
