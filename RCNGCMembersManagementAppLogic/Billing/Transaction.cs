@@ -53,7 +53,7 @@ namespace RCNGCMembersManagementAppLogic.Billing
 
         public decimal NetAmount
         {
-            get { return Math.Round(GrossAmount * ((decimal)(1 + taxValue / 100)), 2, MidpointRounding.AwayFromZero); }
+            get { return CalculateNetAmount(); }
         }
 
         private decimal unitCostWithDiscount()

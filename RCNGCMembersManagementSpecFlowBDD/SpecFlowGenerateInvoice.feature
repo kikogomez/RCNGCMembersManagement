@@ -23,6 +23,7 @@ Background:
 	Given This services
 	| Service Name                | Default Cost | Default Tax  |
 	| Rent a kajak                | 50.00        | IGIC General |
+	| Rent a katamaran            | 100.55       | IGIC General |
 	| Rent a mouring              | 150.00       | IGIC General |
 	| Full Membership Monthly Fee | 79.00        | No IGIC      |
 
@@ -79,3 +80,11 @@ Scenario: Rounding: Round to two decimals Away From Zero
 	When I generate an invoice for this/these transaction/s
 	Then An invoice is created for the cost of the service: 136.43
 	And A single bill is generated for the total amount of the invoice: 136.43
+
+Scenario: Rounding: First calculate discount on unit, then round, then tax unit, then round, then sum units
+	Given This set of transactions
+	| Units | Service Name     | Description                  | Unit Cost | Tax | Discount |
+	| 2     | Rent a katamaran | Renta a katamaran for 2 days | 100.55    | 7   | 15       |
+	When I generate an invoice for this/these transaction/s
+	Then An invoice is created for the cost of the service: 182.90
+	And A single bill is generated for the total amount of the invoice: 182.90
