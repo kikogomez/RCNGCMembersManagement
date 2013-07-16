@@ -86,3 +86,11 @@ Scenario: Rounding: First calculate discount on unit, then round, then tax unit,
 	When I generate an invoice for this/these transaction/s
 	Then An invoice is created for the cost of the service: 182.90
 	And A single bill is generated for the total amount of the invoice: 182.90
+
+Scenario: Transactions can have differnt cost and tax than default service ones
+	Given This set of transactions
+	| Units | Service Name     | Description                  | Unit Cost | Tax     | Discount |
+	| 1     | Rent a katamaran | Renta a katamaran for 2 days | 90        | No IGIC | 0        |
+	When I generate an invoice for this/these transaction/s
+	Then An invoice is created for the cost of the service: 90.00
+	And A single bill is generated for the total amount of the invoice: 90.00
