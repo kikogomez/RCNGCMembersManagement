@@ -4,6 +4,7 @@ using TechTalk.SpecFlow;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using RCNGCMembersManagementAppLogic.MembersManaging;
 using RCNGCMembersManagementAppLogic.ClubServices;
+using RCNGCMembersManagementAppLogic.ClubStore;
 using RCNGCMembersManagementAppLogic.Billing;
 using RCNGCMembersManagementMocks;
 
@@ -17,6 +18,7 @@ namespace RCNGCMembersManagementSpecFlowBDD
         ClubMember clubMember;
         Dictionary<string, Tax> taxesList;
         Dictionary<string, ClubService> servicesList;
+        Dictionary<string, Product> productsList;
         InvoiceDataManagerMock invoiceDataManagerMock;
 
         [Given(@"Last generated InvoiceID is ""(.*)""")]
@@ -46,8 +48,8 @@ namespace RCNGCMembersManagementSpecFlowBDD
             }
         }
 
-        [Given(@"This services")]
-        public void GivenThisServices(Table services)
+        [Given(@"These services")]
+        public void GivenTheseServices(Table services)
         {
             servicesList = new Dictionary<string, ClubService>();
             foreach (var row in services.Rows)
@@ -60,6 +62,20 @@ namespace RCNGCMembersManagementSpecFlowBDD
             }
         }
 
+        [Given(@"These products")]
+        public void GivenTheseProducts(Table products)
+        {
+            productsList = new Dictionary<string, Product>();
+            foreach (var row in products.Rows)
+            {
+                string productName = row["Product Name"];
+                double defaultCost = double.Parse(row["Default Cost"]);
+                string defaultTax = row["Default Tax"];
+                Product product = new Product(productName, defaultCost, taxesList[defaultTax]);
+                productsList.Add(productName, product);
+            }
+        }
+
         [Given(@"The member uses the club service ""(.*)""")]
         public void GivenTheMemberUsesTheClubService(string serviceName)
         {
@@ -67,18 +83,6 @@ namespace RCNGCMembersManagementSpecFlowBDD
             ScenarioContext.Current.Add("A_Club_Service", clubService);
         }
 
-/*
-        [Given(@"The member use a club service")]
-        public void GivenTheMemberUseAClubService(Table servicesTable)
-        {
-            string serviceDescription = servicesTable.Rows[0]["Description"];
-            double serviceCost = double.Parse(servicesTable.Rows[0]["Default Cost per Hour"]);
-            Tax tax = taxesList[servicesTable.Rows[0]["Default Tax"]];
-            ClubService clubService = new ClubService(serviceDescription, serviceCost, tax);
-            ScenarioContext.Current.Add("A_Club_Service", clubService);
-        }
-
-  */
         [When(@"I generate an invoice for the service")]
         public void WhenIGenerateAnInvoiceForTheService()
         {
@@ -104,6 +108,27 @@ namespace RCNGCMembersManagementSpecFlowBDD
         public void ThenASingleBillIsGeneratedForTheTotalAmountOfTheInvoice(decimal totalAmount)
         {
             Assert.AreEqual(totalAmount, ((Invoice)ScenarioContext.Current["Invoice"]).BillsTotalAmountToCollect);
+        }
+
+        [Given(@"The member buys a ""(.*)""")]
+        public void GivenTheMemberBuysA(string productName)
+        {
+            Product product = productsList[productName];
+            ScenarioContext.Current.Add("A_Sold_Product", product);
+        }
+
+        [When(@"I generate an invoice for the sale")]
+        public void WhenIGenerateAnInvoiceForTheSale()
+        {
+            DateTime issueDate = DateTime.Now;
+            Invoice invoice = new Invoice(clubMember, (ClubService)ScenarioContext.Current["A_Club_Service"], issueDate);
+            ScenarioContext.Current.Add("Invoice", invoice);
+        }
+
+        [Then(@"An invoice is created for the cost of the sale: (.*)")]
+        public void ThenAnInvoiceIsCreatedForTheCostOfTheSale(Decimal p0)
+        {
+            ScenarioContext.Current.Pending();
         }
 
 
@@ -145,7 +170,7 @@ namespace RCNGCMembersManagementSpecFlowBDD
                 Tax tax= taxesList[row["Tax"]];
                 double discount = double.Parse(row["Discount"]);
                 ClubService clubService = servicesList[serviceName];
-                Transaction transaction = new Transaction(clubService, description, units, unitCost, tax ,discount);
+                Transaction transaction = new ServiceCharge(clubService, description, units, unitCost, tax ,discount);
                 transactionsList.Add(transaction);
             }
             ScenarioContext.Current.Add("Transactions_List", transactionsList);

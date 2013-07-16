@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using RCNGCMembersManagementAppLogic.MembersManaging;
 using RCNGCMembersManagementAppLogic.ClubServices;
-
+using RCNGCMembersManagementAppLogic.ClubStore;
 
 namespace RCNGCMembersManagementAppLogic.Billing
 {
@@ -25,10 +25,24 @@ namespace RCNGCMembersManagementAppLogic.Billing
             this.memberID = clubMember.MemberID;
             this.clientFullName = clubMember.FullName;
             invoiceDetail = new List<Transaction>();
-            Transaction simpleServiceTransaction = new Transaction(clubService, clubService.Description, 1, clubService.Cost,clubService.Tax,0);
+            Transaction simpleServiceTransaction = new ServiceCharge(clubService, clubService.Description, 1, clubService.Cost,clubService.Tax,0);
             invoiceDetail.Add(simpleServiceTransaction);
             invoiceBills = new List<Bill>();
             AddBillForInvoiceTotal(clubService.Description, issueDate, issueDate.AddDays(30));
+            UpdateInvoiceSequenceNumber();
+        }
+
+        public Invoice(ClubMember clubMember, Product product, DateTime issueDate)
+        {
+            this.invoiceID = GetNewInvoiceID();
+            this.issueDate = issueDate;
+            this.memberID = clubMember.MemberID;
+            this.clientFullName = clubMember.FullName;
+            invoiceDetail = new List<Transaction>();
+            Transaction simpleServiceTransaction = new Sale(product, product.Description, 1, product.Cost, product.Tax, 0);
+            invoiceDetail.Add(simpleServiceTransaction);
+            invoiceBills = new List<Bill>();
+            AddBillForInvoiceTotal(product.Description, issueDate, issueDate.AddDays(30));
             UpdateInvoiceSequenceNumber();
         }
 

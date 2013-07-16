@@ -43,10 +43,13 @@
     <Compile Include="Billing\BillDataManager.cs" />
     <Compile Include="Billing\IInvoiceDataManager.cs" />
     <Compile Include="Billing\Invoice.cs" />
+    <Compile Include="Billing\Sale.cs" />
+    <Compile Include="Billing\ServiceCharge.cs" />
     <Compile Include="Billing\Tax.cs" />
     <Compile Include="Billing\Transaction.cs" />
     <Compile Include="Class1.cs" />
     <Compile Include="ClubServices\ClubService.cs" />
+    <Compile Include="ClubStore\Product.cs" />
     <Compile Include="MembersManaging\ClubMember.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

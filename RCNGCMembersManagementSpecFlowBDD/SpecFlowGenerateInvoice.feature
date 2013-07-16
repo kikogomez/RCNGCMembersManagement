@@ -20,18 +20,29 @@ Background:
 	| IGIC Incrementado 2 | 13.50     |
 	| IGIC Especial       | 20.00     |
 
-	Given This services
+	Given These services
 	| Service Name                | Default Cost | Default Tax  |
 	| Rent a kajak                | 50.00        | IGIC General |
 	| Rent a katamaran            | 100.55       | IGIC General |
 	| Rent a mouring              | 150.00       | IGIC General |
 	| Full Membership Monthly Fee | 79.00        | No IGIC      |
 
-Scenario: Generate an invoice for a simple service
+	Given These products
+	| Product Name   | Default Cost | Default Tax  |
+	| Pennant        | 10.00        | IGIC General |
+	| Cup            | 15.00        | IGIC General |
+	| Member ID Card | 1.50         | No IGIC      |
+
+Scenario: Generate an invoice for a service charge
 	Given The member uses the club service "Rent a kajak"
 	When I generate an invoice for the service
 	Then An invoice is created for the cost of the service: 53.50
 	And A single bill is generated for the total amount of the invoice: 53.50
+
+Scenario: Generate an invoice for a sale
+	Given The member buys a "Pennant"
+	When I generate an invoice for the sale
+	Then An invoice is created for the cost of the sale: 16.05
 
 Scenario: Two consecutive invoices generated the same year have consecutive Invoice ID
 	Given The member uses the club service "Rent a kajak"
