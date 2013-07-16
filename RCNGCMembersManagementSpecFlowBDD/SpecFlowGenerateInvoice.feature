@@ -57,7 +57,7 @@ Scenario: Up to 999999 invoices in a year
 	Then The application doesn't accept more than 999999 invoices in the year
 
 Scenario: Generate an invoice for multiple transactions with one tax type
-	Given This set of transactions
+	Given This set of service charge transactions
 	| Units | Service Name   | Description              | Unit Cost | Tax          | Discount |
 	| 1     | Rent a kajak   | Rent a kajak for one day | 50.00     | IGIC General | 0        |
 	| 2     | Rent a mouring | Mouring May-June         | 150.00    | IGIC General | 0        |
@@ -66,7 +66,7 @@ Scenario: Generate an invoice for multiple transactions with one tax type
 	And A single bill is generated for the total amount of the invoice: 374.50
 
 Scenario: Generate an invoice for multiple transactions with different tax type
-	Given This set of transactions
+	Given This set of service charge transactions
 	| Units | Service Name                | Description      | Unit Cost | Tax          | Discount |
 	| 1     | Full Membership Monthly Fee | Monthly Fee June | 79.00     | No IGIC      | 0        |
 	| 2     | Rent a mouring              | Mouring May-June | 150.00    | IGIC General | 0        |
@@ -75,7 +75,7 @@ Scenario: Generate an invoice for multiple transactions with different tax type
 	And A single bill is generated for the total amount of the invoice: 400.00
 
 Scenario: Discounts on transactions must be applied before taxes
-	Given This set of transactions
+	Given This set of service charge transactions
 	| Units | Service Name   | Description      | Unit Cost | Tax          | Discount |
 	| 1     | Rent a mouring | Mouring May-June | 150.00    | IGIC General | 20       |
 	When I generate an invoice for this/these transaction/s
@@ -83,7 +83,7 @@ Scenario: Discounts on transactions must be applied before taxes
 	And A single bill is generated for the total amount of the invoice: 128.40
 
 Scenario: Rounding: Round to two decimals Away From Zero
-	Given This set of transactions
+	Given This set of service charge transactions
 	| Units | Service Name   | Description      | Unit Cost | Tax          | Discount |
 	| 1     | Rent a mouring | Mouring May-June | 150.00    | IGIC General | 15       |
 	When I generate an invoice for this/these transaction/s
@@ -91,7 +91,7 @@ Scenario: Rounding: Round to two decimals Away From Zero
 	And A single bill is generated for the total amount of the invoice: 136.43
 
 Scenario: Rounding: First calculate discount on unit, then round, then tax unit, then round, then sum units
-	Given This set of transactions
+	Given This set of service charge transactions
 	| Units | Service Name     | Description                  | Unit Cost | Tax          | Discount |
 	| 2     | Rent a katamaran | Renta a katamaran for 2 days | 100.55    | IGIC General | 15       |
 	When I generate an invoice for this/these transaction/s
@@ -99,9 +99,22 @@ Scenario: Rounding: First calculate discount on unit, then round, then tax unit,
 	And A single bill is generated for the total amount of the invoice: 182.90
 
 Scenario: Transactions can have differnt cost and tax than default service ones
-	Given This set of transactions
+	Given This set of service charge transactions
 	| Units | Service Name     | Description                  | Unit Cost | Tax     | Discount |
 	| 1     | Rent a katamaran | Renta a katamaran for 2 days | 90        | No IGIC | 0        |
 	When I generate an invoice for this/these transaction/s
 	Then An invoice is created for the cost of the service: 90.00
 	And A single bill is generated for the total amount of the invoice: 90.00
+
+Scenario: We can mix services charges and sales in a single invoice
+	Given This set of service charge transactions
+	| Units | Service Name     | Description                  | Unit Cost | Tax          | Discount |
+	| 2     | Rent a katamaran | Renta a katamaran for 2 days | 50        | IGIC General | 0        |
+	| 2     | Rent a mouring   | Mouring May-June             | 150.00    | IGIC General | 20       |
+	Given This set of sale transactions
+	| Units | Product Name   | Description            | Unit Cost | Tax          | Discount |
+	| 1     | Cup            | Blue Cup               | 10        | IGIC General | 0        |
+	| 1     | Member ID Card | Lost ID Card Reprinted | 1.50      | No IGIC      | 50       |
+	When I generate an invoice for this/these transaction/s
+	Then An invoice is created for the cost of the service: 375.25
+	And A single bill is generated for the total amount of the invoice: 375.25

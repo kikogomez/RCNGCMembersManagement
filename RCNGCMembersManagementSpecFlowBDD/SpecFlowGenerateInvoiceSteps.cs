@@ -21,6 +21,13 @@ namespace RCNGCMembersManagementSpecFlowBDD
         Dictionary<string, Product> productsDictionary;
         InvoiceDataManagerMock invoiceDataManagerMock;
 
+        [BeforeScenario]
+        public void InitializeTransactionsList()
+        {
+            List<Transaction> transactionsList= new List<Transaction>();
+            ScenarioContext.Current.Add("Transactions_List", transactionsList);
+        }
+
         [Given(@"Last generated InvoiceID is ""(.*)""")]
         public void GivenLastGeneratedInvoiceIDIs(string lastInvoiceID)
         {
@@ -159,10 +166,10 @@ namespace RCNGCMembersManagementSpecFlowBDD
             Assert.AreEqual("Max 999999 invoices per year", exceptionMessages[0]);
         }
 
-        [Given(@"This set of transactions")]
-        public void GivenThisSetOfTransactions(Table transactions)
+        [Given(@"This set of service charge transactions")]
+        public void GivenThisSetOfServiceChargeTransactions(Table transactions)
         {
-            List<Transaction> transactionsList= new List<Transaction>();
+            //List<Transaction> transactionsList= new List<Transaction>();
             foreach (var row in transactions.Rows)
             {
                 int units= int.Parse(row["Units"]);
@@ -173,9 +180,9 @@ namespace RCNGCMembersManagementSpecFlowBDD
                 double discount = double.Parse(row["Discount"]);
                 ClubService clubService = servicesDictionary[serviceName];
                 Transaction transaction = new ServiceCharge(clubService, description, units, unitCost, tax ,discount);
-                transactionsList.Add(transaction);
+                ((List<Transaction>)ScenarioContext.Current["Transactions_List"]).Add(transaction);
             }
-            ScenarioContext.Current.Add("Transactions_List", transactionsList);
+            //ScenarioContext.Current.Add("Transactions_List", transactionsList);
         }
 
         [When(@"I generate an invoice for this/these transaction/s")]
@@ -184,6 +191,24 @@ namespace RCNGCMembersManagementSpecFlowBDD
             Invoice invoice = new Invoice(clubMember, (List<Transaction>)ScenarioContext.Current["Transactions_List"], DateTime.Now);
             ScenarioContext.Current.Add("Invoice", invoice);
         }
+
+        [Given(@"This set of sale transactions")]
+        public void GivenThisSetOfSaleTransactions(Table transactions)
+        {
+            foreach (var row in transactions.Rows)
+            {
+                int units = int.Parse(row["Units"]);
+                string productName = row["Product Name"];
+                string description = row["Description"];
+                double unitCost = double.Parse(row["Unit Cost"]);
+                Tax tax = taxesDictionary[row["Tax"]];
+                double discount = double.Parse(row["Discount"]);
+                Product product = productsDictionary[productName];
+                Transaction transaction = new Sale(product, description, units, unitCost, tax, discount);
+                ((List<Transaction>)ScenarioContext.Current["Transactions_List"]).Add(transaction);
+            }
+        }
+
 
         private List<Transaction> TransactionListForSingleElement(object element)
         {
