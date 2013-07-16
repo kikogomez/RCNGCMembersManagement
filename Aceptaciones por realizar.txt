@@ -1,0 +1,18 @@
+Invoice
+¿Como anulamos una factura?¿Factura de valor negativo?
+¿Como anulamos un pago?
+Facturas pro-forma
+ - (otro invoice ID con otro contador)
+ - Sin pago
+
+UnitTest:
+- Lanzar excepcion si lista de transacciones es cero
+- Lanzar excepcion si transacciones tienen valores negativos(?)
+- ¿Se permiten transacciones negativas?
+
+
+
+Billing
+
+UnitTest
+ - Que coincidan las que entran con las que salen

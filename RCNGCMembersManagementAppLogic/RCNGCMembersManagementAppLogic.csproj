@@ -43,6 +43,7 @@
     <Compile Include="Billing\BillDataManager.cs" />
     <Compile Include="Billing\IInvoiceDataManager.cs" />
     <Compile Include="Billing\Invoice.cs" />
+    <Compile Include="Billing\ProFormaInvoice.cs" />
     <Compile Include="Billing\Sale.cs" />
     <Compile Include="Billing\ServiceCharge.cs" />
     <Compile Include="Billing\Tax.cs" />
