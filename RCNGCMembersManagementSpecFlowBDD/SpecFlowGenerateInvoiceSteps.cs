@@ -67,6 +67,7 @@ namespace RCNGCMembersManagementSpecFlowBDD
             ScenarioContext.Current.Add("A_Club_Service", clubService);
         }
 
+/*
         [Given(@"The member use a club service")]
         public void GivenTheMemberUseAClubService(Table servicesTable)
         {
@@ -77,6 +78,7 @@ namespace RCNGCMembersManagementSpecFlowBDD
             ScenarioContext.Current.Add("A_Club_Service", clubService);
         }
 
+  */
         [When(@"I generate an invoice for the service")]
         public void WhenIGenerateAnInvoiceForTheService()
         {
@@ -140,10 +142,10 @@ namespace RCNGCMembersManagementSpecFlowBDD
                 string serviceName = row["Service Name"];
                 string description= row["Description"];
                 double unitCost= double.Parse(row["Unit Cost"]);
-                double taxValue= double.Parse(row["Tax"]);
+                Tax tax= taxesList[row["Tax"]];
                 double discount = double.Parse(row["Discount"]);
                 ClubService clubService = servicesList[serviceName];
-                Transaction transaction = new Transaction(clubService, description, units, unitCost,taxValue,discount);
+                Transaction transaction = new Transaction(clubService, description, units, unitCost, tax ,discount);
                 transactionsList.Add(transaction);
             }
             ScenarioContext.Current.Add("Transactions_List", transactionsList);

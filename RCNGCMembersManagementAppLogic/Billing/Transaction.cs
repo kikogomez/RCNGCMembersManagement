@@ -13,16 +13,16 @@ namespace RCNGCMembersManagementAppLogic.Billing
         string concept;
         int units;
         double unitCost;
-        double taxValue;
+        Tax tax;
         double discount;
 
-        public Transaction(ClubService service, string concept, int units, double unitCost, double taxValue, double discount)
+        public Transaction(ClubService service, string concept, int units, double unitCost, Tax tax, double discount)
         {
             this.service = service;
             this.concept = concept;
             this.units = units;
             this.unitCost = unitCost;
-            this.taxValue = taxValue;
+            this.tax = tax;
             this.discount = discount;
         }
 
@@ -41,9 +41,14 @@ namespace RCNGCMembersManagementAppLogic.Billing
             get { return unitCost; }
         }
 
-        public double TaxVaule
+        public string TaxType
         {
-            get { return taxValue; }
+            get { return tax.TaxType; }
+        }
+
+        public double TaxValue
+        {
+            get { return tax.TaxValue; }
         }
 
         public decimal GrossAmount
@@ -63,7 +68,7 @@ namespace RCNGCMembersManagementAppLogic.Billing
 
         private decimal unitCostWithTax()
         {
-            return Math.Round(unitCostWithDiscount() * ((decimal)(1 + taxValue / 100)), 2, MidpointRounding.AwayFromZero);
+            return Math.Round(unitCostWithDiscount() * ((decimal)(1 + tax.TaxValue / 100)), 2, MidpointRounding.AwayFromZero);
         }
 
         private decimal CalculateGrossAmount()
