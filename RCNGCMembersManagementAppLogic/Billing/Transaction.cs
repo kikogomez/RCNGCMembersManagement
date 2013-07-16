@@ -18,7 +18,6 @@ namespace RCNGCMembersManagementAppLogic.Billing
 
         public Transaction(string concept, int units, double unitCost, Tax tax, double discount)
         {
-            //this.service = service;
             this.concept = concept;
             this.units = units;
             this.unitCost = unitCost;

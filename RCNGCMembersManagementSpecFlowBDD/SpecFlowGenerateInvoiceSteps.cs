@@ -87,9 +87,13 @@ namespace RCNGCMembersManagementSpecFlowBDD
         public void WhenIGenerateAnInvoiceForTheService()
         {
             DateTime issueDate = DateTime.Now;
+            ClubService service= (ClubService)ScenarioContext.Current["A_Club_Service"];
+            Transaction serviceCharge = new ServiceCharge(service, service.Description, 1, service.Cost, service.Tax, 0);
+            List<Transaction> transactionsList = new List<Transaction>();
+            transactionsList.Add(serviceCharge);            
             try
             {
-                Invoice invoice = new Invoice(clubMember, (ClubService)ScenarioContext.Current["A_Club_Service"], issueDate);
+                Invoice invoice = new Invoice(clubMember, transactionsList, issueDate);
                 ScenarioContext.Current.Add("Invoice", invoice);
             }
             catch (ArgumentOutOfRangeException e)
