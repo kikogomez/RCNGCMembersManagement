@@ -42,7 +42,7 @@ Scenario: Generate an invoice for a service charge
 Scenario: Generate an invoice for a sale
 	Given The member buys a "Pennant"
 	When I generate an invoice for the sale
-	Then An invoice is created for the cost of the sale: 16.05
+	Then An invoice is created for the cost of the sale: 10.70
 
 Scenario: Two consecutive invoices generated the same year have consecutive Invoice ID
 	Given The member uses the club service "Rent a kajak"

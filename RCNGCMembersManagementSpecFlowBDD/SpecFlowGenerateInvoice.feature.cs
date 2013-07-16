@@ -196,7 +196,7 @@ this.FeatureBackground();
 #line 44
  testRunner.When("I generate an invoice for the sale", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line 45
- testRunner.Then("An invoice is created for the cost of the sale: 16.05", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+ testRunner.Then("An invoice is created for the cost of the sale: 10.70", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
             this.ScenarioCleanup();
         }

@@ -121,14 +121,14 @@ namespace RCNGCMembersManagementSpecFlowBDD
         public void WhenIGenerateAnInvoiceForTheSale()
         {
             DateTime issueDate = DateTime.Now;
-            Invoice invoice = new Invoice(clubMember, (ClubService)ScenarioContext.Current["A_Club_Service"], issueDate);
+            Invoice invoice = new Invoice(clubMember, (Product)ScenarioContext.Current["A_Sold_Product"], issueDate);
             ScenarioContext.Current.Add("Invoice", invoice);
         }
 
         [Then(@"An invoice is created for the cost of the sale: (.*)")]
-        public void ThenAnInvoiceIsCreatedForTheCostOfTheSale(Decimal p0)
+        public void ThenAnInvoiceIsCreatedForTheCostOfTheSale(decimal cost)
         {
-            ScenarioContext.Current.Pending();
+            Assert.AreEqual(cost, ((Invoice)ScenarioContext.Current["Invoice"]).NetAmount);
         }
 
 
