@@ -16,9 +16,9 @@ namespace RCNGCMembersManagementSpecFlowBDD
     {
         string lastInvoiceID;
         ClubMember clubMember;
-        Dictionary<string, Tax> taxesList;
-        Dictionary<string, ClubService> servicesList;
-        Dictionary<string, Product> productsList;
+        Dictionary<string, Tax> taxesDictionary;
+        Dictionary<string, ClubService> servicesDictionary;
+        Dictionary<string, Product> productsDictionary;
         InvoiceDataManagerMock invoiceDataManagerMock;
 
         [Given(@"Last generated InvoiceID is ""(.*)""")]
@@ -39,61 +39,57 @@ namespace RCNGCMembersManagementSpecFlowBDD
         [Given(@"This set of taxes")]
         public void GivenThisSetOfTaxes(Table taxes)
         {
-            taxesList = new Dictionary<string, Tax>();
+            taxesDictionary = new Dictionary<string, Tax>();
             foreach (var row in taxes.Rows)
             {
                 string key=row["Tax Type"];
                 Tax tax = new Tax((string)row["Tax Type"], double.Parse(row["Tax Value"]));
-                taxesList.Add(key, tax);
+                taxesDictionary.Add(key, tax);
             }
         }
 
         [Given(@"These services")]
         public void GivenTheseServices(Table services)
         {
-            servicesList = new Dictionary<string, ClubService>();
+            servicesDictionary = new Dictionary<string, ClubService>();
             foreach (var row in services.Rows)
             {
                 string serviceName = row["Service Name"];
                 double defaultCost = double.Parse(row["Default Cost"]);
                 string defaultTax = row["Default Tax"];
-                ClubService clubService = new ClubService(serviceName, defaultCost, taxesList[defaultTax]);
-                servicesList.Add(serviceName, clubService);    
+                ClubService clubService = new ClubService(serviceName, defaultCost, taxesDictionary[defaultTax]);
+                servicesDictionary.Add(serviceName, clubService);    
             }
         }
 
         [Given(@"These products")]
         public void GivenTheseProducts(Table products)
         {
-            productsList = new Dictionary<string, Product>();
+            productsDictionary = new Dictionary<string, Product>();
             foreach (var row in products.Rows)
             {
                 string productName = row["Product Name"];
                 double defaultCost = double.Parse(row["Default Cost"]);
                 string defaultTax = row["Default Tax"];
-                Product product = new Product(productName, defaultCost, taxesList[defaultTax]);
-                productsList.Add(productName, product);
+                Product product = new Product(productName, defaultCost, taxesDictionary[defaultTax]);
+                productsDictionary.Add(productName, product);
             }
         }
 
         [Given(@"The member uses the club service ""(.*)""")]
         public void GivenTheMemberUsesTheClubService(string serviceName)
         {
-            ClubService clubService = servicesList[serviceName];
+            ClubService clubService = servicesDictionary[serviceName];
             ScenarioContext.Current.Add("A_Club_Service", clubService);
         }
 
         [When(@"I generate an invoice for the service")]
         public void WhenIGenerateAnInvoiceForTheService()
         {
-            DateTime issueDate = DateTime.Now;
-            ClubService service= (ClubService)ScenarioContext.Current["A_Club_Service"];
-            Transaction serviceCharge = new ServiceCharge(service, service.Description, 1, service.Cost, service.Tax, 0);
-            List<Transaction> transactionsList = new List<Transaction>();
-            transactionsList.Add(serviceCharge);            
+            DateTime issueDate = DateTime.Now;        
             try
             {
-                Invoice invoice = new Invoice(clubMember, transactionsList, issueDate);
+                Invoice invoice = new Invoice(clubMember, TransactionListForSingleService((ClubService)ScenarioContext.Current["A_Club_Service"]), issueDate);
                 ScenarioContext.Current.Add("Invoice", invoice);
             }
             catch (ArgumentOutOfRangeException e)
@@ -117,7 +113,7 @@ namespace RCNGCMembersManagementSpecFlowBDD
         [Given(@"The member buys a ""(.*)""")]
         public void GivenTheMemberBuysA(string productName)
         {
-            Product product = productsList[productName];
+            Product product = productsDictionary[productName];
             ScenarioContext.Current.Add("A_Sold_Product", product);
         }
 
@@ -125,11 +121,7 @@ namespace RCNGCMembersManagementSpecFlowBDD
         public void WhenIGenerateAnInvoiceForTheSale()
         {
             DateTime issueDate = DateTime.Now;
-            Product product = (Product)ScenarioContext.Current["A_Sold_Product"];
-            Transaction productSale = new Sale(product, product.Description, 1, product.Cost, product.Tax, 0);
-            List<Transaction> transactionsList = new List<Transaction>();
-            transactionsList.Add(productSale);
-            Invoice invoice = new Invoice(clubMember, transactionsList, issueDate);
+            Invoice invoice = new Invoice(clubMember, TransactionListForSingleSale((Product)ScenarioContext.Current["A_Sold_Product"]), issueDate);
             ScenarioContext.Current.Add("Invoice", invoice);
         }
 
@@ -177,9 +169,9 @@ namespace RCNGCMembersManagementSpecFlowBDD
                 string serviceName = row["Service Name"];
                 string description= row["Description"];
                 double unitCost= double.Parse(row["Unit Cost"]);
-                Tax tax= taxesList[row["Tax"]];
+                Tax tax= taxesDictionary[row["Tax"]];
                 double discount = double.Parse(row["Discount"]);
-                ClubService clubService = servicesList[serviceName];
+                ClubService clubService = servicesDictionary[serviceName];
                 Transaction transaction = new ServiceCharge(clubService, description, units, unitCost, tax ,discount);
                 transactionsList.Add(transaction);
             }
@@ -191,6 +183,24 @@ namespace RCNGCMembersManagementSpecFlowBDD
         {
             Invoice invoice = new Invoice(clubMember, (List<Transaction>)ScenarioContext.Current["Transactions_List"], DateTime.Now);
             ScenarioContext.Current.Add("Invoice", invoice);
+        }
+
+        private List<Transaction> TransactionListForSingleService(ClubService service)
+        {
+            DateTime issueDate = DateTime.Now;
+            Transaction serviceCharge = new ServiceCharge(service, service.Description, 1, service.Cost, service.Tax, 0);
+            List<Transaction> transactionsList = new List<Transaction>();
+            transactionsList.Add(serviceCharge);
+            return transactionsList;
+        }
+
+        private List<Transaction> TransactionListForSingleSale(Product product)
+        {
+            DateTime issueDate = DateTime.Now;
+            Transaction serviceCharge = new Sale(product, product.Description, 1, product.Cost, product.Tax, 0);
+            List<Transaction> transactionsList = new List<Transaction>();
+            transactionsList.Add(serviceCharge);
+            return transactionsList;
         }
 
     }
