@@ -20,10 +20,12 @@ namespace RCNGCMembersManagementAppLogic.Billing
 
         public Invoice(ClubMember clubMember, List<Transaction> transactionsList, DateTime issueDate)
         {
+            if (transactionsList.Count == 0) throw new ArgumentException("The transactions list is empty");
             this.invoiceID = GetNewInvoiceID();
             this.issueDate = issueDate;
             this.memberID = clubMember.MemberID;
             this.clientFullName = clubMember.FullName;
+
             invoiceDetail = transactionsList;
             invoiceBills = new List<Bill>();
             AddBillForInvoiceTotal("Club Services", issueDate, issueDate.AddDays(30));

@@ -58,6 +58,10 @@
       <Project>{a2586e2d-f4a2-43ec-b332-dd46c73552b5}</Project>
       <Name>RCNGCMembersManagementAppLogic</Name>
     </ProjectReference>
+    <ProjectReference Include="..\RCNGCMembersManagementMocks\RCNGCMembersManagementMocks.csproj">
+      <Project>{9e90aadf-fe10-4d21-8822-a2e4851e4a8d}</Project>
+      <Name>RCNGCMembersManagementMocks</Name>
+    </ProjectReference>
   </ItemGroup>
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">
