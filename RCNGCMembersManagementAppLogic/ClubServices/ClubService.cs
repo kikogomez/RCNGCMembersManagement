@@ -7,7 +7,7 @@ using RCNGCMembersManagementAppLogic.Billing;
 
 namespace RCNGCMembersManagementAppLogic.ClubServices
 {
-    public class ClubService
+    public class ClubService: ITransactionable
     {
         string description;
         double cost;
@@ -33,6 +33,11 @@ namespace RCNGCMembersManagementAppLogic.ClubServices
         public Tax Tax
         {
             get { return tax; }
+        }
+
+        public Transaction CreateDefaultTransaction()
+        {
+            return new ServiceCharge(this, this.description, 1, this.cost, this.tax, 0);
         }
     }
 }

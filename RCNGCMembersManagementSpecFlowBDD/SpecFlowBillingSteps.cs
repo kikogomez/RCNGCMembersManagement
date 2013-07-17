@@ -224,18 +224,18 @@ namespace RCNGCMembersManagementSpecFlowBDD
         }
 
 
-        private List<Transaction> TransactionListForSingleElement(object element)
+        private List<Transaction> TransactionListForSingleElement(ITransactionable element)
         {
             DateTime issueDate = DateTime.Now;
-            Transaction transaction;
-            if (element.GetType() == typeof(ClubService))
+            Transaction transaction = element.CreateDefaultTransaction();
+            /*if (element.GetType() == typeof(ClubService))
             {
                 transaction = new ServiceCharge((ClubService)element, ((ClubService)element).Description, 1, ((ClubService)element).Cost, ((ClubService)element).Tax, 0);
             }
             else
             {
                 transaction = new Sale((Product)element, ((Product)element).Description, 1, ((Product)element).Cost, ((Product)element).Tax, 0);
-            }
+            }*/
             List<Transaction> transactionsList = new List<Transaction>();
             transactionsList.Add(transaction);
             return transactionsList;
