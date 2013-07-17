@@ -53,13 +53,12 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
-    <Compile Include="GeneratingProFormaInvoicesSteps.cs" />
     <Compile Include="SpecFlowGenerateInvoice.feature.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>SpecFlowGenerateInvoice.feature</DependentUpon>
     </Compile>
-    <Compile Include="SpecFlowGenerateInvoiceSteps.cs" />
+    <Compile Include="SpecFlowBillingSteps.cs" />
     <Compile Include="SpecFlowGenerateProFormaInvoice.feature.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>

@@ -39,6 +39,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Billing\BaseInvoice.cs" />
     <Compile Include="Billing\Bill.cs" />
     <Compile Include="Billing\BillDataManager.cs" />
     <Compile Include="Billing\IInvoiceDataManager.cs" />

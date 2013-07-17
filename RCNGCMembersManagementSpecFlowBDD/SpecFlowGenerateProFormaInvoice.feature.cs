@@ -160,11 +160,11 @@ namespace RCNGCMembersManagementSpecFlowBDD
         }
         
         [Microsoft.VisualStudio.TestTools.UnitTesting.TestMethodAttribute()]
-        [Microsoft.VisualStudio.TestTools.UnitTesting.DescriptionAttribute("Generating a pro forma invoice for a set off service charges and sales")]
+        [Microsoft.VisualStudio.TestTools.UnitTesting.DescriptionAttribute("Generating a pro forma invoice for a set of service charges and sales")]
         [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("FeatureTitle", "Generating pro forma invoices")]
-        public virtual void GeneratingAProFormaInvoiceForASetOffServiceChargesAndSales()
+        public virtual void GeneratingAProFormaInvoiceForASetOfServiceChargesAndSales()
         {
-            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Generating a pro forma invoice for a set off service charges and sales", ((string[])(null)));
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Generating a pro forma invoice for a set of service charges and sales", ((string[])(null)));
 #line 37
 this.ScenarioSetup(scenarioInfo);
 #line 6

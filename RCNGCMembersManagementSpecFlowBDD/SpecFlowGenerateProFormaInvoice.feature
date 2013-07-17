@@ -3,7 +3,7 @@
 	As a administrtative assistant
 	I want to generate pro forma invoices
 
-Background:
+Background: 
 	Given Last generated InvoiceID is "MMM2013000023"
 			
 	Given A Club Member
@@ -34,7 +34,7 @@ Background:
 	| Member ID Card | 1.50         | No IGIC      |
 
 
-Scenario: Generating a pro forma invoice for a set off service charges and sales
+Scenario: Generating a pro forma invoice for a set of service charges and sales
 	Given This set of service charge transactions
 	| Units | Service Name     | Description                  | Unit Cost | Tax          | Discount |
 	| 2     | Rent a katamaran | Renta a katamaran for 2 days | 50        | IGIC General | 0        |
