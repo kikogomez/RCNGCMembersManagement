@@ -1,6 +1,6 @@
 ﻿Feature: Generating pro forma invoices
 	In order to give estimates to the club members
-	As a administrtative assistant
+	As an administrtative assistant
 	I want to generate pro forma invoices
 
 Background: 

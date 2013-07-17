@@ -31,8 +31,8 @@ namespace RCNGCMembersManagementSpecFlowBDD
         public static void FeatureSetup(Microsoft.VisualStudio.TestTools.UnitTesting.TestContext testContext)
         {
             testRunner = TechTalk.SpecFlow.TestRunnerManager.GetTestRunner();
-            TechTalk.SpecFlow.FeatureInfo featureInfo = new TechTalk.SpecFlow.FeatureInfo(new System.Globalization.CultureInfo("en-US"), "Generating pro forma invoices", "In order to give estimates to the club members\r\nAs a administrtative assistant\r\nI" +
-                    " want to generate pro forma invoices", ProgrammingLanguage.CSharp, ((string[])(null)));
+            TechTalk.SpecFlow.FeatureInfo featureInfo = new TechTalk.SpecFlow.FeatureInfo(new System.Globalization.CultureInfo("en-US"), "Generating pro forma invoices", "In order to give estimates to the club members\r\nAs an administrtative assistant\r\n" +
+                    "I want to generate pro forma invoices", ProgrammingLanguage.CSharp, ((string[])(null)));
             testRunner.OnFeatureStart(featureInfo);
         }
         
