@@ -224,6 +224,48 @@ this.FeatureBackground();
 #line hidden
             this.ScenarioCleanup();
         }
+        
+        [Microsoft.VisualStudio.TestTools.UnitTesting.TestMethodAttribute()]
+        [Microsoft.VisualStudio.TestTools.UnitTesting.DescriptionAttribute("A proforma invoice has no bill associated")]
+        [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("FeatureTitle", "Generating pro forma invoices")]
+        public virtual void AProformaInvoiceHasNoBillAssociated()
+        {
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("A proforma invoice has no bill associated", ((string[])(null)));
+#line 49
+this.ScenarioSetup(scenarioInfo);
+#line 6
+this.FeatureBackground();
+#line hidden
+            TechTalk.SpecFlow.Table table7 = new TechTalk.SpecFlow.Table(new string[] {
+                        "Units",
+                        "Service Name",
+                        "Description",
+                        "Unit Cost",
+                        "Tax",
+                        "Discount"});
+            table7.AddRow(new string[] {
+                        "2",
+                        "Rent a katamaran",
+                        "Renta a katamaran for 2 days",
+                        "50",
+                        "IGIC General",
+                        "0"});
+            table7.AddRow(new string[] {
+                        "2",
+                        "Rent a mouring",
+                        "Mouring May-June",
+                        "150.00",
+                        "IGIC General",
+                        "20"});
+#line 50
+ testRunner.Given("This set of service charge transactions", ((string)(null)), table7, "Given ");
+#line 54
+ testRunner.When("I generate a pro forma invoice for this/these transaction/s", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#line 55
+ testRunner.Then("No bills are created for a pro forma invoice", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line hidden
+            this.ScenarioCleanup();
+        }
     }
 }
 #pragma warning restore

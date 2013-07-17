@@ -221,6 +221,13 @@ namespace RCNGCMembersManagementSpecFlowBDD
             Assert.AreEqual("Max 999999 invoices per year", exceptionMessages[0]);
         }
 
+        [Then(@"No bills are created for a pro forma invoice")]
+        public void ThenNoBillsAreCreatedForAProFormaInvoice()
+        {
+            ScenarioContext.Current.Pending();
+        }
+
+
         private List<Transaction> TransactionListForSingleElement(ITransactionable element)
         {
             DateTime issueDate = DateTime.Now;

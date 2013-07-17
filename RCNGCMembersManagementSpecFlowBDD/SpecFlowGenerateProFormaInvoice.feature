@@ -45,3 +45,12 @@ Scenario: Generating a pro forma invoice for a set of service charges and sales
 	| 1     | Member ID Card | Lost ID Card Reprinted | 1.50      | No IGIC      | 50       |
 	When I generate a pro forma invoice for this/these transaction/s
 	Then A pro forma invoice is created for the cost of the service: 375.25
+
+Scenario: A proforma invoice has no bill associated
+	Given This set of service charge transactions
+	| Units | Service Name     | Description                  | Unit Cost | Tax          | Discount |
+	| 2     | Rent a katamaran | Renta a katamaran for 2 days | 50        | IGIC General | 0        |
+	| 2     | Rent a mouring   | Mouring May-June             | 150.00    | IGIC General | 20       |
+	When I generate a pro forma invoice for this/these transaction/s
+	Then No bills are created for a pro forma invoice
+
