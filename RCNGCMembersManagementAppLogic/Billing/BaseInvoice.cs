@@ -41,12 +41,12 @@ namespace RCNGCMembersManagementAppLogic.Billing
 
         protected abstract void UpdateInvoiceSequenceNumber();
 
-        private uint ExtractInvoiceSequenceNumberFromInvoiceID()
+        protected uint ExtractInvoiceSequenceNumberFromInvoiceID()
         {
             return uint.Parse(invoiceID.Substring(7));
         }
 
-        private decimal CalculateInvoiceAmounts(bool netAmount)
+        protected decimal CalculateInvoiceAmounts(bool netAmount)
         {
             decimal amount = 0;
             foreach (Transaction line in invoiceDetail)
