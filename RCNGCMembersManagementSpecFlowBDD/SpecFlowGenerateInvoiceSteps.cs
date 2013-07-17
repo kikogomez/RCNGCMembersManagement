@@ -111,6 +111,13 @@ namespace RCNGCMembersManagementSpecFlowBDD
             Assert.AreEqual(cost, ((Invoice)ScenarioContext.Current["Invoice"]).NetAmount);
         }
 
+        [Then(@"A pro forma invoice is created for the cost of the service: (.*)")]
+        public void ThenAProFormaInvoiceIsCreatedForTheCostOfTheService(Decimal cost)
+        {
+            Assert.AreEqual(cost, ((ProFormaInvoice)ScenarioContext.Current["ProFormaInvoice"]).NetAmount);
+        }
+
+
         [Then(@"A single bill is generated for the total amount of the invoice: (.*)")]
         public void ThenASingleBillIsGeneratedForTheTotalAmountOfTheInvoice(decimal totalAmount)
         {
@@ -190,6 +197,13 @@ namespace RCNGCMembersManagementSpecFlowBDD
         {
             Invoice invoice = new Invoice(clubMember, (List<Transaction>)ScenarioContext.Current["Transactions_List"], DateTime.Now);
             ScenarioContext.Current.Add("Invoice", invoice);
+        }
+
+        [When(@"I generate a pro forma invoice for this/these transaction/s")]
+        public void WhenIGenerateAProFormaInvoiceForThisTheseTransactionS()
+        {
+            ProFormaInvoice proFormaInvoice = new ProFormaInvoice(clubMember, (List<Transaction>)ScenarioContext.Current["Transactions_List"], DateTime.Now);
+            ScenarioContext.Current.Add("ProFormaInvoice", proFormaInvoice);
         }
 
         [Given(@"This set of sale transactions")]

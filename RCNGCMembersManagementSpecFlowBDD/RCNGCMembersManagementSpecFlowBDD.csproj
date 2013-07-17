@@ -53,12 +53,18 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
+    <Compile Include="GeneratingProFormaInvoicesSteps.cs" />
     <Compile Include="SpecFlowGenerateInvoice.feature.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>SpecFlowGenerateInvoice.feature</DependentUpon>
     </Compile>
     <Compile Include="SpecFlowGenerateInvoiceSteps.cs" />
+    <Compile Include="SpecFlowGenerateProFormaInvoice.feature.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>SpecFlowGenerateProFormaInvoice.feature</DependentUpon>
+    </Compile>
     <Compile Include="UnitTest1.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -70,6 +76,10 @@
     <None Include="SpecFlowGenerateInvoice.feature">
       <Generator>SpecFlowSingleFileGenerator</Generator>
       <LastGenOutput>SpecFlowGenerateInvoice.feature.cs</LastGenOutput>
+    </None>
+    <None Include="SpecFlowGenerateProFormaInvoice.feature">
+      <Generator>SpecFlowSingleFileGenerator</Generator>
+      <LastGenOutput>SpecFlowGenerateProFormaInvoice.feature.cs</LastGenOutput>
     </None>
   </ItemGroup>
   <ItemGroup>
