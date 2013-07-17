@@ -202,11 +202,11 @@ this.FeatureBackground();
         }
         
         [Microsoft.VisualStudio.TestTools.UnitTesting.TestMethodAttribute()]
-        [Microsoft.VisualStudio.TestTools.UnitTesting.DescriptionAttribute("Two consecutive invoices generated the same year have consecutive Invoice ID")]
+        [Microsoft.VisualStudio.TestTools.UnitTesting.DescriptionAttribute("The invoices ID must allways be consecutive")]
         [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("FeatureTitle", "Generating Invoices")]
-        public virtual void TwoConsecutiveInvoicesGeneratedTheSameYearHaveConsecutiveInvoiceID()
+        public virtual void TheInvoicesIDMustAllwaysBeConsecutive()
         {
-            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Two consecutive invoices generated the same year have consecutive Invoice ID", ((string[])(null)));
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("The invoices ID must allways be consecutive", ((string[])(null)));
 #line 47
 this.ScenarioSetup(scenarioInfo);
 #line 6
@@ -216,9 +216,9 @@ this.FeatureBackground();
 #line 49
  testRunner.When("I generate an invoice for the service", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line 50
- testRunner.And("I generate a new invoice on the same year", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+ testRunner.Then("The generated Invoice ID should be \"MMM2013000024\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line 51
- testRunner.Then("the new invoice has a consecutive invoice ID", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+ testRunner.Then("The next invoice sequence number should be 25", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
             this.ScenarioCleanup();
         }
@@ -238,7 +238,7 @@ this.FeatureBackground();
 #line 55
  testRunner.Given("The member uses the club service \"Rent a mouring\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line 56
- testRunner.When("I generate an invoice for the service", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+ testRunner.When("I try to generate an invoice for the service", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line 57
  testRunner.Then("The application doesn\'t accept more than 999999 invoices in the year", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden

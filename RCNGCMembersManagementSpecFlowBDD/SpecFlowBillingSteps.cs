@@ -90,10 +90,81 @@ namespace RCNGCMembersManagementSpecFlowBDD
             ScenarioContext.Current.Add("A_Club_Service", clubService);
         }
 
+        [Given(@"The member buys a ""(.*)""")]
+        public void GivenTheMemberBuysA(string productName)
+        {
+            Product product = productsDictionary[productName];
+            ScenarioContext.Current.Add("A_Sold_Product", product);
+        }
+
+        [Given(@"This set of service charge transactions")]
+        public void GivenThisSetOfServiceChargeTransactions(Table transactions)
+        {
+            foreach (var row in transactions.Rows)
+            {
+                int units = int.Parse(row["Units"]);
+                string serviceName = row["Service Name"];
+                string description = row["Description"];
+                double unitCost = double.Parse(row["Unit Cost"]);
+                Tax tax = taxesDictionary[row["Tax"]];
+                double discount = double.Parse(row["Discount"]);
+                ClubService clubService = servicesDictionary[serviceName];
+                Transaction transaction = new ServiceCharge(clubService, description, units, unitCost, tax, discount);
+                ((List<Transaction>)ScenarioContext.Current["Transactions_List"]).Add(transaction);
+            }
+        }
+
+        [Given(@"This set of sale transactions")]
+        public void GivenThisSetOfSaleTransactions(Table transactions)
+        {
+            foreach (var row in transactions.Rows)
+            {
+                int units = int.Parse(row["Units"]);
+                string productName = row["Product Name"];
+                string description = row["Description"];
+                double unitCost = double.Parse(row["Unit Cost"]);
+                Tax tax = taxesDictionary[row["Tax"]];
+                double discount = double.Parse(row["Discount"]);
+                Product product = productsDictionary[productName];
+                Transaction transaction = new Sale(product, description, units, unitCost, tax, discount);
+                ((List<Transaction>)ScenarioContext.Current["Transactions_List"]).Add(transaction);
+            }
+        }
+
         [When(@"I generate an invoice for the service")]
         public void WhenIGenerateAnInvoiceForTheService()
         {
             DateTime issueDate = DateTime.Now;        
+            Invoice invoice = new Invoice(clubMember, TransactionListForSingleElement((ClubService)ScenarioContext.Current["A_Club_Service"]), issueDate);
+            ScenarioContext.Current.Add("Invoice", invoice);
+        }
+
+        [When(@"I generate an invoice for the sale")]
+        public void WhenIGenerateAnInvoiceForTheSale()
+        {
+            DateTime issueDate = DateTime.Now;
+            Invoice invoice = new Invoice(clubMember, TransactionListForSingleElement((Product)ScenarioContext.Current["A_Sold_Product"]), issueDate);
+            ScenarioContext.Current.Add("Invoice", invoice);
+        }
+
+        [When(@"I generate an invoice for this/these transaction/s")]
+        public void WhenIGenerateAnInvoiceForThisTheseTransactionS()
+        {
+            Invoice invoice = new Invoice(clubMember, (List<Transaction>)ScenarioContext.Current["Transactions_List"], DateTime.Now);
+            ScenarioContext.Current.Add("Invoice", invoice);
+        }
+
+        [When(@"I generate a pro forma invoice for this/these transaction/s")]
+        public void WhenIGenerateAProFormaInvoiceForThisTheseTransactionS()
+        {
+            ProFormaInvoice proFormaInvoice = new ProFormaInvoice(clubMember, (List<Transaction>)ScenarioContext.Current["Transactions_List"], DateTime.Now);
+            ScenarioContext.Current.Add("ProFormaInvoice", proFormaInvoice);
+        }
+
+        [When(@"I try to generate an invoice for the service")]
+        public void WhenITryToGenerateAnInvoiceForTheService()
+        {
+            DateTime issueDate = DateTime.Now;
             try
             {
                 Invoice invoice = new Invoice(clubMember, TransactionListForSingleElement((ClubService)ScenarioContext.Current["A_Club_Service"]), issueDate);
@@ -102,7 +173,7 @@ namespace RCNGCMembersManagementSpecFlowBDD
             catch (ArgumentOutOfRangeException e)
             {
                 ScenarioContext.Current.Add("Exception_On_Invoice_Creation", e);
-            }    
+            }   
         }
 
         [Then(@"An invoice is created for the cost of the service: (.*)")]
@@ -124,45 +195,22 @@ namespace RCNGCMembersManagementSpecFlowBDD
             Assert.AreEqual(totalAmount, ((Invoice)ScenarioContext.Current["Invoice"]).BillsTotalAmountToCollect);
         }
 
-        [Given(@"The member buys a ""(.*)""")]
-        public void GivenTheMemberBuysA(string productName)
-        {
-            Product product = productsDictionary[productName];
-            ScenarioContext.Current.Add("A_Sold_Product", product);
-        }
-
-        [When(@"I generate an invoice for the sale")]
-        public void WhenIGenerateAnInvoiceForTheSale()
-        {
-            DateTime issueDate = DateTime.Now;
-            Invoice invoice = new Invoice(clubMember, TransactionListForSingleElement((Product)ScenarioContext.Current["A_Sold_Product"]), issueDate);
-            ScenarioContext.Current.Add("Invoice", invoice);
-        }
-
         [Then(@"An invoice is created for the cost of the sale: (.*)")]
         public void ThenAnInvoiceIsCreatedForTheCostOfTheSale(decimal cost)
         {
             Assert.AreEqual(cost, ((Invoice)ScenarioContext.Current["Invoice"]).NetAmount);
         }
 
-
-        [When(@"I generate a new invoice on the same year")]
-        public void WhenIGenerateANewInvoiceOnTheSameYear()
+        [Then(@"The generated Invoice ID should be ""(.*)""")]
+        public void ThenTheGeneratedInvoiceIDShouldBe(string invoiceID)
         {
-            DateTime issueDate = DateTime.Now;
-            ClubService service = (ClubService)ScenarioContext.Current["A_Club_Service"];
-            Transaction serviceCharge = new ServiceCharge(service, service.Description, 1, service.Cost, service.Tax, 0);
-            List<Transaction> transactionsList = new List<Transaction>();
-            transactionsList.Add(serviceCharge);
-            Invoice secondInvoice = new Invoice(clubMember, transactionsList, issueDate);
-            ScenarioContext.Current.Add("Second_Invoice", secondInvoice);
+            Assert.AreEqual(invoiceID, ((Invoice)ScenarioContext.Current["Invoice"]).InvoiceID);
         }
 
-        [Then(@"the new invoice has a consecutive invoice ID")]
-        public void ThenTheNewInvoiceHasAConsecutiveInvoiceID()
+        [Then(@"The next invoice sequence number should be (.*)")]
+        public void ThenTheNextInvoiceSequenceNumberShouldBe(int invoiceSequenceNumber)
         {
-            Assert.AreEqual("MMM2013000024", ((Invoice)ScenarioContext.Current["Invoice"]).InvoiceID);
-            Assert.AreEqual("MMM2013000025", ((Invoice)ScenarioContext.Current["Second_Invoice"]).InvoiceID);
+            Assert.AreEqual((uint)invoiceSequenceNumber, BillDataManager.Instance.GetNextInvoiceSequenceNumber());
         }
 
         [Then(@"The application doesn't accept more than (.*) invoices in the year")]
@@ -173,69 +221,10 @@ namespace RCNGCMembersManagementSpecFlowBDD
             Assert.AreEqual("Max 999999 invoices per year", exceptionMessages[0]);
         }
 
-        [Given(@"This set of service charge transactions")]
-        public void GivenThisSetOfServiceChargeTransactions(Table transactions)
-        {
-            //List<Transaction> transactionsList= new List<Transaction>();
-            foreach (var row in transactions.Rows)
-            {
-                int units= int.Parse(row["Units"]);
-                string serviceName = row["Service Name"];
-                string description= row["Description"];
-                double unitCost= double.Parse(row["Unit Cost"]);
-                Tax tax= taxesDictionary[row["Tax"]];
-                double discount = double.Parse(row["Discount"]);
-                ClubService clubService = servicesDictionary[serviceName];
-                Transaction transaction = new ServiceCharge(clubService, description, units, unitCost, tax ,discount);
-                ((List<Transaction>)ScenarioContext.Current["Transactions_List"]).Add(transaction);
-            }
-            //ScenarioContext.Current.Add("Transactions_List", transactionsList);
-        }
-
-        [When(@"I generate an invoice for this/these transaction/s")]
-        public void WhenIGenerateAnInvoiceForThisTheseTransactionS()
-        {
-            Invoice invoice = new Invoice(clubMember, (List<Transaction>)ScenarioContext.Current["Transactions_List"], DateTime.Now);
-            ScenarioContext.Current.Add("Invoice", invoice);
-        }
-
-        [When(@"I generate a pro forma invoice for this/these transaction/s")]
-        public void WhenIGenerateAProFormaInvoiceForThisTheseTransactionS()
-        {
-            ProFormaInvoice proFormaInvoice = new ProFormaInvoice(clubMember, (List<Transaction>)ScenarioContext.Current["Transactions_List"], DateTime.Now);
-            ScenarioContext.Current.Add("ProFormaInvoice", proFormaInvoice);
-        }
-
-        [Given(@"This set of sale transactions")]
-        public void GivenThisSetOfSaleTransactions(Table transactions)
-        {
-            foreach (var row in transactions.Rows)
-            {
-                int units = int.Parse(row["Units"]);
-                string productName = row["Product Name"];
-                string description = row["Description"];
-                double unitCost = double.Parse(row["Unit Cost"]);
-                Tax tax = taxesDictionary[row["Tax"]];
-                double discount = double.Parse(row["Discount"]);
-                Product product = productsDictionary[productName];
-                Transaction transaction = new Sale(product, description, units, unitCost, tax, discount);
-                ((List<Transaction>)ScenarioContext.Current["Transactions_List"]).Add(transaction);
-            }
-        }
-
-
         private List<Transaction> TransactionListForSingleElement(ITransactionable element)
         {
             DateTime issueDate = DateTime.Now;
             Transaction transaction = element.CreateDefaultTransaction();
-            /*if (element.GetType() == typeof(ClubService))
-            {
-                transaction = new ServiceCharge((ClubService)element, ((ClubService)element).Description, 1, ((ClubService)element).Cost, ((ClubService)element).Tax, 0);
-            }
-            else
-            {
-                transaction = new Sale((Product)element, ((Product)element).Description, 1, ((Product)element).Cost, ((Product)element).Tax, 0);
-            }*/
             List<Transaction> transactionsList = new List<Transaction>();
             transactionsList.Add(transaction);
             return transactionsList;

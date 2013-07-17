@@ -44,16 +44,16 @@ Scenario: Generate an invoice for a sale
 	When I generate an invoice for the sale
 	Then An invoice is created for the cost of the sale: 10.70
 
-Scenario: Two consecutive invoices generated the same year have consecutive Invoice ID
+Scenario: The invoices ID must allways be consecutive
 	Given The member uses the club service "Rent a kajak"
 	When I generate an invoice for the service
-	And I generate a new invoice on the same year
-	Then the new invoice has a consecutive invoice ID
+	Then The generated Invoice ID should be "MMM2013000024"
+	Then The next invoice sequence number should be 25
 
 Scenario: Up to 999999 invoices in a year
 	Given Last generated InvoiceID is "MMM2013999999"
 	Given The member uses the club service "Rent a mouring"
-	When I generate an invoice for the service
+	When I try to generate an invoice for the service
 	Then The application doesn't accept more than 999999 invoices in the year
 
 Scenario: Generate an invoice for multiple transactions with one tax type
