@@ -21,7 +21,7 @@ namespace RCNGCMembersManagementAppLogic.Billing
             AddBillForInvoiceTotal("Club Services", issueDate, issueDate.AddDays(30));
         }
 
-        public decimal BillsTotalAmountToCollect
+        public override decimal BillsTotalAmountToCollect
         {
             get { return GetBillsTotalAmount(Bill.billPaymentResult.ToCollect); }
         }

@@ -224,7 +224,7 @@ namespace RCNGCMembersManagementSpecFlowBDD
         [Then(@"No bills are created for a pro forma invoice")]
         public void ThenNoBillsAreCreatedForAProFormaInvoice()
         {
-            ScenarioContext.Current.Pending();
+            Assert.AreEqual(0, ((ProFormaInvoice)ScenarioContext.Current["ProFormaInvoice"]).BillsTotalAmountToCollect);
         }
 
 

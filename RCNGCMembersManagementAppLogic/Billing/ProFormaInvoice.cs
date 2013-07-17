@@ -16,6 +16,11 @@ namespace RCNGCMembersManagementAppLogic.Billing
             : base(clubMember, transactionsList, issueDate)
         {
         }
+        
+        public override decimal BillsTotalAmountToCollect
+        {
+            get { return 0; }
+        }
 
         protected override string GetNewInvoiceID()
         {
