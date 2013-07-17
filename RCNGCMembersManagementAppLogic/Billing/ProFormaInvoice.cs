@@ -22,6 +22,11 @@ namespace RCNGCMembersManagementAppLogic.Billing
             get { return 0; }
         }
 
+        public void SetNewInvoiceDetail(List<Transaction> invoiceDetail)
+        {
+            this.invoiceDetail = invoiceDetail;
+        }
+
         protected override string GetNewInvoiceID()
         {
             string invoicePrefix = "MMM";

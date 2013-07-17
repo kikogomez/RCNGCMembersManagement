@@ -54,3 +54,12 @@ Scenario: A proforma invoice has no bill associated
 	When I generate a pro forma invoice for this/these transaction/s
 	Then No bills are created for a pro forma invoice
 
+Scenario: The invoice detail of a pro forma invoice can be edited
+	Given I generate a pro forma invoice for this/these transaction/s
+	| Units | Service Name   | Description      | Unit Cost | Tax          | Discount |
+	| 2     | Rent a mouring | Mouring May-June | 150.00    | IGIC General | 0        |
+	When I change the invoice detail to these values
+	| Units | Service Name   | Description      | Unit Cost | Tax          | Discount |
+	| 2     | Rent a mouring | Mouring May-June | 150.00    | IGIC General | 20       |
+	Then The pro forma invoice is modified reflecting the new value: 256.80
+

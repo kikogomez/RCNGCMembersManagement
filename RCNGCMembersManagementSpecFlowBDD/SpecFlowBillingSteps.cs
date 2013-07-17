@@ -228,6 +228,55 @@ namespace RCNGCMembersManagementSpecFlowBDD
         }
 
 
+
+
+        [Given(@"I generate a pro forma invoice for this/these transaction/s")]
+        public void GivenIGenerateAProFormaInvoiceForThisTheseTransactionS(Table transactions)
+        {
+            List<Transaction> transactionsList= new List<Transaction>();
+            foreach (var row in transactions.Rows)
+            {
+                int units = int.Parse(row["Units"]);
+                string serviceName = row["Service Name"];
+                string description = row["Description"];
+                double unitCost = double.Parse(row["Unit Cost"]);
+                Tax tax = taxesDictionary[row["Tax"]];
+                double discount = double.Parse(row["Discount"]);
+                ClubService clubService = servicesDictionary[serviceName];
+                Transaction transaction = new ServiceCharge(clubService, description, units, unitCost, tax, discount);
+                transactionsList.Add(transaction);
+            }
+            ProFormaInvoice proFormaInvoice = new ProFormaInvoice(clubMember, transactionsList, DateTime.Now);
+            ScenarioContext.Current.Add("ProFormaInvoice", proFormaInvoice);
+        }
+
+        [When(@"I change the invoice detail to these values")]
+        public void WhenIChangeTheInvoiceDetailToTheseValues(Table transactions)
+        {
+            List<Transaction> transactionsList = new List<Transaction>();
+            foreach (var row in transactions.Rows)
+            {
+                int units = int.Parse(row["Units"]);
+                string serviceName = row["Service Name"];
+                string description = row["Description"];
+                double unitCost = double.Parse(row["Unit Cost"]);
+                Tax tax = taxesDictionary[row["Tax"]];
+                double discount = double.Parse(row["Discount"]);
+                ClubService clubService = servicesDictionary[serviceName];
+                Transaction transaction = new ServiceCharge(clubService, description, units, unitCost, tax, discount);
+                transactionsList.Add(transaction);
+            }
+            ((ProFormaInvoice)ScenarioContext.Current["ProFormaInvoice"]).SetNewInvoiceDetail(transactionsList);
+        }
+
+        [Then(@"The pro forma invoice is modified reflecting the new value: (.*)")]
+        public void ThenTheProFormaInvoiceIsModifiedReflectingTheNewValue(Decimal amount)
+        {
+            Assert.AreEqual(amount, ((ProFormaInvoice)ScenarioContext.Current["ProFormaInvoice"]).NetAmount);
+        }
+
+
+
         private List<Transaction> TransactionListForSingleElement(ITransactionable element)
         {
             DateTime issueDate = DateTime.Now;
