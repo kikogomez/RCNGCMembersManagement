@@ -80,7 +80,7 @@ this.ScenarioSetup(scenarioInfo);
 #line 7
  testRunner.Given("This bank account \"1234\", \"5678\", \"06\", \"1234567890\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line 8
- testRunner.When("I process them", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+ testRunner.When("I process it", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line 9
  testRunner.Then("It is considered valid", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line 10

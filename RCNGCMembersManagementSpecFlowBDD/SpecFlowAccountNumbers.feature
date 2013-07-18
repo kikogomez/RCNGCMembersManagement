@@ -5,7 +5,7 @@
 
 Scenario: When I provide a valid bank account it is stored and CCC and IBAN is created
 	Given This bank account "1234", "5678", "06", "1234567890" 
-	When I process them
+	When I process it
 	Then It is considered valid
 	 And is stored
 	 And The CCC "12345678061234567890" is created
