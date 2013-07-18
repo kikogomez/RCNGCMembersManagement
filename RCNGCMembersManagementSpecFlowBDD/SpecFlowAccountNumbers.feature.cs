@@ -82,13 +82,39 @@ this.ScenarioSetup(scenarioInfo);
 #line 8
  testRunner.When("I process it", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line 9
- testRunner.Then("It is considered valid", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+ testRunner.Then("It is considered \"valid\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line 10
   testRunner.And("is stored", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 11
   testRunner.And("The CCC \"12345678061234567890\" is created", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 12
   testRunner.And("The spanish IBAN code \"ES6812345678061234567890\" is created", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line hidden
+            this.ScenarioCleanup();
+        }
+        
+        [Microsoft.VisualStudio.TestTools.UnitTesting.TestMethodAttribute()]
+        [Microsoft.VisualStudio.TestTools.UnitTesting.DescriptionAttribute("When I provide an invalid bank account it is stored but no CCC nor IBAN are creat" +
+            "ed")]
+        [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("FeatureTitle", "Manage account numbers")]
+        public virtual void WhenIProvideAnInvalidBankAccountItIsStoredButNoCCCNorIBANAreCreated()
+        {
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("When I provide an invalid bank account it is stored but no CCC nor IBAN are creat" +
+                    "ed", ((string[])(null)));
+#line 14
+this.ScenarioSetup(scenarioInfo);
+#line 15
+ testRunner.Given("This bank account \"1234\", \"5678\", \"05\", \"1234567890\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+#line 16
+ testRunner.When("I process it", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#line 17
+ testRunner.Then("It is considered \"invalid\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line 18
+  testRunner.And("is stored", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line 19
+  testRunner.But("No CCC is created", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "But ");
+#line 20
+  testRunner.And("No spanish IBAN is created", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
             this.ScenarioCleanup();
         }

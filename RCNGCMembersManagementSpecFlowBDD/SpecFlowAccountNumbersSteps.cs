@@ -28,16 +28,17 @@ namespace RCNGCMembersManagementSpecFlowBDD
                 ScenarioContext.Current["accountNumber"].ToString());
             ScenarioContext.Current.Add("Bank_Account", bankAccount);
         }
-        
-        [Then(@"It is considered valid")]
-        public void ThenItIsConsideredValid()
+
+        [Then(@"It is considered ""(.*)""")]
+        public void ThenItIsConsidered(string validity)
         {
-            string builtCCC= 
+            bool valid = (validity == "valid" ? true : false);
+            string builtCCC =
                 ScenarioContext.Current["Bank"].ToString() +
                 ScenarioContext.Current["office"].ToString() +
                 ScenarioContext.Current["checkDigits"].ToString() +
                 ScenarioContext.Current["accountNumber"].ToString();
-            Assert.IsTrue(BankAccount.IsValidCCC(builtCCC));
+            Assert.AreEqual(valid, BankAccount.IsValidCCC(builtCCC));
         }
         
         [Then(@"is stored")]
@@ -61,5 +62,18 @@ namespace RCNGCMembersManagementSpecFlowBDD
         {
             Assert.AreEqual("ES6812345678061234567890", ((BankAccount)ScenarioContext.Current["Bank_Account"]).IBAN.IBAN);
         }
+
+        [Then(@"No CCC is created")]
+        public void ThenNoCCCIsCreated()
+        {
+            Assert.IsNull(((BankAccount)ScenarioContext.Current["Bank_Account"]).CCC.CCC);
+        }
+
+        [Then(@"No spanish IBAN is created")]
+        public void ThenNoSpanishIBANIsCreated()
+        {
+            Assert.IsNull(((BankAccount)ScenarioContext.Current["Bank_Account"]).IBAN.IBAN);
+        }
+
     }
 }

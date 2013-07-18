@@ -105,8 +105,6 @@ namespace RCNGCMembersManagementAppLogic.Billing.DirectBebit
                 {"accountNumber", ccc.Substring(10, CCCFieldLenghts.AccountNumberLenght)}};
         }
 
-
-
         public struct CCCFieldLenghts
         {
             public const int BankLength = 4;
