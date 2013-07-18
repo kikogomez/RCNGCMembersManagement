@@ -184,8 +184,8 @@ namespace RCNGCMembersManagementSpecFlowBDD
         }
 
 
-        [Then(@"A single bill is generated for the total amount of the invoice: (.*)")]
-        public void ThenASingleBillIsGeneratedForTheTotalAmountOfTheInvoice(decimal totalAmount)
+        [Then(@"A single bill To Collect is generated for the total amount of the invoice: (.*)")]
+        public void ThenASingleBillToCollectIsGeneratedForTheTotalAmountOfTheInvoice(decimal totalAmount)
         {
             Assert.AreEqual(totalAmount, ((Invoice)ScenarioContext.Current["Invoice"]).BillsTotalAmountToCollect);
         }

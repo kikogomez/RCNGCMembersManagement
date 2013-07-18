@@ -53,6 +53,12 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
+    <Compile Include="SpecFlowAccountNumbers.feature.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>SpecFlowAccountNumbers.feature</DependentUpon>
+    </Compile>
+    <Compile Include="SpecFlowAccountNumbersSteps.cs" />
     <Compile Include="SpecFlowGenerateInvoice.feature.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -77,6 +83,10 @@
       <SubType>Designer</SubType>
     </None>
     <None Include="packages.config" />
+    <None Include="SpecFlowAccountNumbers.feature">
+      <Generator>SpecFlowSingleFileGenerator</Generator>
+      <LastGenOutput>SpecFlowAccountNumbers.feature.cs</LastGenOutput>
+    </None>
     <None Include="SpecFlowGenerateInvoice.feature">
       <Generator>SpecFlowSingleFileGenerator</Generator>
       <LastGenOutput>SpecFlowGenerateInvoice.feature.cs</LastGenOutput>

@@ -3,7 +3,6 @@ Invoice
 ¿Como anulamos un pago?
 Facturas pro-forma
  - (otro invoice ID con otro contador)
- - Sin pago
 
 UnitTest:
 - Lanzar excepcion si lista de transacciones es cero
@@ -13,6 +12,17 @@ UnitTest:
 
 
 Billing
+ - Estado de las 'Bill':
+     * Al cobro: La fecha de vencimiento aún no ha pasado
+	 * Pagada
+	 * Impagada: Sigue intentando cobrarse
+		* La fecha de vencimiento ha pasado
+		* La factura ha venido devuenta del banco
+	 * Anulada: Se ha anulado por cualquier razón. 
+	 * Fallida: 
+ - Una factura puede tener 'additional charges' debido, por ejemplo, a devoluciones bancarias
+ 
+
 
 UnitTest
- - Que coincidan las que entran con las que salen
+ - Que coincidan las que entran con las que salen al renegociar las bill

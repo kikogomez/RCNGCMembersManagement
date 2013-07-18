@@ -1,0 +1,69 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+
+namespace RCNGCMembersManagementAppLogic.Billing
+{
+    public class InternationalAccountBankNumberIBAN
+    {
+        string iban;
+
+        public InternationalAccountBankNumberIBAN(string ccc)
+        {
+            if (ClientAccountCodeCCC.IsValidCCC(ccc))
+            {
+                this.iban=CalculateSpanishIBAN(ccc);
+            }
+        }
+
+        public string IBAN
+        {
+            get { return iban; }
+        }
+
+        public string FormattedIBAN
+        {
+            get
+            {
+                if (iban!=null) return "IBAN " + splitIBAN(iban);
+                return null;
+            }
+        }
+
+        public static bool IsValidIBAN(string iban)
+        {
+            if (((iban ?? "").Length)!=24) return false;
+            string ccc = iban.Substring(iban.Length-ClientAccountCodeCCC.CCCFieldLenghts.CCCLength);
+            string ibanCheckDigits = iban.Substring(2,2);
+            string countryCode = iban.Substring(0, 2);
+            return (
+                countryCode=="ES" &&
+                ClientAccountCodeCCC.IsValidCCC(ccc) &&
+                BankAccountChekNumbersCalculator.CalculateSpanishIBANCheckDigits(ccc)== ibanCheckDigits);
+        }
+
+        public static string CalculateSpanishIBAN(string ccc)
+        {
+            if (!ClientAccountCodeCCC.IsValidCCC(ccc)) return null;
+            string iban = "ES" + BankAccountChekNumbersCalculator.CalculateSpanishIBANCheckDigits(ccc) + ccc;
+            return iban;
+        }
+
+        public static string CalculateSpanishIBANCheck(string ccc)
+        {
+            if (!ClientAccountCodeCCC.IsValidCCC(ccc)) return null;
+            return BankAccountChekNumbersCalculator.CalculateSpanishIBANCheckDigits(ccc);
+        }
+
+        private string splitIBAN(string iban)
+        {
+            string splittedIBAN=string.Empty;
+            for (int i = 0; i <= 20; i += 4)
+            {
+                splittedIBAN += iban.Substring(i, 4) + " ";
+            }
+            return splittedIBAN.TrimEnd();
+        }
+    }
+}

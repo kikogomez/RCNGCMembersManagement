@@ -38,4 +38,4 @@ Scenario: A single bill automatically created for a new invoice
 	Given The member uses the club service "Rent a kajak"
 	When I generate an invoice for the service
 	Then An invoice is created for the cost of the service: 53.50
-	And A single bill is generated for the total amount of the invoice: 53.50
+	And A single bill To Collect is generated for the total amount of the invoice: 53.50

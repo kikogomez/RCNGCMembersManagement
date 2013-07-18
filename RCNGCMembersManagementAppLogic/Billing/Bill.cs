@@ -25,7 +25,7 @@ namespace RCNGCMembersManagementAppLogic.Billing
             this.paymentResult = (int)billPaymentResult.ToCollect;
         }
 
-        public enum billPaymentResult { ToCollect, Paid, Unpaid };
+        public enum billPaymentResult { ToCollect, Paid, Unpaid, CancelledOut, Failed };
 
         public decimal Amount
         {

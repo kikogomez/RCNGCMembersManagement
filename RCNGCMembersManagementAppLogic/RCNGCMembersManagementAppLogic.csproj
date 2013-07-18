@@ -39,10 +39,14 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Billing\BankAccount.cs" />
+    <Compile Include="Billing\BankAccountChekNumbersCalculator.cs" />
     <Compile Include="Billing\BaseInvoice.cs" />
     <Compile Include="Billing\Bill.cs" />
     <Compile Include="Billing\BillDataManager.cs" />
+    <Compile Include="Billing\ClientAccountCodeCCC.cs" />
     <Compile Include="Billing\IInvoiceDataManager.cs" />
+    <Compile Include="Billing\InternationalAccountBankNumberIBAN.cs" />
     <Compile Include="Billing\Invoice.cs" />
     <Compile Include="Billing\ITransactionable.cs" />
     <Compile Include="Billing\ProFormaInvoice.cs" />
