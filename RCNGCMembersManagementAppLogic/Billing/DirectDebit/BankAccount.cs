@@ -149,7 +149,7 @@ namespace RCNGCMembersManagementAppLogic.Billing.DirectBebit
         
         private void ThrowExceptionOnTooLongAccountDataString(string fieldName, string fieldValue, int maxLenght)
         {
-             if ((fieldValue ?? "").Length>maxLenght) throw new System.ArgumentException("El código de es demasiado largo", fieldName);
+             if ((fieldValue ?? "").Length>maxLenght) throw new System.ArgumentException("El código de " + fieldName + " es demasiado largo", fieldName);
         }
 
 

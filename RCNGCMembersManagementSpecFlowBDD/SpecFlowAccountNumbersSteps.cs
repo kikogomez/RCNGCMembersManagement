@@ -21,12 +21,20 @@ namespace RCNGCMembersManagementSpecFlowBDD
         [When(@"I process the bank account")]
         public void WhenIProcessTheBankAccount()
         {
-            BankAccount bankAccount = new BankAccount(
-                ScenarioContext.Current["Bank"].ToString(),
-                ScenarioContext.Current["office"].ToString(),
-                ScenarioContext.Current["checkDigits"].ToString(),
-                ScenarioContext.Current["accountNumber"].ToString());
-            ScenarioContext.Current.Add("Bank_Account", bankAccount);
+            BankAccount bankAccount;
+            try
+            {
+                bankAccount = new BankAccount(
+                    ScenarioContext.Current["Bank"].ToString(),
+                    ScenarioContext.Current["office"].ToString(),
+                    ScenarioContext.Current["checkDigits"].ToString(),
+                    ScenarioContext.Current["accountNumber"].ToString());
+                ScenarioContext.Current.Add("Bank_Account", bankAccount);
+            }
+            catch
+            {
+                ScenarioContext.Current.Add("Bank_Account", null);
+            }           
         }
 
         [Then(@"It is considered ""(.*)""")]
@@ -41,51 +49,47 @@ namespace RCNGCMembersManagementSpecFlowBDD
             Assert.AreEqual(valid, BankAccount.IsValidCCC(builtCCC));
         }
         
-        [Then(@"is stored")]
-        public void ThenIsStored()
-        {
-            BankAccount storedBankAccount = (BankAccount)ScenarioContext.Current["Bank_Account"];
-            Assert.AreEqual(ScenarioContext.Current["Bank"].ToString(), storedBankAccount.BankCode);
-            Assert.AreEqual(ScenarioContext.Current["office"].ToString(), storedBankAccount.OfficeCode);
-            Assert.AreEqual(ScenarioContext.Current["checkDigits"].ToString(), storedBankAccount.CheckDigits);
-            Assert.AreEqual(ScenarioContext.Current["accountNumber"].ToString(), storedBankAccount.AccountNumber);
-        }
-
         [Then(@"the bank account is ""(.*)""")]
         public void ThenTheBankAccountIs(string storage)
         {
             bool isStored = (storage == "stored" ? true : false);
-            BankAccount storedBankAccount = (BankAccount)ScenarioContext.Current["Bank_Account"];
-            Assert.AreEqual(isStored, ScenarioContext.Current["Bank"].ToString() == storedBankAccount.BankCode);
-            Assert.AreEqual(isStored, ScenarioContext.Current["office"].ToString() == storedBankAccount.OfficeCode);
-            Assert.AreEqual(isStored, ScenarioContext.Current["checkDigits"].ToString() == storedBankAccount.CheckDigits);
-            Assert.AreEqual(isStored, ScenarioContext.Current["accountNumber"].ToString() == storedBankAccount.AccountNumber);
-        }
-
-        
-        [Then(@"The CCC ""(.*)"" is created")]
-        public void ThenTheCCCIsCreated(string ccc)
-        {
-            if (ccc == "null")
+            if (ScenarioContext.Current["Bank_Account"] == null)
             {
-                Assert.IsNull(((BankAccount)ScenarioContext.Current["Bank_Account"]).CCC.CCC);
+                Assert.AreEqual(isStored, false);
             }
             else
             {
-                Assert.AreEqual(ccc, ((BankAccount)ScenarioContext.Current["Bank_Account"]).CCC.CCC);
+                BankAccount storedBankAccount = (BankAccount)ScenarioContext.Current["Bank_Account"];
+                Assert.AreEqual(isStored, ScenarioContext.Current["Bank"].ToString() == storedBankAccount.BankCode);
+                Assert.AreEqual(isStored, ScenarioContext.Current["office"].ToString() == storedBankAccount.OfficeCode);
+                Assert.AreEqual(isStored, ScenarioContext.Current["checkDigits"].ToString() == storedBankAccount.CheckDigits);
+                Assert.AreEqual(isStored, ScenarioContext.Current["accountNumber"].ToString() == storedBankAccount.AccountNumber);
+            }
+        }
+     
+        [Then(@"The CCC ""(.*)"" is created")]
+        public void ThenTheCCCIsCreated(string ccc)
+        {
+            if (ScenarioContext.Current["Bank_Account"] == null)
+            {
+                Assert.AreEqual("null", ccc);
+            }
+            else
+            {
+                Assert.AreEqual(ccc, ((BankAccount)ScenarioContext.Current["Bank_Account"]).CCC.CCC ?? "null");
             }
         }
         
         [Then(@"The spanish IBAN code ""(.*)"" is created")]
         public void ThenTheSpanishIBANCodeIsCreated(string iban)
         {
-            if (iban == "null")
+            if (ScenarioContext.Current["Bank_Account"] == null)
             {
-                Assert.IsNull(((BankAccount)ScenarioContext.Current["Bank_Account"]).IBAN.IBAN);
+                Assert.AreEqual("null", iban);
             }
             else
             {
-                Assert.AreEqual(iban, ((BankAccount)ScenarioContext.Current["Bank_Account"]).IBAN.IBAN);
+                Assert.AreEqual(iban, ((BankAccount)ScenarioContext.Current["Bank_Account"]).IBAN.IBAN ?? "null");
             }
         }
 

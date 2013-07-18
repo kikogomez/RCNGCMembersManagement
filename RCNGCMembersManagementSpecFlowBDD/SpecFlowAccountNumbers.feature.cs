@@ -19,7 +19,7 @@ namespace RCNGCMembersManagementSpecFlowBDD
     [System.CodeDom.Compiler.GeneratedCodeAttribute("TechTalk.SpecFlow", "1.9.0.77")]
     [System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     [Microsoft.VisualStudio.TestTools.UnitTesting.TestClassAttribute()]
-    public partial class ManageAccountNumbersFeature
+    public partial class ManageAccountNumbers_WeAlsoNeedToStoreInvalidCCCComingFromOldDatabasesFeature
     {
         
         private static TechTalk.SpecFlow.ITestRunner testRunner;
@@ -31,7 +31,8 @@ namespace RCNGCMembersManagementSpecFlowBDD
         public static void FeatureSetup(Microsoft.VisualStudio.TestTools.UnitTesting.TestContext testContext)
         {
             testRunner = TechTalk.SpecFlow.TestRunnerManager.GetTestRunner();
-            TechTalk.SpecFlow.FeatureInfo featureInfo = new TechTalk.SpecFlow.FeatureInfo(new System.Globalization.CultureInfo("en-US"), "Manage account numbers", "In order to create direct debits\r\nAs an administrative assistant\r\nI want to proce" +
+            TechTalk.SpecFlow.FeatureInfo featureInfo = new TechTalk.SpecFlow.FeatureInfo(new System.Globalization.CultureInfo("en-US"), "Manage account numbers. We also need to store invalid CCC coming from old databas" +
+                    "es", "In order to create direct debits\r\nAs an administrative assistant\r\nI want to proce" +
                     "ss account numbers", ProgrammingLanguage.CSharp, ((string[])(null)));
             testRunner.OnFeatureStart(featureInfo);
         }
@@ -47,9 +48,10 @@ namespace RCNGCMembersManagementSpecFlowBDD
         public virtual void TestInitialize()
         {
             if (((TechTalk.SpecFlow.FeatureContext.Current != null) 
-                        && (TechTalk.SpecFlow.FeatureContext.Current.FeatureInfo.Title != "Manage account numbers")))
+                        && (TechTalk.SpecFlow.FeatureContext.Current.FeatureInfo.Title != "Manage account numbers. We also need to store invalid CCC coming from old databas" +
+                            "es")))
             {
-                RCNGCMembersManagementSpecFlowBDD.ManageAccountNumbersFeature.FeatureSetup(null);
+                RCNGCMembersManagementSpecFlowBDD.ManageAccountNumbers_WeAlsoNeedToStoreInvalidCCCComingFromOldDatabasesFeature.FeatureSetup(null);
             }
         }
         
@@ -71,7 +73,8 @@ namespace RCNGCMembersManagementSpecFlowBDD
         
         [Microsoft.VisualStudio.TestTools.UnitTesting.TestMethodAttribute()]
         [Microsoft.VisualStudio.TestTools.UnitTesting.DescriptionAttribute("When I provide a valid bank account it is stored and CCC and IBAN is created")]
-        [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("FeatureTitle", "Manage account numbers")]
+        [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("FeatureTitle", "Manage account numbers. We also need to store invalid CCC coming from old databas" +
+            "es")]
         public virtual void WhenIProvideAValidBankAccountItIsStoredAndCCCAndIBANIsCreated()
         {
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("When I provide a valid bank account it is stored and CCC and IBAN is created", ((string[])(null)));
@@ -96,7 +99,8 @@ this.ScenarioSetup(scenarioInfo);
         [Microsoft.VisualStudio.TestTools.UnitTesting.TestMethodAttribute()]
         [Microsoft.VisualStudio.TestTools.UnitTesting.DescriptionAttribute("When I provide an invalid bank account it is stored but no CCC nor IBAN are creat" +
             "ed")]
-        [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("FeatureTitle", "Manage account numbers")]
+        [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("FeatureTitle", "Manage account numbers. We also need to store invalid CCC coming from old databas" +
+            "es")]
         public virtual void WhenIProvideAnInvalidBankAccountItIsStoredButNoCCCNorIBANAreCreated()
         {
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("When I provide an invalid bank account it is stored but no CCC nor IBAN are creat" +
@@ -119,22 +123,49 @@ this.ScenarioSetup(scenarioInfo);
             this.ScenarioCleanup();
         }
         
-        public virtual void TheeseAreTheResultsWhenProcessingTheeseBankAccounts(string bank, string office, string controlDigit, string accountNumber, string valid, string stored, string cCC, string iBAN, string[] exampleTags)
+        [Microsoft.VisualStudio.TestTools.UnitTesting.TestMethodAttribute()]
+        [Microsoft.VisualStudio.TestTools.UnitTesting.DescriptionAttribute("When I provide an incomplete bank account it is stored but no CCC nor IBAN are cr" +
+            "eated")]
+        [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("FeatureTitle", "Manage account numbers. We also need to store invalid CCC coming from old databas" +
+            "es")]
+        public virtual void WhenIProvideAnIncompleteBankAccountItIsStoredButNoCCCNorIBANAreCreated()
         {
-            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Theese are the results when processing theese bank accounts", exampleTags);
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("When I provide an incomplete bank account it is stored but no CCC nor IBAN are cr" +
+                    "eated", ((string[])(null)));
 #line 22
 this.ScenarioSetup(scenarioInfo);
 #line 23
- testRunner.Given(string.Format("This bank account {0}, {1}, {2}, {3}", bank, office, controlDigit, accountNumber), ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+ testRunner.Given("This bank account \"\", \"5678\", \"05\", \"1234567890\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line 24
  testRunner.When("I process the bank account", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line 25
- testRunner.Then(string.Format("It is considered {0}", valid), ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+ testRunner.Then("It is considered \"invalid\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line 26
-  testRunner.And(string.Format("the bank account is {0}", stored), ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+  testRunner.But("the bank account is \"stored\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "But ");
 #line 27
-  testRunner.And(string.Format("The CCC {0} is created", cCC), ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+  testRunner.And("No CCC is created", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 28
+  testRunner.And("No spanish IBAN is created", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line hidden
+            this.ScenarioCleanup();
+        }
+        
+        public virtual void TheeseAreTheResultsWhenProcessingTheeseBankAccounts(string bank, string office, string controlDigit, string accountNumber, string valid, string stored, string cCC, string iBAN, string[] exampleTags)
+        {
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Theese are the results when processing theese bank accounts", exampleTags);
+#line 30
+this.ScenarioSetup(scenarioInfo);
+#line 31
+ testRunner.Given(string.Format("This bank account {0}, {1}, {2}, {3}", bank, office, controlDigit, accountNumber), ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+#line 32
+ testRunner.When("I process the bank account", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#line 33
+ testRunner.Then(string.Format("It is considered {0}", valid), ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line 34
+  testRunner.And(string.Format("the bank account is {0}", stored), ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line 35
+  testRunner.And(string.Format("The CCC {0} is created", cCC), ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line 36
   testRunner.And(string.Format("The spanish IBAN code {0} is created", iBAN), ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
             this.ScenarioCleanup();
@@ -142,7 +173,8 @@ this.ScenarioSetup(scenarioInfo);
         
         [Microsoft.VisualStudio.TestTools.UnitTesting.TestMethodAttribute()]
         [Microsoft.VisualStudio.TestTools.UnitTesting.DescriptionAttribute("Theese are the results when processing theese bank accounts")]
-        [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("FeatureTitle", "Manage account numbers")]
+        [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("FeatureTitle", "Manage account numbers. We also need to store invalid CCC coming from old databas" +
+            "es")]
         [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("VariantName", "Variant 0")]
         [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("Parameter:Bank", "\"1234\"")]
         [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("Parameter:Office", "\"5678\"")]
@@ -159,7 +191,8 @@ this.ScenarioSetup(scenarioInfo);
         
         [Microsoft.VisualStudio.TestTools.UnitTesting.TestMethodAttribute()]
         [Microsoft.VisualStudio.TestTools.UnitTesting.DescriptionAttribute("Theese are the results when processing theese bank accounts")]
-        [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("FeatureTitle", "Manage account numbers")]
+        [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("FeatureTitle", "Manage account numbers. We also need to store invalid CCC coming from old databas" +
+            "es")]
         [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("VariantName", "Variant 1")]
         [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("Parameter:Bank", "\"1234\"")]
         [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("Parameter:Office", "\"5678\"")]
@@ -172,6 +205,60 @@ this.ScenarioSetup(scenarioInfo);
         public virtual void TheeseAreTheResultsWhenProcessingTheeseBankAccounts_Variant1()
         {
             this.TheeseAreTheResultsWhenProcessingTheeseBankAccounts("\"1234\"", "\"5678\"", "\"05\"", "\"1234567890\"", "\"invalid\"", "\"stored\"", "\"null\"", "\"null\"", ((string[])(null)));
+        }
+        
+        [Microsoft.VisualStudio.TestTools.UnitTesting.TestMethodAttribute()]
+        [Microsoft.VisualStudio.TestTools.UnitTesting.DescriptionAttribute("Theese are the results when processing theese bank accounts")]
+        [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("FeatureTitle", "Manage account numbers. We also need to store invalid CCC coming from old databas" +
+            "es")]
+        [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("VariantName", "Variant 2")]
+        [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("Parameter:Bank", "\"null\"")]
+        [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("Parameter:Office", "\"\"")]
+        [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("Parameter:ControlDigit", "\"05\"")]
+        [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("Parameter:AccountNumber", "\"1234567890\"")]
+        [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("Parameter:valid", "\"invalid\"")]
+        [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("Parameter:stored", "\"stored\"")]
+        [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("Parameter:CCC", "\"null\"")]
+        [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("Parameter:IBAN", "\"null\"")]
+        public virtual void TheeseAreTheResultsWhenProcessingTheeseBankAccounts_Variant2()
+        {
+            this.TheeseAreTheResultsWhenProcessingTheeseBankAccounts("\"null\"", "\"\"", "\"05\"", "\"1234567890\"", "\"invalid\"", "\"stored\"", "\"null\"", "\"null\"", ((string[])(null)));
+        }
+        
+        [Microsoft.VisualStudio.TestTools.UnitTesting.TestMethodAttribute()]
+        [Microsoft.VisualStudio.TestTools.UnitTesting.DescriptionAttribute("Theese are the results when processing theese bank accounts")]
+        [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("FeatureTitle", "Manage account numbers. We also need to store invalid CCC coming from old databas" +
+            "es")]
+        [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("VariantName", "Variant 3")]
+        [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("Parameter:Bank", "\"1234\"")]
+        [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("Parameter:Office", "\"5678\"")]
+        [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("Parameter:ControlDigit", "\"06\"")]
+        [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("Parameter:AccountNumber", "\"1234/56-0\"")]
+        [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("Parameter:valid", "\"invalid\"")]
+        [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("Parameter:stored", "\"stored\"")]
+        [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("Parameter:CCC", "\"null\"")]
+        [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("Parameter:IBAN", "\"null\"")]
+        public virtual void TheeseAreTheResultsWhenProcessingTheeseBankAccounts_Variant3()
+        {
+            this.TheeseAreTheResultsWhenProcessingTheeseBankAccounts("\"1234\"", "\"5678\"", "\"06\"", "\"1234/56-0\"", "\"invalid\"", "\"stored\"", "\"null\"", "\"null\"", ((string[])(null)));
+        }
+        
+        [Microsoft.VisualStudio.TestTools.UnitTesting.TestMethodAttribute()]
+        [Microsoft.VisualStudio.TestTools.UnitTesting.DescriptionAttribute("Theese are the results when processing theese bank accounts")]
+        [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("FeatureTitle", "Manage account numbers. We also need to store invalid CCC coming from old databas" +
+            "es")]
+        [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("VariantName", "Variant 4")]
+        [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("Parameter:Bank", "\"1234\"")]
+        [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("Parameter:Office", "\"5678\"")]
+        [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("Parameter:ControlDigit", "\"06\"")]
+        [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("Parameter:AccountNumber", "\"123456789011\"")]
+        [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("Parameter:valid", "\"invalid\"")]
+        [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("Parameter:stored", "\"no stored\"")]
+        [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("Parameter:CCC", "\"null\"")]
+        [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("Parameter:IBAN", "\"null\"")]
+        public virtual void TheeseAreTheResultsWhenProcessingTheeseBankAccounts_Variant4()
+        {
+            this.TheeseAreTheResultsWhenProcessingTheeseBankAccounts("\"1234\"", "\"5678\"", "\"06\"", "\"123456789011\"", "\"invalid\"", "\"no stored\"", "\"null\"", "\"null\"", ((string[])(null)));
         }
     }
 }
