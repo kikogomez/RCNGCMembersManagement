@@ -26,3 +26,6 @@ Billing
 
 UnitTest
  - Que coincidan las que entran con las que salen al renegociar las bill
+ 
+UnitTest BankAccoount
+- Excepcion al intentar crear una BankAccount con un CCC invalido

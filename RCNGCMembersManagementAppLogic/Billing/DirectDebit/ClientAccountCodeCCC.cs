@@ -54,9 +54,24 @@ namespace RCNGCMembersManagementAppLogic.Billing.DirectBebit
             }
         }
 
+        public string Bank
+        {
+            get { return bank; }
+        }
+
+        public string Office
+        {
+            get { return office; }
+        }
+
         public CCCCheckDigits CCCCheck
         {
             get { return checkDigits; }
+        }
+
+        public string AccountNumber
+        {
+            get { return accountNumber; }
         }
 
         public static CCCCheckDigits CalculateCCCCheckDigits(string bank, string office, string accountNumber)

@@ -187,9 +187,9 @@ this.ScenarioSetup(scenarioInfo);
 #line 39
  testRunner.Then("It is considered \"valid\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line 40
-  testRunner.But("the CCC is \"stored\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "But ");
+  testRunner.And("the CCC is \"stored\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 41
-  testRunner.And("The spanish IBAN code \"\" is created", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+  testRunner.And("The spanish IBAN code \"ES6812345678061234567890\" is created", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
             this.ScenarioCleanup();
         }

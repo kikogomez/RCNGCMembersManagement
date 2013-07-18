@@ -46,19 +46,36 @@ namespace RCNGCMembersManagementSpecFlowBDD
         [When(@"I process the CCC")]
         public void WhenIProcessTheCCC()
         {
-            ScenarioContext.Current.Pending();
+            BankAccount bankAccount;
+            try
+            {
+                bankAccount = new BankAccount(ScenarioContext.Current["CCC"].ToString());
+                ScenarioContext.Current.Add("Bank_Account", bankAccount);
+            }
+            catch
+            {
+                ScenarioContext.Current.Add("Bank_Account", null);
+            }   
         }
 
         [Then(@"It is considered ""(.*)""")]
         public void ThenItIsConsidered(string validity)
         {
+            string ccc;
             bool valid = (validity == "valid" ? true : false);
-            string builtCCC =
+            if (!ScenarioContext.Current.ContainsKey("CCC"))
+            {
+                ccc =
                 ScenarioContext.Current["Bank"].ToString() +
                 ScenarioContext.Current["office"].ToString() +
                 ScenarioContext.Current["checkDigits"].ToString() +
                 ScenarioContext.Current["accountNumber"].ToString();
-            Assert.AreEqual(valid, BankAccount.IsValidCCC(builtCCC));
+            }
+            else
+            {
+                ccc = ScenarioContext.Current["CCC"].ToString();
+            }
+            Assert.AreEqual(valid, BankAccount.IsValidCCC(ccc));
         }
         
         [Then(@"the bank account is ""(.*)""")]
@@ -76,6 +93,21 @@ namespace RCNGCMembersManagementSpecFlowBDD
                 Assert.AreEqual(isStored, ScenarioContext.Current["office"].ToString() == storedBankAccount.OfficeCode);
                 Assert.AreEqual(isStored, ScenarioContext.Current["checkDigits"].ToString() == storedBankAccount.CheckDigits);
                 Assert.AreEqual(isStored, ScenarioContext.Current["accountNumber"].ToString() == storedBankAccount.AccountNumber);
+            }
+        }
+
+        [Then(@"the CCC is ""(.*)""")]
+        public void ThenTheCCCIs(string storage)
+        {
+            bool isStored = (storage == "stored" ? true : false);
+            if (ScenarioContext.Current["Bank_Account"] == null)
+            {
+                Assert.AreEqual(isStored, false);
+            }
+            else
+            {
+                BankAccount storedBankAccount = (BankAccount)ScenarioContext.Current["Bank_Account"];
+                Assert.AreEqual(isStored, ScenarioContext.Current["CCC"].ToString() == storedBankAccount.CCC.CCC);
             }
         }
      
@@ -104,16 +136,5 @@ namespace RCNGCMembersManagementSpecFlowBDD
                 Assert.AreEqual(iban, ((BankAccount)ScenarioContext.Current["Bank_Account"]).IBAN.IBAN ?? "");
             }
         }
-
-
-
-
-
-        [Then(@"the CCC is ""(.*)""")]
-        public void ThenTheCCCIs(string p0)
-        {
-            ScenarioContext.Current.Pending();
-        }
-
     }
 }

@@ -35,6 +35,19 @@ namespace RCNGCMembersManagementAppLogic.Billing.DirectBebit
             iban = new InternationalAccountBankNumberIBAN(ccc.CCC);
         }
 
+        public BankAccount(string ccc)
+        {
+            if (BankAccount.IsValidCCC(ccc))
+            {
+                this.ccc = new ClientAccountCodeCCC(ccc);
+                this.bank = this.ccc.Bank;
+                this.office = this.ccc.Office;
+                this.checkDigits = this.ccc.CCCCheck.bankOfficeCheckDigit + this.ccc.CCCCheck.accountNumberCheckDigit;
+                this.accountNumber = this.ccc.AccountNumber;
+                iban = new InternationalAccountBankNumberIBAN(this.ccc.CCC);
+            }
+        }
+
 
         public string BankCode
         {
@@ -143,8 +156,7 @@ namespace RCNGCMembersManagementAppLogic.Billing.DirectBebit
             catch (System.ArgumentException e)
             {
                 throw e;
-            }
-            
+            }           
         }
         
         private void ThrowExceptionOnTooLongAccountDataString(string fieldName, string fieldValue, int maxLenght)

@@ -37,8 +37,8 @@ Scenario: When I provide a valid CCC it is stored and IBAN is created
 	Given This CCC "12345678061234567890" 
 	When I process the CCC
 	Then It is considered "valid"
-	 But the CCC is "stored"
-	 And The spanish IBAN code "" is created
+	 And the CCC is "stored"
+	 And The spanish IBAN code "ES6812345678061234567890" is created
 
 Scenario Outline: Theese are the results when processing theese bank accounts
 	Given This bank account <Bank>, <Office>, <ControlDigit>, <AccountNumber> 
