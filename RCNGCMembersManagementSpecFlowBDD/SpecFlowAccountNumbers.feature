@@ -24,8 +24,14 @@ Scenario: When I provide an incomplete bank account it is stored but no CCC nor 
 	When I process the bank account
 	Then It is considered "invalid"
 	 But the bank account is "stored"
-	 And No CCC is created
-	 And No spanish IBAN is created
+	 And The CCC "" is created
+	 And The spanish IBAN code "" is created
+
+Scenario: When I provide a too long bank account it is not stored
+	Given This bank account "1234", "5678", "06", "12345678901111" 
+	When I process the bank account
+	Then It is considered "invalid"
+	 And the bank account is "not stored"
 
 Scenario Outline: Theese are the results when processing theese bank accounts
 	Given This bank account <Bank>, <Office>, <ControlDigit>, <AccountNumber> 
@@ -38,8 +44,8 @@ Scenario Outline: Theese are the results when processing theese bank accounts
 Scenarios:
 | Bank   | Office | ControlDigit | AccountNumber  | valid     | stored      | CCC                    | IBAN                       |
 | "1234" | "5678" | "06"         | "1234567890"   | "valid"   | "stored"    | "12345678061234567890" | "ES6812345678061234567890" |
-| "1234" | "5678" | "05"         | "1234567890"   | "invalid" | "stored"    | "null"                 | "null"                     |
-| "null" | ""     | "05"         | "1234567890"   | "invalid" | "stored"    | "null"                 | "null"                     |
-| "1234" | "5678" | "06"         | "1234/56-0"    | "invalid" | "stored"    | "null"                 | "null"                     |
-| "1234" | "5678" | "06"         | "123456789011" | "invalid" | "no stored" | "null"                 | "null"                     |
+| "1234" | "5678" | "05"         | "1234567890"   | "invalid" | "stored"    | ""                     | ""                         |
+| ""     | ""     | "05"         | "1234567890"   | "invalid" | "stored"    | ""                     | ""                         |
+| "1234" | "5678" | "06"         | "1234/56-0"    | "invalid" | "stored"    | ""                     | ""                         |
+| "1234" | "5678" | "06"         | "123456789011" | "invalid" | "no stored" | ""                     | ""                         |
 

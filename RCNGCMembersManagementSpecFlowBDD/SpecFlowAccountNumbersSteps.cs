@@ -72,11 +72,11 @@ namespace RCNGCMembersManagementSpecFlowBDD
         {
             if (ScenarioContext.Current["Bank_Account"] == null)
             {
-                Assert.AreEqual("null", ccc);
+                Assert.AreEqual("", ccc);
             }
             else
             {
-                Assert.AreEqual(ccc, ((BankAccount)ScenarioContext.Current["Bank_Account"]).CCC.CCC ?? "null");
+                Assert.AreEqual(ccc, ((BankAccount)ScenarioContext.Current["Bank_Account"]).CCC.CCC ?? "");
             }
         }
         
@@ -85,24 +85,12 @@ namespace RCNGCMembersManagementSpecFlowBDD
         {
             if (ScenarioContext.Current["Bank_Account"] == null)
             {
-                Assert.AreEqual("null", iban);
+                Assert.AreEqual("", iban);
             }
             else
             {
-                Assert.AreEqual(iban, ((BankAccount)ScenarioContext.Current["Bank_Account"]).IBAN.IBAN ?? "null");
+                Assert.AreEqual(iban, ((BankAccount)ScenarioContext.Current["Bank_Account"]).IBAN.IBAN ?? "");
             }
-        }
-
-        [Then(@"No CCC is created")]
-        public void ThenNoCCCIsCreated()
-        {
-            Assert.IsNull(((BankAccount)ScenarioContext.Current["Bank_Account"]).CCC.CCC);
-        }
-
-        [Then(@"No spanish IBAN is created")]
-        public void ThenNoSpanishIBANIsCreated()
-        {
-            Assert.IsNull(((BankAccount)ScenarioContext.Current["Bank_Account"]).IBAN.IBAN);
         }
     }
 }

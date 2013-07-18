@@ -143,9 +143,30 @@ this.ScenarioSetup(scenarioInfo);
 #line 26
   testRunner.But("the bank account is \"stored\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "But ");
 #line 27
-  testRunner.And("No CCC is created", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+  testRunner.And("The CCC \"\" is created", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 28
-  testRunner.And("No spanish IBAN is created", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+  testRunner.And("The spanish IBAN code \"\" is created", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line hidden
+            this.ScenarioCleanup();
+        }
+        
+        [Microsoft.VisualStudio.TestTools.UnitTesting.TestMethodAttribute()]
+        [Microsoft.VisualStudio.TestTools.UnitTesting.DescriptionAttribute("When I provide a too long bank account it is not stored")]
+        [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("FeatureTitle", "Manage account numbers. We also need to store invalid CCC coming from old databas" +
+            "es")]
+        public virtual void WhenIProvideATooLongBankAccountItIsNotStored()
+        {
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("When I provide a too long bank account it is not stored", ((string[])(null)));
+#line 30
+this.ScenarioSetup(scenarioInfo);
+#line 31
+ testRunner.Given("This bank account \"1234\", \"5678\", \"06\", \"12345678901111\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+#line 32
+ testRunner.When("I process the bank account", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#line 33
+ testRunner.Then("It is considered \"invalid\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line 34
+  testRunner.And("the bank account is \"not stored\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
             this.ScenarioCleanup();
         }
@@ -153,19 +174,19 @@ this.ScenarioSetup(scenarioInfo);
         public virtual void TheeseAreTheResultsWhenProcessingTheeseBankAccounts(string bank, string office, string controlDigit, string accountNumber, string valid, string stored, string cCC, string iBAN, string[] exampleTags)
         {
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Theese are the results when processing theese bank accounts", exampleTags);
-#line 30
-this.ScenarioSetup(scenarioInfo);
-#line 31
- testRunner.Given(string.Format("This bank account {0}, {1}, {2}, {3}", bank, office, controlDigit, accountNumber), ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
-#line 32
- testRunner.When("I process the bank account", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
-#line 33
- testRunner.Then(string.Format("It is considered {0}", valid), ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
-#line 34
-  testRunner.And(string.Format("the bank account is {0}", stored), ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
-#line 35
-  testRunner.And(string.Format("The CCC {0} is created", cCC), ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 36
+this.ScenarioSetup(scenarioInfo);
+#line 37
+ testRunner.Given(string.Format("This bank account {0}, {1}, {2}, {3}", bank, office, controlDigit, accountNumber), ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+#line 38
+ testRunner.When("I process the bank account", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#line 39
+ testRunner.Then(string.Format("It is considered {0}", valid), ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line 40
+  testRunner.And(string.Format("the bank account is {0}", stored), ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line 41
+  testRunner.And(string.Format("The CCC {0} is created", cCC), ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line 42
   testRunner.And(string.Format("The spanish IBAN code {0} is created", iBAN), ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
             this.ScenarioCleanup();
@@ -200,11 +221,11 @@ this.ScenarioSetup(scenarioInfo);
         [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("Parameter:AccountNumber", "\"1234567890\"")]
         [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("Parameter:valid", "\"invalid\"")]
         [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("Parameter:stored", "\"stored\"")]
-        [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("Parameter:CCC", "\"null\"")]
-        [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("Parameter:IBAN", "\"null\"")]
+        [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("Parameter:CCC", "\"\"")]
+        [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("Parameter:IBAN", "\"\"")]
         public virtual void TheeseAreTheResultsWhenProcessingTheeseBankAccounts_Variant1()
         {
-            this.TheeseAreTheResultsWhenProcessingTheeseBankAccounts("\"1234\"", "\"5678\"", "\"05\"", "\"1234567890\"", "\"invalid\"", "\"stored\"", "\"null\"", "\"null\"", ((string[])(null)));
+            this.TheeseAreTheResultsWhenProcessingTheeseBankAccounts("\"1234\"", "\"5678\"", "\"05\"", "\"1234567890\"", "\"invalid\"", "\"stored\"", "\"\"", "\"\"", ((string[])(null)));
         }
         
         [Microsoft.VisualStudio.TestTools.UnitTesting.TestMethodAttribute()]
@@ -212,17 +233,17 @@ this.ScenarioSetup(scenarioInfo);
         [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("FeatureTitle", "Manage account numbers. We also need to store invalid CCC coming from old databas" +
             "es")]
         [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("VariantName", "Variant 2")]
-        [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("Parameter:Bank", "\"null\"")]
+        [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("Parameter:Bank", "\"\"")]
         [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("Parameter:Office", "\"\"")]
         [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("Parameter:ControlDigit", "\"05\"")]
         [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("Parameter:AccountNumber", "\"1234567890\"")]
         [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("Parameter:valid", "\"invalid\"")]
         [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("Parameter:stored", "\"stored\"")]
-        [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("Parameter:CCC", "\"null\"")]
-        [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("Parameter:IBAN", "\"null\"")]
+        [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("Parameter:CCC", "\"\"")]
+        [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("Parameter:IBAN", "\"\"")]
         public virtual void TheeseAreTheResultsWhenProcessingTheeseBankAccounts_Variant2()
         {
-            this.TheeseAreTheResultsWhenProcessingTheeseBankAccounts("\"null\"", "\"\"", "\"05\"", "\"1234567890\"", "\"invalid\"", "\"stored\"", "\"null\"", "\"null\"", ((string[])(null)));
+            this.TheeseAreTheResultsWhenProcessingTheeseBankAccounts("\"\"", "\"\"", "\"05\"", "\"1234567890\"", "\"invalid\"", "\"stored\"", "\"\"", "\"\"", ((string[])(null)));
         }
         
         [Microsoft.VisualStudio.TestTools.UnitTesting.TestMethodAttribute()]
@@ -236,11 +257,11 @@ this.ScenarioSetup(scenarioInfo);
         [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("Parameter:AccountNumber", "\"1234/56-0\"")]
         [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("Parameter:valid", "\"invalid\"")]
         [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("Parameter:stored", "\"stored\"")]
-        [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("Parameter:CCC", "\"null\"")]
-        [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("Parameter:IBAN", "\"null\"")]
+        [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("Parameter:CCC", "\"\"")]
+        [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("Parameter:IBAN", "\"\"")]
         public virtual void TheeseAreTheResultsWhenProcessingTheeseBankAccounts_Variant3()
         {
-            this.TheeseAreTheResultsWhenProcessingTheeseBankAccounts("\"1234\"", "\"5678\"", "\"06\"", "\"1234/56-0\"", "\"invalid\"", "\"stored\"", "\"null\"", "\"null\"", ((string[])(null)));
+            this.TheeseAreTheResultsWhenProcessingTheeseBankAccounts("\"1234\"", "\"5678\"", "\"06\"", "\"1234/56-0\"", "\"invalid\"", "\"stored\"", "\"\"", "\"\"", ((string[])(null)));
         }
         
         [Microsoft.VisualStudio.TestTools.UnitTesting.TestMethodAttribute()]
@@ -254,11 +275,11 @@ this.ScenarioSetup(scenarioInfo);
         [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("Parameter:AccountNumber", "\"123456789011\"")]
         [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("Parameter:valid", "\"invalid\"")]
         [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("Parameter:stored", "\"no stored\"")]
-        [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("Parameter:CCC", "\"null\"")]
-        [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("Parameter:IBAN", "\"null\"")]
+        [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("Parameter:CCC", "\"\"")]
+        [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("Parameter:IBAN", "\"\"")]
         public virtual void TheeseAreTheResultsWhenProcessingTheeseBankAccounts_Variant4()
         {
-            this.TheeseAreTheResultsWhenProcessingTheeseBankAccounts("\"1234\"", "\"5678\"", "\"06\"", "\"123456789011\"", "\"invalid\"", "\"no stored\"", "\"null\"", "\"null\"", ((string[])(null)));
+            this.TheeseAreTheResultsWhenProcessingTheeseBankAccounts("\"1234\"", "\"5678\"", "\"06\"", "\"123456789011\"", "\"invalid\"", "\"no stored\"", "\"\"", "\"\"", ((string[])(null)));
         }
     }
 }
