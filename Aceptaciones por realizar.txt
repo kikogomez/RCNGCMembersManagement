@@ -22,7 +22,8 @@ Billing
 	 * Fallida: 
  - Una factura puede tener 'additional charges' debido, por ejemplo, a devoluciones bancarias
  
-
+Bank Account Feature
+ - Scenario: Dado un IBAN correcto se almacena
 
 UnitTest
  - Que coincidan las que entran con las que salen al renegociar las bill
