@@ -84,7 +84,7 @@ this.ScenarioSetup(scenarioInfo);
 #line 9
  testRunner.Then("It is considered \"valid\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line 10
-  testRunner.And("is stored", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+  testRunner.And("the bank account is \"stored\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 11
   testRunner.And("The CCC \"12345678061234567890\" is created", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 12
@@ -110,9 +110,9 @@ this.ScenarioSetup(scenarioInfo);
 #line 17
  testRunner.Then("It is considered \"invalid\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line 18
-  testRunner.And("is stored", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+  testRunner.But("the bank account is \"stored\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "But ");
 #line 19
-  testRunner.But("No CCC is created", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "But ");
+  testRunner.And("No CCC is created", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 20
   testRunner.And("No spanish IBAN is created", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden

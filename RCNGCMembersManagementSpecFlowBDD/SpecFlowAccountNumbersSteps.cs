@@ -50,6 +50,18 @@ namespace RCNGCMembersManagementSpecFlowBDD
             Assert.AreEqual(ScenarioContext.Current["checkDigits"].ToString(), storedBankAccount.CheckDigits);
             Assert.AreEqual(ScenarioContext.Current["accountNumber"].ToString(), storedBankAccount.AccountNumber);
         }
+
+        [Then(@"the bank account is ""(.*)""")]
+        public void ThenTheBankAccountIs(string storage)
+        {
+            bool isStored = (storage == "stored" ? true : false);
+            BankAccount storedBankAccount = (BankAccount)ScenarioContext.Current["Bank_Account"];
+            Assert.AreEqual(isStored, ScenarioContext.Current["Bank"].ToString() == storedBankAccount.BankCode);
+            Assert.AreEqual(isStored, ScenarioContext.Current["office"].ToString() == storedBankAccount.OfficeCode);
+            Assert.AreEqual(isStored, ScenarioContext.Current["checkDigits"].ToString() == storedBankAccount.CheckDigits);
+            Assert.AreEqual(isStored, ScenarioContext.Current["accountNumber"].ToString() == storedBankAccount.AccountNumber);
+        }
+
         
         [Then(@"The CCC ""(.*)"" is created")]
         public void ThenTheCCCIsCreated(string ccc)
