@@ -18,8 +18,8 @@ namespace RCNGCMembersManagementSpecFlowBDD
             ScenarioContext.Current.Add("accountNumber", accountNumber);
         }
         
-        [When(@"I process it")]
-        public void WhenIProcessit()
+        [When(@"I process the bank account")]
+        public void WhenIProcessTheBankAccount()
         {
             BankAccount bankAccount = new BankAccount(
                 ScenarioContext.Current["Bank"].ToString(),
@@ -66,13 +66,27 @@ namespace RCNGCMembersManagementSpecFlowBDD
         [Then(@"The CCC ""(.*)"" is created")]
         public void ThenTheCCCIsCreated(string ccc)
         {
-            Assert.AreEqual("12345678061234567890", ((BankAccount)ScenarioContext.Current["Bank_Account"]).CCC.CCC);
+            if (ccc == "null")
+            {
+                Assert.IsNull(((BankAccount)ScenarioContext.Current["Bank_Account"]).CCC.CCC);
+            }
+            else
+            {
+                Assert.AreEqual(ccc, ((BankAccount)ScenarioContext.Current["Bank_Account"]).CCC.CCC);
+            }
         }
         
         [Then(@"The spanish IBAN code ""(.*)"" is created")]
         public void ThenTheSpanishIBANCodeIsCreated(string iban)
         {
-            Assert.AreEqual("ES6812345678061234567890", ((BankAccount)ScenarioContext.Current["Bank_Account"]).IBAN.IBAN);
+            if (iban == "null")
+            {
+                Assert.IsNull(((BankAccount)ScenarioContext.Current["Bank_Account"]).IBAN.IBAN);
+            }
+            else
+            {
+                Assert.AreEqual(iban, ((BankAccount)ScenarioContext.Current["Bank_Account"]).IBAN.IBAN);
+            }
         }
 
         [Then(@"No CCC is created")]
@@ -86,6 +100,5 @@ namespace RCNGCMembersManagementSpecFlowBDD
         {
             Assert.IsNull(((BankAccount)ScenarioContext.Current["Bank_Account"]).IBAN.IBAN);
         }
-
     }
 }
