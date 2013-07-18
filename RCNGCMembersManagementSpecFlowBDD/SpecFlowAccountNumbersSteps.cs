@@ -17,6 +17,12 @@ namespace RCNGCMembersManagementSpecFlowBDD
             ScenarioContext.Current.Add("checkDigits", checkDigits);
             ScenarioContext.Current.Add("accountNumber", accountNumber);
         }
+
+        [Given(@"This CCC ""(.*)""")]
+        public void GivenThisCCC(string ccc)
+        {
+            ScenarioContext.Current.Add("CCC", ccc);
+        }
         
         [When(@"I process the bank account")]
         public void WhenIProcessTheBankAccount()
@@ -35,6 +41,12 @@ namespace RCNGCMembersManagementSpecFlowBDD
             {
                 ScenarioContext.Current.Add("Bank_Account", null);
             }           
+        }
+
+        [When(@"I process the CCC")]
+        public void WhenIProcessTheCCC()
+        {
+            ScenarioContext.Current.Pending();
         }
 
         [Then(@"It is considered ""(.*)""")]
@@ -92,5 +104,16 @@ namespace RCNGCMembersManagementSpecFlowBDD
                 Assert.AreEqual(iban, ((BankAccount)ScenarioContext.Current["Bank_Account"]).IBAN.IBAN ?? "");
             }
         }
+
+
+
+
+
+        [Then(@"the CCC is ""(.*)""")]
+        public void ThenTheCCCIs(string p0)
+        {
+            ScenarioContext.Current.Pending();
+        }
+
     }
 }

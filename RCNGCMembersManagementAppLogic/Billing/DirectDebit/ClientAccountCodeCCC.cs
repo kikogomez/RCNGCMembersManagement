@@ -26,6 +26,20 @@ namespace RCNGCMembersManagementAppLogic.Billing.DirectBebit
             }
         }
 
+        public ClientAccountCodeCCC(string ccc)
+        {
+            if (IsValidCCC(ccc))
+            {
+                Dictionary<string, string> splittedCCC = SplitCCC(ccc);
+                this.bank = splittedCCC["bank"];
+                this.office = splittedCCC["office"];
+                this.checkDigits.bankOfficeCheckDigit = splittedCCC["checkDigits"][0].ToString();
+                this.checkDigits.accountNumberCheckDigit = splittedCCC["checkDigits"][1].ToString();
+                this.accountNumber = splittedCCC["accountNumber"];
+                this.ccc = ccc;
+            }
+        }
+
         public string CCC
         {
             get { return ccc; }
@@ -72,7 +86,7 @@ namespace RCNGCMembersManagementAppLogic.Billing.DirectBebit
         public static bool IsValidCCC(string ccc)
         {
             if (!CCCIsRightSize(ccc)) return false;
-            SortedList<string, string> splittedCCC = SplitCCC(ccc);
+            Dictionary<string, string> splittedCCC = SplitCCC(ccc);
             return IsValidCCC(splittedCCC["bank"], splittedCCC["office"], splittedCCC["checkDigits"], splittedCCC["accountNumber"]);
         }
 
@@ -96,9 +110,9 @@ namespace RCNGCMembersManagementAppLogic.Billing.DirectBebit
             return (ccc ?? "").Trim().Length == CCCFieldLenghts.CCCLength;
         }
 
-        private static SortedList<string, string> SplitCCC(string ccc)
+        private static Dictionary<string, string> SplitCCC(string ccc)
         {
-            return new SortedList<string,string> {
+            return new Dictionary<string, string> {
                 {"bank",ccc.Substring(0, CCCFieldLenghts.BankLength)},
                 {"office",ccc.Substring(4, CCCFieldLenghts.OfficeLenght)},
                 {"checkDigits", ccc.Substring(8,CCCFieldLenghts.CheckDigitsLenght)},

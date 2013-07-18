@@ -1,4 +1,4 @@
-﻿Feature: Manage account numbers. We also need to store invalid CCC coming from old databases
+﻿Feature: Manage account numbers. We need to store invalid CCC coming from old databases. They are never longer than  CCC standard
 	In order to create direct debits
 	As an administrative assistant
 	I want to process account numbers
@@ -16,8 +16,8 @@ Scenario: When I provide an invalid bank account it is stored but no CCC nor IBA
 	When I process the bank account
 	Then It is considered "invalid"
 	 But the bank account is "stored"
-	 And No CCC is created
-	 And No spanish IBAN is created
+	 And The CCC "" is created
+	 And The spanish IBAN code "" is created
 
 Scenario: When I provide an incomplete bank account it is stored but no CCC nor IBAN are created
 	Given This bank account "", "5678", "05", "1234567890" 
@@ -32,6 +32,13 @@ Scenario: When I provide a too long bank account it is not stored
 	When I process the bank account
 	Then It is considered "invalid"
 	 And the bank account is "not stored"
+
+Scenario: When I provide a valid CCC it is stored and IBAN is created
+	Given This CCC "12345678061234567890" 
+	When I process the CCC
+	Then It is considered "valid"
+	 But the CCC is "stored"
+	 And The spanish IBAN code "" is created
 
 Scenario Outline: Theese are the results when processing theese bank accounts
 	Given This bank account <Bank>, <Office>, <ControlDigit>, <AccountNumber> 
