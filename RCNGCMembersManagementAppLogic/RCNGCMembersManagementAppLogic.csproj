@@ -54,7 +54,6 @@
     <Compile Include="Billing\ServiceCharge.cs" />
     <Compile Include="Billing\Tax.cs" />
     <Compile Include="Billing\Transaction.cs" />
-    <Compile Include="Class1.cs" />
     <Compile Include="ClubServices\ClubService.cs" />
     <Compile Include="ClubStore\Product.cs" />
     <Compile Include="MembersManaging\ClubMember.cs" />

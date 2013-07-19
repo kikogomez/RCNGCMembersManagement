@@ -9,17 +9,27 @@ namespace RCNGCMembersManagementAppLogic.Billing.DirectBebit
     {
         string iban;
 
-        public InternationalAccountBankNumberIBAN(string ccc)
+        public InternationalAccountBankNumberIBAN(string iban)
         {
-            if (ClientAccountCodeCCC.IsValidCCC(ccc))
+            if (IsValidIBAN(iban)) this.iban = iban;
+        }
+
+        public InternationalAccountBankNumberIBAN(ClientAccountCodeCCC ccc)
+        {
+            if (ClientAccountCodeCCC.IsValidCCC(ccc.CCC))
             {
-                this.iban=CalculateSpanishIBAN(ccc);
+                this.iban = CalculateSpanishIBAN(ccc.CCC);
             }
         }
 
         public string IBAN
         {
             get { return iban; }
+        }
+
+        public ClientAccountCodeCCC CCC
+        {
+            get { return new ClientAccountCodeCCC(iban.Substring(4)); }
         }
 
         public string FormattedIBAN

@@ -12,7 +12,7 @@ using RCNGCMembersManagementMocks;
 namespace RCNGCMembersManagementSpecFlowBDD
 {
     [Binding]
-    public class SpecFlowBillingSteps
+    class SpecFlowBillingSteps
     {
         string lastInvoiceID;
         ClubMember clubMember;

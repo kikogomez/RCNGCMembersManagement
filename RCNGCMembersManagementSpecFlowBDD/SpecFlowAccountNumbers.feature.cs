@@ -85,7 +85,7 @@ this.ScenarioSetup(scenarioInfo);
 #line 8
  testRunner.When("I process the bank account", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line 9
- testRunner.Then("It is considered \"valid\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+ testRunner.Then("the bank account is considered \"valid\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line 10
   testRunner.And("the bank account is \"stored\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 11
@@ -112,7 +112,7 @@ this.ScenarioSetup(scenarioInfo);
 #line 16
  testRunner.When("I process the bank account", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line 17
- testRunner.Then("It is considered \"invalid\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+ testRunner.Then("the bank account is considered \"invalid\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line 18
   testRunner.But("the bank account is \"stored\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "But ");
 #line 19
@@ -139,7 +139,7 @@ this.ScenarioSetup(scenarioInfo);
 #line 24
  testRunner.When("I process the bank account", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line 25
- testRunner.Then("It is considered \"invalid\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+ testRunner.Then("the bank account is considered \"invalid\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line 26
   testRunner.But("the bank account is \"stored\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "But ");
 #line 27
@@ -164,7 +164,7 @@ this.ScenarioSetup(scenarioInfo);
 #line 32
  testRunner.When("I process the bank account", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line 33
- testRunner.Then("It is considered \"invalid\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+ testRunner.Then("the bank account is considered \"invalid\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line 34
   testRunner.And("the bank account is \"not stored\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
@@ -172,12 +172,14 @@ this.ScenarioSetup(scenarioInfo);
         }
         
         [Microsoft.VisualStudio.TestTools.UnitTesting.TestMethodAttribute()]
-        [Microsoft.VisualStudio.TestTools.UnitTesting.DescriptionAttribute("When I provide a valid CCC it is stored and IBAN is created")]
+        [Microsoft.VisualStudio.TestTools.UnitTesting.DescriptionAttribute("When I provide a valid CCC it is stored, bank account fields are created, and IBA" +
+            "N is created")]
         [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("FeatureTitle", "Manage account numbers. We need to store invalid CCC coming from old databases. T" +
             "hey are never longer than  CCC standard")]
-        public virtual void WhenIProvideAValidCCCItIsStoredAndIBANIsCreated()
+        public virtual void WhenIProvideAValidCCCItIsStoredBankAccountFieldsAreCreatedAndIBANIsCreated()
         {
-            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("When I provide a valid CCC it is stored and IBAN is created", ((string[])(null)));
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("When I provide a valid CCC it is stored, bank account fields are created, and IBA" +
+                    "N is created", ((string[])(null)));
 #line 36
 this.ScenarioSetup(scenarioInfo);
 #line 37
@@ -185,11 +187,40 @@ this.ScenarioSetup(scenarioInfo);
 #line 38
  testRunner.When("I process the CCC", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line 39
- testRunner.Then("It is considered \"valid\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+ testRunner.Then("the CCC is considered \"valid\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line 40
   testRunner.And("the CCC is \"stored\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 41
+  testRunner.And("the bank account \"1234\", \"5678\", \"06\", \"1234567890\" is created", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line 42
   testRunner.And("The spanish IBAN code \"ES6812345678061234567890\" is created", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line hidden
+            this.ScenarioCleanup();
+        }
+        
+        [Microsoft.VisualStudio.TestTools.UnitTesting.TestMethodAttribute()]
+        [Microsoft.VisualStudio.TestTools.UnitTesting.DescriptionAttribute("When I provide a valid spanish IBAN it is stored, bank account fields are created" +
+            ", and CCC is created")]
+        [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("FeatureTitle", "Manage account numbers. We need to store invalid CCC coming from old databases. T" +
+            "hey are never longer than  CCC standard")]
+        public virtual void WhenIProvideAValidSpanishIBANItIsStoredBankAccountFieldsAreCreatedAndCCCIsCreated()
+        {
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("When I provide a valid spanish IBAN it is stored, bank account fields are created" +
+                    ", and CCC is created", ((string[])(null)));
+#line 44
+this.ScenarioSetup(scenarioInfo);
+#line 45
+ testRunner.Given("This IBAN \"ES6812345678061234567890\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+#line 46
+ testRunner.When("I process the IBAN", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#line 47
+ testRunner.Then("the IBAN is considered \"valid\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line 48
+  testRunner.And("the IBAN is \"stored\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line 49
+  testRunner.And("the bank account \"1234\", \"5678\", \"06\", \"1234567890\" is created", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line 50
+  testRunner.And("The CCC \"12345678061234567890\" is created", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
             this.ScenarioCleanup();
         }
@@ -197,19 +228,19 @@ this.ScenarioSetup(scenarioInfo);
         public virtual void TheeseAreTheResultsWhenProcessingTheeseBankAccounts(string bank, string office, string controlDigit, string accountNumber, string valid, string stored, string cCC, string iBAN, string[] exampleTags)
         {
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Theese are the results when processing theese bank accounts", exampleTags);
-#line 43
+#line 52
 this.ScenarioSetup(scenarioInfo);
-#line 44
+#line 53
  testRunner.Given(string.Format("This bank account {0}, {1}, {2}, {3}", bank, office, controlDigit, accountNumber), ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
-#line 45
+#line 54
  testRunner.When("I process the bank account", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
-#line 46
- testRunner.Then(string.Format("It is considered {0}", valid), ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
-#line 47
+#line 55
+ testRunner.Then(string.Format("the bank account is considered {0}", valid), ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line 56
   testRunner.And(string.Format("the bank account is {0}", stored), ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
-#line 48
+#line 57
   testRunner.And(string.Format("The CCC {0} is created", cCC), ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
-#line 49
+#line 58
   testRunner.And(string.Format("The spanish IBAN code {0} is created", iBAN), ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
             this.ScenarioCleanup();

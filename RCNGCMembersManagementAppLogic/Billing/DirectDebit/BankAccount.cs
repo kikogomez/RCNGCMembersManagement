@@ -6,6 +6,7 @@ using System.Reflection;
 
 namespace RCNGCMembersManagementAppLogic.Billing.DirectBebit
 {
+
     public class BankAccount
     {
         string bank;
@@ -32,22 +33,30 @@ namespace RCNGCMembersManagementAppLogic.Billing.DirectBebit
             this.accountNumber = accountNumber;
 
             ccc= new ClientAccountCodeCCC(bank, office, checkDigits, accountNumber);
-            iban = new InternationalAccountBankNumberIBAN(ccc.CCC);
+            iban = new InternationalAccountBankNumberIBAN(ccc);
         }
 
-        public BankAccount(string ccc)
+        public BankAccount(ClientAccountCodeCCC ccc)
         {
-            if (BankAccount.IsValidCCC(ccc))
-            {
-                this.ccc = new ClientAccountCodeCCC(ccc);
-                this.bank = this.ccc.Bank;
-                this.office = this.ccc.Office;
-                this.checkDigits = this.ccc.CCCCheck.bankOfficeCheckDigit + this.ccc.CCCCheck.accountNumberCheckDigit;
-                this.accountNumber = this.ccc.AccountNumber;
-                iban = new InternationalAccountBankNumberIBAN(this.ccc.CCC);
-            }
+            this.ccc = ccc;
+            this.bank = ccc.Bank;
+            this.office = ccc.Office;
+            this.checkDigits = ccc.CCCCheck.bankOfficeCheckDigit + this.ccc.CCCCheck.accountNumberCheckDigit;
+            this.accountNumber = ccc.AccountNumber;
+            iban = new InternationalAccountBankNumberIBAN(ccc);
         }
 
+        public BankAccount(InternationalAccountBankNumberIBAN iban)
+        {
+            this.iban=iban;
+            this.ccc = iban.CCC;
+            this.bank = iban.CCC.Bank;
+            this.office = iban.CCC.Office;
+            this.checkDigits = iban.CCC.CCCCheck.bankOfficeCheckDigit + iban.CCC.CCCCheck.accountNumberCheckDigit;
+            this.accountNumber = iban.CCC.AccountNumber;
+        }
+
+        public enum BankAccountFormat { CCC, FormatedCCC, IBAN, FormatedIBAN };
 
         public string BankCode
         {

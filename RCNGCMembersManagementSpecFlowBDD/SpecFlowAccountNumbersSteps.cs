@@ -7,7 +7,7 @@ using RCNGCMembersManagementAppLogic.Billing.DirectBebit;
 namespace RCNGCMembersManagementSpecFlowBDD
 {
     [Binding]
-    public class ManageAccountNumbersSteps
+    class ManageAccountNumbersSteps
     {
         [Given(@"This bank account ""(.*)"", ""(.*)"", ""(.*)"", ""(.*)""")]
         public void GivenThisBankAccount(string bank, string  office, string checkDigits, string accountNumber)
@@ -23,6 +23,13 @@ namespace RCNGCMembersManagementSpecFlowBDD
         {
             ScenarioContext.Current.Add("CCC", ccc);
         }
+
+        [Given(@"This IBAN ""(.*)""")]
+        public void GivenThisIBAN(string iban)
+        {
+            ScenarioContext.Current.Add("IBAN",iban);
+        }
+
         
         [When(@"I process the bank account")]
         public void WhenIProcessTheBankAccount()
@@ -49,7 +56,8 @@ namespace RCNGCMembersManagementSpecFlowBDD
             BankAccount bankAccount;
             try
             {
-                bankAccount = new BankAccount(ScenarioContext.Current["CCC"].ToString());
+                ClientAccountCodeCCC ccc = new ClientAccountCodeCCC(ScenarioContext.Current["CCC"].ToString());
+                bankAccount = new BankAccount(ccc);
                 ScenarioContext.Current.Add("Bank_Account", bankAccount);
             }
             catch
@@ -58,24 +66,48 @@ namespace RCNGCMembersManagementSpecFlowBDD
             }   
         }
 
-        [Then(@"It is considered ""(.*)""")]
-        public void ThenItIsConsidered(string validity)
+        [When(@"I process the IBAN")]
+        public void WhenIProcessTheIBAN()
         {
-            string ccc;
-            bool valid = (validity == "valid" ? true : false);
-            if (!ScenarioContext.Current.ContainsKey("CCC"))
+            BankAccount bankAccount;
+            try
             {
-                ccc =
+                InternationalAccountBankNumberIBAN iban = new InternationalAccountBankNumberIBAN(ScenarioContext.Current["IBAN"].ToString());
+                bankAccount = new BankAccount(iban);
+                ScenarioContext.Current.Add("Bank_Account", bankAccount);
+            }
+            catch
+            {
+                ScenarioContext.Current.Add("Bank_Account", null);
+            }   
+        }
+
+        [Then(@"the bank account is considered ""(.*)""")]
+        public void TheBankAccountIsConsidered(string validity)
+        {
+            bool valid = (validity == "valid" ? true : false);
+            string ccc =
                 ScenarioContext.Current["Bank"].ToString() +
                 ScenarioContext.Current["office"].ToString() +
                 ScenarioContext.Current["checkDigits"].ToString() +
                 ScenarioContext.Current["accountNumber"].ToString();
-            }
-            else
-            {
-                ccc = ScenarioContext.Current["CCC"].ToString();
-            }
             Assert.AreEqual(valid, BankAccount.IsValidCCC(ccc));
+        }
+
+        [Then(@"the CCC is considered ""(.*)""")]
+        public void TheCCCIsConsidered(string validity)
+        {
+            bool valid = (validity == "valid" ? true : false);
+            string ccc = ScenarioContext.Current["CCC"].ToString();
+            Assert.AreEqual(valid, BankAccount.IsValidCCC(ccc));
+        }
+
+        [Then(@"the IBAN is considered ""(.*)""")]
+        public void ThenTheIBANIsConsidered(string validity)
+        {
+            bool valid = (validity == "valid" ? true : false);
+            string iban = ScenarioContext.Current["IBAN"].ToString();
+            Assert.AreEqual(valid, BankAccount.IsValidIBAN(iban));
         }
         
         [Then(@"the bank account is ""(.*)""")]
@@ -110,6 +142,33 @@ namespace RCNGCMembersManagementSpecFlowBDD
                 Assert.AreEqual(isStored, ScenarioContext.Current["CCC"].ToString() == storedBankAccount.CCC.CCC);
             }
         }
+
+        [Then(@"the IBAN is ""(.*)""")]
+        public void ThenTheIBANIs(string storage)
+        {
+            bool isStored = (storage == "stored" ? true : false);
+            if (ScenarioContext.Current["Bank_Account"] == null)
+            {
+                Assert.AreEqual(isStored, false);
+            }
+            else
+            {
+                BankAccount storedBankAccount = (BankAccount)ScenarioContext.Current["Bank_Account"];
+                Assert.AreEqual(isStored, ScenarioContext.Current["IBAN"].ToString() == storedBankAccount.IBAN.IBAN);
+            }
+        }
+
+
+        [Then(@"the bank account ""(.*)"", ""(.*)"", ""(.*)"", ""(.*)"" is created")]
+        public void ThenTheBankAccountIsCreated(string bank, string office, string checkDigit, string accountNumber)
+        {
+            BankAccount bankAccount = (BankAccount)ScenarioContext.Current["Bank_Account"];
+            Assert.AreEqual(bank, bankAccount.BankCode);
+            Assert.AreEqual(office, bankAccount.OfficeCode);
+            Assert.AreEqual(checkDigit, bankAccount.CheckDigits);
+            Assert.AreEqual(accountNumber, bankAccount.AccountNumber);
+        }
+
      
         [Then(@"The CCC ""(.*)"" is created")]
         public void ThenTheCCCIsCreated(string ccc)

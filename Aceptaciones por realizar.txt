@@ -25,8 +25,21 @@ Billing
 Bank Account Feature
  - Scenario: Dado un IBAN correcto se almacena
 
+Bank Account: Refactorizar completamente creando la clase BankAccountFields
+  - BankAccount tiene una instancia de BankAccountFields, otra de CCC y otra de IBAN
+  - Un BankAccount se puede crear facilitando cualquiera de las anteriores tres instancias
+  - Un CCC se puede crear facilitando un string con el CCC o cualquioera de las anteriores dos instancias
+  - Un IBAN se puede crear facilitando un string con el IBAN o cualquiera de las otras dos instancias
+  - Una instancia de IBAN siempre esta correcta, a menos que sea nula
+  - Una instancia de CCC siempre esta correcta, a menos que sea nula
+  - Una instancia de BankAccountFields PUEDE CONTENER BASURA y debe siempre ser revisada
+  - Un IBAN contiene como campo privado el string del IBAN, y ¿como propiedad puede CALCULAR el CCC y los BankFields?
+  - Igual cuestion para CCC y BankAccountFields
+  - ¿Usar polimorfismo? Parewce que lo esta pidiendo a gritos....
+  
 UnitTest
  - Que coincidan las que entran con las que salen al renegociar las bill
  
 UnitTest BankAccoount
 - Excepcion al intentar crear una BankAccount con un CCC invalido
+
