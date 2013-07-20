@@ -50,7 +50,7 @@ namespace RCNGCMembersManagementAppLogic.Billing.DirectDebit
             get { return accountNumber; }
         }
 
-        public bool IsValid()
+        public bool AreValid()
         {
             return ClientAccountCodeCCC.IsValidCCC(bank, office, checkDigits, accountNumber);
         }

@@ -40,24 +40,29 @@ namespace RCNGCMembersManagementAppLogic.Billing.DirectDebit
             get { return bankAccountFields; }
         }
 
-        public bool HasValidCCC
-        {
-            get { return (ccc.CCC != null); }
-        }
-
         public ClientAccountCodeCCC CCC
         {
-            get { return ccc;  }
-        }
-
-        public bool HasValidIBAN
-        {
-            get { return (iban.IBAN != null); }
+            get { return ccc; }
         }
 
         public InternationalAccountBankNumberIBAN IBAN
         {
             get { return iban; }
+        }
+
+        public bool HasValidBankAccountFields
+        {
+            get { return bankAccountFields.AreValid(); }
+        }
+
+        public bool HasValidCCC
+        {
+            get { return (ccc.CCC != null); }
+        }
+
+        public bool HasValidIBAN
+        {
+            get { return (iban.IBAN != null); }
         }
 
         public static ClientAccountCodeCCC.CCCCheckDigits CalculateCCCCheckDigits(string bank, string office, string accountNumber)

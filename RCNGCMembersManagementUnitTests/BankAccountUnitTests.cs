@@ -481,5 +481,21 @@ namespace RCNGCMembersManagementUnitTests
             BankAccount testAccount = new BankAccount(bankAccountFields);
             Assert.AreEqual(testAccount.IBAN.FormattedIBAN, null);
         }
+
+        [TestMethod]
+        public void CountryCodeIBANPropertyIsCorrectlyDisplayed()
+        {
+            BankAccountFields bankAccountFields = new BankAccountFields("1234", "5678", "06", "1234567890");
+            BankAccount testAccount = new BankAccount(bankAccountFields);
+            Assert.AreEqual("ES", testAccount.IBAN.InternationalCode);
+        }
+
+        [TestMethod]
+        public void IBANCheckPropertyIsCorrectlyDisplayed()
+        {
+            BankAccountFields bankAccountFields = new BankAccountFields("1234", "5678", "06", "1234567890");
+            BankAccount testAccount = new BankAccount(bankAccountFields);
+            Assert.AreEqual("68", testAccount.IBAN.IBANCheck);
+        }
     }
 }

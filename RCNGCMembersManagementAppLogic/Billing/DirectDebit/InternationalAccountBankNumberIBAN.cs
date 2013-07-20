@@ -27,11 +27,6 @@ namespace RCNGCMembersManagementAppLogic.Billing.DirectDebit
             get { return iban; }
         }
 
-        public string CCC
-        {
-            get { return iban.Substring(4); }
-        }
-
         public string FormattedIBAN
         {
             get
@@ -39,6 +34,21 @@ namespace RCNGCMembersManagementAppLogic.Billing.DirectDebit
                 if (iban!=null) return "IBAN " + splitIBAN(iban);
                 return null;
             }
+        }
+
+        public string CCC
+        {
+            get { return iban.Substring(4); }
+        }
+
+        public string InternationalCode
+        {
+            get { return iban.Substring(0,2); }
+        }
+
+        public string IBANCheck
+        {
+            get { return iban.Substring(2,2); }
         }
 
         public static bool IsValidIBAN(string iban)
