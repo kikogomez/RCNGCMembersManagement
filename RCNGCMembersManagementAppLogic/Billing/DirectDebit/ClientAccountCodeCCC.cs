@@ -22,20 +22,7 @@ namespace RCNGCMembersManagementAppLogic.Billing.DirectDebit
                 this.checkDigits.bankOfficeCheckDigit = bankAccountFields.CheckDigits[0].ToString();
                 this.checkDigits.accountNumberCheckDigit = bankAccountFields.CheckDigits[1].ToString();
                 this.accountNumber = bankAccountFields.AccountNumber;
-                this.ccc = bank + office + checkDigits + accountNumber;
-            }
-        }
-
-        public ClientAccountCodeCCC(string bank, string office, string checkDigits, string accountNumber)
-        {
-            if (IsValidCCC(bank, office, checkDigits, accountNumber))
-            {
-                this.bank = bank;
-                this.office = office;
-                this.checkDigits.bankOfficeCheckDigit = checkDigits[0].ToString();
-                this.checkDigits.accountNumberCheckDigit = checkDigits[1].ToString();
-                this.accountNumber = accountNumber;
-                this.ccc = bank + office + checkDigits + accountNumber;
+                this.ccc = bank + office + checkDigits.bankOfficeCheckDigit + checkDigits.accountNumberCheckDigit + accountNumber;
             }
         }
 
@@ -67,12 +54,12 @@ namespace RCNGCMembersManagementAppLogic.Billing.DirectDebit
             }
         }
 
-        public string Bank
+        public string BankCode
         {
             get { return bank; }
         }
 
-        public string Office
+        public string OfficeCode
         {
             get { return office; }
         }
@@ -161,7 +148,5 @@ namespace RCNGCMembersManagementAppLogic.Billing.DirectDebit
             public string bankOfficeCheckDigit;
             public string accountNumberCheckDigit;
         }
-
-
     }
 }

@@ -37,11 +37,12 @@ namespace RCNGCMembersManagementSpecFlowBDD
             BankAccount bankAccount;
             try
             {
-                bankAccount = new BankAccount(
+                BankAccountFields bankAccountFields= new BankAccountFields(
                     ScenarioContext.Current["Bank"].ToString(),
                     ScenarioContext.Current["office"].ToString(),
                     ScenarioContext.Current["checkDigits"].ToString(),
                     ScenarioContext.Current["accountNumber"].ToString());
+                bankAccount = new BankAccount(bankAccountFields);
                 ScenarioContext.Current.Add("Bank_Account", bankAccount);
             }
             catch
@@ -121,10 +122,10 @@ namespace RCNGCMembersManagementSpecFlowBDD
             else
             {
                 BankAccount storedBankAccount = (BankAccount)ScenarioContext.Current["Bank_Account"];
-                Assert.AreEqual(isStored, ScenarioContext.Current["Bank"].ToString() == storedBankAccount.BankCode);
-                Assert.AreEqual(isStored, ScenarioContext.Current["office"].ToString() == storedBankAccount.OfficeCode);
-                Assert.AreEqual(isStored, ScenarioContext.Current["checkDigits"].ToString() == storedBankAccount.CheckDigits);
-                Assert.AreEqual(isStored, ScenarioContext.Current["accountNumber"].ToString() == storedBankAccount.AccountNumber);
+                Assert.AreEqual(isStored, ScenarioContext.Current["Bank"].ToString() == storedBankAccount.BankAccountFieldCodes.BankCode);
+                Assert.AreEqual(isStored, ScenarioContext.Current["office"].ToString() == storedBankAccount.BankAccountFieldCodes.OfficeCode);
+                Assert.AreEqual(isStored, ScenarioContext.Current["checkDigits"].ToString() == storedBankAccount.BankAccountFieldCodes.CheckDigits);
+                Assert.AreEqual(isStored, ScenarioContext.Current["accountNumber"].ToString() == storedBankAccount.BankAccountFieldCodes.AccountNumber);
             }
         }
 
@@ -163,10 +164,10 @@ namespace RCNGCMembersManagementSpecFlowBDD
         public void ThenTheBankAccountIsCreated(string bank, string office, string checkDigit, string accountNumber)
         {
             BankAccount bankAccount = (BankAccount)ScenarioContext.Current["Bank_Account"];
-            Assert.AreEqual(bank, bankAccount.BankCode);
-            Assert.AreEqual(office, bankAccount.OfficeCode);
-            Assert.AreEqual(checkDigit, bankAccount.CheckDigits);
-            Assert.AreEqual(accountNumber, bankAccount.AccountNumber);
+            Assert.AreEqual(bank, bankAccount.BankAccountFieldCodes.BankCode);
+            Assert.AreEqual(office, bankAccount.BankAccountFieldCodes.OfficeCode);
+            Assert.AreEqual(checkDigit, bankAccount.BankAccountFieldCodes.CheckDigits);
+            Assert.AreEqual(accountNumber, bankAccount.BankAccountFieldCodes.AccountNumber);
         }
 
      

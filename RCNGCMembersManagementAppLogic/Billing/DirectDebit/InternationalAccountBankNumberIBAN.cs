@@ -27,9 +27,9 @@ namespace RCNGCMembersManagementAppLogic.Billing.DirectDebit
             get { return iban; }
         }
 
-        public ClientAccountCodeCCC CCC
+        public string CCC
         {
-            get { return new ClientAccountCodeCCC(iban.Substring(4)); }
+            get { return iban.Substring(4); }
         }
 
         public string FormattedIBAN

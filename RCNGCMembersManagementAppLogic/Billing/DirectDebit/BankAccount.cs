@@ -8,81 +8,36 @@ namespace RCNGCMembersManagementAppLogic.Billing.DirectDebit
 {
     public class BankAccount
     {
-        string bank;
-        string office;
-        string checkDigits;
-        string accountNumber;
         BankAccountFields bankAccountFields;
         ClientAccountCodeCCC ccc;
         InternationalAccountBankNumberIBAN iban;
 
-
         public BankAccount(BankAccountFields bankAccountFields)
         {
             this.bankAccountFields = bankAccountFields;
-            ccc = new ClientAccountCodeCCC(bankAccountFields.BankCode, bankAccountFields.OfficeCode, bankAccountFields.CheckDigits, bankAccountFields.AccountNumber);
-            iban = new InternationalAccountBankNumberIBAN(ccc);
-        }
-
-        public BankAccount(string bank, string office, string checkDigits, string accountNumber)
-        {
-            try
-            {
-                CheckBankAccountFieldsLength(bank,office,checkDigits,accountNumber);
-            }
-            catch (ArgumentException e)
-            {
-                throw e;
-            }
-                        
-            this.bank = bank;
-            this.office = office;
-            this.checkDigits = checkDigits;
-            this.accountNumber = accountNumber;
-
-            ccc= new ClientAccountCodeCCC(bank, office, checkDigits, accountNumber);
+            ccc = new ClientAccountCodeCCC(bankAccountFields);
             iban = new InternationalAccountBankNumberIBAN(ccc);
         }
 
         public BankAccount(ClientAccountCodeCCC ccc)
         {
             this.ccc = ccc;
-            this.bank = ccc.Bank;
-            this.office = ccc.Office;
-            this.checkDigits = ccc.CCCCheck.bankOfficeCheckDigit + this.ccc.CCCCheck.accountNumberCheckDigit;
-            this.accountNumber = ccc.AccountNumber;
-            iban = new InternationalAccountBankNumberIBAN(ccc);
+            this.bankAccountFields = new BankAccountFields(
+                ccc.BankCode, ccc.OfficeCode, ccc.CCCCheck.bankOfficeCheckDigit + ccc.CCCCheck.accountNumberCheckDigit, ccc.AccountNumber);
+            this.iban = new InternationalAccountBankNumberIBAN(ccc);
         }
 
         public BankAccount(InternationalAccountBankNumberIBAN iban)
         {
             this.iban=iban;
-            this.ccc = iban.CCC;
-            this.bank = iban.CCC.Bank;
-            this.office = iban.CCC.Office;
-            this.checkDigits = iban.CCC.CCCCheck.bankOfficeCheckDigit + iban.CCC.CCCCheck.accountNumberCheckDigit;
-            this.accountNumber = iban.CCC.AccountNumber;
+            this.ccc = new ClientAccountCodeCCC(iban.CCC);
+            this.bankAccountFields = new BankAccountFields(
+                ccc.BankCode, ccc.OfficeCode, ccc.CCCCheck.bankOfficeCheckDigit + ccc.CCCCheck.accountNumberCheckDigit, ccc.AccountNumber);
         }
 
-
-        public string BankCode
+        public BankAccountFields BankAccountFieldCodes
         {
-            get { return bank; }
-        }
-
-        public string OfficeCode
-        {
-            get { return office; }
-        }
-
-        public string CheckDigits
-        {
-            get { return checkDigits; }
-        }
-
-        public string AccountNumber
-        {
-            get { return accountNumber; }
+            get { return bankAccountFields; }
         }
 
         public bool HasValidCCC
@@ -179,10 +134,5 @@ namespace RCNGCMembersManagementAppLogic.Billing.DirectDebit
         {
              if ((fieldValue ?? "").Length>maxLenght) throw new System.ArgumentException("El código de " + fieldName + " es demasiado largo", fieldName);
         }
-
-
-        
-
-
     }
 }

@@ -287,32 +287,48 @@ namespace RCNGCMembersManagementUnitTests
         [TestMethod]
         public void AcceptsInvalidAcountNumbers()
         {
-            BankAccount testAccount = new BankAccount("124", "1 00", " 4", "100/234-1");
+            BankAccountFields bankAccountFields = new BankAccountFields("124", "1 00", " 4", "100/234-1");
+            BankAccount testAccount = new BankAccount(bankAccountFields);
             string givenData = "124" + "1 00" + " 4" + "100/234-1";
-            string storedData = testAccount.BankCode + testAccount.OfficeCode + testAccount.CheckDigits + testAccount.AccountNumber;
+            string storedData =
+                testAccount.BankAccountFieldCodes.BankCode +
+                testAccount.BankAccountFieldCodes.OfficeCode +
+                testAccount.BankAccountFieldCodes.CheckDigits +
+                testAccount.BankAccountFieldCodes.AccountNumber;
             Assert.AreEqual(givenData, storedData);
         }
 
         [TestMethod]
         public void AcceptsEmptyAcountNumbers()
         {
-            BankAccount testAccount = new BankAccount("", "", "", "");
-            string storedData = testAccount.BankCode + testAccount.OfficeCode + testAccount.CheckDigits + testAccount.AccountNumber;
+            BankAccountFields bankAccountFields = new BankAccountFields("", "", "", "");
+            BankAccount testAccount = new BankAccount(bankAccountFields);
+            string storedData =
+                testAccount.BankAccountFieldCodes.BankCode +
+                testAccount.BankAccountFieldCodes.OfficeCode +
+                testAccount.BankAccountFieldCodes.CheckDigits +
+                testAccount.BankAccountFieldCodes.AccountNumber;
             Assert.AreEqual("", storedData);
         }
 
         [TestMethod]
         public void AcceptsNullOnAcountNumbers()
         {
-            BankAccount testAccount = new BankAccount(null, "", "02", "aaaaa");
-            Assert.AreEqual(null, testAccount.BankCode);
+            BankAccountFields bankAccountFields = new BankAccountFields(null, "", "02", "aaaaa");
+            BankAccount testAccount = new BankAccount(bankAccountFields);
+            Assert.AreEqual(null, testAccount.BankAccountFieldCodes.BankCode);
         }
 
         [TestMethod]
         public void NullParsedtoEmptyStringWhenConcatenated()
         {
-            BankAccount testAccount = new BankAccount(null, "01", null, "aaaaa");
-            string storedData = testAccount.BankCode + testAccount.OfficeCode + testAccount.CheckDigits + testAccount.AccountNumber;
+            BankAccountFields bankAccountFields = new BankAccountFields(null, "01", null, "aaaaa");
+            BankAccount testAccount = new BankAccount(bankAccountFields);
+            string storedData = 
+                testAccount.BankAccountFieldCodes.BankCode +
+                testAccount.BankAccountFieldCodes.OfficeCode +
+                testAccount.BankAccountFieldCodes.CheckDigits +
+                testAccount.BankAccountFieldCodes.AccountNumber;
             Assert.AreEqual("01aaaaa", storedData);
         }
 
@@ -322,7 +338,8 @@ namespace RCNGCMembersManagementUnitTests
         {
             try
             {
-                BankAccount testAccount = new BankAccount("04234", "466", "00", "12345678");
+                BankAccountFields bankAccountFields = new BankAccountFields("04234", "466", "00", "12345678");
+                BankAccount testAccount = new BankAccount(bankAccountFields);
             }
 
             catch (System.ArgumentException e)
@@ -338,7 +355,8 @@ namespace RCNGCMembersManagementUnitTests
         {
             try
             {
-                BankAccount testAccount = new BankAccount(null, "65466", "00", "12345678");
+                BankAccountFields bankAccountFields = new BankAccountFields(null, "65466", "00", "12345678");
+                BankAccount testAccount = new BankAccount(bankAccountFields);
             }
 
             catch (System.ArgumentException e)
@@ -354,7 +372,8 @@ namespace RCNGCMembersManagementUnitTests
         {
             try
             {
-                BankAccount testAccount = new BankAccount(null, "", "020", "12345678");
+                BankAccountFields bankAccountFields = new BankAccountFields(null, "", "020", "12345678");
+                BankAccount testAccount = new BankAccount(bankAccountFields);
             }
 
             catch (System.ArgumentException e)
@@ -370,7 +389,8 @@ namespace RCNGCMembersManagementUnitTests
         {
             try
             {
-                BankAccount testAccount = new BankAccount(null, "", "02", "1234561234578909");
+                BankAccountFields bankAccountFields = new BankAccountFields(null, "", "02", "1234561234578909");
+                BankAccount testAccount = new BankAccount(bankAccountFields);
             }
 
             catch (System.ArgumentException e)
@@ -387,7 +407,8 @@ namespace RCNGCMembersManagementUnitTests
         {
             try
             {
-                BankAccount testAccount = new BankAccount("4234", "46565", "050", "12345678");
+                BankAccountFields bankAccountFields = new BankAccountFields("4234", "46565", "050", "12345678");
+                BankAccount testAccount = new BankAccount(bankAccountFields);
             }
 
             catch (System.ArgumentException e)
@@ -400,56 +421,64 @@ namespace RCNGCMembersManagementUnitTests
         [TestMethod]
         public void AddindAValidAccountGeneratesAValidCCC()
         {
-            BankAccount testAccount = new BankAccount("1234", "5678", "06", "1234567890");
+            BankAccountFields bankAccountFields = new BankAccountFields("1234", "5678", "06", "1234567890");
+            BankAccount testAccount = new BankAccount(bankAccountFields);
             Assert.IsTrue(testAccount.HasValidCCC);
         }
 
         [TestMethod]
         public void AddindAValidAccountGeneratesAValidIBAN()
         {
-            BankAccount testAccount = new BankAccount("1234", "5678", "06", "1234567890");
+            BankAccountFields bankAccountFields = new BankAccountFields("1234", "5678", "06", "1234567890");
+            BankAccount testAccount = new BankAccount(bankAccountFields);
             Assert.IsTrue(testAccount.HasValidIBAN);
         }
 
         [TestMethod]
         public void AddingAnInvalidAccountDoesNotGenerateAValidCCC()
         {
-            BankAccount testAccount = new BankAccount("1234", "5678", "05", "1234567890");
+            BankAccountFields bankAccountFields = new BankAccountFields("1234", "5678", "05", "1234567890");
+            BankAccount testAccount = new BankAccount(bankAccountFields);
             Assert.IsFalse(testAccount.HasValidCCC);
         }
 
         [TestMethod]
         public void AddingAnInvalidAccountDoesNotGenerateAValidIBAN()
         {
-            BankAccount testAccount = new BankAccount("1234", "5678", "05", "1234567890");
+            BankAccountFields bankAccountFields = new BankAccountFields("1234", "5678", "05", "1234567890");
+            BankAccount testAccount = new BankAccount(bankAccountFields);
             Assert.IsFalse(testAccount.HasValidIBAN);
         }
 
         [TestMethod]
         public void CreatedCCCAreWellFormattedWithSpaces()
         {
-            BankAccount testAccount = new BankAccount("1234", "5678", "06", "1234567890");
+            BankAccountFields bankAccountFields = new BankAccountFields("1234", "5678", "06", "1234567890");
+            BankAccount testAccount = new BankAccount(bankAccountFields);
             Assert.AreEqual(testAccount.CCC.FormattedCCC, "1234 5678 06 1234567890");
         }
 
         [TestMethod]
         public void CreatedIBANAreWellFormattedWithSpaces()
         {
-            BankAccount testAccount = new BankAccount("1234", "5678", "06", "1234567890");
+            BankAccountFields bankAccountFields = new BankAccountFields("1234", "5678", "06", "1234567890");
+            BankAccount testAccount = new BankAccount(bankAccountFields);
             Assert.AreEqual(testAccount.IBAN.FormattedIBAN, "IBAN ES68 1234 5678 0612 3456 7890");
         }
 
         [TestMethod]
         public void FormattedCCCOfANullCCCIsNull()
         {
-            BankAccount testAccount = new BankAccount("1234", "5678", "05", "1234567890");
+            BankAccountFields bankAccountFields = new BankAccountFields("1234", "5678", "05", "1234567890");
+            BankAccount testAccount = new BankAccount(bankAccountFields);
             Assert.AreEqual(testAccount.CCC.FormattedCCC, null);
         }
 
         [TestMethod]
         public void FormattedIBANOfANullIBANIsNull()
         {
-            BankAccount testAccount = new BankAccount("1234", "5678", "05", "1234567890");
+            BankAccountFields bankAccountFields = new BankAccountFields("1234", "5678", "05", "1234567890");
+            BankAccount testAccount = new BankAccount(bankAccountFields);
             Assert.AreEqual(testAccount.IBAN.FormattedIBAN, null);
         }
     }
