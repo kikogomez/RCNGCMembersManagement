@@ -4,18 +4,26 @@ using System.Linq;
 using System.Text;
 using System.Reflection;
 
-namespace RCNGCMembersManagementAppLogic.Billing.DirectBebit
+namespace RCNGCMembersManagementAppLogic.Billing.DirectDebit
 {
-
     public class BankAccount
     {
         string bank;
         string office;
         string checkDigits;
         string accountNumber;
+        BankAccountFields bankAccountFields;
         ClientAccountCodeCCC ccc;
         InternationalAccountBankNumberIBAN iban;
-      
+
+
+        public BankAccount(BankAccountFields bankAccountFields)
+        {
+            this.bankAccountFields = bankAccountFields;
+            ccc = new ClientAccountCodeCCC(bankAccountFields.BankCode, bankAccountFields.OfficeCode, bankAccountFields.CheckDigits, bankAccountFields.AccountNumber);
+            iban = new InternationalAccountBankNumberIBAN(ccc);
+        }
+
         public BankAccount(string bank, string office, string checkDigits, string accountNumber)
         {
             try
@@ -56,7 +64,6 @@ namespace RCNGCMembersManagementAppLogic.Billing.DirectBebit
             this.accountNumber = iban.CCC.AccountNumber;
         }
 
-        public enum BankAccountFormat { CCC, FormatedCCC, IBAN, FormatedIBAN };
 
         public string BankCode
         {

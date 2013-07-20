@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace RCNGCMembersManagementAppLogic.Billing.DirectBebit
+namespace RCNGCMembersManagementAppLogic.Billing.DirectDebit
 {
     public class ClientAccountCodeCCC
     {
@@ -12,6 +12,19 @@ namespace RCNGCMembersManagementAppLogic.Billing.DirectBebit
         CCCCheckDigits checkDigits;
         string accountNumber;
         string ccc;
+
+        public ClientAccountCodeCCC(BankAccountFields bankAccountFields)
+        {
+            if (IsValidCCC(bankAccountFields.BankCode, bankAccountFields.OfficeCode, bankAccountFields.CheckDigits, bankAccountFields.AccountNumber))
+            {
+                this.bank = bankAccountFields.BankCode;
+                this.office = bankAccountFields.OfficeCode;
+                this.checkDigits.bankOfficeCheckDigit = bankAccountFields.CheckDigits[0].ToString();
+                this.checkDigits.accountNumberCheckDigit = bankAccountFields.CheckDigits[1].ToString();
+                this.accountNumber = bankAccountFields.AccountNumber;
+                this.ccc = bank + office + checkDigits + accountNumber;
+            }
+        }
 
         public ClientAccountCodeCCC(string bank, string office, string checkDigits, string accountNumber)
         {

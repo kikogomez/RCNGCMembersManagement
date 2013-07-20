@@ -44,6 +44,7 @@
     <Compile Include="Billing\BaseInvoice.cs" />
     <Compile Include="Billing\Bill.cs" />
     <Compile Include="Billing\BillDataManager.cs" />
+    <Compile Include="Billing\DirectDebit\BankAccountFields.cs" />
     <Compile Include="Billing\DirectDebit\ClientAccountCodeCCC.cs" />
     <Compile Include="Billing\IInvoiceDataManager.cs" />
     <Compile Include="Billing\DirectDebit\InternationalAccountBankNumberIBAN.cs" />

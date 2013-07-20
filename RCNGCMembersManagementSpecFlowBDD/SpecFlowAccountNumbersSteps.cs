@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using TechTalk.SpecFlow;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using RCNGCMembersManagementAppLogic.Billing.DirectBebit;
+using RCNGCMembersManagementAppLogic.Billing.DirectDebit;
 
 namespace RCNGCMembersManagementSpecFlowBDD
 {
