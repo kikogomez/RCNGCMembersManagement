@@ -7,22 +7,21 @@ namespace RCNGCMembersManagementAppLogic.Billing.DirectDebit
 {
     public class ClientAccountCodeCCC
     {
-        string bank;
-        string office;
+
         CCCCheckDigits checkDigits;
-        string accountNumber;
         string ccc;
 
         public ClientAccountCodeCCC(BankAccountFields bankAccountFields)
         {
             if (IsValidCCC(bankAccountFields.BankCode, bankAccountFields.OfficeCode, bankAccountFields.CheckDigits, bankAccountFields.AccountNumber))
             {
-                this.bank = bankAccountFields.BankCode;
-                this.office = bankAccountFields.OfficeCode;
                 this.checkDigits.bankOfficeCheckDigit = bankAccountFields.CheckDigits[0].ToString();
                 this.checkDigits.accountNumberCheckDigit = bankAccountFields.CheckDigits[1].ToString();
-                this.accountNumber = bankAccountFields.AccountNumber;
-                this.ccc = bank + office + checkDigits.bankOfficeCheckDigit + checkDigits.accountNumberCheckDigit + accountNumber;
+                this.ccc = 
+                    bankAccountFields.BankCode +
+                    bankAccountFields.OfficeCode +
+                    bankAccountFields.CheckDigits +
+                    bankAccountFields.AccountNumber;
             }
         }
 
@@ -31,13 +30,30 @@ namespace RCNGCMembersManagementAppLogic.Billing.DirectDebit
             if (IsValidCCC(ccc))
             {
                 Dictionary<string, string> splittedCCC = SplitCCC(ccc);
-                this.bank = splittedCCC["bank"];
-                this.office = splittedCCC["office"];
                 this.checkDigits.bankOfficeCheckDigit = splittedCCC["checkDigits"][0].ToString();
                 this.checkDigits.accountNumberCheckDigit = splittedCCC["checkDigits"][1].ToString();
-                this.accountNumber = splittedCCC["accountNumber"];
                 this.ccc = ccc;
             }
+        }
+
+        public string BankCode
+        {
+            get { return SplitCCC(ccc)["bank"]; }
+        }
+
+        public string OfficeCode
+        {
+            get { return SplitCCC(ccc)["office"]; }
+        }
+
+        public CCCCheckDigits CCCCheck
+        {
+            get { return checkDigits; }
+        }
+
+        public string AccountNumber
+        {
+            get { return SplitCCC(ccc)["accountNumber"]; }
         }
 
         public string CCC
@@ -49,29 +65,9 @@ namespace RCNGCMembersManagementAppLogic.Billing.DirectDebit
         {
             get
             {
-                if (ccc != null) return (bank + " " + office + " " + checkDigits.bankOfficeCheckDigit + checkDigits.accountNumberCheckDigit + " " + accountNumber);
+                if (ccc != null) return (BankCode + " " + OfficeCode + " " + CCCCheck.bankOfficeCheckDigit + CCCCheck.accountNumberCheckDigit + " " + AccountNumber);
                 return null;
             }
-        }
-
-        public string BankCode
-        {
-            get { return bank; }
-        }
-
-        public string OfficeCode
-        {
-            get { return office; }
-        }
-
-        public CCCCheckDigits CCCCheck
-        {
-            get { return checkDigits; }
-        }
-
-        public string AccountNumber
-        {
-            get { return accountNumber; }
         }
 
         public static CCCCheckDigits CalculateCCCCheckDigits(string bank, string office, string accountNumber)

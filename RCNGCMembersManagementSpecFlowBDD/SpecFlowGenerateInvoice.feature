@@ -37,11 +37,13 @@ Scenario: Generate an invoice for a service charge
 	Given The member uses the club service "Rent a kajak"
 	When I generate an invoice for the service
 	Then An invoice is created for the cost of the service: 53.50
+	And The invoice state is "To be paid"
 
 Scenario: Generate an invoice for a sale
 	Given The member buys a "Pennant"
 	When I generate an invoice for the sale
 	Then An invoice is created for the cost of the sale: 10.70
+	And The invoice state is "To be paid"
 
 Scenario: The invoices ID must allways be consecutive
 	Given The member uses the club service "Rent a kajak"
@@ -62,6 +64,7 @@ Scenario: Generate an invoice for multiple transactions with one tax type
 	| 2     | Rent a mouring | Mouring May-June         | 150.00    | IGIC General | 0        |
 	When I generate an invoice for this/these transaction/s
 	Then An invoice is created for the cost of the service: 374.50
+	And The invoice state is "To be paid"
 
 Scenario: Generate an invoice for multiple transactions with different tax type
 	Given This set of service charge transactions
@@ -70,6 +73,7 @@ Scenario: Generate an invoice for multiple transactions with different tax type
 	| 2     | Rent a mouring              | Mouring May-June | 150.00    | IGIC General | 0        |
 	When I generate an invoice for this/these transaction/s
 	Then An invoice is created for the cost of the service: 400.00
+	And The invoice state is "To be paid"
 
 Scenario: Discounts on transactions must be applied before taxes
 	Given This set of service charge transactions
@@ -77,6 +81,7 @@ Scenario: Discounts on transactions must be applied before taxes
 	| 1     | Rent a mouring | Mouring May-June | 150.00    | IGIC General | 20       |
 	When I generate an invoice for this/these transaction/s
 	Then An invoice is created for the cost of the service: 128.40
+	And The invoice state is "To be paid"
 
 Scenario: Rounding: Round to two decimals Away From Zero
 	Given This set of service charge transactions
@@ -84,6 +89,7 @@ Scenario: Rounding: Round to two decimals Away From Zero
 	| 1     | Rent a mouring | Mouring May-June | 150.00    | IGIC General | 15       |
 	When I generate an invoice for this/these transaction/s
 	Then An invoice is created for the cost of the service: 136.43
+	And The invoice state is "To be paid"
 
 Scenario: Rounding: First calculate discount on unit, then round, then tax unit, then round, then sum units
 	Given This set of service charge transactions
@@ -91,6 +97,7 @@ Scenario: Rounding: First calculate discount on unit, then round, then tax unit,
 	| 2     | Rent a katamaran | Renta a katamaran for 2 days | 100.55    | IGIC General | 15       |
 	When I generate an invoice for this/these transaction/s
 	Then An invoice is created for the cost of the service: 182.90
+	And The invoice state is "To be paid"
 
 Scenario: Transactions can have differnt cost and tax than default service ones
 	Given This set of service charge transactions
@@ -98,6 +105,7 @@ Scenario: Transactions can have differnt cost and tax than default service ones
 	| 1     | Rent a katamaran | Renta a katamaran for 2 days | 90        | No IGIC | 0        |
 	When I generate an invoice for this/these transaction/s
 	Then An invoice is created for the cost of the service: 90.00
+	And The invoice state is "To be paid"
 
 Scenario: We can mix services charges and sales in a single invoice
 	Given This set of service charge transactions
@@ -110,3 +118,4 @@ Scenario: We can mix services charges and sales in a single invoice
 	| 1     | Member ID Card | Lost ID Card Reprinted | 1.50      | No IGIC      | 50       |
 	When I generate an invoice for this/these transaction/s
 	Then An invoice is created for the cost of the service: 375.25
+	And The invoice state is "To be paid"

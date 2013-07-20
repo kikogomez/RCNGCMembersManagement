@@ -1,17 +1,35 @@
+GENERAL
+
+VISIBILIDAD DE LAS CLASES PUBLICAS >>>> REVISAR <<<<
+
+--------------------------------------------------------------------
+BANK ACCOUNTS
+
+Unit testing:
+
+- Si hay tiempo, al final, hacer que, ante un CCC o IBAN erroneo se presente una excepción,
+ en vez de, simplemente, debolver nulo.
+
+
+---------------------------------------------------------------------
+INVOICES
+
 Invoice
 ¿Como anulamos una factura?¿Factura de valor negativo?
-¿Como anulamos un pago?
+¿Como anulamos un bill?
+
 Facturas pro-forma
  - (otro invoice ID con otro contador)
 
+ 
 UnitTest:
 - Lanzar excepcion si lista de transacciones es cero
 - Lanzar excepcion si transacciones tienen valores negativos(?)
 - ¿Se permiten transacciones negativas?
 
 
-
-Billing
+----------------------------------------------------------------------
+BILLING
  - Estado de las 'Bill':
      * Al cobro: La fecha de vencimiento aún no ha pasado
 	 * Pagada
@@ -21,25 +39,41 @@ Billing
 	 * Anulada: Se ha anulado por cualquier razón. 
 	 * Fallida: 
  - Una factura puede tener 'additional charges' debido, por ejemplo, a devoluciones bancarias
- 
-Bank Account Feature
- - Scenario: Dado un IBAN correcto se almacena
 
-Bank Account: Refactorizar completamente creando la clase BankAccountFields
-  - BankAccount tiene una instancia de BankAccountFields, otra de CCC y otra de IBAN
-  - Un BankAccount se puede crear facilitando cualquiera de las anteriores tres instancias
-  - Un CCC se puede crear facilitando un string con el CCC o cualquioera de las anteriores dos instancias
-  - Un IBAN se puede crear facilitando un string con el IBAN o cualquiera de las otras dos instancias
-  - Una instancia de IBAN siempre esta correcta, a menos que sea nula
-  - Una instancia de CCC siempre esta correcta, a menos que sea nula
-  - Una instancia de BankAccountFields PUEDE CONTENER BASURA y debe siempre ser revisada
-  - Un IBAN contiene como campo privado el string del IBAN, y ¿como propiedad puede CALCULAR el CCC y los BankFields?
-  - Igual cuestion para CCC y BankAccountFields
-  - ¿Usar polimorfismo? Parewce que lo esta pidiendo a gritos....
+Aceptaciones:
+ 
+ Geherar un bill
+ - Dado un servicio, se genera una factura y se crea un bill, forma de pago: en caja
+ 
+ Cobrar un bill (por caja)
+ - Cuando el socio paga el recibo por caja
+ - El recibo aparece como pagado
+ - El Definitive Payment Method es por caja, y se registra la fecha del pago
+ - Aparte se registra la fecha de pago en el 'bill' (payment date)?
+ - Como es el ultimo recibo, la factura aparecerá como pagada, con fecha la del último bill
+ 
+ Cobrar un bill (por remesa)
+ 
+ Cobrar un bill (por cheque)
+ 
+ Cobrar un bill (transferencia recibida)
+ 
+ Anular un bill
+ 
+ Renegociar un bill 
   
 UnitTest
  - Que coincidan las que entran con las que salen al renegociar las bill
- 
-UnitTest BankAccoount
-- Excepcion al intentar crear una BankAccount con un CCC invalido
 
+----------------------------------------------------------------------
+
+DOMICILIACIONES
+
+Un miembro tiene
+
+ - Un lista de cuentas bancarias
+ - Una lista de domiciliaciones
+ - Si añadimos una domiciliacion nueva sin que la cuenta este dada de alta, se la añadimos
+
+-----------------------------------------------------------------------
+REMESAS

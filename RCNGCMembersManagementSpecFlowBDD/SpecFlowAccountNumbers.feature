@@ -49,6 +49,18 @@ Scenario: When I provide a valid spanish IBAN it is stored, bank account fields 
 	 And the bank account "1234", "5678", "06", "1234567890" is created
 	 And The CCC "12345678061234567890" is created
 
+Scenario: When I provide an ivalid CCC no info is stored nor created
+	Given This CCC "12345678051234567890" 
+	When I process the CCC
+	Then the CCC is considered "invalid"
+	 And the CCC is "not stored"
+
+Scenario: When I provide a invalid spanish IBAN no info is stored nor created
+	Given This IBAN "ES6812345678051234567890" 
+	When I process the IBAN
+	Then the IBAN is considered "invalid"
+	 And the IBAN is "not stored"
+
 Scenario Outline: Theese are the results when processing theese bank accounts
 	Given This bank account <Bank>, <Office>, <ControlDigit>, <AccountNumber> 
 	When I process the bank account
@@ -56,6 +68,8 @@ Scenario Outline: Theese are the results when processing theese bank accounts
 	 And the bank account is <stored>
 	 And The CCC <CCC> is created
 	 And The spanish IBAN code <IBAN> is created
+
+
 
 Scenarios:
 | Bank   | Office | ControlDigit | AccountNumber  | valid     | stored      | CCC                    | IBAN                       |

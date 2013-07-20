@@ -12,6 +12,7 @@ namespace RCNGCMembersManagementAppLogic.Billing
     public class Invoice: BaseInvoice
     {
         List<Bill> invoiceBills;
+        InvoicePaymentState invoiceState;
 
         public Invoice(ClubMember clubMember, List<Transaction> transactionsList, DateTime issueDate)
             :base(clubMember,transactionsList,issueDate)
@@ -19,11 +20,19 @@ namespace RCNGCMembersManagementAppLogic.Billing
             if (transactionsList.Count == 0) throw new ArgumentException("The transactions list is empty");
             invoiceBills = new List<Bill>();
             AddBillForInvoiceTotal("Club Services", issueDate, issueDate.AddDays(30));
+            invoiceState = InvoicePaymentState.ToBePaid;
         }
+
+        public enum InvoicePaymentState { ToBePaid, Paid, Unpaid, Voided, Failed }
 
         public override decimal BillsTotalAmountToCollect
         {
-            get { return GetBillsTotalAmount(Bill.billPaymentResult.ToCollect); }
+            get { return GetBillsTotalAmount(Bill.BillPaymentResult.ToCollect); }
+        }
+
+        public InvoicePaymentState InvoiceState
+        {
+            get { return invoiceState; }
         }
 
         public void AddBillForInvoiceTotal(string description, DateTime issueDate, DateTime dueDate)
@@ -45,12 +54,12 @@ namespace RCNGCMembersManagementAppLogic.Billing
             BillDataManager.Instance.SetInvoiceNumber(currentInvoiceSequenceNumber);
         }
 
-        private decimal GetBillsTotalAmount(Bill.billPaymentResult paymentResult)
+        private decimal GetBillsTotalAmount(Bill.BillPaymentResult paymentResult)
         {
             decimal amount = 0;
             foreach (Bill bill in invoiceBills)
             {
-                if (bill.BillPaymentResult == paymentResult) amount += bill.Amount;
+                if (bill.PaymentResult == paymentResult) amount += bill.Amount;
             }
             return amount;
         }

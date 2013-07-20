@@ -13,7 +13,7 @@ namespace RCNGCMembersManagementAppLogic.Billing
         decimal amount;
         DateTime issueDate;
         DateTime dueDate;
-        billPaymentResult paymentResult;
+        BillPaymentResult paymentResult;
 
         public Bill(string billID, string description, decimal amount, DateTime issueDate, DateTime dueDate)
         {
@@ -22,19 +22,19 @@ namespace RCNGCMembersManagementAppLogic.Billing
             this.amount = amount;
             this.issueDate = issueDate;
             this.dueDate = dueDate;
-            this.paymentResult = (int)billPaymentResult.ToCollect;
+            this.paymentResult = (int)BillPaymentResult.ToCollect;
         }
 
-        public enum billPaymentResult { ToCollect, Paid, Unpaid, CancelledOut, Failed };
+        public enum BillPaymentResult { ToCollect, Paid, Unpaid, CancelledOut, Failed };
 
         public decimal Amount
         {
             get { return amount; }
         }
 
-        public billPaymentResult BillPaymentResult
+        public BillPaymentResult PaymentResult
         {
-            get { return (billPaymentResult)paymentResult; }
+            get { return (BillPaymentResult)paymentResult; }
         }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using System.Collections.Generic;
 using TechTalk.SpecFlow;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -194,6 +195,15 @@ namespace RCNGCMembersManagementSpecFlowBDD
         public void ThenAnInvoiceIsCreatedForTheCostOfTheSale(decimal cost)
         {
             Assert.AreEqual(cost, ((Invoice)ScenarioContext.Current["Invoice"]).NetAmount);
+        }
+
+        [Then(@"The invoice state is ""(.*)""")]
+        public void ThenTheInvoiceStateIs(string invoiceState)
+        {
+            TextInfo ti = CultureInfo.CurrentCulture.TextInfo;
+            invoiceState = ti.ToTitleCase(invoiceState).Replace(" ", "");
+            string invoiceStateEnumToString = ((Invoice)ScenarioContext.Current["Invoice"]).InvoiceState.ToString();
+            Assert.AreEqual(invoiceState,  invoiceStateEnumToString);
         }
 
         [Then(@"The generated Invoice ID should be ""(.*)""")]
