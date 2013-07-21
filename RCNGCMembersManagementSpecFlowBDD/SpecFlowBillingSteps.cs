@@ -173,6 +173,12 @@ namespace RCNGCMembersManagementSpecFlowBDD
             }   
         }
 
+        [When(@"After that I cancel the invoice")]
+        public void WhenAfterThatICancelTheInvoice()
+        {
+            ((Invoice)ScenarioContext.Current["Invoice"]).Cancel();
+        }
+
         [Then(@"An invoice is created for the cost of the service: (.*)")]
         public void ThenAnInvoiceIsCreatedForTheCostOfTheService(decimal cost)
         {
@@ -183,13 +189,6 @@ namespace RCNGCMembersManagementSpecFlowBDD
         public void ThenAProFormaInvoiceIsCreatedForTheCostOfTheService(Decimal cost)
         {
             Assert.AreEqual(cost, ((ProFormaInvoice)ScenarioContext.Current["ProFormaInvoice"]).NetAmount);
-        }
-
-
-        [Then(@"A single bill To Collect is generated for the total amount of the invoice: (.*)")]
-        public void ThenASingleBillToCollectIsGeneratedForTheTotalAmountOfTheInvoice(decimal totalAmount)
-        {
-            Assert.AreEqual(totalAmount, ((Invoice)ScenarioContext.Current["Invoice"]).BillsTotalAmountToCollect);
         }
 
         [Then(@"An invoice is created for the cost of the sale: (.*)")]
@@ -225,6 +224,12 @@ namespace RCNGCMembersManagementSpecFlowBDD
             ArgumentOutOfRangeException exception = (ArgumentOutOfRangeException)ScenarioContext.Current["Exception_On_Invoice_Creation"];
             string[] exceptionMessages = exception.Message.Split(new string[] { Environment.NewLine }, StringSplitOptions.None);
             Assert.AreEqual("Max 999999 invoices per year", exceptionMessages[0]);
+        }
+
+        [Then(@"A single bill To Collect is generated for the total amount of the invoice: (.*)")]
+        public void ThenASingleBillToCollectIsGeneratedForTheTotalAmountOfTheInvoice(decimal totalAmount)
+        {
+            Assert.AreEqual(totalAmount, ((Invoice)ScenarioContext.Current["Invoice"]).BillsTotalAmountToCollect);
         }
 
         [Then(@"No bills are created for a pro forma invoice")]

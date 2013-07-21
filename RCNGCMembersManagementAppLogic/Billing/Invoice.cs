@@ -23,7 +23,7 @@ namespace RCNGCMembersManagementAppLogic.Billing
             invoiceState = InvoicePaymentState.ToBePaid;
         }
 
-        public enum InvoicePaymentState { ToBePaid, Paid, Unpaid, Voided, Failed }
+        public enum InvoicePaymentState { ToBePaid, Paid, Unpaid, Cancelled, Uncollectible }
 
         public override decimal BillsTotalAmountToCollect
         {
@@ -39,6 +39,11 @@ namespace RCNGCMembersManagementAppLogic.Billing
         {
             Bill invoiceBill = new Bill(invoiceID + "/1", description, NetAmount, issueDate, dueDate);
             invoiceBills.Add(invoiceBill);
+        }
+
+        public void Cancel()
+        {
+            this.invoiceState = InvoicePaymentState.Cancelled;
         }
 
         protected override string GetNewInvoiceID()
