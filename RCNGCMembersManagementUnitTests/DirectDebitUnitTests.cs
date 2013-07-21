@@ -17,5 +17,15 @@ namespace RCNGCMembersManagementUnitTests
             DirectDebitMandate directDebitMandate = new DirectDebitMandate(bankAccount, referenceNumber);
             Assert.AreEqual(referenceNumber, directDebitMandate.ReferenceNumber);
         }
+
+        [TestMethod]
+        public void GivenAReferenceNumberAndABankAccountADirectDebitOrderIsCreatedAndBankAccountIsAccesible()
+        {
+            string referenceNumber = "000001102645";
+            ClientAccountCodeCCC ccc = new ClientAccountCodeCCC("12345678061234567890");
+            BankAccount bankAccount = new BankAccount(ccc);
+            DirectDebitMandate directDebitMandate = new DirectDebitMandate(bankAccount, referenceNumber);
+            Assert.AreEqual("12345678061234567890", directDebitMandate.ReferenceNumber);
+        }
     }
 }
