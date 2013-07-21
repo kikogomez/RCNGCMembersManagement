@@ -6,28 +6,45 @@ using RCNGCMembersManagementAppLogic.Billing.DirectDebit;
 
 namespace RCNGCMembersManagementSpecFlowBDD
 {
+    public class BankAccountContextData 
+    {
+        public string bank;
+        public string office;
+        public string checkDigits;
+        public string accountNumber;
+        public string ccc;
+        public string iban;
+    }
+
     [Binding]
     class ManageAccountNumbersSteps
     {
+        private readonly BankAccountContextData bankAccountContextData;
+
+        public ManageAccountNumbersSteps(BankAccountContextData bankAccountContextData)
+        {
+            this.bankAccountContextData = bankAccountContextData;
+        }
+
         [Given(@"This bank account ""(.*)"", ""(.*)"", ""(.*)"", ""(.*)""")]
         public void GivenThisBankAccount(string bank, string  office, string checkDigits, string accountNumber)
         {
-            ScenarioContext.Current.Add("Bank", bank);
-            ScenarioContext.Current.Add("office", office);
-            ScenarioContext.Current.Add("checkDigits", checkDigits);
-            ScenarioContext.Current.Add("accountNumber", accountNumber);
+            bankAccountContextData.bank = bank;
+            bankAccountContextData.office = office;
+            bankAccountContextData.checkDigits = checkDigits;
+            bankAccountContextData.accountNumber = accountNumber;
         }
 
         [Given(@"This CCC ""(.*)""")]
         public void GivenThisCCC(string ccc)
         {
-            ScenarioContext.Current.Add("CCC", ccc);
+            bankAccountContextData.ccc = ccc;
         }
 
         [Given(@"This IBAN ""(.*)""")]
         public void GivenThisIBAN(string iban)
         {
-            ScenarioContext.Current.Add("IBAN",iban);
+            bankAccountContextData.iban = iban;
         }
 
         
@@ -38,10 +55,10 @@ namespace RCNGCMembersManagementSpecFlowBDD
             try
             {
                 BankAccountFields bankAccountFields= new BankAccountFields(
-                    ScenarioContext.Current["Bank"].ToString(),
-                    ScenarioContext.Current["office"].ToString(),
-                    ScenarioContext.Current["checkDigits"].ToString(),
-                    ScenarioContext.Current["accountNumber"].ToString());
+                     bankAccountContextData.bank,
+                     bankAccountContextData.office,
+                     bankAccountContextData.checkDigits,
+                     bankAccountContextData.accountNumber);
                 bankAccount = new BankAccount(bankAccountFields);
                 ScenarioContext.Current.Add("Bank_Account", bankAccount);
             }
@@ -57,7 +74,7 @@ namespace RCNGCMembersManagementSpecFlowBDD
             BankAccount bankAccount;
             try
             {
-                ClientAccountCodeCCC ccc = new ClientAccountCodeCCC(ScenarioContext.Current["CCC"].ToString());
+                ClientAccountCodeCCC ccc = new ClientAccountCodeCCC(bankAccountContextData.ccc);
                 bankAccount = new BankAccount(ccc);
                 ScenarioContext.Current.Add("Bank_Account", bankAccount);
             }
@@ -73,7 +90,7 @@ namespace RCNGCMembersManagementSpecFlowBDD
             BankAccount bankAccount;
             try
             {
-                InternationalAccountBankNumberIBAN iban = new InternationalAccountBankNumberIBAN(ScenarioContext.Current["IBAN"].ToString());
+                InternationalAccountBankNumberIBAN iban = new InternationalAccountBankNumberIBAN(bankAccountContextData.iban);
                 bankAccount = new BankAccount(iban);
                 ScenarioContext.Current.Add("Bank_Account", bankAccount);
             }
@@ -88,10 +105,10 @@ namespace RCNGCMembersManagementSpecFlowBDD
         {
             bool valid = (validity == "valid" ? true : false);
             string ccc =
-                ScenarioContext.Current["Bank"].ToString() +
-                ScenarioContext.Current["office"].ToString() +
-                ScenarioContext.Current["checkDigits"].ToString() +
-                ScenarioContext.Current["accountNumber"].ToString();
+                bankAccountContextData.bank +
+                bankAccountContextData.office +
+                bankAccountContextData.checkDigits +
+                bankAccountContextData.accountNumber;
             Assert.AreEqual(valid, BankAccount.IsValidCCC(ccc));
         }
 
@@ -99,16 +116,14 @@ namespace RCNGCMembersManagementSpecFlowBDD
         public void TheCCCIsConsidered(string validity)
         {
             bool valid = (validity == "valid" ? true : false);
-            string ccc = ScenarioContext.Current["CCC"].ToString();
-            Assert.AreEqual(valid, BankAccount.IsValidCCC(ccc));
+            Assert.AreEqual(valid, BankAccount.IsValidCCC(bankAccountContextData.ccc));
         }
 
         [Then(@"the IBAN is considered ""(.*)""")]
         public void ThenTheIBANIsConsidered(string validity)
         {
             bool valid = (validity == "valid" ? true : false);
-            string iban = ScenarioContext.Current["IBAN"].ToString();
-            Assert.AreEqual(valid, BankAccount.IsValidIBAN(iban));
+            Assert.AreEqual(valid, BankAccount.IsValidIBAN(bankAccountContextData.iban));
         }
         
         [Then(@"the bank account is ""(.*)""")]
@@ -122,10 +137,10 @@ namespace RCNGCMembersManagementSpecFlowBDD
             else
             {
                 BankAccount storedBankAccount = (BankAccount)ScenarioContext.Current["Bank_Account"];
-                Assert.AreEqual(isStored, ScenarioContext.Current["Bank"].ToString() == storedBankAccount.BankAccountFieldCodes.BankCode);
-                Assert.AreEqual(isStored, ScenarioContext.Current["office"].ToString() == storedBankAccount.BankAccountFieldCodes.OfficeCode);
-                Assert.AreEqual(isStored, ScenarioContext.Current["checkDigits"].ToString() == storedBankAccount.BankAccountFieldCodes.CheckDigits);
-                Assert.AreEqual(isStored, ScenarioContext.Current["accountNumber"].ToString() == storedBankAccount.BankAccountFieldCodes.AccountNumber);
+                Assert.AreEqual(isStored, bankAccountContextData.bank == storedBankAccount.BankAccountFieldCodes.BankCode);
+                Assert.AreEqual(isStored, bankAccountContextData.office == storedBankAccount.BankAccountFieldCodes.OfficeCode);
+                Assert.AreEqual(isStored, bankAccountContextData.checkDigits == storedBankAccount.BankAccountFieldCodes.CheckDigits);
+                Assert.AreEqual(isStored, bankAccountContextData.accountNumber == storedBankAccount.BankAccountFieldCodes.AccountNumber);
             }
         }
 
@@ -140,7 +155,7 @@ namespace RCNGCMembersManagementSpecFlowBDD
             else
             {
                 BankAccount storedBankAccount = (BankAccount)ScenarioContext.Current["Bank_Account"];
-                Assert.AreEqual(isStored, ScenarioContext.Current["CCC"].ToString() == storedBankAccount.CCC.CCC);
+                Assert.AreEqual(isStored, bankAccountContextData.ccc == storedBankAccount.CCC.CCC);
             }
         }
 
@@ -155,7 +170,7 @@ namespace RCNGCMembersManagementSpecFlowBDD
             else
             {
                 BankAccount storedBankAccount = (BankAccount)ScenarioContext.Current["Bank_Account"];
-                Assert.AreEqual(isStored, ScenarioContext.Current["IBAN"].ToString() == storedBankAccount.IBAN.IBAN);
+                Assert.AreEqual(isStored, bankAccountContextData.iban == storedBankAccount.IBAN.IBAN);
             }
         }
 

@@ -73,6 +73,7 @@ namespace RCNGCMembersManagementSpecFlowBDD
         [Given(@"These products")]
         public void GivenTheseProducts(Table products)
         {
+            
             productsDictionary = new Dictionary<string, Product>();
             foreach (var row in products.Rows)
             {
