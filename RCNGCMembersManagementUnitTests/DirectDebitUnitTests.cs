@@ -9,7 +9,7 @@ namespace RCNGCMembersManagementUnitTests
     public class DirectDebitUnitTests
     {
         [TestMethod]
-        public void GivenAReferenceNumberAndABankAccountADirectDebitOrderIsCreated()
+        public void GivenAReferenceNumberAndABankAccountADirectDebitOrderIsCreatedAndReferenceNumberIsAccesible()
         {
             string referenceNumber = "000001102645";
             ClientAccountCodeCCC ccc = new ClientAccountCodeCCC("12345678061234567890");

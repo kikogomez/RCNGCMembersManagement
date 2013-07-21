@@ -19,7 +19,7 @@ namespace RCNGCMembersManagementAppLogic.Billing.DirectDebit
 
         public string ReferenceNumber
         {
-            get { return "0"; }
+            get { return referenceNumber; }
         }
     }
 }
