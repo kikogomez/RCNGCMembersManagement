@@ -6,9 +6,11 @@ using System.Threading.Tasks;
 
 namespace RCNGCMembersManagementAppLogic.Billing
 {
-    public interface IInvoiceDataManager
+    public class PaymentMethod
     {
-        uint GetNextInvoiceSequenceNumber();
-        void SetInvoiceSequenceNumber(uint invoiceSequenceNumber);
+        private DateTime paymentDate;
+        public PaymentMethod()
+        {
+        }
     }
 }

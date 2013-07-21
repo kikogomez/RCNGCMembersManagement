@@ -98,6 +98,11 @@ User stories
   Scenario: Añadir un nuevo numero de cuenta
   
  - Features Billing
+  - Un Member tiene un tipo de PaymentMethod definido
+  - Podemos cambiar el default Payment Method de un miembro
+  - Podemos añadir una nueva domiciliacion a la lista de domiciliaciones del socio
+  - Podemos quitar una domiciliacion de la lista de domiciliaciones del socio
+  
   - al añadir un bill este se crea con el PaymentMethod elegido)
   - Podemos cambiar el modo de pago de un bill
   - Un bill es pagado
@@ -108,3 +113,11 @@ User stories
  - Features invoices
   - Cuando un invoice es cancelled todos los pagos restantes son cancelled
   - Cuando un invoice es dado por uncollectible todos los pagos restantes son dados por uncollectible
+ 
+ - Features Servicios
+  - Anadir un servicio
+  - Suscribir a un miembro a un servicio - > asociarle un payment method
+  
+ ---------------------------------------------------------------------------------------------------------
+ DirectDebt unit testing
+  - Los numeros de referencia son parciales. Se construyen usando los datos del contrato (sufijo)

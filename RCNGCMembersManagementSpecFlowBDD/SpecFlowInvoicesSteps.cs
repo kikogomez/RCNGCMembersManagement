@@ -20,7 +20,7 @@ namespace RCNGCMembersManagementSpecFlowBDD
         Dictionary<string, Tax> taxesDictionary;
         Dictionary<string, ClubService> servicesDictionary;
         Dictionary<string, Product> productsDictionary;
-        InvoiceDataManagerMock invoiceDataManagerMock;
+        DataManagerMock invoiceDataManagerMock;
 
         [BeforeScenario]
         public void InitializeTransactionsList()
@@ -33,8 +33,8 @@ namespace RCNGCMembersManagementSpecFlowBDD
         public void GivenLastGeneratedInvoiceIDIs(string lastInvoiceID)
         {
             this.lastInvoiceID = lastInvoiceID;
-            invoiceDataManagerMock = new InvoiceDataManagerMock();
-            BillDataManager.Instance.SetInvoiceDataManagerCollaborator(invoiceDataManagerMock);
+            invoiceDataManagerMock = new DataManagerMock();
+            BillDataManager.Instance.SetDataManagerCollaborator(invoiceDataManagerMock);
             BillDataManager.Instance.SetInvoiceNumber(uint.Parse(lastInvoiceID.Substring(7)));
         }
 
@@ -111,6 +111,14 @@ namespace RCNGCMembersManagementSpecFlowBDD
             AddTransactionsToTransactionList((List<Transaction>)ScenarioContext.Current["Transactions_List"], transactions);
         }
 
+        [When(@"I generate an invoice for the service")]
+        public void WhenIGenerateAnInvoiceForTheService()
+        {
+            DateTime issueDate = DateTime.Now;
+            Invoice invoice = new Invoice(clubMember, TransactionListForSingleElement((ClubService)ScenarioContext.Current["A_Club_Service"]), issueDate);
+            ScenarioContext.Current.Add("Invoice", invoice);
+        }
+
         [Given(@"I generate a pro forma invoice for this/these transaction/s")]
         public void GivenIGenerateAProFormaInvoiceForThisTheseTransactionS(Table transactions)
         {
@@ -118,14 +126,6 @@ namespace RCNGCMembersManagementSpecFlowBDD
             AddTransactionsToTransactionList(transactionsList, transactions);
             ProFormaInvoice proFormaInvoice = new ProFormaInvoice(clubMember, transactionsList, DateTime.Now);
             ScenarioContext.Current.Add("ProFormaInvoice", proFormaInvoice);
-        }
-
-        [When(@"I generate an invoice for the service")]
-        public void WhenIGenerateAnInvoiceForTheService()
-        {
-            DateTime issueDate = DateTime.Now;        
-            Invoice invoice = new Invoice(clubMember, TransactionListForSingleElement((ClubService)ScenarioContext.Current["A_Club_Service"]), issueDate);
-            ScenarioContext.Current.Add("Invoice", invoice);
         }
 
         [When(@"I generate an invoice for the sale")]

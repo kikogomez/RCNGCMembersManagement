@@ -39,6 +39,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Billing\CashPayment.cs" />
     <Compile Include="Billing\DirectDebit\BankAccount.cs" />
     <Compile Include="Billing\DirectDebit\BankAccountChekNumbersCalculator.cs" />
     <Compile Include="Billing\BaseInvoice.cs" />
@@ -46,11 +47,13 @@
     <Compile Include="Billing\BillDataManager.cs" />
     <Compile Include="Billing\DirectDebit\BankAccountFields.cs" />
     <Compile Include="Billing\DirectDebit\ClientAccountCodeCCC.cs" />
+    <Compile Include="Billing\DirectDebit\DirectDebit.cs" />
     <Compile Include="Billing\DirectDebit\DirectDebitMandate.cs" />
-    <Compile Include="Billing\IInvoiceDataManager.cs" />
+    <Compile Include="Billing\IDataManager.cs" />
     <Compile Include="Billing\DirectDebit\InternationalAccountBankNumberIBAN.cs" />
     <Compile Include="Billing\Invoice.cs" />
     <Compile Include="Billing\ITransactionable.cs" />
+    <Compile Include="Billing\PaymentMethod.cs" />
     <Compile Include="Billing\ProFormaInvoice.cs" />
     <Compile Include="Billing\Sale.cs" />
     <Compile Include="Billing\ServiceCharge.cs" />

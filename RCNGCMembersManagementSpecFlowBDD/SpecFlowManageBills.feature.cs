@@ -81,14 +81,16 @@ namespace RCNGCMembersManagementSpecFlowBDD
                         "FirstSurname",
                         "SecondSurname",
                         "Default Payment method",
-                        "Spanish IBAN Bank Account"});
+                        "Spanish IBAN Bank Account",
+                        "Direct Debit Reference Number"});
             table1.AddRow(new string[] {
                         "00001",
                         "Francisco",
                         "Gomez-Caldito",
                         "Viseas",
                         "Direct Debit",
-                        "IBAN ES68 1234 5678 0612 3456 7890"});
+                        "IBAN ES68 1234 5678 0612 3456 7890",
+                        "12345"});
 #line 9
  testRunner.Given("A Club Member with a default Payment method", ((string)(null)), table1, "Given ");
 #line hidden
@@ -166,25 +168,23 @@ namespace RCNGCMembersManagementSpecFlowBDD
         [Microsoft.VisualStudio.TestTools.UnitTesting.TestMethodAttribute()]
         [Microsoft.VisualStudio.TestTools.UnitTesting.DescriptionAttribute("A single bill automatically created for a new invoice")]
         [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("FeatureTitle", "Manage bills")]
-        [Microsoft.VisualStudio.TestTools.UnitTesting.TestCategoryAttribute("mytag")]
         public virtual void ASingleBillAutomaticallyCreatedForANewInvoice()
         {
-            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("A single bill automatically created for a new invoice", new string[] {
-                        "mytag"});
-#line 37
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("A single bill automatically created for a new invoice", ((string[])(null)));
+#line 36
 this.ScenarioSetup(scenarioInfo);
 #line 6
 this.FeatureBackground();
-#line 38
+#line 37
  testRunner.Given("The member uses the club service \"Rent a kajak\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
-#line 39
+#line 38
  testRunner.When("I generate an invoice for the service", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
-#line 40
+#line 39
  testRunner.Then("An invoice is created for the cost of the service: 53.50", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
-#line 41
+#line 40
  testRunner.And("A single bill To Collect is generated for the total amount of the invoice: 53.50", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
-#line 42
- testRunner.And("The bill has associated a payment method designated by the member", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line 41
+ testRunner.And("The bill payment method is the default one associated to the member", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
             this.ScenarioCleanup();
         }

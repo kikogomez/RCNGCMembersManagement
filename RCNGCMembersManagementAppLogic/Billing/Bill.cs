@@ -14,6 +14,7 @@ namespace RCNGCMembersManagementAppLogic.Billing
         DateTime issueDate;
         DateTime dueDate;
         BillPaymentResult paymentResult;
+        BillPaymentMethod expectedBillPaymentMethod;
 
         public Bill(string billID, string description, decimal amount, DateTime issueDate, DateTime dueDate)
         {
@@ -26,6 +27,7 @@ namespace RCNGCMembersManagementAppLogic.Billing
         }
 
         public enum BillPaymentResult { ToCollect, Paid, Unpaid, CancelledOut, Failed };
+        public enum BillPaymentMethod { Cash, CreditCard, Check, BankTransfer, DirectDebit };
 
         public decimal Amount
         {

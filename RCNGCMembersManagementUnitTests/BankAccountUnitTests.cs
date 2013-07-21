@@ -1,6 +1,7 @@
 ﻿using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using RCNGCMembersManagementAppLogic.Billing.DirectDebit;
+using RCNGCMembersManagementMocks;
 
 namespace RCNGCMembersManagementUnitTests
 {

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace RCNGCMembersManagementAppLogic.Billing.DirectDebit
 {
-    class DirectDebitMandate
+    public class DirectDebitMandate
     {
         string referenceNumber;
         BankAccount bankAccount;

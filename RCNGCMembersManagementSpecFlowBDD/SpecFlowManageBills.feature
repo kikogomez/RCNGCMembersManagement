@@ -7,8 +7,8 @@ Background:
 	Given Last generated InvoiceID is "MMM2013000023"
 	
 	Given A Club Member with a default Payment method
-	| MemberID | Name      | FirstSurname  | SecondSurname | Default Payment method | Spanish IBAN Bank Account          |
-	| 00001    | Francisco | Gomez-Caldito | Viseas        | Direct Debit           | IBAN ES68 1234 5678 0612 3456 7890 |
+	| MemberID | Name      | FirstSurname  | SecondSurname | Default Payment method | Spanish IBAN Bank Account          | Direct Debit Reference Number |
+	| 00001    | Francisco | Gomez-Caldito | Viseas        | Direct Debit           | IBAN ES68 1234 5678 0612 3456 7890 | 12345                         |
 
 	Given This set of taxes
 	| Tax Type            | Tax Value |
@@ -33,10 +33,9 @@ Background:
 	| Cup            | 15.00        | IGIC General |
 	| Member ID Card | 1.50         | No IGIC      |
 
-@mytag
 Scenario: A single bill automatically created for a new invoice
 	Given The member uses the club service "Rent a kajak"
 	When I generate an invoice for the service
 	Then An invoice is created for the cost of the service: 53.50
 	And A single bill To Collect is generated for the total amount of the invoice: 53.50
-	And The bill has associated a payment method designated by the member
+	And The bill payment method is the default one associated to the member

@@ -2,6 +2,7 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using RCNGCMembersManagementAppLogic.Billing;
 using RCNGCMembersManagementAppLogic.Billing.DirectDebit;
+using RCNGCMembersManagementMocks;
 
 namespace RCNGCMembersManagementUnitTests
 {
@@ -11,7 +12,7 @@ namespace RCNGCMembersManagementUnitTests
         [TestMethod]
         public void GivenAReferenceNumberAndABankAccountADirectDebitOrderIsCreatedAndReferenceNumberIsAccesible()
         {
-            string referenceNumber = "000001102645";
+            string referenceNumber = "002645";
             ClientAccountCodeCCC ccc = new ClientAccountCodeCCC("12345678061234567890");
             BankAccount bankAccount = new BankAccount(ccc);
             DirectDebitMandate directDebitMandate = new DirectDebitMandate(bankAccount, referenceNumber);
@@ -21,7 +22,7 @@ namespace RCNGCMembersManagementUnitTests
         [TestMethod]
         public void GivenAReferenceNumberAndABankAccountADirectDebitOrderIsCreatedAndBankAccountIsAccesible()
         {
-            string referenceNumber = "000001102645";
+            string referenceNumber = "002645";
             ClientAccountCodeCCC ccc = new ClientAccountCodeCCC("12345678061234567890");
             BankAccount bankAccount = new BankAccount(ccc);
             DirectDebitMandate directDebitMandate = new DirectDebitMandate(bankAccount, referenceNumber);
@@ -31,7 +32,7 @@ namespace RCNGCMembersManagementUnitTests
         [TestMethod]
         public void TheReferenceNumberOfADirectDebitOrderCanBeChanged()
         {
-            string referenceNumber = "000001102645";
+            string referenceNumber = "002645";
             ClientAccountCodeCCC ccc = new ClientAccountCodeCCC("12345678061234567890");
             BankAccount bankAccount = new BankAccount(ccc);
             DirectDebitMandate directDebitMandate = new DirectDebitMandate(bankAccount, referenceNumber);
@@ -42,7 +43,7 @@ namespace RCNGCMembersManagementUnitTests
         [TestMethod]
         public void TheBankAccountOfADirectDebitOrderCanBeChanged()
         {
-            string referenceNumber = "000001102645";
+            string referenceNumber = "002645";
             ClientAccountCodeCCC ccc = new ClientAccountCodeCCC("12345678061234567890");
             BankAccount bankAccount = new BankAccount(ccc);
             DirectDebitMandate directDebitMandate = new DirectDebitMandate(bankAccount, referenceNumber);
@@ -50,6 +51,16 @@ namespace RCNGCMembersManagementUnitTests
             BankAccount newBankAccount= new BankAccount(bankAccountFields);
             directDebitMandate.BankAcount = newBankAccount;
             Assert.AreEqual("01280035690987654321", directDebitMandate.BankAcount.CCC.CCC);
+        }
+
+        [TestMethod]
+        public void ProvidingTheLastDirectDebitReferenceNumberWas100TheNextAssignedMustBe101()
+        {
+            uint lastDirectDebitReferenceNumber = 100;
+            DataManagerMock directDebitDataManagerMock= new DataManagerMock();;
+            BillDataManager.Instance.SetDataManagerCollaborator(directDebitDataManagerMock);
+            BillDataManager.Instance.SetInvoiceNumber(lastDirectDebitReferenceNumber);
+            Assert.AreEqual((uint)101, BillDataManager.Instance.GetNextInvoiceSequenceNumber());
         }
     }
 }

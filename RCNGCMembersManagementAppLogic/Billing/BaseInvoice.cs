@@ -13,7 +13,6 @@ namespace RCNGCMembersManagementAppLogic.Billing
     {
         protected string invoiceID;
         protected DateTime issueDate;
-        protected string memberID;
         protected string clientFullName;
         protected List<Transaction> invoiceDetail;
 
@@ -21,7 +20,6 @@ namespace RCNGCMembersManagementAppLogic.Billing
         {
             this.invoiceID = GetNewInvoiceID();
             this.issueDate = issueDate;
-            this.memberID = clubMember.MemberID;
             this.clientFullName = clubMember.FullName;
             invoiceDetail = transactionsList;
             UpdateInvoiceSequenceNumber();
