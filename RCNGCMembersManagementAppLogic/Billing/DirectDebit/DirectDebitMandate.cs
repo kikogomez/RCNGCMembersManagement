@@ -20,6 +20,13 @@ namespace RCNGCMembersManagementAppLogic.Billing.DirectDebit
         public string ReferenceNumber
         {
             get { return referenceNumber; }
+            set { referenceNumber = value; }
+        }
+
+        public BankAccount BankAcount
+        {
+            get { return bankAccount; }
+            set { bankAccount = value; }
         }
     }
 }
