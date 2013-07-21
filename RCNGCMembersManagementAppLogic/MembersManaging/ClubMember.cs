@@ -45,6 +45,7 @@ namespace RCNGCMembersManagementAppLogic.MembersManaging
         {
             this.defaultPaymentMethod = paymentMethod;
         }
+
         public void AddInvoice(Invoice invoice)
         {
             invoicesList.Add(invoice.InvoiceID, invoice);

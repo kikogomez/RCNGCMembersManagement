@@ -15,20 +15,24 @@ namespace RCNGCMembersManagementSpecFlowBDD
     [Binding]
     public class SpecFlowBillsSteps
     {
-        string lastInvoiceID;
+        //string lastInvoiceID;
         ClubMember clubMember;
-        Dictionary<string, Tax> taxesDictionary;
-        Dictionary<string, ClubService> servicesDictionary;
-        Dictionary<string, Product> productsDictionary;
-        DataManagerMock invoiceDataManagerMock;
+        //Dictionary<string, Tax> taxesDictionary;
+        //Dictionary<string, ClubService> servicesDictionary;
+        //Dictionary<string, Product> productsDictionary;
+        //DataManagerMock invoiceDataManagerMock;
 
         [Given(@"A Club Member with a default Payment method")]
         public void GivenAClubMemberWithADefaultPaymentMethod(Table clientsTable)
         {
             clubMember = new ClubMember(clientsTable.Rows[0]["MemberID"], clientsTable.Rows[0]["Name"], clientsTable.Rows[0]["FirstSurname"], clientsTable.Rows[0]["SecondSurname"]);
-            string iban = clientsTable.Rows[0]["Spanish IBAN Bank Account"];
-
-            //DirectDebitMandate directDebitMandate = new DirectDebitMandate();
+            string electronicIBANString = clientsTable.Rows[0]["Spanish IBAN Bank Account"].Replace(" ","").Substring(4);
+            InternationalAccountBankNumberIBAN iban = new InternationalAccountBankNumberIBAN(electronicIBANString);
+            BankAccount bankAccount = new BankAccount(iban);
+            DirectDebitMandate directDebitmandate = new DirectDebitMandate(bankAccount, "12345");
+            PaymentMethod paymentMethod = new DirectDebit(directDebitmandate);
+            clubMember.AddDirectDebitMandate(directDebitmandate);
+            clubMember.SetDefaultPaymentMethod(paymentMethod);
         }
 
         [Then(@"A single bill To Collect is generated for the total amount of the invoice: (.*)")]

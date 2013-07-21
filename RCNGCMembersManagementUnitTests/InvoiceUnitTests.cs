@@ -8,7 +8,7 @@ using RCNGCMembersManagementMocks;
 namespace RCNGCMembersManagementUnitTests.Billing
 {
     [TestClass]
-    public class BillingUnitTests
+    public class InvoiceUnitTests
     {
         [ClassInitialize]
         public static void ClassInit(TestContext context)
