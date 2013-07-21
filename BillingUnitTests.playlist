@@ -1,1 +1,1 @@
-<Playlist Version="1.0"><Add Test="RCNGCMembersManagementUnitTests.BillUnitTests.TheDefaultPaymentMethodOfANewBillisCashPayment" /></Playlist>
+<Playlist Version="1.0"><Add Test="RCNGCMembersManagementUnitTests.BillUnitTests.TheDefaultPaymentMethodOfANewBillisCashPayment" /><Add Test="RCNGCMembersManagementUnitTests.BillUnitTests.TheBillIDOfANewBillISCreatedAutomaticallyByTheInvoiceWhenAddedtoIt" /><Add Test="RCNGCMembersManagementUnitTests.BillUnitTests.TheBillsRelationOfAInvoiceIsReadable" /></Playlist>

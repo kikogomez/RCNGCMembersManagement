@@ -23,7 +23,21 @@ namespace RCNGCMembersManagementAppLogic.Billing
             invoiceState = InvoicePaymentState.ToBePaid;
         }
 
+        public Invoice(string invoiceID, ClubMember clubMember, List<Transaction> transactionsList, DateTime issueDate)
+            : base(invoiceID, clubMember, transactionsList, issueDate)
+        {
+            if (transactionsList.Count == 0) throw new ArgumentException("The transactions list is empty");
+            invoiceBills = new List<Bill>();
+            AddBillForInvoiceTotal("Club Services", issueDate, issueDate.AddDays(30));
+            invoiceState = InvoicePaymentState.ToBePaid;
+        }
+
         public enum InvoicePaymentState { ToBePaid, Paid, Unpaid, Cancelled, Uncollectible }
+
+        public List<Bill> Bills
+        {
+            get { return invoiceBills; }
+        }
 
         public override decimal BillsTotalAmountToCollect
         {
@@ -37,7 +51,7 @@ namespace RCNGCMembersManagementAppLogic.Billing
 
         public void AddBillForInvoiceTotal(string description, DateTime issueDate, DateTime dueDate)
         {
-            Bill invoiceBill = new Bill(invoiceID + "/1", description, NetAmount, issueDate, dueDate);
+            Bill invoiceBill = new Bill(invoiceID + "/001", description, NetAmount, issueDate, dueDate);
             invoiceBills.Add(invoiceBill);
         }
 

@@ -24,6 +24,14 @@ namespace RCNGCMembersManagementAppLogic.Billing
             invoiceDetail = transactionsList;
             UpdateInvoiceSequenceNumber();
         }
+        
+        public BaseInvoice(string invoiceID, ClubMember clubMember, List<Transaction> transactionsList, DateTime issueDate)
+        {
+            this.invoiceID = invoiceID;
+            this.issueDate = issueDate;
+            this.clientFullName = clubMember.FullName;
+            invoiceDetail = transactionsList;
+        }
 
         public string InvoiceID
         {

@@ -119,5 +119,15 @@ User stories
   - Suscribir a un miembro a un servicio - > asociarle un payment method
   
  ---------------------------------------------------------------------------------------------------------
- DirectDebt unit testing
-  - Los numeros de referencia son parciales. Se construyen usando los datos del contrato (sufijo)
+Bill Unit Testing
+ - La lista de Bills asociada a unninvoice es accesible (tiene un 'get')
+ - Si es un nuevo 'Bill' ID del bill lom calcula la clase invoice al añadir el bill al invoice
+ - Un bill puede ser creado con una forma definida de pago
+ - Un bill puede cambiar su forma definida de pago
+ - A un bill se le puede cambiar la fecha de vencimiento
+
+ ---------------------------------------------------------------------------------------------------------
+Invoice Unit Testing
+ - Al añadir una factura CON INVOICEID se supone que estamos cargando desde la persistencia, luego el
+ constructor ha de incluir TODOS los campos (bills...)
+ 

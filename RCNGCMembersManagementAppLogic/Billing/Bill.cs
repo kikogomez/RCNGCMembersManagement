@@ -27,9 +27,24 @@ namespace RCNGCMembersManagementAppLogic.Billing
             this.paymentMethod = new CashPayment();
         }
 
+        public Bill(string description, decimal amount, DateTime issueDate, DateTime dueDate)
+        {
+            this.description = description;
+            this.amount = amount;
+            this.issueDate = issueDate;
+            this.dueDate = dueDate;
+            this.paymentResult = (int)BillPaymentResult.ToCollect;
+            this.paymentMethod = new CashPayment();
+        }
+
         public enum BillPaymentResult { ToCollect, Paid, Unpaid, CancelledOut, Failed };
         //public enum BillPaymentMethod { Cash, CreditCard, Check, BankTransfer, DirectDebit };
 
+        public string BillID
+        {
+            get { return billID; }
+            set { billID = value; }
+        }
         public decimal Amount
         {
             get { return amount; }
