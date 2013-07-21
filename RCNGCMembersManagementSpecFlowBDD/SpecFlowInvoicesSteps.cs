@@ -13,7 +13,7 @@ using RCNGCMembersManagementMocks;
 namespace RCNGCMembersManagementSpecFlowBDD
 {
     [Binding]
-    class SpecFlowBillingSteps
+    class SpecFlowInvoicesSteps
     {
         string lastInvoiceID;
         ClubMember clubMember;
@@ -226,17 +226,17 @@ namespace RCNGCMembersManagementSpecFlowBDD
             Assert.AreEqual("Max 999999 invoices per year", exceptionMessages[0]);
         }
 
-        [Then(@"A single bill To Collect is generated for the total amount of the invoice: (.*)")]
+ /*       [Then(@"A single bill To Collect is generated for the total amount of the invoice: (.*)")]
         public void ThenASingleBillToCollectIsGeneratedForTheTotalAmountOfTheInvoice(decimal totalAmount)
         {
             Assert.AreEqual(totalAmount, ((Invoice)ScenarioContext.Current["Invoice"]).BillsTotalAmountToCollect);
-        }
-
+        }*/
+/*
         [Then(@"No bills are created for a pro forma invoice")]
         public void ThenNoBillsAreCreatedForAProFormaInvoice()
         {
             Assert.AreEqual(0, ((ProFormaInvoice)ScenarioContext.Current["ProFormaInvoice"]).BillsTotalAmountToCollect);
-        }
+        }*/
 
         [Then(@"The pro forma invoice is modified reflecting the new value: (.*)")]
         public void ThenTheProFormaInvoiceIsModifiedReflectingTheNewValue(Decimal amount)

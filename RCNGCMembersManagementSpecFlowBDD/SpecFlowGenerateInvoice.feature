@@ -120,9 +120,4 @@ Scenario: We can mix services charges and sales in a single invoice
 	Then An invoice is created for the cost of the service: 375.25
 	And The invoice state is "To be paid"
 
-Scenario: In some special cases, an invoice can be cancelled
-	Given The member uses the club service "Rent a kajak"
-	When I generate an invoice for the service
-	And After that I cancel the invoice
-	Then An invoice is created for the cost of the service: 53.50
-	And The invoice state is "Cancelled"
+

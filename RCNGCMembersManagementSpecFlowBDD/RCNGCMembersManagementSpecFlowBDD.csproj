@@ -59,12 +59,13 @@
       <DependentUpon>SpecFlowAccountNumbers.feature</DependentUpon>
     </Compile>
     <Compile Include="SpecFlowAccountNumbersSteps.cs" />
+    <Compile Include="SpecFlowBillsSteps.cs" />
     <Compile Include="SpecFlowGenerateInvoice.feature.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>SpecFlowGenerateInvoice.feature</DependentUpon>
     </Compile>
-    <Compile Include="SpecFlowBillingSteps.cs" />
+    <Compile Include="SpecFlowInvoicesSteps.cs" />
     <Compile Include="SpecFlowGenerateProFormaInvoice.feature.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -76,6 +77,11 @@
       <DependentUpon>SpecFlowManageBills.feature</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SpecFlowManageInvoices.feature.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>SpecFlowManageInvoices.feature</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config">
@@ -97,6 +103,10 @@
     <None Include="SpecFlowManageBills.feature">
       <Generator>SpecFlowSingleFileGenerator</Generator>
       <LastGenOutput>SpecFlowManageBills.feature.cs</LastGenOutput>
+    </None>
+    <None Include="SpecFlowManageInvoices.feature">
+      <Generator>SpecFlowSingleFileGenerator</Generator>
+      <LastGenOutput>SpecFlowManageInvoices.feature.cs</LastGenOutput>
     </None>
   </ItemGroup>
   <ItemGroup>

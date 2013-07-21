@@ -19,20 +19,20 @@ namespace RCNGCMembersManagementSpecFlowBDD
     [System.CodeDom.Compiler.GeneratedCodeAttribute("TechTalk.SpecFlow", "1.9.0.77")]
     [System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     [Microsoft.VisualStudio.TestTools.UnitTesting.TestClassAttribute()]
-    public partial class ManageBillsFeature
+    public partial class SpecFlowManageInvoicesFeature
     {
         
         private static TechTalk.SpecFlow.ITestRunner testRunner;
         
-#line 1 "SpecFlowManageBills.feature"
+#line 1 "SpecFlowManageInvoices.feature"
 #line hidden
         
         [Microsoft.VisualStudio.TestTools.UnitTesting.ClassInitializeAttribute()]
         public static void FeatureSetup(Microsoft.VisualStudio.TestTools.UnitTesting.TestContext testContext)
         {
             testRunner = TechTalk.SpecFlow.TestRunnerManager.GetTestRunner();
-            TechTalk.SpecFlow.FeatureInfo featureInfo = new TechTalk.SpecFlow.FeatureInfo(new System.Globalization.CultureInfo("en-US"), "Manage bills", "In order charge my invoices\r\nAs an administrative assistant\r\nI want reate and man" +
-                    "age bills for my invoices", ProgrammingLanguage.CSharp, ((string[])(null)));
+            TechTalk.SpecFlow.FeatureInfo featureInfo = new TechTalk.SpecFlow.FeatureInfo(new System.Globalization.CultureInfo("en-US"), "SpecFlowManageInvoices", "In order to control the debt\r\nAs a an administrtative assistant\r\nI want to manage" +
+                    " the invoices", ProgrammingLanguage.CSharp, ((string[])(null)));
             testRunner.OnFeatureStart(featureInfo);
         }
         
@@ -47,9 +47,9 @@ namespace RCNGCMembersManagementSpecFlowBDD
         public virtual void TestInitialize()
         {
             if (((TechTalk.SpecFlow.FeatureContext.Current != null) 
-                        && (TechTalk.SpecFlow.FeatureContext.Current.FeatureInfo.Title != "Manage bills")))
+                        && (TechTalk.SpecFlow.FeatureContext.Current.FeatureInfo.Title != "SpecFlowManageInvoices")))
             {
-                RCNGCMembersManagementSpecFlowBDD.ManageBillsFeature.FeatureSetup(null);
+                RCNGCMembersManagementSpecFlowBDD.SpecFlowManageInvoicesFeature.FeatureSetup(null);
             }
         }
         
@@ -79,18 +79,14 @@ namespace RCNGCMembersManagementSpecFlowBDD
                         "MemberID",
                         "Name",
                         "FirstSurname",
-                        "SecondSurname",
-                        "Default Payment method",
-                        "Spanish IBAN Bank Account"});
+                        "SecondSurname"});
             table1.AddRow(new string[] {
                         "00001",
                         "Francisco",
                         "Gomez-Caldito",
-                        "Viseas",
-                        "Direct Debit",
-                        "IBAN ES68 1234 5678 0612 3456 7890"});
+                        "Viseas"});
 #line 9
- testRunner.Given("A Club Member with a default Payment method", ((string)(null)), table1, "Given ");
+ testRunner.Given("A Club Member", ((string)(null)), table1, "Given ");
 #line hidden
             TechTalk.SpecFlow.Table table2 = new TechTalk.SpecFlow.Table(new string[] {
                         "Tax Type",
@@ -164,13 +160,11 @@ namespace RCNGCMembersManagementSpecFlowBDD
         }
         
         [Microsoft.VisualStudio.TestTools.UnitTesting.TestMethodAttribute()]
-        [Microsoft.VisualStudio.TestTools.UnitTesting.DescriptionAttribute("A single bill automatically created for a new invoice")]
-        [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("FeatureTitle", "Manage bills")]
-        [Microsoft.VisualStudio.TestTools.UnitTesting.TestCategoryAttribute("mytag")]
-        public virtual void ASingleBillAutomaticallyCreatedForANewInvoice()
+        [Microsoft.VisualStudio.TestTools.UnitTesting.DescriptionAttribute("In some special cases, an invoice can be cancelled")]
+        [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("FeatureTitle", "SpecFlowManageInvoices")]
+        public virtual void InSomeSpecialCasesAnInvoiceCanBeCancelled()
         {
-            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("A single bill automatically created for a new invoice", new string[] {
-                        "mytag"});
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("In some special cases, an invoice can be cancelled", ((string[])(null)));
 #line 37
 this.ScenarioSetup(scenarioInfo);
 #line 6
@@ -180,11 +174,11 @@ this.FeatureBackground();
 #line 39
  testRunner.When("I generate an invoice for the service", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line 40
- testRunner.Then("An invoice is created for the cost of the service: 53.50", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+ testRunner.And("After that I cancel the invoice", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 41
- testRunner.And("A single bill To Collect is generated for the total amount of the invoice: 53.50", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+ testRunner.Then("An invoice is created for the cost of the service: 53.50", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line 42
- testRunner.And("The bill has associated a payment method designated by the member", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+ testRunner.And("The invoice state is \"Cancelled\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
             this.ScenarioCleanup();
         }
