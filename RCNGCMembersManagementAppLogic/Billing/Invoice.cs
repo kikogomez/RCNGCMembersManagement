@@ -19,7 +19,7 @@ namespace RCNGCMembersManagementAppLogic.Billing
         {
             if (transactionsList.Count == 0) throw new ArgumentException("The transactions list is empty");
             invoiceBills = new List<Bill>();
-            AddBillForInvoiceTotal("Club Services", issueDate, issueDate.AddDays(30), clubMember.DefaultPaymentMethod);
+            AddBillForInvoiceTotal("Club Services", issueDate, issueDate.AddDays(30));
             invoiceState = InvoicePaymentState.ToBePaid;
         }
 
@@ -28,7 +28,7 @@ namespace RCNGCMembersManagementAppLogic.Billing
         {
             if (transactionsList.Count == 0) throw new ArgumentException("The transactions list is empty");
             invoiceBills = new List<Bill>();
-            AddBillForInvoiceTotal("Club Services", issueDate, issueDate.AddDays(30), clubMember.DefaultPaymentMethod);
+            AddBillForInvoiceTotal("Club Services", issueDate, issueDate.AddDays(30));
             invoiceState = InvoicePaymentState.ToBePaid;
         }
 
@@ -49,9 +49,9 @@ namespace RCNGCMembersManagementAppLogic.Billing
             get { return invoiceState; }
         }
 
-        public void AddBillForInvoiceTotal(string description, DateTime issueDate, DateTime dueDate, PaymentMethod paymentMethod)
+        public void AddBillForInvoiceTotal(string description, DateTime issueDate, DateTime dueDate)
         {
-            Bill invoiceBill = new Bill(invoiceID + "/001", description, NetAmount, issueDate, dueDate, paymentMethod);
+            Bill invoiceBill = new Bill(invoiceID + "/001", description, NetAmount, issueDate, dueDate);
             invoiceBills.Add(invoiceBill);
         }
 

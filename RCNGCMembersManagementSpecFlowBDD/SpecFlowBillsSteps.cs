@@ -53,5 +53,12 @@ namespace RCNGCMembersManagementSpecFlowBDD
             Assert.AreEqual(membersManagementContextData.clubMember.DefaultPaymentMethod, ((Invoice)ScenarioContext.Current["Invoice"]).Bills[0].PaymentMethod);
         }
 
+        [Then(@"By default no payment method is associated to bill")]
+        public void ThenByDefaultNoPaymentMethodIsAssociatedToBill()
+        {
+            Assert.IsNull(((Invoice)ScenarioContext.Current["Invoice"]).Bills[0].PaymentMethod);
+        }
+
+
     }
 }

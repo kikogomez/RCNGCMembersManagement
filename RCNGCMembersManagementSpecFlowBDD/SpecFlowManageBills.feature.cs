@@ -166,13 +166,13 @@ namespace RCNGCMembersManagementSpecFlowBDD
         }
         
         [Microsoft.VisualStudio.TestTools.UnitTesting.TestMethodAttribute()]
-        [Microsoft.VisualStudio.TestTools.UnitTesting.DescriptionAttribute("A single bill automatically created for a new invoice with the member\'s default p" +
-            "ayment method associated")]
+        [Microsoft.VisualStudio.TestTools.UnitTesting.DescriptionAttribute("A single bill is automatically created for a new invoice with the member\'s defaul" +
+            "t payment method associated")]
         [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("FeatureTitle", "Manage bills")]
-        public virtual void ASingleBillAutomaticallyCreatedForANewInvoiceWithTheMemberSDefaultPaymentMethodAssociated()
+        public virtual void ASingleBillIsAutomaticallyCreatedForANewInvoiceWithTheMemberSDefaultPaymentMethodAssociated()
         {
-            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("A single bill automatically created for a new invoice with the member\'s default p" +
-                    "ayment method associated", ((string[])(null)));
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("A single bill is automatically created for a new invoice with the member\'s defaul" +
+                    "t payment method associated", ((string[])(null)));
 #line 36
 this.ScenarioSetup(scenarioInfo);
 #line 6
@@ -186,7 +186,7 @@ this.FeatureBackground();
 #line 40
  testRunner.And("A single bill To Collect is generated for the total amount of the invoice: 53.50", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 41
- testRunner.And("The bill payment method is the default one associated to the member", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+ testRunner.And("By default no payment method is associated to bill", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
             this.ScenarioCleanup();
         }

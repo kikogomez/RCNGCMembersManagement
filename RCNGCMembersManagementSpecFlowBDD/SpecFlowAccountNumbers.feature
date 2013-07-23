@@ -1,7 +1,9 @@
-﻿Feature: Manage account numbers. We need to store invalid CCC coming from old databases. They are never longer than  CCC standard
+﻿Feature: Manage account numbers
 	In order to create direct debits
 	As an administrative assistant
 	I want to process account numbers
+	I want to store old incomplete bank account fields from previuos database
+	I want to accept only valid accounts if CCC or IBAN are provided
 
 Scenario: When I provide a valid bank account it is stored and CCC and IBAN is created
 	Given This bank account "1234", "5678", "06", "1234567890" 

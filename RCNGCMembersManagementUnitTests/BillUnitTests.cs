@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using RCNGCMembersManagementAppLogic.Billing;
+using RCNGCMembersManagementAppLogic.Billing.DirectDebit;
 using RCNGCMembersManagementAppLogic.MembersManaging;
 using RCNGCMembersManagementMocks;
 
@@ -11,6 +12,7 @@ namespace RCNGCMembersManagementUnitTests
     public class BillUnitTests
     {
         static List<Transaction> transactionList;
+        static List<Bill> billsList;
         static ClubMember clubMember;
 
         [ClassInitialize]
@@ -37,19 +39,45 @@ namespace RCNGCMembersManagementUnitTests
             Assert.AreEqual(1, invoice.Bills.Count);
         }
 
+/*        [TestMethod]
+        public void ABillOf650IsAutomaticallyCreatedForAnInvoiceOf650NetAmount()
+        {
+            BillDataManager.Instance.SetInvoiceNumber(5000);
+            Invoice invoice = new Invoice(clubMember, transactionList, DateTime.Now);
+            Assert.AreEqual(1, invoice.Bills.Count);
+        }*/
+
         [TestMethod]
-        public void TheBillIDOfANewBillISCreatedAutomaticallyByTheInvoiceWhenAddedtoIt()
+        public void TheFirstBillOfAInvoiceWithAnIDMMM2013005001IsMMM2013005001_001()
         {
             BillDataManager.Instance.SetInvoiceNumber(5000);
             Invoice invoice = new Invoice(clubMember, transactionList, DateTime.Now);
             Assert.AreEqual("MMM2013005001/001", invoice.Bills[0].BillID);
         }
 
+/*        [TestMethod]
+        public void TheSecondBillOfAInvoiceWithAnIDMMM2013005001IsMMM2013005001_002()
+        {
+            BillDataManager.Instance.SetInvoiceNumber(5000);
+            Invoice invoice = new Invoice(clubMember, transactionList, DateTime.Now);
+            Assert.AreEqual("MMM2013005001/002", invoice.Bills[1].BillID);
+        }*/
+
         [TestMethod]
-        public void TheDefaultPaymentMethodOfANewBillisCashPayment()
+        public void ByDefaultABillIsGeneratedWithoutAPaymentMethod()
         {
             Bill bill = new Bill("MMM201300015/001","An easy to pay bill", 1, DateTime.Now, DateTime.Now.AddYears(10));
-            Assert.AreEqual(typeof(CashPayment), bill.PaymentMethod.GetType());
+            Assert.IsNull(bill.PaymentMethod);
         }
+
+        [TestMethod]
+        public void AsigningAPaymentMethodToANewlyCreatedBill()
+        {
+            Bill bill = new Bill("MMM201300015/001", "An easy to pay bill", 1, DateTime.Now, DateTime.Now.AddYears(10));
+            bill.PaymentMethod = new CashPayment();
+            Assert.AreEqual(typeof(CashPayment),bill.PaymentMethod.GetType());
+        }
+
+
     }
 }

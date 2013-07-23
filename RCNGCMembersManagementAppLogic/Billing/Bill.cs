@@ -24,7 +24,7 @@ namespace RCNGCMembersManagementAppLogic.Billing
             this.issueDate = issueDate;
             this.dueDate = dueDate;
             this.paymentResult = (int)BillPaymentResult.ToCollect;
-            this.paymentMethod = new CashPayment();
+            //this.paymentMethod = new CashPayment();
         }
 
         public Bill(string description, decimal amount, DateTime issueDate, DateTime dueDate)
@@ -34,7 +34,7 @@ namespace RCNGCMembersManagementAppLogic.Billing
             this.issueDate = issueDate;
             this.dueDate = dueDate;
             this.paymentResult = (int)BillPaymentResult.ToCollect;
-            this.paymentMethod = new CashPayment();
+            //this.paymentMethod = new CashPayment();
         }
 
         public Bill(string description, decimal amount, DateTime issueDate, DateTime dueDate, PaymentMethod paymentMethod)
@@ -79,6 +79,7 @@ namespace RCNGCMembersManagementAppLogic.Billing
         public PaymentMethod PaymentMethod
         {
             get { return paymentMethod; }
+            set { paymentMethod = value; }
         }
     }
 }
