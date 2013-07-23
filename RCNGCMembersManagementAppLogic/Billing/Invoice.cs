@@ -11,14 +11,16 @@ namespace RCNGCMembersManagementAppLogic.Billing
 {
     public class Invoice: BaseInvoice
     {
-        List<Bill> invoiceBills;
+        Dictionary<string, Bill> invoiceBills;
         InvoicePaymentState invoiceState;
+        int billsCounter;
 
         public Invoice(ClubMember clubMember, List<Transaction> transactionsList, DateTime issueDate)
             :base(clubMember,transactionsList,issueDate)
         {
             if (transactionsList.Count == 0) throw new ArgumentException("The transactions list is empty");
-            invoiceBills = new List<Bill>();
+            invoiceBills = new Dictionary<string, Bill>();
+            billsCounter = 0;
             AddBillForInvoiceTotal("Club Services", issueDate, issueDate.AddDays(30));
             invoiceState = InvoicePaymentState.ToBePaid;
         }
@@ -27,14 +29,15 @@ namespace RCNGCMembersManagementAppLogic.Billing
             : base(invoiceID, clubMember, transactionsList, issueDate)
         {
             if (transactionsList.Count == 0) throw new ArgumentException("The transactions list is empty");
-            invoiceBills = new List<Bill>();
+            invoiceBills = new Dictionary<string, Bill>();
+            billsCounter = 0;
             AddBillForInvoiceTotal("Club Services", issueDate, issueDate.AddDays(30));
             invoiceState = InvoicePaymentState.ToBePaid;
         }
 
         public enum InvoicePaymentState { ToBePaid, Paid, Unpaid, Cancelled, Uncollectible }
 
-        public List<Bill> Bills
+        public Dictionary<string, Bill> Bills
         {
             get { return invoiceBills; }
         }
@@ -51,8 +54,22 @@ namespace RCNGCMembersManagementAppLogic.Billing
 
         public void AddBillForInvoiceTotal(string description, DateTime issueDate, DateTime dueDate)
         {
-            Bill invoiceBill = new Bill(invoiceID + "/001", description, NetAmount, issueDate, dueDate);
-            invoiceBills.Add(invoiceBill);
+            billsCounter++;
+            string billID = invoiceID + "/" + billsCounter.ToString("000");
+            Bill invoiceBill = new Bill(billID, description, NetAmount, issueDate, dueDate);
+            invoiceBills.Add(billID, invoiceBill);
+        }
+
+        public void ReplaceBills(string billID, List<Bill> billsList)
+        {
+            invoiceBills.Remove(billID);
+            foreach (Bill bill in billsList)
+            {
+                billsCounter++;
+                string newBillID = invoiceID + "/" + billsCounter.ToString("000");
+                bill.BillID = newBillID;
+                invoiceBills.Add(billID, bill);
+            }
         }
 
         public void Cancel()
@@ -76,9 +93,9 @@ namespace RCNGCMembersManagementAppLogic.Billing
         private decimal GetBillsTotalAmount(Bill.BillPaymentResult paymentResult)
         {
             decimal amount = 0;
-            foreach (Bill bill in invoiceBills)
+            foreach (KeyValuePair<string, Bill> bill in invoiceBills)
             {
-                if (bill.PaymentResult == paymentResult) amount += bill.Amount;
+                if (bill.Value.PaymentResult == paymentResult) amount += bill.Value.Amount;
             }
             return amount;
         }

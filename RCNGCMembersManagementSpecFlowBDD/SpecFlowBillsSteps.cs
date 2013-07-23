@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Globalization;
 using System.Collections.Generic;
 using TechTalk.SpecFlow;
@@ -47,16 +48,16 @@ namespace RCNGCMembersManagementSpecFlowBDD
             Assert.AreEqual(0, ((ProFormaInvoice)ScenarioContext.Current["ProFormaInvoice"]).BillsTotalAmountToCollect);
         }
 
-        [Then(@"The bill payment method is the default one associated to the member")]
+        /*[Then(@"The bill payment method is the default one associated to the member")]
         public void ThenTheBillPaymentMethodIsTheDefaultOneAssociatedToTheMember()
         {
             Assert.AreEqual(membersManagementContextData.clubMember.DefaultPaymentMethod, ((Invoice)ScenarioContext.Current["Invoice"]).Bills[0].PaymentMethod);
-        }
+        }*/
 
         [Then(@"By default no payment method is associated to bill")]
         public void ThenByDefaultNoPaymentMethodIsAssociatedToBill()
         {
-            Assert.IsNull(((Invoice)ScenarioContext.Current["Invoice"]).Bills[0].PaymentMethod);
+            Assert.IsNull(((Invoice)ScenarioContext.Current["Invoice"]).Bills.Values.ElementAt(0).PaymentMethod);
         }
 
 

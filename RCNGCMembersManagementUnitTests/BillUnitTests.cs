@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Collections.Generic;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using RCNGCMembersManagementAppLogic.Billing;
@@ -12,7 +13,6 @@ namespace RCNGCMembersManagementUnitTests
     public class BillUnitTests
     {
         static List<Transaction> transactionList;
-        static List<Bill> billsList;
         static ClubMember clubMember;
 
         [ClassInitialize]
@@ -32,28 +32,74 @@ namespace RCNGCMembersManagementUnitTests
         }
 
         [TestMethod]
-        public void TheBillsRelationOfAInvoiceIsReadable()
+        public void ABillMustHaveABillID()
+        {
+            Bill bill = new Bill("MMM201300015/001", "An easy to pay bill", 1, DateTime.Now, DateTime.Now.AddYears(10));
+            Assert.IsNotNull(bill.BillID);
+        }
+
+        [TestMethod]
+        public void WhenCreatingANewInvoiceASingleBillIsCreated()
         {
             BillDataManager.Instance.SetInvoiceNumber(5000);
             Invoice invoice = new Invoice(clubMember, transactionList, DateTime.Now);
             Assert.AreEqual(1, invoice.Bills.Count);
         }
 
-/*        [TestMethod]
+        [TestMethod]
         public void ABillOf650IsAutomaticallyCreatedForAnInvoiceOf650NetAmount()
         {
             BillDataManager.Instance.SetInvoiceNumber(5000);
             Invoice invoice = new Invoice(clubMember, transactionList, DateTime.Now);
-            Assert.AreEqual(1, invoice.Bills.Count);
-        }*/
+            Assert.AreEqual(650, invoice.Bills.Values.ElementAt(0).Amount);
+        }
 
         [TestMethod]
-        public void TheFirstBillOfAInvoiceWithAnIDMMM2013005001IsMMM2013005001_001()
+        public void WhenCreatingAnInvoiceItProvidesTheBillIDItAssociatedBill()
         {
             BillDataManager.Instance.SetInvoiceNumber(5000);
             Invoice invoice = new Invoice(clubMember, transactionList, DateTime.Now);
-            Assert.AreEqual("MMM2013005001/001", invoice.Bills[0].BillID);
+            Assert.IsNotNull(invoice.Bills.Values.ElementAt(0).BillID);
         }
+
+        [TestMethod]
+        public void IfTheInvoiceIDIsDMMM2013005001ThenTheCreatedBillIDIsMMM2013005001_001()
+        {
+            BillDataManager.Instance.SetInvoiceNumber(5000);
+            Invoice invoice = new Invoice(clubMember, transactionList, DateTime.Now);
+            Assert.AreEqual("MMM2013005001/001", invoice.Bills.Values.ElementAt(0).BillID);
+        }
+
+        [TestMethod]
+        public void ICanReplaceABillInAnInvoiceWithASetOfNewBillsThatAddTheSameAmount()
+        {
+            decimal invoiceInitialAmount;
+            BillDataManager.Instance.SetInvoiceNumber(5000);
+            Invoice invoice = new Invoice(clubMember, transactionList, DateTime.Now);
+            invoiceInitialAmount=invoice.NetAmount;
+            List<Bill> billsList = new List<Bill>()
+            {
+                {new Bill("", "First Instalment", 200, DateTime.Now, DateTime.Now.AddDays(30))},
+                {new Bill("", "Second Instalment", 200, DateTime.Now, DateTime.Now.AddDays(60))},
+                {new Bill("", "Third Instalment", 250, DateTime.Now, DateTime.Now.AddDays(90))}
+            };
+            string billToReplace="MMM2013005001/001";
+            invoice.ReplaceBills(billToReplace, billsList);
+            Assert.AreEqual(invoiceInitialAmount, invoice.NetAmount);
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 /*        [TestMethod]
         public void TheSecondBillOfAInvoiceWithAnIDMMM2013005001IsMMM2013005001_002()
