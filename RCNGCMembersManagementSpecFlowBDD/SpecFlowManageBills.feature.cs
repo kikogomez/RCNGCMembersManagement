@@ -166,11 +166,13 @@ namespace RCNGCMembersManagementSpecFlowBDD
         }
         
         [Microsoft.VisualStudio.TestTools.UnitTesting.TestMethodAttribute()]
-        [Microsoft.VisualStudio.TestTools.UnitTesting.DescriptionAttribute("A single bill automatically created for a new invoice")]
+        [Microsoft.VisualStudio.TestTools.UnitTesting.DescriptionAttribute("A single bill automatically created for a new invoice with the member\'s default p" +
+            "ayment method associated")]
         [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("FeatureTitle", "Manage bills")]
-        public virtual void ASingleBillAutomaticallyCreatedForANewInvoice()
+        public virtual void ASingleBillAutomaticallyCreatedForANewInvoiceWithTheMemberSDefaultPaymentMethodAssociated()
         {
-            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("A single bill automatically created for a new invoice", ((string[])(null)));
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("A single bill automatically created for a new invoice with the member\'s default p" +
+                    "ayment method associated", ((string[])(null)));
 #line 36
 this.ScenarioSetup(scenarioInfo);
 #line 6

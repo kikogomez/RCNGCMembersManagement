@@ -33,7 +33,7 @@ Background:
 	| Cup            | 15.00        | IGIC General |
 	| Member ID Card | 1.50         | No IGIC      |
 
-Scenario: A single bill automatically created for a new invoice
+Scenario: A single bill automatically created for a new invoice with the member's default payment method associated
 	Given The member uses the club service "Rent a kajak"
 	When I generate an invoice for the service
 	Then An invoice is created for the cost of the service: 53.50
