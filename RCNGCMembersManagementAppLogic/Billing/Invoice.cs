@@ -68,7 +68,7 @@ namespace RCNGCMembersManagementAppLogic.Billing
                 billsCounter++;
                 string newBillID = invoiceID + "/" + billsCounter.ToString("000");
                 bill.BillID = newBillID;
-                invoiceBills.Add(billID, bill);
+                invoiceBills.Add(newBillID, bill);
             }
         }
 

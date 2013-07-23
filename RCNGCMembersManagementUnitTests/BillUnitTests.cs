@@ -88,19 +88,6 @@ namespace RCNGCMembersManagementUnitTests
             Assert.AreEqual(invoiceInitialAmount, invoice.NetAmount);
         }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
 /*        [TestMethod]
         public void TheSecondBillOfAInvoiceWithAnIDMMM2013005001IsMMM2013005001_002()
         {
