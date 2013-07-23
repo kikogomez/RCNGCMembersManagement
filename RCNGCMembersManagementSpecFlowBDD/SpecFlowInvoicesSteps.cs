@@ -12,15 +12,33 @@ using RCNGCMembersManagementMocks;
 
 namespace RCNGCMembersManagementSpecFlowBDD
 {
+    public class MembersManagementContextData
+    {
+        public ClubMember clubMember;
+    }
+
+    public class InvoiceContextData
+    {
+        public Dictionary<string, Tax> taxesDictionary;
+        public Dictionary<string, ClubService> servicesDictionary;
+        public Dictionary<string, Product> productsDictionary;
+        public List<Transaction> tansactionsList;
+        public string lastInvoiceID;
+    }
+
     [Binding]
     class SpecFlowInvoicesSteps
     {
-        string lastInvoiceID;
-        ClubMember clubMember;
-        Dictionary<string, Tax> taxesDictionary;
-        Dictionary<string, ClubService> servicesDictionary;
-        Dictionary<string, Product> productsDictionary;
-        DataManagerMock invoiceDataManagerMock;
+        private readonly MembersManagementContextData membersManagementContextData;
+        private readonly InvoiceContextData invoiceContextData;
+
+        public SpecFlowInvoicesSteps(
+            MembersManagementContextData membersManagementContextData,
+            InvoiceContextData invoiceContextData)
+        {
+            this.membersManagementContextData = membersManagementContextData;
+            this.invoiceContextData = invoiceContextData;
+        }
 
         [BeforeScenario]
         public void InitializeTransactionsList()
@@ -32,8 +50,8 @@ namespace RCNGCMembersManagementSpecFlowBDD
         [Given(@"Last generated InvoiceID is ""(.*)""")]
         public void GivenLastGeneratedInvoiceIDIs(string lastInvoiceID)
         {
-            this.lastInvoiceID = lastInvoiceID;
-            invoiceDataManagerMock = new DataManagerMock();
+            invoiceContextData.lastInvoiceID = lastInvoiceID;
+            DataManagerMock invoiceDataManagerMock = new DataManagerMock();
             BillDataManager.Instance.SetDataManagerCollaborator(invoiceDataManagerMock);
             BillDataManager.Instance.SetInvoiceNumber(uint.Parse(lastInvoiceID.Substring(7)));
         }
@@ -41,61 +59,61 @@ namespace RCNGCMembersManagementSpecFlowBDD
         [Given(@"A Club Member")]
         public void GivenAClubMember(Table clientsTable)
         {
-            clubMember = new ClubMember(clientsTable.Rows[0]["MemberID"], clientsTable.Rows[0]["Name"], clientsTable.Rows[0]["FirstSurname"], clientsTable.Rows[0]["SecondSurname"]);
+            membersManagementContextData.clubMember= new ClubMember(clientsTable.Rows[0]["MemberID"], clientsTable.Rows[0]["Name"], clientsTable.Rows[0]["FirstSurname"], clientsTable.Rows[0]["SecondSurname"]);
         }
 
         [Given(@"This set of taxes")]
         public void GivenThisSetOfTaxes(Table taxes)
         {
-            taxesDictionary = new Dictionary<string, Tax>();
+            invoiceContextData.taxesDictionary = new Dictionary<string, Tax>();
             foreach (var row in taxes.Rows)
             {
                 string key=row["Tax Type"];
                 Tax tax = new Tax((string)row["Tax Type"], double.Parse(row["Tax Value"]));
-                taxesDictionary.Add(key, tax);
+                invoiceContextData.taxesDictionary.Add(key, tax);
             }
         }
 
         [Given(@"These services")]
         public void GivenTheseServices(Table services)
         {
-            servicesDictionary = new Dictionary<string, ClubService>();
+            invoiceContextData.servicesDictionary = new Dictionary<string, ClubService>();
             foreach (var row in services.Rows)
             {
                 string serviceName = row["Service Name"];
                 double defaultCost = double.Parse(row["Default Cost"]);
                 string defaultTax = row["Default Tax"];
-                ClubService clubService = new ClubService(serviceName, defaultCost, taxesDictionary[defaultTax]);
-                servicesDictionary.Add(serviceName, clubService);    
+                ClubService clubService = new ClubService(serviceName, defaultCost, invoiceContextData.taxesDictionary[defaultTax]);
+                invoiceContextData.servicesDictionary.Add(serviceName, clubService);    
             }
         }
 
         [Given(@"These products")]
         public void GivenTheseProducts(Table products)
         {
-            
-            productsDictionary = new Dictionary<string, Product>();
+
+            invoiceContextData.productsDictionary = new Dictionary<string, Product>();
             foreach (var row in products.Rows)
             {
                 string productName = row["Product Name"];
                 double defaultCost = double.Parse(row["Default Cost"]);
                 string defaultTax = row["Default Tax"];
-                Product product = new Product(productName, defaultCost, taxesDictionary[defaultTax]);
-                productsDictionary.Add(productName, product);
+                Product product = new Product(productName, defaultCost, invoiceContextData.taxesDictionary[defaultTax]);
+                invoiceContextData.productsDictionary.Add(productName, product);
             }
         }
 
         [Given(@"The member uses the club service ""(.*)""")]
         public void GivenTheMemberUsesTheClubService(string serviceName)
         {
-            ClubService clubService = servicesDictionary[serviceName];
+            ClubService clubService = invoiceContextData.servicesDictionary[serviceName];
             ScenarioContext.Current.Add("A_Club_Service", clubService);
         }
 
         [Given(@"The member buys a ""(.*)""")]
         public void GivenTheMemberBuysA(string productName)
         {
-            Product product = productsDictionary[productName];
+            Product product = invoiceContextData.productsDictionary[productName];
             ScenarioContext.Current.Add("A_Sold_Product", product);
         }
 
@@ -115,7 +133,7 @@ namespace RCNGCMembersManagementSpecFlowBDD
         public void WhenIGenerateAnInvoiceForTheService()
         {
             DateTime issueDate = DateTime.Now;
-            Invoice invoice = new Invoice(clubMember, TransactionListForSingleElement((ClubService)ScenarioContext.Current["A_Club_Service"]), issueDate);
+            Invoice invoice = new Invoice(membersManagementContextData.clubMember, TransactionListForSingleElement((ClubService)ScenarioContext.Current["A_Club_Service"]), issueDate);
             ScenarioContext.Current.Add("Invoice", invoice);
         }
 
@@ -124,7 +142,7 @@ namespace RCNGCMembersManagementSpecFlowBDD
         {
             List<Transaction> transactionsList = new List<Transaction>();
             AddTransactionsToTransactionList(transactionsList, transactions);
-            ProFormaInvoice proFormaInvoice = new ProFormaInvoice(clubMember, transactionsList, DateTime.Now);
+            ProFormaInvoice proFormaInvoice = new ProFormaInvoice(membersManagementContextData.clubMember, transactionsList, DateTime.Now);
             ScenarioContext.Current.Add("ProFormaInvoice", proFormaInvoice);
         }
 
@@ -132,21 +150,21 @@ namespace RCNGCMembersManagementSpecFlowBDD
         public void WhenIGenerateAnInvoiceForTheSale()
         {
             DateTime issueDate = DateTime.Now;
-            Invoice invoice = new Invoice(clubMember, TransactionListForSingleElement((Product)ScenarioContext.Current["A_Sold_Product"]), issueDate);
+            Invoice invoice = new Invoice(membersManagementContextData.clubMember, TransactionListForSingleElement((Product)ScenarioContext.Current["A_Sold_Product"]), issueDate);
             ScenarioContext.Current.Add("Invoice", invoice);
         }
 
         [When(@"I generate an invoice for this/these transaction/s")]
         public void WhenIGenerateAnInvoiceForThisTheseTransactionS()
         {
-            Invoice invoice = new Invoice(clubMember, (List<Transaction>)ScenarioContext.Current["Transactions_List"], DateTime.Now);
+            Invoice invoice = new Invoice(membersManagementContextData.clubMember, (List<Transaction>)ScenarioContext.Current["Transactions_List"], DateTime.Now);
             ScenarioContext.Current.Add("Invoice", invoice);
         }
 
         [When(@"I generate a pro forma invoice for this/these transaction/s")]
         public void WhenIGenerateAProFormaInvoiceForThisTheseTransactionS()
         {
-            ProFormaInvoice proFormaInvoice = new ProFormaInvoice(clubMember, (List<Transaction>)ScenarioContext.Current["Transactions_List"], DateTime.Now);
+            ProFormaInvoice proFormaInvoice = new ProFormaInvoice(membersManagementContextData.clubMember, (List<Transaction>)ScenarioContext.Current["Transactions_List"], DateTime.Now);
             ScenarioContext.Current.Add("ProFormaInvoice", proFormaInvoice);
         }
 
@@ -164,7 +182,7 @@ namespace RCNGCMembersManagementSpecFlowBDD
             DateTime issueDate = DateTime.Now;
             try
             {
-                Invoice invoice = new Invoice(clubMember, TransactionListForSingleElement((ClubService)ScenarioContext.Current["A_Club_Service"]), issueDate);
+                Invoice invoice = new Invoice(membersManagementContextData.clubMember, TransactionListForSingleElement((ClubService)ScenarioContext.Current["A_Club_Service"]), issueDate);
                 ScenarioContext.Current.Add("Invoice", invoice);
             }
             catch (ArgumentOutOfRangeException e)
@@ -226,18 +244,6 @@ namespace RCNGCMembersManagementSpecFlowBDD
             Assert.AreEqual("Max 999999 invoices per year", exceptionMessages[0]);
         }
 
- /*       [Then(@"A single bill To Collect is generated for the total amount of the invoice: (.*)")]
-        public void ThenASingleBillToCollectIsGeneratedForTheTotalAmountOfTheInvoice(decimal totalAmount)
-        {
-            Assert.AreEqual(totalAmount, ((Invoice)ScenarioContext.Current["Invoice"]).BillsTotalAmountToCollect);
-        }*/
-/*
-        [Then(@"No bills are created for a pro forma invoice")]
-        public void ThenNoBillsAreCreatedForAProFormaInvoice()
-        {
-            Assert.AreEqual(0, ((ProFormaInvoice)ScenarioContext.Current["ProFormaInvoice"]).BillsTotalAmountToCollect);
-        }*/
-
         [Then(@"The pro forma invoice is modified reflecting the new value: (.*)")]
         public void ThenTheProFormaInvoiceIsModifiedReflectingTheNewValue(Decimal amount)
         {
@@ -262,16 +268,16 @@ namespace RCNGCMembersManagementSpecFlowBDD
                 string elementName = row[1];
                 string description = row["Description"];
                 double unitCost = double.Parse(row["Unit Cost"]);
-                Tax tax = taxesDictionary[row["Tax"]];
+                Tax tax = invoiceContextData.taxesDictionary[row["Tax"]];
                 double discount = double.Parse(row["Discount"]);
                 if (newTransactions.Header.Contains("Service Name"))
                 {
-                    ClubService clubService = servicesDictionary[elementName];
+                    ClubService clubService = invoiceContextData.servicesDictionary[elementName];
                     transaction = new ServiceCharge(clubService, description, units, unitCost, tax, discount);
                 }
                 else
                 {
-                    Product product = productsDictionary[elementName];
+                    Product product = invoiceContextData.productsDictionary[elementName];
                     transaction = new Sale(product, description, units, unitCost, tax, discount);
                 }
                 currentTransactionsList.Add(transaction);

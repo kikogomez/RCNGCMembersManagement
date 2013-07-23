@@ -41,6 +41,11 @@ namespace RCNGCMembersManagementAppLogic.MembersManaging
             get { return GetFullname(); }
         }
 
+        public PaymentMethod DefaultPaymentMethod
+        {
+            get { return defaultPaymentMethod; }
+        }
+
         public void SetDefaultPaymentMethod(PaymentMethod paymentMethod)
         {
             this.defaultPaymentMethod = paymentMethod;
