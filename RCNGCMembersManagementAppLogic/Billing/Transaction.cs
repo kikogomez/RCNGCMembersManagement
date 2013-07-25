@@ -8,19 +8,24 @@ namespace RCNGCMembersManagementAppLogic.Billing
 {
     public class Transaction
     {
-        string concept;
+        string description;
         int units;
         double unitCost;
         Tax tax;
         double discount;
 
-        public Transaction(string concept, int units, double unitCost, Tax tax, double discount)
+        public Transaction(string description, int units, double unitCost, Tax tax, double discount)
         {
-            this.concept = concept;
+            this.description = description;
             this.units = units;
             this.unitCost = unitCost;
             this.tax = tax;
             this.discount = discount;
+        }
+
+        public string Description
+        {
+            get { return description; }
         }
 
         public decimal GrossAmount

@@ -13,86 +13,27 @@ namespace RCNGCMembersManagementAppLogic.Billing
     {
         Dictionary<string, Bill> invoiceBills;
         InvoicePaymentState invoiceState;
-        int billsCounter;
-
-        /*public Invoice(ClubMember clubMember, List<Transaction> transactionsList, DateTime issueDate)
-            :base(clubMember,transactionsList,issueDate)
-        {
-            if (transactionsList.Count == 0) throw new ArgumentException("The transactions list is empty");
-            invoiceBills = new Dictionary<string, Bill>();
-            billsCounter = 0;
-            AddBillForInvoiceTotal("Club Services", issueDate, issueDate.AddDays(30));
-            invoiceState = InvoicePaymentState.ToBePaid;
-        }
-
-        public Invoice(string invoiceID, ClubMember clubMember, List<Transaction> transactionsList, DateTime issueDate)
-            : base(invoiceID, clubMember, transactionsList, issueDate)
-        {
-            if (transactionsList.Count == 0) throw new ArgumentException("The transactions list is empty");
-            invoiceBills = new Dictionary<string, Bill>();
-            billsCounter = 0;
-            AddBillForInvoiceTotal("Club Services", issueDate, issueDate.AddDays(30));
-            invoiceState = InvoicePaymentState.ToBePaid;
-        }
-
-        public Invoice(ClubMember clubMember, List<Transaction> transactionsList, List<Bill> billsList, DateTime issueDate)
-            : base(clubMember, transactionsList, issueDate)
-        {
-            if (transactionsList.Count == 0) throw new ArgumentException("The transactions list is empty");
-            invoiceBills = new Dictionary<string, Bill>();
-            billsCounter = 0;
-            AddBillsToInvoice(billsList);
-            invoiceState = InvoicePaymentState.ToBePaid;
-        }
-
-        public Invoice(string invoiceID, ClubMember clubMember, List<Transaction> transactionsList, List<Bill> billsList, DateTime issueDate)
-            : base(invoiceID, clubMember, transactionsList, issueDate)
-        {
-            if (transactionsList.Count == 0) throw new ArgumentException("The transactions list is empty");
-            invoiceBills = new Dictionary<string, Bill>();
-            billsCounter = 0;
-            AddBillsToInvoice(billsList);
-            invoiceState = InvoicePaymentState.ToBePaid;
-        }*/
 
         public Invoice(ClubMember clubMember, List<Transaction> transactionsList, DateTime issueDate)
-            : base(clubMember, transactionsList, issueDate)
+            : this(clubMember, transactionsList, null, issueDate)
         {
-            if (transactionsList.Count == 0) throw new ArgumentException("The transactions list is empty");
-            invoiceBills = new Dictionary<string, Bill>();
-            billsCounter = 0;
-            AddBillForInvoiceTotal("Club Services", issueDate, issueDate.AddDays(30));
-            invoiceState = InvoicePaymentState.ToBePaid;
         }
 
         public Invoice(string invoiceID, ClubMember clubMember, List<Transaction> transactionsList, DateTime issueDate)
-            : base(invoiceID, clubMember, transactionsList, issueDate)
+            : this(invoiceID, clubMember, transactionsList, null, issueDate)
         {
-            if (transactionsList.Count == 0) throw new ArgumentException("The transactions list is empty");
-            invoiceBills = new Dictionary<string, Bill>();
-            billsCounter = 0;
-            AddBillForInvoiceTotal("Club Services", issueDate, issueDate.AddDays(30));
-            invoiceState = InvoicePaymentState.ToBePaid;
         }
 
         public Invoice(ClubMember clubMember, List<Transaction> transactionsList, List<Bill> billsList, DateTime issueDate)
-            :this(clubMember,transactionsList, issueDate)
+            :base(clubMember,transactionsList, issueDate)
         {
-            if (transactionsList.Count == 0) throw new ArgumentException("The transactions list is empty");
-            invoiceBills = new Dictionary<string, Bill>();
-            billsCounter = 0;
-            AddBillsToInvoice(billsList);
-            invoiceState = InvoicePaymentState.ToBePaid;
+            InitializeInvoice(billsList);
         }
 
         public Invoice(string invoiceID, ClubMember clubMember, List<Transaction> transactionsList, List<Bill> billsList, DateTime issueDate)
             : base(invoiceID, clubMember, transactionsList, issueDate)
         {
-            if (transactionsList.Count == 0) throw new ArgumentException("The transactions list is empty");
-            invoiceBills = new Dictionary<string, Bill>();
-            billsCounter = 0;
-            AddBillsToInvoice(billsList);
-            invoiceState = InvoicePaymentState.ToBePaid;
+            InitializeInvoice(billsList);
         }
 
         public enum InvoicePaymentState { ToBePaid, Paid, Unpaid, Cancelled, Uncollectible }
@@ -114,25 +55,26 @@ namespace RCNGCMembersManagementAppLogic.Billing
 
         public void AddBillsToInvoice(List<Bill> billsList)
         {
+            int billsCounter = 0;
             foreach (Bill bill in billsList)
             {
                 billsCounter++;
-                string newBillID = invoiceID + "/" + billsCounter.ToString("000");
-                bill.BillID = newBillID;
-                invoiceBills.Add(newBillID, bill);
+                if (bill.BillID == null) bill.BillID = invoiceID + "/" + billsCounter.ToString("000");
+                invoiceBills.Add(bill.BillID, bill);
             }
         }
 
-        public void AddBillForInvoiceTotal(string description, DateTime issueDate, DateTime dueDate)
+        private Bill CreateASingleBillForInvoiceTotal()
         {
-            billsCounter++;
-            string billID = invoiceID + "/" + billsCounter.ToString("000");
-            Bill invoiceBill = new Bill(billID, description, NetAmount, issueDate, dueDate);
-            invoiceBills.Add(billID, invoiceBill);
+            string billID = invoiceID + "/001";
+            string description = invoiceDetail[0].Description;
+            DateTime dueDate = issueDate.AddDays(30);
+            return new Bill(billID, description, NetAmount, issueDate, dueDate);
         }
 
         public void ReplaceBills(string billID, List<Bill> billsList)
         {
+            int billsCounter = this.Bills.Count;
             invoiceBills.Remove(billID);
             foreach (Bill bill in billsList)
             {
@@ -169,6 +111,15 @@ namespace RCNGCMembersManagementAppLogic.Billing
                 if (bill.Value.PaymentResult == paymentResult) amount += bill.Value.Amount;
             }
             return amount;
+        }
+
+        public void InitializeInvoice(List<Bill> billsList)
+        {
+            if (invoiceDetail.Count == 0) throw new ArgumentException("The transactions list is empty");
+            invoiceBills = new Dictionary<string, Bill>();
+            if (billsList == null) billsList = new List<Bill> { CreateASingleBillForInvoiceTotal() };
+            AddBillsToInvoice(billsList);
+            invoiceState = InvoicePaymentState.ToBePaid;
         }
     }
 }

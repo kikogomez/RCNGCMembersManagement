@@ -54,7 +54,6 @@ namespace RCNGCMembersManagementUnitTests.Billing
         [TestMethod]
         public void InstantiatingInvoicesWithoutInvoiceID()
         {
-            string invoiceID = "MMM20130012345";
             DateTime issueDate = DateTime.Now;
             Invoice invoice = new Invoice(clubMember, transactionsList, issueDate);
         }
