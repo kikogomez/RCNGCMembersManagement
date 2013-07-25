@@ -17,22 +17,18 @@ namespace RCNGCMembersManagementAppLogic.Billing
         protected List<Transaction> invoiceDetail;
 
         public BaseInvoice(ClubMember clubMember, List<Transaction> transactionsList, DateTime issueDate)
+            :this(null, clubMember,transactionsList,issueDate)
         {
-            this.invoiceID = GetNewInvoiceID();
-            this.issueDate = issueDate;
-            this.clientFullName = clubMember.FullName;
-            invoiceDetail = transactionsList;
             UpdateInvoiceSequenceNumber();
         }
-        
+
         public BaseInvoice(string invoiceID, ClubMember clubMember, List<Transaction> transactionsList, DateTime issueDate)
         {
-            this.invoiceID = invoiceID;
+            this.invoiceID = (invoiceID == null) ? GetNewInvoiceID(): invoiceID;
             this.issueDate = issueDate;
             this.clientFullName = clubMember.FullName;
             invoiceDetail = transactionsList;
         }
-
         public string InvoiceID
         {
             get { return this.invoiceID; }
@@ -66,5 +62,5 @@ namespace RCNGCMembersManagementAppLogic.Billing
             }
             return amount;
         }
-    }
+     }
 }

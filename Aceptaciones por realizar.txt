@@ -103,9 +103,9 @@ User stories
   - Podemos añadir una nueva domiciliacion a la lista de domiciliaciones del socio
   - Podemos quitar una domiciliacion de la lista de domiciliaciones del socio
   
-  - al añadir un bill este se crea con el PaymentMethod elegido)
-  - Podemos cambiar el modo de pago de un bill
-  - Un bill es pagado
+  - al añadir un bill este se crea SIN payment method definido
+  - Podemos asignar al recibo uno de los payments methods del socio (que un recibo vaya a una cuenta en particular)
+  - Un bill es pagado -> en ese momento se le asocia el payment method utilizado
   - Un bill es anulado
   - Cuando el último bill es pagado -> factura pagada
   - Cuando el último bill es anulado -> si hubo pagos la factura es pagada, si todos los bill estaban anulados
@@ -125,6 +125,13 @@ Bill Unit Testing
  - Un bill puede ser creado con una forma definida de pago
  - Un bill puede cambiar su forma definida de pago
  - A un bill se le puede cambiar la fecha de vencimiento
+ - A un invoice se le puede asociar una lista de bills que sumen igual que el total del valor neto de todas las transacciones en el momento de crearla
+ - Un bill se puede sustituir por una lista de otros bill que sumen lo mismo
+ - La lista puede ser de 1:1
+ - La lista puede ser de 1:varios
+ - La lista puede ser de varios:1
+ - La lista puede ser de varios:varios
+ 
 
  ---------------------------------------------------------------------------------------------------------
 Invoice Unit Testing

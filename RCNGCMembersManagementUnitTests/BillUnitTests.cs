@@ -13,6 +13,7 @@ namespace RCNGCMembersManagementUnitTests
     public class BillUnitTests
     {
         static List<Transaction> transactionList;
+        static List<Bill> billsList;
         static ClubMember clubMember;
 
         [ClassInitialize]
@@ -28,14 +29,29 @@ namespace RCNGCMembersManagementUnitTests
                 {new Transaction("Blue cup",2,10,new Tax("NOIGIC",0),0)},
                 {new Transaction("BIG Mouring",1,500,new Tax("NOIGIC",0),0)}
             };
+
+            billsList = new List<Bill>()
+            {
+                {new Bill("", "First Instalment", 200, DateTime.Now, DateTime.Now.AddDays(30))},
+                {new Bill("", "Second Instalment", 200, DateTime.Now, DateTime.Now.AddDays(60))},
+                {new Bill("", "Third Instalment", 250, DateTime.Now, DateTime.Now.AddDays(90))}
+            };
+
             clubMember = new ClubMember("0002", "Francisco", "Gomez", "");
         }
 
         [TestMethod]
-        public void ABillMustHaveABillID()
+        public void ABillShouldHaveABillID()
         {
             Bill bill = new Bill("MMM201300015/001", "An easy to pay bill", 1, DateTime.Now, DateTime.Now.AddYears(10));
-            Assert.IsNotNull(bill.BillID);
+            Assert.AreEqual("MMM201300015/001", bill.BillID);
+        }
+
+        [TestMethod]
+        public void BillIDCanBeNullForLaterInitializationWhenAssignedToInvoices()
+        {
+            Bill bill = new Bill("An easy to pay bill", 1, DateTime.Now, DateTime.Now.AddYears(10));
+            Assert.IsNull(bill.BillID);
         }
 
         [TestMethod]
@@ -71,21 +87,43 @@ namespace RCNGCMembersManagementUnitTests
         }
 
         [TestMethod]
+        public void ICanProvideAListOfBillsWhenInstantiatingAnInvoice()
+        {
+            decimal invoiceInitialAmount;
+            BillDataManager.Instance.SetInvoiceNumber(5000);
+            Invoice invoice = new Invoice(clubMember, transactionList, DateTime.Now);
+            invoiceInitialAmount = invoice.NetAmount;
+            string billToReplace = "MMM2013005001/001";
+            invoice.ReplaceBills(billToReplace, billsList);
+            Assert.AreEqual(invoiceInitialAmount, invoice.NetAmount);
+        }
+
+
+
+        [TestMethod]
         public void ICanReplaceABillInAnInvoiceWithASetOfNewBillsThatAddTheSameAmount()
         {
             decimal invoiceInitialAmount;
             BillDataManager.Instance.SetInvoiceNumber(5000);
             Invoice invoice = new Invoice(clubMember, transactionList, DateTime.Now);
             invoiceInitialAmount=invoice.NetAmount;
-            List<Bill> billsList = new List<Bill>()
-            {
-                {new Bill("", "First Instalment", 200, DateTime.Now, DateTime.Now.AddDays(30))},
-                {new Bill("", "Second Instalment", 200, DateTime.Now, DateTime.Now.AddDays(60))},
-                {new Bill("", "Third Instalment", 250, DateTime.Now, DateTime.Now.AddDays(90))}
-            };
             string billToReplace="MMM2013005001/001";
             invoice.ReplaceBills(billToReplace, billsList);
             Assert.AreEqual(invoiceInitialAmount, invoice.NetAmount);
+        }
+
+        [TestMethod]
+        public void TheBillIDOfTheReplpacingBillsAreCalculatedByTheInvoiceAndHaveConsecutiveNumbers()
+        {
+            decimal invoiceInitialAmount;
+            BillDataManager.Instance.SetInvoiceNumber(5000);
+            Invoice invoice = new Invoice(clubMember, transactionList, DateTime.Now);
+            invoiceInitialAmount = invoice.NetAmount;
+            string billToReplace = "MMM2013005001/001";
+            invoice.ReplaceBills(billToReplace, billsList);
+            Assert.AreEqual("MMM2013005001/002", invoice.Bills.ElementAt(0).Value.BillID);
+            Assert.AreEqual("MMM2013005001/003", invoice.Bills.ElementAt(1).Value.BillID);
+            Assert.AreEqual("MMM2013005001/004", invoice.Bills.ElementAt(2).Value.BillID);
         }
 
 /*        [TestMethod]

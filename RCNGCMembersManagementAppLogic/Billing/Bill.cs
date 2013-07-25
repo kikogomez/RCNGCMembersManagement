@@ -17,35 +17,13 @@ namespace RCNGCMembersManagementAppLogic.Billing
         PaymentMethod paymentMethod;
 
         public Bill(string billID, string description, decimal amount, DateTime issueDate, DateTime dueDate)
-        {
-            this.billID = billID;
-            this.description = description;
-            this.amount = amount;
-            this.issueDate = issueDate;
-            this.dueDate = dueDate;
-            this.paymentResult = (int)BillPaymentResult.ToCollect;
-            //this.paymentMethod = new CashPayment();
-        }
+            : this(billID, description, amount, issueDate, dueDate, null) { }
 
         public Bill(string description, decimal amount, DateTime issueDate, DateTime dueDate)
-        {
-            this.description = description;
-            this.amount = amount;
-            this.issueDate = issueDate;
-            this.dueDate = dueDate;
-            this.paymentResult = (int)BillPaymentResult.ToCollect;
-            //this.paymentMethod = new CashPayment();
-        }
+            : this(null, description, amount, issueDate, dueDate, null) { }
 
         public Bill(string description, decimal amount, DateTime issueDate, DateTime dueDate, PaymentMethod paymentMethod)
-        {
-            this.description = description;
-            this.amount = amount;
-            this.issueDate = issueDate;
-            this.dueDate = dueDate;
-            this.paymentResult = (int)BillPaymentResult.ToCollect;
-            this.paymentMethod = paymentMethod;
-        }
+            : this(null, description, amount, issueDate, dueDate, paymentMethod) { }
 
         public Bill(string billID, string description, decimal amount, DateTime issueDate, DateTime dueDate, PaymentMethod paymentMethod)
         {
