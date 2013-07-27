@@ -9,7 +9,7 @@ namespace RCNGCMembersManagementAppLogic.Billing
     public interface IDataManager
     {
         uint GetNextInvoiceSequenceNumber();
-        void SetInvoiceSequenceNumber(uint invoiceSequenceNumber);
+        void SetLastInvoiceSequenceNumber(uint invoiceSequenceNumber);
         uint GetNextDirectDebitReferenceSequenceNumber();
         void SetDirectDebitReferenceSequenceNumber(uint invoiceSequenceNumber);
     }

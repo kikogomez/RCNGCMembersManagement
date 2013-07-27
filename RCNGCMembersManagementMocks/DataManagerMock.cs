@@ -21,7 +21,7 @@ namespace RCNGCMembersManagementMocks
             return lastInvoiceSequenceNumber + 1;
         }
 
-        public void SetInvoiceSequenceNumber(uint invoiceNumber)
+        public void SetLastInvoiceSequenceNumber(uint invoiceNumber)
         {
             DataManagerMock.lastInvoiceSequenceNumber = invoiceNumber;
         }

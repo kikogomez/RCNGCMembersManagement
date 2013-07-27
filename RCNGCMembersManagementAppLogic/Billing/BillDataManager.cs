@@ -11,6 +11,8 @@ namespace RCNGCMembersManagementAppLogic.Billing
         private static readonly BillDataManager instance = new BillDataManager();
 
         static IDataManager dataManager;
+        
+        uint nextInvoiceSequenceNumber;
 
         private BillDataManager()
         {
@@ -21,12 +23,18 @@ namespace RCNGCMembersManagementAppLogic.Billing
             get { return instance; }
         }
 
+        public uint NextInvoiceSequenceNumber
+        {
+            get { return GetNextInvoiceSequenceNumber(); }
+        }
+
+
         public void SetDataManagerCollaborator(IDataManager dataMngr)
         {
             dataManager = dataMngr;
         }
 
-        public uint GetNextInvoiceSequenceNumber()
+        private uint GetNextInvoiceSequenceNumber()
         {
             uint invoiceSequenceNumber=dataManager.GetNextInvoiceSequenceNumber();
             if (invoiceSequenceNumber < 1000000)
@@ -40,11 +48,11 @@ namespace RCNGCMembersManagementAppLogic.Billing
             }
         }
 
-        public void SetInvoiceNumber(uint invoiceSequenceNumber)
+        public void SetLastInvoiceNumber(uint invoiceSequenceNumber)
         {
             if (IsValidInvoiceSequenceNumber(invoiceSequenceNumber))
             {
-                dataManager.SetInvoiceSequenceNumber(invoiceSequenceNumber);
+                dataManager.SetLastInvoiceSequenceNumber(invoiceSequenceNumber);
             }
             else
             {

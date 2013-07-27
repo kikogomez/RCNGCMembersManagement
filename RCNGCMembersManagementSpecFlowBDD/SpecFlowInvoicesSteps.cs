@@ -24,6 +24,7 @@ namespace RCNGCMembersManagementSpecFlowBDD
         public Dictionary<string, Product> productsDictionary;
         public List<Transaction> tansactionsList;
         public string lastInvoiceID;
+        public BillDataManager billDataManager = BillDataManager.Instance;
     }
 
     [Binding]
@@ -52,8 +53,8 @@ namespace RCNGCMembersManagementSpecFlowBDD
         {
             invoiceContextData.lastInvoiceID = lastInvoiceID;
             DataManagerMock invoiceDataManagerMock = new DataManagerMock();
-            BillDataManager.Instance.SetDataManagerCollaborator(invoiceDataManagerMock);
-            BillDataManager.Instance.SetInvoiceNumber(uint.Parse(lastInvoiceID.Substring(7)));
+            invoiceContextData.billDataManager.SetDataManagerCollaborator(invoiceDataManagerMock);
+            invoiceContextData.billDataManager.SetLastInvoiceNumber(uint.Parse(lastInvoiceID.Substring(7)));
         }
 
         [Given(@"A Club Member")]
@@ -233,7 +234,7 @@ namespace RCNGCMembersManagementSpecFlowBDD
         [Then(@"The next invoice sequence number should be (.*)")]
         public void ThenTheNextInvoiceSequenceNumberShouldBe(int invoiceSequenceNumber)
         {
-            Assert.AreEqual((uint)invoiceSequenceNumber, BillDataManager.Instance.GetNextInvoiceSequenceNumber());
+            Assert.AreEqual((uint)invoiceSequenceNumber, invoiceContextData.billDataManager.NextInvoiceSequenceNumber);
         }
 
         [Then(@"The application doesn't accept more than (.*) invoices in the year")]

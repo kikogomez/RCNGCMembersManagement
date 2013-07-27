@@ -62,7 +62,7 @@ namespace RCNGCMembersManagementAppLogic.MembersManaging
         }
         private string GetFullname()
         {
-            return (name ?? "" + " " + firstSurname ?? "" + " " + secondSurname ?? "").Trim();
+            return ((name ?? "") + " " + (firstSurname ?? "") + " " + (secondSurname ?? "")).Trim();
         }
     }
 }
