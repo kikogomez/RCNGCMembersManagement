@@ -19,6 +19,7 @@ namespace RCNGCMembersManagementAppLogic.Billing
         {
         }
 
+        
         public Invoice(string invoiceID, ClubMember clubMember, List<Transaction> transactionsList, DateTime issueDate)
             : this(invoiceID, clubMember, transactionsList, null, issueDate)
         {
@@ -53,6 +54,10 @@ namespace RCNGCMembersManagementAppLogic.Billing
             get { return invoiceState; }
         }
 
+        public void AcceptBillsPaymentAgreement (string agreementTerms, DateTime agreementDate, string[] billsToRenegotiateIDs, List<Bill> billsToAdd)
+        {
+        }
+
         public void AddBillsToInvoice(List<Bill> billsList)
         {
             int billsCounter = 0;
@@ -64,18 +69,12 @@ namespace RCNGCMembersManagementAppLogic.Billing
             }
         }
 
-        private Bill CreateASingleBillForInvoiceTotal()
-        {
-            string billID = invoiceID + "/001";
-            string description = invoiceDetail[0].Description;
-            DateTime dueDate = issueDate.AddDays(30);
-            return new Bill(billID, description, NetAmount, issueDate, dueDate);
-        }
+
 
         public void ReplaceBills(string billID, List<Bill> billsList)
         {
             int billsCounter = this.Bills.Count;
-            invoiceBills.Remove(billID);
+            invoiceBills[billID].PaymentResult = Bill.BillPaymentResult.Renegotiated;
             foreach (Bill bill in billsList)
             {
                 billsCounter++;
@@ -120,6 +119,14 @@ namespace RCNGCMembersManagementAppLogic.Billing
             if (billsList == null) billsList = new List<Bill> { CreateASingleBillForInvoiceTotal() };
             AddBillsToInvoice(billsList);
             invoiceState = InvoicePaymentState.ToBePaid;
+        }
+
+        private Bill CreateASingleBillForInvoiceTotal()
+        {
+            string billID = invoiceID + "/001";
+            string description = invoiceDetail[0].Description;
+            DateTime dueDate = issueDate.AddDays(30);
+            return new Bill(billID, description, NetAmount, issueDate, dueDate);
         }
     }
 }

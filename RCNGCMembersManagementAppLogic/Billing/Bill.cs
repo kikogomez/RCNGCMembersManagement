@@ -36,7 +36,7 @@ namespace RCNGCMembersManagementAppLogic.Billing
             this.paymentMethod = paymentMethod;
         }
 
-        public enum BillPaymentResult { ToCollect, Paid, Unpaid, CancelledOut, Failed };
+        public enum BillPaymentResult { ToCollect, Paid, Unpaid, CancelledOut, Renegotiated, Failed };
         //public enum BillPaymentMethod { Cash, CreditCard, Check, BankTransfer, DirectDebit };
 
         public string BillID
@@ -52,6 +52,7 @@ namespace RCNGCMembersManagementAppLogic.Billing
         public BillPaymentResult PaymentResult
         {
             get { return (BillPaymentResult)paymentResult; }
+            set { paymentResult = value; }
         }
 
         public PaymentMethod PaymentMethod

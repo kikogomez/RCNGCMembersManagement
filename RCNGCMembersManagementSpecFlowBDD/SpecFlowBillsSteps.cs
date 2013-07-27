@@ -48,12 +48,6 @@ namespace RCNGCMembersManagementSpecFlowBDD
             Assert.AreEqual(0, ((ProFormaInvoice)ScenarioContext.Current["ProFormaInvoice"]).BillsTotalAmountToCollect);
         }
 
-        /*[Then(@"The bill payment method is the default one associated to the member")]
-        public void ThenTheBillPaymentMethodIsTheDefaultOneAssociatedToTheMember()
-        {
-            Assert.AreEqual(membersManagementContextData.clubMember.DefaultPaymentMethod, ((Invoice)ScenarioContext.Current["Invoice"]).Bills[0].PaymentMethod);
-        }*/
-
         [Then(@"By default no payment method is associated to bill")]
         public void ThenByDefaultNoPaymentMethodIsAssociatedToBill()
         {

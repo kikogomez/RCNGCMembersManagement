@@ -126,11 +126,17 @@ Bill Unit Testing
  - Un bill puede cambiar su forma definida de pago
  - A un bill se le puede cambiar la fecha de vencimiento
  - A un invoice se le puede asociar una lista de bills que sumen igual que el total del valor neto de todas las transacciones en el momento de crearla
+    -> Al cargar desde persistencia -> incluyen ya el BillID
+	-> Al inicializar por cualquier razon -> se le les ha de crear un billID
  - Un bill se puede sustituir por una lista de otros bill que sumen lo mismo
  - La lista puede ser de 1:1
  - La lista puede ser de 1:varios
  - La lista puede ser de varios:1
  - La lista puede ser de varios:varios
+ - Si los importes no coincicen se lanza excepcion
+ - Los bill sustituidos no se borran
+  -> Se los marca como renegociados
+  -> Se les asocia un PaymentAgreement (un invoice puede tener varios 'Payment Agreement')
  
 
  ---------------------------------------------------------------------------------------------------------

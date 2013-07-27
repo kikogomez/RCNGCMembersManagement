@@ -30,6 +30,23 @@ namespace RCNGCMembersManagementUnitTests.Billing
         }
 
         [TestMethod]
+        public void CreatingANewInvoiceForASale()
+        {
+            DateTime issueDate = DateTime.Now;
+            Invoice invoice = new Invoice(clubMember, transactionsList, issueDate);
+            Assert.IsNotNull(invoice);
+        }
+
+        [TestMethod]
+        public void InvoiceCustomerDataIsWellStored()
+        {
+            DateTime issueDate = DateTime.Now;
+            Invoice invoice = new Invoice(clubMember, transactionsList, issueDate);
+            Assert.AreEqual(clubMember, "");
+        }
+
+
+        [TestMethod]
         [ExpectedException(typeof(System.ArgumentOutOfRangeException))]
         public void CantSetInvoiceSequenceNumberOver999999()
         {
