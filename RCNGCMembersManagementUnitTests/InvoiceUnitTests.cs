@@ -119,9 +119,7 @@ namespace RCNGCMembersManagementUnitTests.Billing
             Invoice invoice = new Invoice(invoiceID, clubMember, transactionsList, issueDate);
             Assert.AreEqual((uint)5001, billDataManager.NextInvoiceSequenceNumber);
         }
-
-
-
+        
         [TestMethod]
         [ExpectedException(typeof(System.ArgumentException))]
         public void InvoicesCannotHaveAnEmptyListofTransactions()
@@ -132,5 +130,17 @@ namespace RCNGCMembersManagementUnitTests.Billing
             DateTime issueDate = DateTime.Now;
             Invoice invoice = new Invoice(clubMember, transactionsList, issueDate);
         }
+
+        [TestMethod]
+        public void ATransactionCanHaveTaxes()
+        {
+            billDataManager.SetLastInvoiceNumber(5000);
+            string invoiceID = "MMM20130012345";
+            DateTime issueDate = DateTime.Now;
+            Invoice invoice = new Invoice(invoiceID, clubMember, transactionsList, issueDate);
+            Assert.AreEqual((uint)5001, billDataManager.NextInvoiceSequenceNumber);
+        }
+
+
     }
 }
