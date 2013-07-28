@@ -13,7 +13,6 @@ namespace RCNGCMembersManagementAppLogic.Billing
     {
         Dictionary<string, Bill> invoiceBills;
         InvoicePaymentState invoiceState;
-        InvoiceCustomerData invoiceCustomerData;
 
         public Invoice(ClubMember clubMember, List<Transaction> transactionsList, DateTime issueDate)
             : this(clubMember, transactionsList, null, issueDate)
@@ -27,13 +26,13 @@ namespace RCNGCMembersManagementAppLogic.Billing
         }
 
         public Invoice(ClubMember clubMember, List<Transaction> transactionsList, List<Bill> billsList, DateTime issueDate)
-            :base(clubMember,transactionsList, issueDate)
+            :base(transactionsList, issueDate)
         {
             InitializeInvoice(clubMember, billsList);
         }
 
         public Invoice(string invoiceID, ClubMember clubMember, List<Transaction> transactionsList, List<Bill> billsList, DateTime issueDate)
-            : base(invoiceID, clubMember, transactionsList, issueDate)
+            : base(invoiceID,transactionsList, issueDate)
         {
             InitializeInvoice(clubMember, billsList);
         }
@@ -42,7 +41,12 @@ namespace RCNGCMembersManagementAppLogic.Billing
 
         public string CustomerFullName
         {
-            get { return invoiceCustomerData.FullName; }
+            get { return customerData.FullName; }
+        }
+
+        public DateTime IssueDate
+        {
+            get { return issueDate; }
         }
 
         public Dictionary<string, Bill> Bills
@@ -108,7 +112,7 @@ namespace RCNGCMembersManagementAppLogic.Billing
 
         private void InitializeInvoice(ClubMember clubMember, List<Bill> billsList)
         {
-            this.invoiceCustomerData = new InvoiceCustomerData(clubMember);
+            customerData = new InvoiceCustomerData(clubMember);
             if (invoiceDetail.Count == 0) throw new ArgumentException("The transactions list is empty");
             invoiceBills = new Dictionary<string, Bill>();
             if (billsList == null) billsList = new List<Bill> { CreateASingleBillForInvoiceTotal() };

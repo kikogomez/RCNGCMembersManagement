@@ -111,6 +111,10 @@ User stories
   - Cuando el último bill es anulado -> si hubo pagos la factura es pagada, si todos los bill estaban anulados
   
  - Features invoices
+  - Una factura no puede tener valor negativo
+  - Cuando necesitemos anular una factura
+    * Emitimos una 'amendment invoice' por el total de la factura, asociada a la factura original a eliminar
+	* Marcamos la factura original como 'cancelled'
   - Cuando un invoice es cancelled todos los pagos restantes son cancelled
   - Cuando un invoice es dado por uncollectible todos los pagos restantes son dados por uncollectible
  

@@ -11,10 +11,10 @@ namespace RCNGCMembersManagementAppLogic.Billing
 {
     public class ProFormaInvoice: BaseInvoice
     {
-
         public ProFormaInvoice(ClubMember clubMember, List<Transaction> transactionsList, DateTime issueDate)
-            : base(clubMember, transactionsList, issueDate)
+            : base(transactionsList, issueDate)
         {
+            InitializeProformaInvoice(clubMember);
         }
         
         public override decimal BillsTotalAmountToCollect
@@ -39,6 +39,11 @@ namespace RCNGCMembersManagementAppLogic.Billing
         {
             uint currentInvoiceSequenceNumber=ExtractInvoiceSequenceNumberFromInvoiceID();
             BillDataManager.Instance.SetLastInvoiceNumber(currentInvoiceSequenceNumber);
+        }
+
+        private void InitializeProformaInvoice(ClubMember clubMember)
+        {
+            this.customerData = new InvoiceCustomerData(clubMember);
         }
     }
 }

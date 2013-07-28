@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using RCNGCMembersManagementAppLogic.Billing;
 using RCNGCMembersManagementAppLogic.MembersManaging;
+using RCNGCMembersManagementAppLogic.ClubServices;
+using RCNGCMembersManagementAppLogic.ClubStore;
 using RCNGCMembersManagementMocks;
 
 namespace RCNGCMembersManagementUnitTests.Billing
@@ -10,9 +12,10 @@ namespace RCNGCMembersManagementUnitTests.Billing
     [TestClass]
     public class InvoiceUnitTests
     {
-        static List<Transaction> transactionsList;
-        static ClubMember clubMember;
         static BillDataManager billDataManager;
+        List<Transaction> transactionsList;
+        Dictionary<string, Tax> taxesDictionary;
+        ClubMember clubMember;
 
         [ClassInitialize]
         public static void ClassInit(TestContext context)
@@ -20,13 +23,27 @@ namespace RCNGCMembersManagementUnitTests.Billing
             DataManagerMock invoiceDataManagerMock = new DataManagerMock();
             billDataManager = BillDataManager.Instance;
             billDataManager.SetDataManagerCollaborator(invoiceDataManagerMock);
+  
+        }
+        
+        [TestInitialize]
+        public void Setup()
+        {
+            taxesDictionary = new Dictionary<string, Tax>{
+                {"No IGIC", new Tax("No IGIC",0)},
+                {"IGIC Reducido 1", new Tax("IGIC Reducido 1",2.75)},
+                {"IGIC Reducido 2", new Tax("IGIC Reducido 2",3)},
+                {"IGIC General", new Tax("IGIC General",7)},
+                {"IGIC Incrementado 1", new Tax("IGIC Incrementado 1",9.50)},
+                {"IGIC Incrementado 2", new Tax("IGIC Incrementado 2",13.50)},
+                {"IGIC Especial", new Tax("IGIC Especial",20)}};
 
             transactionsList = new List<Transaction>()
             {
-                {new Transaction("Monthly Fee",1,80,new Tax("NOIGIC",0),0)},
-                {new Transaction("Renting a Kajak",1,50,new Tax("NOIGIC",0),0)},
-                {new Transaction("Blue cup",2,10,new Tax("NOIGIC",0),0)},
-                {new Transaction("BIG Mouring",1,500,new Tax("NOIGIC",0),0)}
+                {new Transaction("Monthly Fee",1,80,taxesDictionary["No IGIC"],0)},
+                {new Transaction("Renting a Kajak",1,50,taxesDictionary["No IGIC"],0)},
+                {new Transaction("Blue cup",2,10,taxesDictionary["No IGIC"],0)},
+                {new Transaction("BIG Mouring",1,500,taxesDictionary["No IGIC"],0)}
             };
 
             clubMember = new ClubMember("0002", "Francisco", "Gomez", "");
@@ -41,11 +58,36 @@ namespace RCNGCMembersManagementUnitTests.Billing
         }
 
         [TestMethod]
-        public void InvoiceCustomerDataIsWellStored()
+        [ExpectedException(typeof(System.ArgumentException))]
+        public void InvoicesCannotHaveAnEmptyListofTransactions()
+        {
+            List<Transaction> transactionsList = new List<Transaction>();
+            DateTime issueDate = DateTime.Now;
+            Invoice invoice = new Invoice(clubMember, transactionsList, issueDate);
+        }
+
+        [TestMethod]
+        public void AFreshlyCreatedInvoiceIsSetToBePaid()
+        {
+            DateTime issueDate = DateTime.Now;
+            Invoice invoice = new Invoice(clubMember, transactionsList, issueDate);
+            Assert.AreEqual(Invoice.InvoicePaymentState.ToBePaid, invoice.InvoiceState);
+        }
+
+        [TestMethod]
+        public void InvoiceCustomerDataIsWellStoredAndReadable()
         {
             DateTime issueDate = DateTime.Now;
             Invoice invoice = new Invoice(clubMember, transactionsList, issueDate);
             Assert.AreEqual("Francisco Gomez", invoice.CustomerFullName);
+        }
+
+        [TestMethod]
+        public void IssueDateIsWellStoredAndReadable()
+        {
+            DateTime issueDate = DateTime.Now;
+            Invoice invoice = new Invoice(clubMember, transactionsList, issueDate);
+            Assert.AreEqual(issueDate, invoice.IssueDate);
         }
 
         [TestMethod]
@@ -119,27 +161,141 @@ namespace RCNGCMembersManagementUnitTests.Billing
             Invoice invoice = new Invoice(invoiceID, clubMember, transactionsList, issueDate);
             Assert.AreEqual((uint)5001, billDataManager.NextInvoiceSequenceNumber);
         }
-        
-        [TestMethod]
-        [ExpectedException(typeof(System.ArgumentException))]
-        public void InvoicesCannotHaveAnEmptyListofTransactions()
-        {
-            BillDataManager.Instance.SetLastInvoiceNumber(100);
-            ClubMember clubMember = new ClubMember("0001","Francisco","Gomez-Caldito","Viseas");
-            List<Transaction> transactionsList = new List<Transaction>();
-            DateTime issueDate = DateTime.Now;
-            Invoice invoice = new Invoice(clubMember, transactionsList, issueDate);
-        }
 
         [TestMethod]
         public void ATransactionCanHaveTaxes()
         {
-            billDataManager.SetLastInvoiceNumber(5000);
-            string invoiceID = "MMM20130012345";
             DateTime issueDate = DateTime.Now;
-            Invoice invoice = new Invoice(invoiceID, clubMember, transactionsList, issueDate);
-            Assert.AreEqual((uint)5001, billDataManager.NextInvoiceSequenceNumber);
+            List<Transaction> transactionsList= new List<Transaction>{
+                new Transaction("Nice Blue Cap", 1,10,taxesDictionary["IGIC General"],0)};
+            Invoice invoice = new Invoice(clubMember, transactionsList, issueDate);
+            Assert.AreEqual((decimal)10.7, invoice.NetAmount);
         }
+
+        [TestMethod]
+        public void TheInvoiceTransactionsCanHaveEachDifferentTaxes()
+        {
+            DateTime issueDate = DateTime.Now;
+            List<Transaction> transactionsList = new List<Transaction>{
+                new Transaction("Nice Blue Cap", 1,10,taxesDictionary["IGIC General"],0),
+                new Transaction("Nice Blue T-Shirt", 1,20,taxesDictionary["IGIC Reducido 2"],0)};
+            Invoice invoice = new Invoice(clubMember, transactionsList, issueDate);
+            Assert.AreEqual((decimal)31.30, invoice.NetAmount);
+        }
+
+        [TestMethod]
+        public void TheInvoiceTransactionsCanBeEitherSalesOrServiceCharges()
+        {
+            Product cap = new Product("Cap", 10, taxesDictionary["IGIC General"]);
+            ClubService membership = new ClubService("Club Full Membership", 79, taxesDictionary["No IGIC"]);
+            DateTime issueDate = DateTime.Now;
+            List<Transaction> transactionsList = new List<Transaction>{
+                new Sale(cap, "Nice Blue Cap", 1,0),
+                new ServiceCharge(membership, "June Membership Fee", 1,0)};
+            Invoice invoice = new Invoice(clubMember, transactionsList, issueDate);
+            Assert.AreEqual((decimal)89.7, invoice.NetAmount);
+        }
+
+        [TestMethod]
+        public void TheTransactionsCostAndTaxesCanDiferFromDefaultProductOrServiceCost()
+        {
+            Product cap = new Product("Cap", 5, taxesDictionary["IGIC General"]);
+            ClubService membership = new ClubService("Club Full Membership", 50, taxesDictionary["IGIC General"]);
+            DateTime issueDate = DateTime.Now;
+            List<Transaction> transactionsList = new List<Transaction>{
+                new Sale(cap, "Nice Blue Cap", 1,15,taxesDictionary["IGIC Reducido 2"],0),
+                new ServiceCharge(membership, "June Membership Fee", 1,40,taxesDictionary["IGIC General"],0)};
+            Invoice invoice = new Invoice(clubMember, transactionsList, issueDate);
+            Assert.AreEqual((decimal)58.25, invoice.NetAmount);
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(System.ArgumentOutOfRangeException))]
+        public void TransactionsCantHaveZeroOrLessUnits()
+        {
+            DateTime issueDate = DateTime.Now;
+            try
+            {
+                Transaction transaction = new Transaction("June Membership Fee", 0, 79, taxesDictionary["IGIC General"], 0);
+            }
+            catch (ArgumentOutOfRangeException exception)
+            {
+                string[] exceptionMessages = exception.Message.Split(new string[] { Environment.NewLine }, StringSplitOptions.None);
+                Assert.AreEqual("Transactions must have at least one element to transact", exceptionMessages[0]);
+                throw exception;
+            }
+        }
+
+        [TestMethod]
+        public void InvoicesAcceptTransactionsWithZeroCost()
+        {
+            Product cap = new Product("Cap", 5, taxesDictionary["IGIC General"]);
+            ClubService membership = new ClubService("Club Full Membership", 50, taxesDictionary["IGIC General"]);
+            DateTime issueDate = DateTime.Now;
+            List<Transaction> transactionsList = new List<Transaction>{
+                new Sale(cap, "Nice Blue Cap", 1,0,taxesDictionary["IGIC Reducido 2"],0),
+                new ServiceCharge(membership, "June Membership Fee", 1,0,taxesDictionary["IGIC General"],0)};
+            Invoice invoice = new Invoice(clubMember, transactionsList, issueDate);
+            Assert.AreEqual((decimal)0, invoice.NetAmount);
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(System.ArgumentOutOfRangeException))]
+        public void SalesCanNotBeNegative()
+        {
+            Product cap = new Product("Cap", 5, taxesDictionary["IGIC General"]);
+            DateTime issueDate = DateTime.Now;
+            try
+            {
+                Transaction transaction = new Sale(cap,"Return a cap", 1, -10, taxesDictionary["IGIC General"], 0);
+            }
+            catch (ArgumentOutOfRangeException exception)
+            {
+                string[] exceptionMessages = exception.Message.Split(new string[] { Environment.NewLine }, StringSplitOptions.None);
+                Assert.AreEqual("A Product cost can't be negative", exceptionMessages[0]);
+                throw exception;
+            }
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(System.ArgumentOutOfRangeException))]
+        public void ServiceChargesCanNotBeNegative()
+        {
+            ClubService membership = new ClubService("Club Full Membership", 50, taxesDictionary["IGIC General"]);
+            DateTime issueDate = DateTime.Now;
+            try
+            {
+                Transaction transaction = new ServiceCharge(membership, "Return Member Fee", 1, -79, taxesDictionary["IGIC General"], 0);
+            }
+            catch (ArgumentOutOfRangeException exception)
+            {
+                string[] exceptionMessages = exception.Message.Split(new string[] { Environment.NewLine }, StringSplitOptions.None);
+                Assert.AreEqual("A Service Charge cost can't be negative", exceptionMessages[0]);
+                throw exception;
+            }
+        }
+
+        [TestMethod]
+        public void TransactionsCanBeNegativeForAmendingInVoices()
+        {
+            DateTime issueDate = DateTime.Now;
+            Transaction transaction;
+            try
+            {
+                transaction = new Transaction("AmmendingInvoice", 1, -79, taxesDictionary["IGIC General"], 0);
+            }
+            catch (ArgumentOutOfRangeException exception)
+            {
+                throw exception;
+            }
+            Assert.AreEqual((decimal)-84.53, transaction.NetAmount);
+        }
+
+
+
+
+
+
 
 
     }

@@ -11,24 +11,25 @@ namespace RCNGCMembersManagementAppLogic.Billing
 {
     public abstract class BaseInvoice
     {
+        protected InvoiceCustomerData customerData;
         protected string invoiceID;
         protected DateTime issueDate;
         protected string clientFullName;
         protected List<Transaction> invoiceDetail;
 
-        public BaseInvoice(ClubMember clubMember, List<Transaction> transactionsList, DateTime issueDate)
-            :this(null, clubMember,transactionsList,issueDate)
+        public BaseInvoice(List<Transaction> transactionsList, DateTime issueDate)
+            : this(null, transactionsList, issueDate)
         {
             UpdateInvoiceSequenceNumber();
         }
 
-        public BaseInvoice(string invoiceID, ClubMember clubMember, List<Transaction> transactionsList, DateTime issueDate)
+        public BaseInvoice(string invoiceID, List<Transaction> transactionsList, DateTime issueDate)
         {
             this.invoiceID = (invoiceID == null) ? GetNewInvoiceID(): invoiceID;
             this.issueDate = issueDate;
-            this.clientFullName = clubMember.FullName;
             invoiceDetail = transactionsList;
         }
+
         public string InvoiceID
         {
             get { return this.invoiceID; }

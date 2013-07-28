@@ -7,7 +7,7 @@ using RCNGCMembersManagementAppLogic.MembersManaging;
 
 namespace RCNGCMembersManagementAppLogic.Billing
 {
-    class InvoiceCustomerData
+    public class InvoiceCustomerData
     {
         string fullName;
 

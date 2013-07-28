@@ -12,7 +12,7 @@ namespace RCNGCMembersManagementMocks
     {
         static uint lastInvoiceSequenceNumber = 0;
         static uint lastDirectDebitReferenceSequenceNumber = 0;
-        static Dictionary<string, Tax> taxes;
+        //static Dictionary<string, Tax> taxes;
 
         public DataManagerMock()
         {
@@ -38,6 +38,7 @@ namespace RCNGCMembersManagementMocks
             DataManagerMock.lastDirectDebitReferenceSequenceNumber = invoiceSequenceNumber;
         }
 
+        /*
         public Dictionary<string,Tax> LoadTaxes()
         {
             Dictionary<string, Tax> taxDictionary = new Dictionary<string, Tax>{
@@ -49,6 +50,6 @@ namespace RCNGCMembersManagementMocks
                 {"IGIC Incrementado 2", new Tax("IGIC Incrementado 2",13.50)},
                 {"IGIC Especial", new Tax("IGIC Especial",20)}};
             return taxDictionary;
-        }
+        }*/
     }
 }

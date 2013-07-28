@@ -40,6 +40,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Billing\AmendingInvoice.cs" />
     <Compile Include="Billing\BillPaymentAgreement.cs" />
     <Compile Include="Billing\CashPayment.cs" />
     <Compile Include="Billing\DirectDebit\BankAccount.cs" />
