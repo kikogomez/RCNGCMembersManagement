@@ -35,10 +35,9 @@ Background:
 
 
 Scenario: In some special cases, an invoice can be cancelled
-	Given The member uses the club service "Rent a kajak"
-	When I generate an invoice for the service
-	And After that I cancel the invoice
-	Then An invoice is created for the cost of the service: 53.50
-	And The invoice state is "Cancelled"
+	Given I have an invoice for the service "Rent a kajak"
+	When I cancel the invoice
+	Then The invoice state is "Cancelled"
+	And An amending invoice is created for the negative value of the original invoice: -53.50
 
 

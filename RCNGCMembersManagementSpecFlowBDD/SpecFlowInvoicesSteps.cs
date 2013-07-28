@@ -130,6 +130,16 @@ namespace RCNGCMembersManagementSpecFlowBDD
             AddTransactionsToTransactionList((List<Transaction>)ScenarioContext.Current["Transactions_List"], transactions);
         }
 
+        [Given(@"I have an invoice for the service ""(.*)""")]
+        public void GivenIHaveAnInvoiceForTheService(string serviceName)
+        {
+            ClubService clubService = invoiceContextData.servicesDictionary[serviceName];
+            DateTime issueDate = DateTime.Now;
+            Invoice invoice = new Invoice(membersManagementContextData.clubMember, TransactionListForSingleElement(clubService), issueDate);
+            ScenarioContext.Current.Add("Invoice", invoice);
+        }
+
+
         [When(@"I generate an invoice for the service")]
         public void WhenIGenerateAnInvoiceForTheService()
         {
@@ -192,8 +202,8 @@ namespace RCNGCMembersManagementSpecFlowBDD
             }   
         }
 
-        [When(@"After that I cancel the invoice")]
-        public void WhenAfterThatICancelTheInvoice()
+        [When(@"I cancel the invoice")]
+        public void WhenICancelTheInvoice()
         {
             ((Invoice)ScenarioContext.Current["Invoice"]).Cancel();
         }
@@ -250,6 +260,13 @@ namespace RCNGCMembersManagementSpecFlowBDD
         {
             Assert.AreEqual(amount, ((ProFormaInvoice)ScenarioContext.Current["ProFormaInvoice"]).NetAmount);
         }
+
+        [Then(@"An amending invoice is created for the negative value of the original invoice: (.*)")]
+        public void ThenAnAmendingInvoiceIsCreatedForTheNegativeValueOfTheOriginalInvoice(Decimal amount)
+        {
+            ScenarioContext.Current.Pending();
+        }
+
 
         private List<Transaction> TransactionListForSingleElement(ITransactionable element)
         {
