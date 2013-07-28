@@ -12,7 +12,7 @@ namespace RCNGCMembersManagementUnitTests.Billing
     [TestClass]
     public class InvoiceUnitTests
     {
-        static BillDataManager billDataManager;
+        static BillingDataManager billDataManager;
         List<Transaction> transactionsList;
         Dictionary<string, Tax> taxesDictionary;
         ClubMember clubMember;
@@ -21,7 +21,7 @@ namespace RCNGCMembersManagementUnitTests.Billing
         public static void ClassInit(TestContext context)
         {
             DataManagerMock invoiceDataManagerMock = new DataManagerMock();
-            billDataManager = BillDataManager.Instance;
+            billDataManager = BillingDataManager.Instance;
             billDataManager.SetDataManagerCollaborator(invoiceDataManagerMock);
   
         }
@@ -211,17 +211,61 @@ namespace RCNGCMembersManagementUnitTests.Billing
 
         [TestMethod]
         [ExpectedException(typeof(System.ArgumentOutOfRangeException))]
-        public void TransactionsCantHaveZeroOrLessUnits()
+        public void TransactionsOnInvoicesCantHaveZeroOrLessUnits()
         {
+            Product cap = new Product("Cap", 5, taxesDictionary["IGIC General"]);
+            ClubService membership = new ClubService("Club Full Membership", 50, taxesDictionary["IGIC General"]);
             DateTime issueDate = DateTime.Now;
+            List<Transaction> transactionsList = new List<Transaction>{
+                new ServiceCharge(membership, "June Membership Fee", 0,79,taxesDictionary["IGIC General"],0)};
             try
             {
-                Transaction transaction = new Transaction("June Membership Fee", 0, 79, taxesDictionary["IGIC General"], 0);
+                Invoice invoice = new Invoice(clubMember, transactionsList, issueDate);
             }
             catch (ArgumentOutOfRangeException exception)
             {
                 string[] exceptionMessages = exception.Message.Split(new string[] { Environment.NewLine }, StringSplitOptions.None);
-                Assert.AreEqual("Transactions must have at least one element to transact", exceptionMessages[0]);
+                Assert.AreEqual("Invoice transactions must have at least one element to transact", exceptionMessages[0]);
+                throw exception;
+            }
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(System.ArgumentOutOfRangeException))]
+        public void TransactionsOnProFormaInvoicesCantHaveZeroOrLessUnits()
+        {
+            Product cap = new Product("Cap", 5, taxesDictionary["IGIC General"]);
+            ClubService membership = new ClubService("Club Full Membership", 50, taxesDictionary["IGIC General"]);
+            DateTime issueDate = DateTime.Now;
+            List<Transaction> transactionsList = new List<Transaction>{
+                new ServiceCharge(membership, "June Membership Fee", 0,79,taxesDictionary["IGIC General"],0)};
+            try
+            {
+                ProFormaInvoice proFormaInvoice = new ProFormaInvoice(clubMember, transactionsList, issueDate);
+            }
+            catch (ArgumentOutOfRangeException exception)
+            {
+                string[] exceptionMessages = exception.Message.Split(new string[] { Environment.NewLine }, StringSplitOptions.None);
+                Assert.AreEqual("Pro Forma Invoice transactions must have at least one element to transact", exceptionMessages[0]);
+                throw exception;
+            }
+        }
+
+
+        [TestMethod]
+        [ExpectedException(typeof(System.ArgumentOutOfRangeException))]
+        public void TransactionsCantHaveNegativeCost()
+        {
+            DateTime issueDate = DateTime.Now;
+            try
+            {
+                Transaction transaction= new Transaction("June Membership Fee", 1,-79,taxesDictionary["IGIC General"],0);
+            
+            }
+            catch (ArgumentOutOfRangeException exception)
+            {
+                string[] exceptionMessages = exception.Message.Split(new string[] { Environment.NewLine }, StringSplitOptions.None);
+                Assert.AreEqual("Transactions units cost can't be negative", exceptionMessages[0]);
                 throw exception;
             }
         }
@@ -240,6 +284,19 @@ namespace RCNGCMembersManagementUnitTests.Billing
         }
 
         [TestMethod]
+        public void ProFormaInvoicesAcceptTransactionsWithZeroCost()
+        {
+            Product cap = new Product("Cap", 5, taxesDictionary["IGIC General"]);
+            ClubService membership = new ClubService("Club Full Membership", 50, taxesDictionary["IGIC General"]);
+            DateTime issueDate = DateTime.Now;
+            List<Transaction> transactionsList = new List<Transaction>{
+                new Sale(cap, "Nice Blue Cap", 1,0,taxesDictionary["IGIC Reducido 2"],0),
+                new ServiceCharge(membership, "June Membership Fee", 1,0,taxesDictionary["IGIC General"],0)};
+            ProFormaInvoice proFormaInvoice = new ProFormaInvoice(clubMember, transactionsList, issueDate);
+            Assert.AreEqual((decimal)0, proFormaInvoice.NetAmount);
+        }
+
+        [TestMethod]
         [ExpectedException(typeof(System.ArgumentOutOfRangeException))]
         public void SalesCanNotBeNegative()
         {
@@ -252,7 +309,7 @@ namespace RCNGCMembersManagementUnitTests.Billing
             catch (ArgumentOutOfRangeException exception)
             {
                 string[] exceptionMessages = exception.Message.Split(new string[] { Environment.NewLine }, StringSplitOptions.None);
-                Assert.AreEqual("A Product cost can't be negative", exceptionMessages[0]);
+                Assert.AreEqual("Transactions units cost can't be negative", exceptionMessages[0]);
                 throw exception;
             }
         }
@@ -270,19 +327,19 @@ namespace RCNGCMembersManagementUnitTests.Billing
             catch (ArgumentOutOfRangeException exception)
             {
                 string[] exceptionMessages = exception.Message.Split(new string[] { Environment.NewLine }, StringSplitOptions.None);
-                Assert.AreEqual("A Service Charge cost can't be negative", exceptionMessages[0]);
+                Assert.AreEqual("Transactions units cost can't be negative", exceptionMessages[0]);
                 throw exception;
             }
         }
 
         [TestMethod]
-        public void TransactionsCanBeNegativeForAmendingInVoices()
+        public void TransactionsMustAcceptNegativeUnitCostsForTheCaseOfAmendingInvoices()
         {
             DateTime issueDate = DateTime.Now;
             Transaction transaction;
             try
             {
-                transaction = new Transaction("AmmendingInvoice", 1, -79, taxesDictionary["IGIC General"], 0);
+                transaction = new Transaction("AmmendingInvoice", -1, 79, taxesDictionary["IGIC General"], 0);
             }
             catch (ArgumentOutOfRangeException exception)
             {
@@ -290,13 +347,5 @@ namespace RCNGCMembersManagementUnitTests.Billing
             }
             Assert.AreEqual((decimal)-84.53, transaction.NetAmount);
         }
-
-
-
-
-
-
-
-
     }
 }

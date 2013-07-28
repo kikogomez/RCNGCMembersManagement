@@ -8,12 +8,12 @@ namespace RCNGCMembersManagementAppLogic.Billing
 {
     class AmendingInvoice: BaseInvoice
     {
-        string ammededInvoiceID;
+        string amendedInvoiceID;
 
         public AmendingInvoice(Invoice invoiceToAmend)
             :base(null, DateTime.Now)
         {
-            this.ammededInvoiceID = invoiceToAmend.InvoiceID;
+            this.amendedInvoiceID = invoiceToAmend.InvoiceID;
             List<Transaction> transactionsList = CreateAmendingTransactions(invoiceToAmend);
         }
 
@@ -34,7 +34,8 @@ namespace RCNGCMembersManagementAppLogic.Billing
 
         protected override string GetNewInvoiceID()
         {
-            return "";
+            BillingDataManager billDataManager = BillingDataManager.Instance;
+            return amendedInvoiceID.Replace(billDataManager.InvoicePrefix, billDataManager.AmendingInvoicePrefix);
         }
 
         protected override void UpdateInvoiceSequenceNumber()

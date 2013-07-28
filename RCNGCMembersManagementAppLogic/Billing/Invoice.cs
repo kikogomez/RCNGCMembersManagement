@@ -93,8 +93,8 @@ namespace RCNGCMembersManagementAppLogic.Billing
 
         protected override string GetNewInvoiceID()
         {
-            BillDataManager billDataManager = BillDataManager.Instance;
-            string invoicePrefix = "MMM";
+            BillingDataManager billDataManager = BillingDataManager.Instance;
+            string invoicePrefix = billDataManager.InvoicePrefix;
             string invoiceYear = "2013";
             return invoicePrefix + invoiceYear + billDataManager.NextInvoiceSequenceNumber.ToString("000000");
         }
@@ -102,7 +102,7 @@ namespace RCNGCMembersManagementAppLogic.Billing
         protected override void UpdateInvoiceSequenceNumber()
         {
             uint currentInvoiceSequenceNumber=ExtractInvoiceSequenceNumberFromInvoiceID();
-            BillDataManager.Instance.SetLastInvoiceNumber(currentInvoiceSequenceNumber);
+            BillingDataManager.Instance.SetLastInvoiceNumber(currentInvoiceSequenceNumber);
         }
 
         private decimal GetBillsTotalAmount(Bill.BillPaymentResult paymentResult)
@@ -118,7 +118,7 @@ namespace RCNGCMembersManagementAppLogic.Billing
         private void InitializeInvoice(ClubMember clubMember, List<Bill> billsList)
         {
             customerData = new InvoiceCustomerData(clubMember);
-            if (invoiceDetail.Count == 0) throw new ArgumentException("The transactions list is empty");
+            CheckInvoiceDetail();
             invoiceBills = new Dictionary<string, Bill>();
             if (billsList == null) billsList = new List<Bill> { CreateASingleBillForInvoiceTotal() };
             AddBillsToInvoice(billsList);
@@ -141,6 +141,16 @@ namespace RCNGCMembersManagementAppLogic.Billing
                 billsCounter++;
                 if (bill.BillID == null) bill.BillID = invoiceID + "/" + billsCounter.ToString("000");
                 invoiceBills.Add(bill.BillID, bill);
+            }
+        }
+
+        private void CheckInvoiceDetail()
+        {
+            if (invoiceDetail.Count == 0) throw new ArgumentException("The transactions list is empty");
+            foreach (Transaction transaction in invoiceDetail)
+            {
+                if (transaction.Units < 1)
+                    throw new System.ArgumentOutOfRangeException("units", "Invoice transactions must have at least one element to transact");
             }
         }
     }

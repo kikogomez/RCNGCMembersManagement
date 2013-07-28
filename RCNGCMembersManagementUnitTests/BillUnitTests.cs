@@ -20,7 +20,7 @@ namespace RCNGCMembersManagementUnitTests
         public static void ClassInit(TestContext context)
         {
             DataManagerMock invoiceDataManagerMock = new DataManagerMock();
-            BillDataManager.Instance.SetDataManagerCollaborator(invoiceDataManagerMock);
+            BillingDataManager.Instance.SetDataManagerCollaborator(invoiceDataManagerMock);
 
             transactionList = new List<Transaction>()
             {
@@ -57,7 +57,7 @@ namespace RCNGCMembersManagementUnitTests
         [TestMethod]
         public void WhenCreatingANewInvoiceASingleBillIsCreated()
         {
-            BillDataManager.Instance.SetLastInvoiceNumber(5000);
+            BillingDataManager.Instance.SetLastInvoiceNumber(5000);
             Invoice invoice = new Invoice(clubMember, transactionList, DateTime.Now);
             Assert.AreEqual(1, invoice.Bills.Count);
         }
@@ -65,7 +65,7 @@ namespace RCNGCMembersManagementUnitTests
         [TestMethod]
         public void ABillOf650IsAutomaticallyCreatedForAnInvoiceOf650NetAmount()
         {
-            BillDataManager.Instance.SetLastInvoiceNumber(5000);
+            BillingDataManager.Instance.SetLastInvoiceNumber(5000);
             Invoice invoice = new Invoice(clubMember, transactionList, DateTime.Now);
             Assert.AreEqual(650, invoice.Bills.Values.ElementAt(0).Amount);
         }
@@ -73,24 +73,24 @@ namespace RCNGCMembersManagementUnitTests
         [TestMethod]
         public void WhenCreatingAnInvoiceItProvidesTheBillIDtoItsAssociatedBill()
         {
-            BillDataManager.Instance.SetLastInvoiceNumber(5000);
+            BillingDataManager.Instance.SetLastInvoiceNumber(5000);
             Invoice invoice = new Invoice(clubMember, transactionList, DateTime.Now);
             Assert.IsNotNull(invoice.Bills.Values.ElementAt(0).BillID);
         }
 
         [TestMethod]
-        public void IfTheInvoiceIDIsDMMM2013005001ThenTheCreatedBillIDIsMMM2013005001_001()
+        public void IfTheInvoiceIDIsDINV2013005001ThenTheCreatedBillIDIsINV2013005001_001()
         {
-            BillDataManager.Instance.SetLastInvoiceNumber(5000);
+            BillingDataManager.Instance.SetLastInvoiceNumber(5000);
             Invoice invoice = new Invoice(clubMember, transactionList, DateTime.Now);
-            Assert.AreEqual("MMM2013005001/001", invoice.Bills.Values.ElementAt(0).BillID);
+            Assert.AreEqual("INV2013005001/001", invoice.Bills.Values.ElementAt(0).BillID);
         }
 
         [TestMethod]
         public void ICanReplaceASetOfBillsInAnInvoiceWithASetOfNewBillsThatAddTheSameAmountByAddingABillPaymentAgreement()
         {
             decimal invoiceInitialAmount;
-            BillDataManager.Instance.SetLastInvoiceNumber(5000);
+            BillingDataManager.Instance.SetLastInvoiceNumber(5000);
             Invoice invoice = new Invoice(clubMember, transactionList, DateTime.Now);
             invoiceInitialAmount = invoice.NetAmount;
             string agreementTerms = "New Payment Agreement";

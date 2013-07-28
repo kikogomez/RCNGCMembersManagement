@@ -6,19 +6,23 @@ using System.Threading.Tasks;
 
 namespace RCNGCMembersManagementAppLogic.Billing
 {
-    public sealed class BillDataManager
+    public sealed class BillingDataManager
     {
-        private static readonly BillDataManager instance = new BillDataManager();
+        private static readonly BillingDataManager instance = new BillingDataManager();
 
         static IDataManager dataManager;
         
         uint nextInvoiceSequenceNumber;
+        string invoicePrefix;
+        string proFormaInvoicePrefix;
+        string amendingInvoicePrefix;
 
-        private BillDataManager()
+        private BillingDataManager()
         {
+            LoadConfig();
         }
 
-        public static BillDataManager Instance
+        public static BillingDataManager Instance
         {
             get { return instance; }
         }
@@ -28,6 +32,20 @@ namespace RCNGCMembersManagementAppLogic.Billing
             get { return GetNextInvoiceSequenceNumber(); }
         }
 
+        public string InvoicePrefix
+        {
+            get { return invoicePrefix; }
+        }
+
+        public string ProFormaInvoicePrefix
+        {
+            get { return proFormaInvoicePrefix; }
+        }
+
+        public string AmendingInvoicePrefix
+        {
+            get { return amendingInvoicePrefix; }
+        }
 
         public void SetDataManagerCollaborator(IDataManager dataMngr)
         {
@@ -64,6 +82,13 @@ namespace RCNGCMembersManagementAppLogic.Billing
         private bool IsValidInvoiceSequenceNumber(uint invoiceNumber)
         {
             return (1 <= invoiceNumber && invoiceNumber < 1000000);
+        }
+
+        private void LoadConfig()
+        {
+            invoicePrefix = "INV";
+            proFormaInvoicePrefix = "PRF";
+            amendingInvoicePrefix = "AMN";
         }
     }
 }

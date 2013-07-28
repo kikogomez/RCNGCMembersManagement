@@ -9,13 +9,13 @@ namespace RCNGCMembersManagementUnitTests
     [TestClass]
     public class DirectDebitUnitTests
     {
-        static BillDataManager billDataManager;
+        static BillingDataManager billDataManager;
 
         [ClassInitialize]
         public static void ClassInit(TestContext context)
         {
             DataManagerMock directDebitDataManagerMock = new DataManagerMock();
-            billDataManager = BillDataManager.Instance;
+            billDataManager = BillingDataManager.Instance;
             billDataManager.SetDataManagerCollaborator(directDebitDataManagerMock);
         }
 

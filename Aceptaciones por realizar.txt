@@ -117,6 +117,8 @@ User stories
 	* Marcamos la factura original como 'cancelled'
   - Cuando un invoice es cancelled todos los pagos restantes son cancelled
   - Cuando un invoice es dado por uncollectible todos los pagos restantes son dados por uncollectible
+  - Separar los sequence numbers de las facturas y profomas
+  - Las facturas rectificativas tiene el mismo invoiceID que las original, con diferente prefijo
  
  - Features Servicios
   - Anadir un servicio

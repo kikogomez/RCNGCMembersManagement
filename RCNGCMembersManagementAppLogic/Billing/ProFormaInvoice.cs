@@ -29,8 +29,8 @@ namespace RCNGCMembersManagementAppLogic.Billing
 
         protected override string GetNewInvoiceID()
         {
-            BillDataManager billDataManager = BillDataManager.Instance;
-            string invoicePrefix = "PPP";
+            BillingDataManager billDataManager = BillingDataManager.Instance;
+            string invoicePrefix = billDataManager.ProFormaInvoicePrefix;
             string invoiceYear = "2013";
             return invoicePrefix + invoiceYear + billDataManager.NextInvoiceSequenceNumber.ToString("000000");
         }
@@ -38,12 +38,22 @@ namespace RCNGCMembersManagementAppLogic.Billing
         protected override void UpdateInvoiceSequenceNumber()
         {
             uint currentInvoiceSequenceNumber=ExtractInvoiceSequenceNumberFromInvoiceID();
-            BillDataManager.Instance.SetLastInvoiceNumber(currentInvoiceSequenceNumber);
+            BillingDataManager.Instance.SetLastInvoiceNumber(currentInvoiceSequenceNumber);
         }
 
         private void InitializeProformaInvoice(ClubMember clubMember)
         {
+            CheckProFormaInvoiceDetail();
             this.customerData = new InvoiceCustomerData(clubMember);
+        }
+
+        private void CheckProFormaInvoiceDetail()
+        {
+            foreach (Transaction transaction in invoiceDetail)
+            {
+                if (transaction.Units < 1)
+                    throw new System.ArgumentOutOfRangeException("units", "Pro Forma Invoice transactions must have at least one element to transact");
+            }
         }
     }
 }

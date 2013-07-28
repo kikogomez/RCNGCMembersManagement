@@ -1,7 +1,7 @@
-﻿Feature: SpecFlowManageInvoices
+﻿Feature: Manage Invoices
 	In order to control the debt
 	As a an administrtative assistant
-	I want to manage the invoices
+	I want to manage the created invoices
 
 Background: 
 	Given Last generated InvoiceID is "MMM2013000023"
@@ -39,5 +39,8 @@ Scenario: In some special cases, an invoice can be cancelled
 	When I cancel the invoice
 	Then The invoice state is "Cancelled"
 	And An amending invoice is created for the negative value of the original invoice: -53.50
+	And The amending invoice ID is the same than the original invoice with different prefix: "MMM2013000024"
+	And The taxes devolution (-3.50) is separated from the base cost devolution (-50)
+
 
 

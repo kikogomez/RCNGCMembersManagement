@@ -16,7 +16,7 @@ namespace RCNGCMembersManagementAppLogic.Billing
 
         public Transaction(string description, int units, double unitCost, Tax tax, double discount)
         {
-            if (units < 1) throw new System.ArgumentOutOfRangeException("units", "Transactions must have at least one element to transact");
+            if (unitCost < 0) throw new System.ArgumentOutOfRangeException("uniCost", "Transactions units cost can't be negative");
             this.description = description;
             this.units = units;
             this.unitCost = unitCost;

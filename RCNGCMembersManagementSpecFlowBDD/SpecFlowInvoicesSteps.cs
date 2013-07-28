@@ -24,7 +24,7 @@ namespace RCNGCMembersManagementSpecFlowBDD
         public Dictionary<string, Product> productsDictionary;
         public List<Transaction> tansactionsList;
         public string lastInvoiceID;
-        public BillDataManager billDataManager = BillDataManager.Instance;
+        public BillingDataManager billDataManager = BillingDataManager.Instance;
     }
 
     [Binding]
@@ -266,6 +266,19 @@ namespace RCNGCMembersManagementSpecFlowBDD
         {
             ScenarioContext.Current.Pending();
         }
+
+        [Then(@"The amending invoice ID is the same than the original invoice with different prefix: ""(.*)""")]
+        public void ThenTheAmendingInvoiceIDIsTheSameThanTheOriginalInvoiceWithDifferentPrefix(string amendingInvoiceID)
+        {
+            ScenarioContext.Current.Pending();
+        }
+
+        [Then(@"The taxes devolution \((.*)\) is separated from the base cost devolution \((.*)\)")]
+        public void ThenTheTaxesDevolutionIsSeparatedFromTheBaseCostDevolution(Decimal taxValue, double baseCost)
+        {
+            ScenarioContext.Current.Pending();
+        }
+
 
 
         private List<Transaction> TransactionListForSingleElement(ITransactionable element)

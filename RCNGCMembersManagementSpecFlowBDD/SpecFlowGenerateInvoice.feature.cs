@@ -73,7 +73,7 @@ namespace RCNGCMembersManagementSpecFlowBDD
         {
 #line 6
 #line 7
- testRunner.Given("Last generated InvoiceID is \"MMM2013000023\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+ testRunner.Given("Last generated InvoiceID is \"INV2013000023\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line hidden
             TechTalk.SpecFlow.Table table1 = new TechTalk.SpecFlow.Table(new string[] {
                         "MemberID",
@@ -218,7 +218,7 @@ this.FeatureBackground();
 #line 50
  testRunner.When("I generate an invoice for the service", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line 51
- testRunner.Then("The generated Invoice ID should be \"MMM2013000024\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+ testRunner.Then("The generated Invoice ID should be \"INV2013000024\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line 52
  testRunner.Then("The next invoice sequence number should be 25", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
@@ -236,7 +236,7 @@ this.ScenarioSetup(scenarioInfo);
 #line 6
 this.FeatureBackground();
 #line 55
- testRunner.Given("Last generated InvoiceID is \"MMM2013999999\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+ testRunner.Given("Last generated InvoiceID is \"INV2013999999\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line 56
  testRunner.Given("The member uses the club service \"Rent a mouring\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line 57

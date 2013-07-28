@@ -19,7 +19,7 @@ namespace RCNGCMembersManagementSpecFlowBDD
     [System.CodeDom.Compiler.GeneratedCodeAttribute("TechTalk.SpecFlow", "1.9.0.77")]
     [System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     [Microsoft.VisualStudio.TestTools.UnitTesting.TestClassAttribute()]
-    public partial class SpecFlowManageInvoicesFeature
+    public partial class ManageInvoicesFeature
     {
         
         private static TechTalk.SpecFlow.ITestRunner testRunner;
@@ -31,8 +31,8 @@ namespace RCNGCMembersManagementSpecFlowBDD
         public static void FeatureSetup(Microsoft.VisualStudio.TestTools.UnitTesting.TestContext testContext)
         {
             testRunner = TechTalk.SpecFlow.TestRunnerManager.GetTestRunner();
-            TechTalk.SpecFlow.FeatureInfo featureInfo = new TechTalk.SpecFlow.FeatureInfo(new System.Globalization.CultureInfo("en-US"), "SpecFlowManageInvoices", "In order to control the debt\r\nAs a an administrtative assistant\r\nI want to manage" +
-                    " the invoices", ProgrammingLanguage.CSharp, ((string[])(null)));
+            TechTalk.SpecFlow.FeatureInfo featureInfo = new TechTalk.SpecFlow.FeatureInfo(new System.Globalization.CultureInfo("en-US"), "Manage Invoices", "In order to control the debt\r\nAs a an administrtative assistant\r\nI want to manage" +
+                    " the created invoices", ProgrammingLanguage.CSharp, ((string[])(null)));
             testRunner.OnFeatureStart(featureInfo);
         }
         
@@ -47,9 +47,9 @@ namespace RCNGCMembersManagementSpecFlowBDD
         public virtual void TestInitialize()
         {
             if (((TechTalk.SpecFlow.FeatureContext.Current != null) 
-                        && (TechTalk.SpecFlow.FeatureContext.Current.FeatureInfo.Title != "SpecFlowManageInvoices")))
+                        && (TechTalk.SpecFlow.FeatureContext.Current.FeatureInfo.Title != "Manage Invoices")))
             {
-                RCNGCMembersManagementSpecFlowBDD.SpecFlowManageInvoicesFeature.FeatureSetup(null);
+                RCNGCMembersManagementSpecFlowBDD.ManageInvoicesFeature.FeatureSetup(null);
             }
         }
         
@@ -161,7 +161,7 @@ namespace RCNGCMembersManagementSpecFlowBDD
         
         [Microsoft.VisualStudio.TestTools.UnitTesting.TestMethodAttribute()]
         [Microsoft.VisualStudio.TestTools.UnitTesting.DescriptionAttribute("In some special cases, an invoice can be cancelled")]
-        [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("FeatureTitle", "SpecFlowManageInvoices")]
+        [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("FeatureTitle", "Manage Invoices")]
         public virtual void InSomeSpecialCasesAnInvoiceCanBeCancelled()
         {
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("In some special cases, an invoice can be cancelled", ((string[])(null)));
@@ -178,6 +178,11 @@ this.FeatureBackground();
 #line 41
  testRunner.And("An amending invoice is created for the negative value of the original invoice: -5" +
                     "3.50", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line 42
+ testRunner.And("The amending invoice ID is the same than the original invoice with different pref" +
+                    "ix: \"MMM2013000024\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line 43
+ testRunner.And("The taxes devolution (-3.50) is separated from the base cost devolution (-50)", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
             this.ScenarioCleanup();
         }
