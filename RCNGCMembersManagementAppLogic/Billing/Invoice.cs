@@ -49,12 +49,17 @@ namespace RCNGCMembersManagementAppLogic.Billing
             get { return issueDate; }
         }
 
+        public List<Transaction> InvoiceDetail
+        {
+            get { return invoiceDetail; }
+        }
+
         public Dictionary<string, Bill> Bills
         {
             get { return invoiceBills; }
         }
 
-        public override decimal BillsTotalAmountToCollect
+        public decimal BillsTotalAmountToCollect
         {
             get { return GetBillsTotalAmount(Bill.BillPaymentResult.ToCollect); }
         }

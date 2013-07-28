@@ -18,6 +18,7 @@ namespace RCNGCMembersManagementAppLogic.MembersManaging
         List<DirectDebitMandate> directDebitmandatesList;
         Dictionary<string, Invoice> invoicesList;
         Dictionary<string, ProFormaInvoice> proFormaInvoicesList;
+        Dictionary<string, AmendingInvoice> amendingInvoices;
 
         public ClubMember(string memberID, string name, string firstSurname, string secondSurname)
         {
@@ -29,6 +30,7 @@ namespace RCNGCMembersManagementAppLogic.MembersManaging
             directDebitmandatesList= new List<DirectDebitMandate>();
             invoicesList=new Dictionary<string, Invoice>();
             proFormaInvoicesList = new Dictionary<string, ProFormaInvoice>();
+            amendingInvoices=new Dictionary<string,AmendingInvoice>();
         }
 
         public string MemberID

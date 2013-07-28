@@ -29,6 +29,26 @@ namespace RCNGCMembersManagementAppLogic.Billing
             get { return description; }
         }
 
+        public int Units
+        {
+            get { return units; }
+        }
+
+        public double UnitCost
+        {
+            get { return unitCost; }
+        }
+
+        public Tax Tax
+        {
+            get { return tax; }
+        }
+
+        public double Discount
+        {
+            get { return discount; }
+        }
+
         public decimal GrossAmount
         {
             get { return CalculateGrossAmount(); }

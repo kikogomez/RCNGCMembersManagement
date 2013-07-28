@@ -17,7 +17,7 @@ namespace RCNGCMembersManagementAppLogic.Billing
             InitializeProformaInvoice(clubMember);
         }
         
-        public override decimal BillsTotalAmountToCollect
+        public decimal BillsTotalAmountToCollect
         {
             get { return 0; }
         }

@@ -40,10 +40,10 @@ namespace RCNGCMembersManagementAppLogic.Billing
             get { return CalculateInvoiceAmounts(true); }
         }
 
-        public abstract decimal BillsTotalAmountToCollect
+        /*public abstract decimal BillsTotalAmountToCollect
         {
             get;
-        }
+        }*/
 
         protected abstract string GetNewInvoiceID();
 
