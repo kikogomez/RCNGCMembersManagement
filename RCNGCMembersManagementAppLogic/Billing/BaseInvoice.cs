@@ -40,6 +40,11 @@ namespace RCNGCMembersManagementAppLogic.Billing
             get { return CalculateInvoiceAmounts(true); }
         }
 
+        public decimal GrossAmount
+        {
+            get { return CalculateInvoiceAmounts(false); }
+        }
+
         /*public abstract decimal BillsTotalAmountToCollect
         {
             get;

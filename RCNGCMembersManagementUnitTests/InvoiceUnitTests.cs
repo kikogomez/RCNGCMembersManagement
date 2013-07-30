@@ -163,16 +163,6 @@ namespace RCNGCMembersManagementUnitTests.Billing
         }
 
         [TestMethod]
-        public void ATransactionCanHaveTaxes()
-        {
-            DateTime issueDate = DateTime.Now;
-            List<Transaction> transactionsList= new List<Transaction>{
-                new Transaction("Nice Blue Cap", 1,10,taxesDictionary["IGIC General"],0)};
-            Invoice invoice = new Invoice(clubMember, transactionsList, issueDate);
-            Assert.AreEqual((decimal)10.7, invoice.NetAmount);
-        }
-
-        [TestMethod]
         public void TheInvoiceTransactionsCanHaveEachDifferentTaxes()
         {
             DateTime issueDate = DateTime.Now;
@@ -347,5 +337,45 @@ namespace RCNGCMembersManagementUnitTests.Billing
             }
             Assert.AreEqual((decimal)-84.53, transaction.NetAmount);
         }
+
+        [TestMethod]
+        public void AnAmendingInvoiceHasTheSameGrossAmountThanTheAmendedInvoiceButNegative()
+        {
+            DateTime issueDate = DateTime.Now;
+            Invoice invoice = new Invoice(clubMember, transactionsList, issueDate);
+            AmendingInvoice amendingInvoice = new AmendingInvoice(invoice);
+            Assert.AreEqual(-invoice.GrossAmount, amendingInvoice.GrossAmount);
+        }
+
+        [TestMethod]
+        public void AnAmendingInvoiceHasTheSameNetAmountThanTheAmendedInvoiceButNegative()
+        {
+            DateTime issueDate = DateTime.Now;
+            Invoice invoice = new Invoice(clubMember, transactionsList, issueDate);
+            AmendingInvoice amendingInvoice = new AmendingInvoice(invoice);
+            Assert.AreEqual(-invoice.NetAmount, amendingInvoice.NetAmount);
+        }
+
+
+/*
+        [TestMethod]
+        public void AnAmendingInvoiceHasTheSameTransactionsThanOriginalInvoiceButWithNegativeUnits()
+        {
+            Assert.Fail();
+        }
+
+        [TestMethod]
+        public void WhenCancellingAnInvoiceTheInvoiceIsMarjkedAsCancelled()
+        {
+            Assert.Fail();
+        }
+
+        [TestMethod]
+        public void WhenCancellingAnInvoiceAnAmendingInvoiceIsCreatedForIt()
+        {
+            //Aqui hay ue hacer un assert de que se INVOCA a la creacion de una Amending Invoice ¿Como?
+            Assert.Fail();
+        }*/
+
     }
 }
