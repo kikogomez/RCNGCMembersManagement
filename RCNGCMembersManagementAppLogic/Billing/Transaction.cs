@@ -59,6 +59,11 @@ namespace RCNGCMembersManagementAppLogic.Billing
             get { return CalculateNetAmount(); }
         }
 
+        public decimal TaxAmount
+        {
+            get { return GrossAmount-TaxAmount; }
+        }
+
         private decimal unitCostWithDiscount()
         {
             return Math.Round((decimal)unitCost * ((decimal)(1 - discount / 100)), 2, MidpointRounding.AwayFromZero);
@@ -66,7 +71,7 @@ namespace RCNGCMembersManagementAppLogic.Billing
 
         private decimal unitCostWithTax()
         {
-            return Math.Round(unitCostWithDiscount() * ((decimal)(1 + tax.TaxValue / 100)), 2, MidpointRounding.AwayFromZero);
+            return Math.Round(unitCostWithDiscount() * ((decimal)(1 + tax.TaxPercentage / 100)), 2, MidpointRounding.AwayFromZero);
         }
 
         private decimal CalculateGrossAmount()

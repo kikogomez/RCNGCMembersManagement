@@ -17,7 +17,7 @@ namespace RCNGCMembersManagementAppLogic.Billing
             this.taxValue = taxValue;
         }
 
-        public double TaxValue
+        public double TaxPercentage
         {
             get { return taxValue; }
         }
