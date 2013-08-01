@@ -13,6 +13,7 @@ namespace RCNGCMembersManagementAppLogic.Billing
 
         public Tax(string taxType, double taxValue)
         {
+            if (taxValue < 0) throw new System.ArgumentOutOfRangeException("taxValue", "Tax percentages can't be negative");
             this.taxType = taxType;
             this.taxValue = taxValue;
         }

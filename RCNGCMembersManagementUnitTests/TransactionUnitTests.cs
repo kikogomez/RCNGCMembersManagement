@@ -119,21 +119,21 @@ namespace RCNGCMembersManagementUnitTests.Billing
         public void RoundingTaxIsWellCalculatedThirdDecimalIsAboveFive()
         {
             Transaction transaction = new Transaction("6% VAT is the same than 10% VAT!", 1, 0.1, new Tax("6% VAT", 6), 0);
-            Assert.AreEqual((decimal)0.11, transaction.NetAmount);
+            Assert.AreEqual((decimal)0.01, transaction.TaxAmount);
         }
 
         [TestMethod]
         public void RoundingTaxIsWellCalculatedThirdDecimalIsFive()
         {
             Transaction transaction = new Transaction("5% VAT is the same than 10% VAT!", 1, 0.1, new Tax("5% VAT", 5), 0);
-            Assert.AreEqual((decimal)0.11, transaction.NetAmount);
+            Assert.AreEqual((decimal)0.01, transaction.TaxAmount);
         }
 
         [TestMethod]
         public void RoundingTaxIsWellCalculatedThirdDecimalIsBelowFive()
         {
             Transaction transaction = new Transaction("1% VAT is NO VAT!", 1, 0.1, new Tax("4% VAT", 4), 0);
-            Assert.AreEqual((decimal)0.1, transaction.NetAmount);
+            Assert.AreEqual((decimal)0, transaction.TaxAmount);
         }
 
         [TestMethod]
@@ -141,15 +141,15 @@ namespace RCNGCMembersManagementUnitTests.Billing
         {
             Transaction aSingleTwoCentsProduct = new Transaction("6% VAT is the same than 10% VAT!", 1, 0.2, new Tax("6% VAT", 6), 0);
             Transaction twoOneCentsProducts = new Transaction("6% VAT is the same than 10% VAT!", 2, 0.1, new Tax("6% VAT", 6), 0);
-            Assert.AreEqual((decimal)0.21, aSingleTwoCentsProduct.NetAmount);
-            Assert.AreEqual((decimal)0.22, twoOneCentsProducts.NetAmount);
+            Assert.AreEqual((decimal)0.01, aSingleTwoCentsProduct.TaxAmount);
+            Assert.AreEqual((decimal)0.02, twoOneCentsProducts.TaxAmount);
         }
 
         [TestMethod]
         public void TaxIsAppliedAfterDiscount()
         {
             Transaction transaction = new Transaction("Ooops... it's for free!", 1, 0.01, new Tax("100% VAT", 100), 51);
-            Assert.AreEqual((decimal)0, transaction.NetAmount);
+            Assert.AreEqual((decimal)0, transaction.TaxAmount);
         }
 
         [TestMethod]
@@ -173,32 +173,68 @@ namespace RCNGCMembersManagementUnitTests.Billing
         public void TransactionsCanHaveNegativeUnitNumbersToReflectDevolutionsOrCancellationsOnAmendingInvoices()
         {
             Transaction transaction = new Transaction("This product is defective. Return me my money!", -1, 50, new Tax("0% VAT", 0), 0);
+            Assert.AreEqual((decimal)-1, transaction.Units);
+        }
+
+        [TestMethod]
+        public void TheTotalAmoutOfATransacationCanBeNegative()
+        {
+            Transaction transaction = new Transaction("This product is defective. Return me my money!", -1, 50, new Tax("0% VAT", 0), 0);
             Assert.AreEqual((decimal)-50, transaction.NetAmount);
         }
 
         [TestMethod]
-        public void TheAmoutOfATransacationCanBeNegative()
+        public void RoundingNegativeTransactionsIsAllwaysTwoDecimalDigitsAwayFromZero_ExampleThirdDecimalIsBelowFive()
         {
-            Assert.Inconclusive();
+            Transaction transaction = new Transaction("This product is defective. Return me my money!", -1, 9.994, new Tax("No VAT", 0), 0);
+            Assert.AreEqual((decimal)-9.99, transaction.GrossAmount);
         }
 
         [TestMethod]
-        public void RoundingNegativeValues()
+        public void RoundingNegativeTransactionsIsAllwaysTwoDecimalDigitsAwayFromZero_ExampleThirdDecimalIsFive()
         {
-            Assert.Inconclusive();
+            Transaction transaction = new Transaction("This product is defective. Return me my money!", -1, 9.995, new Tax("No VAT", 0), 0);
+            Assert.AreEqual((decimal)-10, transaction.GrossAmount);
         }
 
         [TestMethod]
-        public void TaxesPercentagesCannotBeNegative()
+        public void RoundingNegativeTransactionsIsAllwaysTwoDecimalDigitsAwayFromZero_ExampleThirdDecimalIsAboveFive()
         {
-            Assert.Inconclusive();
+            Transaction transaction = new Transaction("This product is defective. Return me my money!", -1, 9.996, new Tax("No VAT", 0), 0);
+            Assert.AreEqual((decimal)-10, transaction.GrossAmount);
         }
 
         [TestMethod]
         public void TheTaxAmountOfANegativeGrossAmountIsNegative()
         {
+            Transaction transaction = new Transaction("This product is defective. Return me my money!", -1, 10, new Tax("5% VAT", 5), 0);
+            Assert.AreEqual((decimal)-0.5, transaction.TaxAmount);
+        }
+
+        [TestMethod]
+        public void TheAmountOfReturningOneProductIsExactlyTheSameThanBuyinOneProductButnegative_CheckNoTaxNorDiscount()
+        {
+            Transaction transaction = new Transaction("Return me exactly the same I paid!", -1, 10, new Tax("5% VAT", 5), 0);
             Assert.Inconclusive();
         }
+
+        [TestMethod]
+        public void TheAmountOfReturningOneProductIsExactlyTheSameThanBuyinOneProductButnegative_CheckWithTax()
+        {
+            Assert.Inconclusive();
+        }
+
+        [TestMethod]
+        public void TheAmountOfReturningOneProductIsExactlyTheSameThanBuyinOneProductButnegative_CheckWithDiscount()
+        {
+            Assert.Inconclusive();
+        }
+        [TestMethod]
+        public void TheAmountOfReturningOneProductIsExactlyTheSameThanBuyinOneProductButnegative_CheckWithTaxAndDiscount()
+        {
+            Assert.Inconclusive();
+        }
+
 
         [TestMethod]
         public void AppliyinNegativeUnitToPositive()
