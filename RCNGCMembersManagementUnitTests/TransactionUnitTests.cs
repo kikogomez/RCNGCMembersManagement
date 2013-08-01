@@ -12,21 +12,6 @@ namespace RCNGCMembersManagementUnitTests.Billing
     [TestClass]
     public class TransactionUnitTests
     {
-        Dictionary<string, Tax> taxesDictionary;
-
-        [TestInitialize]
-        public void Setup()
-        {
-            taxesDictionary = new Dictionary<string, Tax>{
-                {"No IGIC", new Tax("No IGIC",0)},
-                {"IGIC Reducido 1", new Tax("IGIC Reducido 1",2.75)},
-                {"IGIC Reducido 2", new Tax("IGIC Reducido 2",3)},
-                {"IGIC General", new Tax("IGIC General",7)},
-                {"IGIC Incrementado 1", new Tax("IGIC Incrementado 1",9.50)},
-                {"IGIC Incrementado 2", new Tax("IGIC Incrementado 2",13.50)},
-                {"IGIC Especial", new Tax("IGIC Especial",20)}};
-        }
-
         [TestMethod]
         public void TheAmoutOfATransactionWithOneUnitHavingACostOf10Is10()
         {
@@ -208,33 +193,69 @@ namespace RCNGCMembersManagementUnitTests.Billing
         public void TheTaxAmountOfANegativeGrossAmountIsNegative()
         {
             Transaction transaction = new Transaction("This product is defective. Return me my money!", -1, 10, new Tax("5% VAT", 5), 0);
+            Assert.AreEqual((decimal)-10, transaction.GrossAmount);
             Assert.AreEqual((decimal)-0.5, transaction.TaxAmount);
         }
 
         [TestMethod]
         public void TheAmountOfReturningOneProductIsExactlyTheSameThanBuyinOneProductButnegative_CheckNoTaxNorDiscount()
         {
-            Transaction transaction = new Transaction("Return me exactly the same I paid!", -1, 10, new Tax("5% VAT", 5), 0);
-            Assert.Inconclusive();
+            Transaction transaction = new Transaction("I'll buy this!", 1, 10, new Tax("No VAT", 0), 0);
+            Transaction amendingTransaction = new Transaction("I don't like. Return me exactly the same I paid!", -1, 10, new Tax("No VAT", 0), 0);
+            Assert.AreEqual(amendingTransaction.GrossAmount, -transaction.GrossAmount);
+            Assert.AreEqual(amendingTransaction.NetAmount, -transaction.NetAmount);
+            Assert.AreEqual(amendingTransaction.TaxAmount, -transaction.TaxAmount);
         }
 
         [TestMethod]
         public void TheAmountOfReturningOneProductIsExactlyTheSameThanBuyinOneProductButnegative_CheckWithTax()
         {
-            Assert.Inconclusive();
+            Transaction transaction = new Transaction("I'll buy this!", 1, 10, new Tax("5% Tax", 5), 0);
+            Transaction amendingTransaction = new Transaction("I don't like. Return me exactly the same I paid!", -1, 10, new Tax("5% Tax", 5), 0);
+            Assert.AreEqual(amendingTransaction.GrossAmount, -transaction.GrossAmount);
+            Assert.AreEqual(amendingTransaction.NetAmount, -transaction.NetAmount);
+            Assert.AreEqual(amendingTransaction.TaxAmount, -transaction.TaxAmount);
         }
 
         [TestMethod]
         public void TheAmountOfReturningOneProductIsExactlyTheSameThanBuyinOneProductButnegative_CheckWithDiscount()
         {
-            Assert.Inconclusive();
+            Transaction transaction = new Transaction("I'll buy this!", 1, 10, new Tax("No VAT", 0), 10);
+            Transaction amendingTransaction = new Transaction("I don't like. Return me exactly the same I paid!", -1, 10, new Tax("No VAT", 0), 10);
+            Assert.AreEqual(amendingTransaction.GrossAmount, -transaction.GrossAmount);
+            Assert.AreEqual(amendingTransaction.NetAmount, -transaction.NetAmount);
+            Assert.AreEqual(amendingTransaction.TaxAmount, -transaction.TaxAmount);
         }
+
         [TestMethod]
         public void TheAmountOfReturningOneProductIsExactlyTheSameThanBuyinOneProductButnegative_CheckWithTaxAndDiscount()
         {
-            Assert.Inconclusive();
+            Transaction transaction = new Transaction("I'll buy this!", 1, 10, new Tax("5% Tax", 5), 10);
+            Transaction amendingTransaction = new Transaction("I don't like. Return me exactly the same I paid!", -1, 10, new Tax("5% Tax", 5), 10);
+            Assert.AreEqual(amendingTransaction.GrossAmount, -transaction.GrossAmount);
+            Assert.AreEqual(amendingTransaction.NetAmount, -transaction.NetAmount);
+            Assert.AreEqual(amendingTransaction.TaxAmount, -transaction.TaxAmount);
         }
 
+        [TestMethod]
+        public void TheAmountOfReturningOneProductIsExactlyTheSameThanBuyinOneProductButnegative_CheckWithTaxAndSurcharge()
+        {
+            Transaction transaction = new Transaction("I'll buy this!", 1, 10, new Tax("5% Tax", 5), -10);
+            Transaction amendingTransaction = new Transaction("I don't like. Return me exactly the same I paid!", -1, 10, new Tax("5% Tax", 5), -10);
+            Assert.AreEqual(amendingTransaction.GrossAmount, -transaction.GrossAmount);
+            Assert.AreEqual(amendingTransaction.NetAmount, -transaction.NetAmount);
+            Assert.AreEqual(amendingTransaction.TaxAmount, -transaction.TaxAmount);
+        }
+
+        [TestMethod]
+        public void WhenReturninManyProductsTheAmountIsTheSameThanWhenBuying()
+        {
+            Transaction transaction = new Transaction("I'll buy this!", 3, 10, new Tax("5% Tax", 5), 10);
+            Transaction amendingTransaction = new Transaction("I don't like. Return me exactly the same I paid!", -3, 10, new Tax("5% Tax", 5), 10);
+            Assert.AreEqual(amendingTransaction.GrossAmount, -transaction.GrossAmount);
+            Assert.AreEqual(amendingTransaction.NetAmount, -transaction.NetAmount);
+            Assert.AreEqual(amendingTransaction.TaxAmount, -transaction.TaxAmount);
+        }
 
         [TestMethod]
         public void AppliyinNegativeUnitToPositive()
