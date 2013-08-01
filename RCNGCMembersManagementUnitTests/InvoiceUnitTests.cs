@@ -58,12 +58,21 @@ namespace RCNGCMembersManagementUnitTests.Billing
         }
 
         [TestMethod]
-        [ExpectedException(typeof(System.ArgumentException))]
-        public void InvoicesCannotHaveAnEmptyListofTransactions()
+        [ExpectedException(typeof(System.ArgumentNullException))]
+        public void AnInvoiceDetailCantBeEmpty()
         {
-            List<Transaction> transactionsList = new List<Transaction>();
             DateTime issueDate = DateTime.Now;
-            Invoice invoice = new Invoice(clubMember, transactionsList, issueDate);
+            List<Transaction> transactionsList = new List<Transaction>();
+            try
+            {
+                Invoice invoice = new Invoice(clubMember, transactionsList, issueDate);
+            }
+            catch (ArgumentNullException exception)
+            {
+                string[] exceptionMessages = exception.Message.Split(new string[] { Environment.NewLine }, StringSplitOptions.None);
+                Assert.AreEqual("The invoice detail can't be empty", exceptionMessages[0]);
+                throw exception;
+            }
         }
 
         [TestMethod]
@@ -133,6 +142,16 @@ namespace RCNGCMembersManagementUnitTests.Billing
         [ExpectedException(typeof(System.ArgumentOutOfRangeException))]
         public void CantSetInvoiceSequenceNumberOver999999()
         {
+            try
+            {
+                billDataManager.SetLastInvoiceNumber(1000000);
+            }
+            catch (ArgumentOutOfRangeException exception)
+            {
+                string[] exceptionMessages = exception.Message.Split(new string[] { Environment.NewLine }, StringSplitOptions.None);
+                Assert.AreEqual("Max 999999 invoices per year", exceptionMessages[0]);
+                throw exception;
+            }
             billDataManager.SetLastInvoiceNumber(1000000);
         }
 
@@ -140,13 +159,14 @@ namespace RCNGCMembersManagementUnitTests.Billing
         [ExpectedException(typeof(System.ArgumentOutOfRangeException))]
         public void CantSetInvoiceSequenceNumberTo0()
         {
-            billDataManager.SetLastInvoiceNumber(0);
+            Assert.Inconclusive();
+            //billDataManager.SetLastInvoiceNumber(0);
         }
 
         [TestMethod]
-        public void ForLoadingPurposesICanInstantiateAnInvoiceWithAGivenInvoiceID()
+        public void ICanInstantiateAnInvoiceWithAGivenInvoiceID()
         {
-            string invoiceID = "MMM20130012345";
+            string invoiceID = "INV20130012345";
             DateTime issueDate = DateTime.Now;
             Invoice invoice = new Invoice(invoiceID, clubMember, transactionsList, issueDate);
             Assert.AreEqual(invoiceID, invoice.InvoiceID);
@@ -156,7 +176,7 @@ namespace RCNGCMembersManagementUnitTests.Billing
         public void InstantiatingAnInvoiceWithAGivenInvoiceIDDoesntChangeTheInvoiceIDSequenceNumber()
         {
             billDataManager.SetLastInvoiceNumber(5000);
-            string invoiceID = "MMM20130012345";
+            string invoiceID = "INV20130012345";
             DateTime issueDate = DateTime.Now;
             Invoice invoice = new Invoice(invoiceID, clubMember, transactionsList, issueDate);
             Assert.AreEqual((uint)5001, billDataManager.NextInvoiceSequenceNumber);
@@ -167,36 +187,34 @@ namespace RCNGCMembersManagementUnitTests.Billing
         {
             DateTime issueDate = DateTime.Now;
             List<Transaction> transactionsList = new List<Transaction>{
-                new Transaction("Nice Blue Cap", 1,10,taxesDictionary["IGIC General"],0),
-                new Transaction("Nice Blue T-Shirt", 1,20,taxesDictionary["IGIC Reducido 2"],0)};
+                new Transaction("Nice Blue Cap", 1,10,new Tax("5% Tax",5),0),
+                new Transaction("Nice Blue T-Shirt", 1,20,new Tax("10% Tax",10),0)};
             Invoice invoice = new Invoice(clubMember, transactionsList, issueDate);
-            Assert.AreEqual((decimal)31.30, invoice.NetAmount);
+            Assert.AreEqual((decimal)32.5, invoice.NetAmount);
         }
 
         [TestMethod]
-        public void TheInvoiceTransactionsCanBeEitherSalesOrServiceCharges()
+        public void TheInvoiceCanMixSalesAndServiceCharges()
         {
-            Product cap = new Product("Cap", 10, taxesDictionary["IGIC General"]);
-            ClubService membership = new ClubService("Club Full Membership", 79, taxesDictionary["No IGIC"]);
+            Product cap = new Product("Cap", 10, new Tax("5% Tax", 5));
+            ClubService membership = new ClubService("Club Full Membership", 80, new Tax("5% Tax", 5));
             DateTime issueDate = DateTime.Now;
             List<Transaction> transactionsList = new List<Transaction>{
                 new Sale(cap, "Nice Blue Cap", 1,0),
                 new ServiceCharge(membership, "June Membership Fee", 1,0)};
             Invoice invoice = new Invoice(clubMember, transactionsList, issueDate);
-            Assert.AreEqual((decimal)89.7, invoice.NetAmount);
+            Assert.AreEqual((decimal)94.5, invoice.NetAmount);
         }
 
         [TestMethod]
-        public void TheTransactionsCostAndTaxesCanDiferFromDefaultProductOrServiceCost()
+        public void AnInvoiceCanMixTransactionsWithDifferentTaxes()
         {
-            Product cap = new Product("Cap", 5, taxesDictionary["IGIC General"]);
-            ClubService membership = new ClubService("Club Full Membership", 50, taxesDictionary["IGIC General"]);
             DateTime issueDate = DateTime.Now;
             List<Transaction> transactionsList = new List<Transaction>{
-                new Sale(cap, "Nice Blue Cap", 1,15,taxesDictionary["IGIC Reducido 2"],0),
-                new ServiceCharge(membership, "June Membership Fee", 1,40,taxesDictionary["IGIC General"],0)};
+                new Transaction("Nice Blue Cap", 1,10,new Tax("5% Tax", 5),0),
+                new Transaction("June Membership Fee", 1,40,new Tax("No Tax", 0),0)};
             Invoice invoice = new Invoice(clubMember, transactionsList, issueDate);
-            Assert.AreEqual((decimal)58.25, invoice.NetAmount);
+            Assert.AreEqual((decimal)50.5, invoice.NetAmount);
         }
 
         [TestMethod]

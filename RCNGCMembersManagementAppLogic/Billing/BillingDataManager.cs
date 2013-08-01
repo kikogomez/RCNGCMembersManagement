@@ -30,6 +30,7 @@ namespace RCNGCMembersManagementAppLogic.Billing
         public uint NextInvoiceSequenceNumber
         {
             get { return GetNextInvoiceSequenceNumber(); }
+            set { GetNextInvoiceSequenceNumber(); }
         }
 
         public string InvoicePrefix
@@ -76,7 +77,18 @@ namespace RCNGCMembersManagementAppLogic.Billing
             {
                 throw new ArgumentOutOfRangeException("invoiceSequenceNumber", "Max 999999 invoices per year");
             }
+        }
 
+        public void SetNextInvoiceNumber(uint invoiceSequenceNumber)
+        {
+            if (IsValidInvoiceSequenceNumber(invoiceSequenceNumber))
+            {
+                dataManager.SetLastInvoiceSequenceNumber(invoiceSequenceNumber);
+            }
+            else
+            {
+                throw new ArgumentOutOfRangeException("invoiceSequenceNumber", "Max 999999 invoices per year");
+            }
         }
 
         private bool IsValidInvoiceSequenceNumber(uint invoiceNumber)

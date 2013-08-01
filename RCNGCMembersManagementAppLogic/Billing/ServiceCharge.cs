@@ -24,7 +24,6 @@ namespace RCNGCMembersManagementAppLogic.Billing
         public ServiceCharge(ClubService service, string concept, int units, double unitCost, Tax tax, double discount)
             :base(concept, units, unitCost, tax, discount)
         {
-            if (unitCost < 0) throw new System.ArgumentOutOfRangeException("unitCost", "A Service Charge cost can't be negative");
             this.service = service;
             this.concept = concept;
             this.units = units;

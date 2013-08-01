@@ -24,7 +24,6 @@ namespace RCNGCMembersManagementAppLogic.Billing
         public Sale(Product product, string concept, int units, double unitCost, Tax tax, double discount)
             :base(concept, units, unitCost, tax, discount)
         {
-            if (unitCost < 0) throw new System.ArgumentOutOfRangeException("unitCost", "A Product cost can't be negative");
             this.product = product;
             this.concept = concept;
             this.units = units;

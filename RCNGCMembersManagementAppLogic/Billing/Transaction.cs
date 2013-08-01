@@ -17,6 +17,7 @@ namespace RCNGCMembersManagementAppLogic.Billing
         public Transaction(string description, int units, double unitCost, Tax tax, double discount)
         {
             if (unitCost < 0) throw new System.ArgumentOutOfRangeException("uniCost", "Transactions units cost can't be negative");
+            if (units == 0) throw new System.ArgumentOutOfRangeException("units", "A transaction can't have zero units");
             this.description = description;
             this.units = units;
             this.unitCost = unitCost;

@@ -144,12 +144,27 @@ namespace RCNGCMembersManagementUnitTests.Billing
             try
             {
                 Transaction transaction = new Transaction("A gift?! For me?!", 1, -100, new Tax("No VAT", 0), 0);
-
             }
             catch (ArgumentOutOfRangeException exception)
             {
                 string[] exceptionMessages = exception.Message.Split(new string[] { Environment.NewLine }, StringSplitOptions.None);
                 Assert.AreEqual("Transactions units cost can't be negative", exceptionMessages[0]);
+                throw exception;
+            }
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(System.ArgumentOutOfRangeException))]
+        public void TransactionsCantHaveZeroUnits()
+        {
+            try
+            {
+                Transaction transaction = new Transaction("Invoice me nothing!", 0, 100000, new Tax("No VAT", 0), 0);
+            }
+            catch (ArgumentOutOfRangeException exception)
+            {
+                string[] exceptionMessages = exception.Message.Split(new string[] { Environment.NewLine }, StringSplitOptions.None);
+                Assert.AreEqual("A transaction can't have zero units", exceptionMessages[0]);
                 throw exception;
             }
         }
@@ -218,7 +233,7 @@ namespace RCNGCMembersManagementUnitTests.Billing
         }
 
         [TestMethod]
-        public void TheAmountOfReturningOneProductIsExactlyTheSameThanBuyinOneProductButnegative_CheckWithDiscount()
+        public void TheAmountOfReturningOneProductIsExactlyTheSameThanBuyingOneProductButnegative_CheckWithDiscount()
         {
             Transaction transaction = new Transaction("I'll buy this!", 1, 10, new Tax("No VAT", 0), 10);
             Transaction amendingTransaction = new Transaction("I don't like. Return me exactly the same I paid!", -1, 10, new Tax("No VAT", 0), 10);
@@ -228,7 +243,7 @@ namespace RCNGCMembersManagementUnitTests.Billing
         }
 
         [TestMethod]
-        public void TheAmountOfReturningOneProductIsExactlyTheSameThanBuyinOneProductButnegative_CheckWithTaxAndDiscount()
+        public void TheAmountOfReturningOneProductIsExactlyTheSameThanBuyingOneProductButnegative_CheckWithTaxAndDiscount()
         {
             Transaction transaction = new Transaction("I'll buy this!", 1, 10, new Tax("5% Tax", 5), 10);
             Transaction amendingTransaction = new Transaction("I don't like. Return me exactly the same I paid!", -1, 10, new Tax("5% Tax", 5), 10);
@@ -238,7 +253,7 @@ namespace RCNGCMembersManagementUnitTests.Billing
         }
 
         [TestMethod]
-        public void TheAmountOfReturningOneProductIsExactlyTheSameThanBuyinOneProductButnegative_CheckWithTaxAndSurcharge()
+        public void TheAmountOfReturningOneProductIsExactlyTheSameThanBuyingOneProductButnegative_CheckWithTaxAndSurcharge()
         {
             Transaction transaction = new Transaction("I'll buy this!", 1, 10, new Tax("5% Tax", 5), -10);
             Transaction amendingTransaction = new Transaction("I don't like. Return me exactly the same I paid!", -1, 10, new Tax("5% Tax", 5), -10);
@@ -258,33 +273,39 @@ namespace RCNGCMembersManagementUnitTests.Billing
         }
 
         [TestMethod]
-        public void AppliyinNegativeUnitToPositive()
+        public void ASaleIsATypeOfTransaction()
         {
-            Assert.Inconclusive();
+            Tax defaultTax = new Tax("5% Tax", 5);
+            Product simpleProduct = new Product("A Cap", 10, defaultTax);
+            Transaction sale = new Sale(simpleProduct, "Selling a cap", 1, 0);
+            Assert.AreEqual((decimal)10.5, sale.NetAmount);
         }
 
         [TestMethod]
-        public void TransactionsCanBeSales()
+        public void AServiceChargeIsATypeOfTransaction()
         {
-            Assert.Inconclusive();
-        }
-
-        [TestMethod]
-        public void TransactionsCanBeServiceCharges()
-        {
-            Assert.Inconclusive();
+            Tax defaultTax = new Tax("No Tax", 0);
+            ClubService clubService = new ClubService("Member Fee", 79, defaultTax);
+            Transaction serviceCharge = new ServiceCharge(clubService, "June Full Membership Fee", 1, 0);
+            Assert.AreEqual((decimal)79, serviceCharge.NetAmount);
         }
 
         [TestMethod]
         public void TheTransactionsCostAndTaxesCanDiferFromDefaultProductCost()
         {
-            Assert.Inconclusive();
+            Tax defaultTax = new Tax("5% Tax", 5);
+            Product simpleProduct = new Product("A Cap", 10, defaultTax);
+            Transaction sale = new Sale(simpleProduct, "Selling a cap", 1, 20, new Tax("No Tax", 0), 0);
+            Assert.AreEqual((decimal)20, sale.NetAmount);
         }
 
         [TestMethod]
         public void TheTransactionsCostAndTaxesCanDiferFromDefaultServiceCost()
         {
-            Assert.Inconclusive();
+            Tax defaultTax = new Tax("No Tax", 0);
+            ClubService clubService = new ClubService("Member Fee", 79, defaultTax);
+            Transaction serviceCharge = new ServiceCharge(clubService, "June Full Membership Fee", 1, 80, new Tax("5% Tax", 5), 0);
+            Assert.AreEqual((decimal)84, serviceCharge.NetAmount);
         }
     }
 }

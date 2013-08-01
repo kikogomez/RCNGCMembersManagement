@@ -146,12 +146,7 @@ namespace RCNGCMembersManagementAppLogic.Billing
 
         private void CheckInvoiceDetail()
         {
-            if (invoiceDetail.Count == 0) throw new ArgumentException("The transactions list is empty");
-            foreach (Transaction transaction in invoiceDetail)
-            {
-                if (transaction.Units < 1)
-                    throw new System.ArgumentOutOfRangeException("units", "Invoice transactions must have at least one element to transact");
-            }
+            if (invoiceDetail.Count == 0) throw new System.ArgumentNullException("invoiceDetail","The invoice detail can't be empty");
         }
     }
 }
