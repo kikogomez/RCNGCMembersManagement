@@ -48,8 +48,8 @@ Scenario: Generate an invoice for a sale
 Scenario: The invoices ID must allways be consecutive
 	Given The member uses the club service "Rent a kajak"
 	When I generate an invoice for the service
-	Then The generated Invoice ID should be "INV2013000024"
-	Then The next invoice sequence number should be 25
+	Then The generated Invoice ID should be "INV2013000023"
+	Then The next invoice sequence number should be 24
 
 Scenario: Up to 999999 invoices in a year
 	Given Last generated InvoiceID is "INV2013999999"

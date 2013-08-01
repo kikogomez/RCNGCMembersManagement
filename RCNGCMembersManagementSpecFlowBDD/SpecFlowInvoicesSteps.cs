@@ -54,7 +54,7 @@ namespace RCNGCMembersManagementSpecFlowBDD
             invoiceContextData.lastInvoiceID = lastInvoiceID;
             DataManagerMock invoiceDataManagerMock = new DataManagerMock();
             invoiceContextData.billDataManager.SetDataManagerCollaborator(invoiceDataManagerMock);
-            invoiceContextData.billDataManager.SetLastInvoiceNumber(uint.Parse(lastInvoiceID.Substring(7)));
+            invoiceContextData.billDataManager.InvoiceSequenceNumber=uint.Parse(lastInvoiceID.Substring(7));
         }
 
         [Given(@"A Club Member")]
@@ -244,7 +244,7 @@ namespace RCNGCMembersManagementSpecFlowBDD
         [Then(@"The next invoice sequence number should be (.*)")]
         public void ThenTheNextInvoiceSequenceNumberShouldBe(int invoiceSequenceNumber)
         {
-            Assert.AreEqual((uint)invoiceSequenceNumber, invoiceContextData.billDataManager.NextInvoiceSequenceNumber);
+            Assert.AreEqual((uint)invoiceSequenceNumber, invoiceContextData.billDataManager.InvoiceSequenceNumber);
         }
 
         [Then(@"The application doesn't accept more than (.*) invoices in the year")]

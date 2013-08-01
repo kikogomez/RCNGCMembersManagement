@@ -93,16 +93,15 @@ namespace RCNGCMembersManagementAppLogic.Billing
 
         protected override string GetNewInvoiceID()
         {
-            BillingDataManager billDataManager = BillingDataManager.Instance;
-            string invoicePrefix = billDataManager.InvoicePrefix;
+            string invoicePrefix = billingDataManager.InvoicePrefix;
             string invoiceYear = "2013";
-            return invoicePrefix + invoiceYear + billDataManager.NextInvoiceSequenceNumber.ToString("000000");
+            return invoicePrefix + invoiceYear + billingDataManager.InvoiceSequenceNumber.ToString("000000");
         }
 
         protected override void UpdateInvoiceSequenceNumber()
         {
             uint currentInvoiceSequenceNumber=ExtractInvoiceSequenceNumberFromInvoiceID();
-            BillingDataManager.Instance.SetLastInvoiceNumber(currentInvoiceSequenceNumber);
+            billingDataManager.InvoiceSequenceNumber = currentInvoiceSequenceNumber + 1;
         }
 
         private decimal GetBillsTotalAmount(Bill.BillPaymentResult paymentResult)

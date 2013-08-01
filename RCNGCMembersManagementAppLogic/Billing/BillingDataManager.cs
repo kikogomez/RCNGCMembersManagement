@@ -27,10 +27,16 @@ namespace RCNGCMembersManagementAppLogic.Billing
             get { return instance; }
         }
 
-        public uint NextInvoiceSequenceNumber
+        public uint InvoiceSequenceNumber
         {
-            get { return GetNextInvoiceSequenceNumber(); }
-            set { GetNextInvoiceSequenceNumber(); }
+            get { return GetInvoiceSequenceNumber(); }
+            set { SetInvoiceSequenceNumber(value); }
+        }
+
+        public uint ProFormaInvoiceSequenceNumber
+        {
+            get { return GetProFormaInvoiceSequenceNumber(); }
+            set { SetProFormaInvoiceSequenceNumber(value); }
         }
 
         public string InvoicePrefix
@@ -53,45 +59,37 @@ namespace RCNGCMembersManagementAppLogic.Billing
             dataManager = dataMngr;
         }
 
-        private uint GetNextInvoiceSequenceNumber()
+        private uint GetInvoiceSequenceNumber()
         {
-            uint invoiceSequenceNumber=dataManager.GetNextInvoiceSequenceNumber();
-            if (invoiceSequenceNumber < 1000000)
-            {
-                return invoiceSequenceNumber;
-            }
-            else
-            {
-                ArgumentOutOfRangeException e = new ArgumentOutOfRangeException("invoiceSequenceNumber", "Max 999999 invoices per year");
-                throw e;
-            }
-        }
-
-        public void SetLastInvoiceNumber(uint invoiceSequenceNumber)
-        {
-            if (IsValidInvoiceSequenceNumber(invoiceSequenceNumber))
-            {
-                dataManager.SetLastInvoiceSequenceNumber(invoiceSequenceNumber);
-            }
-            else
-            {
+            uint invoiceSequenceNumber=dataManager.GetInvoiceSequenceNumber();
+            if (invoiceSequenceNumber >= 1000000)
                 throw new ArgumentOutOfRangeException("invoiceSequenceNumber", "Max 999999 invoices per year");
-            }
+            return invoiceSequenceNumber;
         }
 
-        public void SetNextInvoiceNumber(uint invoiceSequenceNumber)
+        private void SetInvoiceSequenceNumber(uint invoiceSequenceNumber)
         {
-            if (IsValidInvoiceSequenceNumber(invoiceSequenceNumber))
-            {
-                dataManager.SetLastInvoiceSequenceNumber(invoiceSequenceNumber);
-            }
-            else
-            {
+            if (!InvoiceSequenceMuberIsInRange(invoiceSequenceNumber))
                 throw new ArgumentOutOfRangeException("invoiceSequenceNumber", "Max 999999 invoices per year");
-            }
+            dataManager.SetInvoiceSequenceNumber(invoiceSequenceNumber);
         }
 
-        private bool IsValidInvoiceSequenceNumber(uint invoiceNumber)
+        private uint GetProFormaInvoiceSequenceNumber()
+        {
+            uint proFormaInvoiceSequenceNumber = dataManager.GetProFormaInvoiceSequenceNumber();
+            if (proFormaInvoiceSequenceNumber >= 1000000)
+                throw new ArgumentOutOfRangeException("invoiceSequenceNumber", "Max 999999 invoices per year");
+            return proFormaInvoiceSequenceNumber;
+        }
+
+        private void SetProFormaInvoiceSequenceNumber(uint proFormaInvoiceSequenceNumber)
+        {
+            if (!InvoiceSequenceMuberIsInRange(proFormaInvoiceSequenceNumber))
+                throw new ArgumentOutOfRangeException("invoiceSequenceNumber", "Max 999999 invoices per year");
+            dataManager.SetProFormaInvoiceSequenceNumber(proFormaInvoiceSequenceNumber);
+        }
+
+        private bool InvoiceSequenceMuberIsInRange(uint invoiceNumber)
         {
             return (1 <= invoiceNumber && invoiceNumber < 1000000);
         }

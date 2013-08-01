@@ -10,46 +10,42 @@ namespace RCNGCMembersManagementMocks
 {
     public class DataManagerMock : IDataManager
     {
-        static uint lastInvoiceSequenceNumber = 0;
-        static uint lastDirectDebitReferenceSequenceNumber = 0;
-        //static Dictionary<string, Tax> taxes;
+        static uint invoiceSequenceNumber = 0;
+        static uint proFormaInvoiceSequenceNumber = 0;
+        static uint directDebitReferenceSequenceNumber = 0;
 
         public DataManagerMock()
         {
         }
 
-        public uint GetNextInvoiceSequenceNumber()
+        public uint GetInvoiceSequenceNumber()
         {
-            return lastInvoiceSequenceNumber + 1;
+            return invoiceSequenceNumber;
         }
 
-        public void SetLastInvoiceSequenceNumber(uint invoiceNumber)
+        public void SetInvoiceSequenceNumber(uint invoiceSequenceNumber)
         {
-            DataManagerMock.lastInvoiceSequenceNumber = invoiceNumber;
+            DataManagerMock.invoiceSequenceNumber = invoiceSequenceNumber;
         }
 
-        public uint GetNextDirectDebitReferenceSequenceNumber()
+        public uint GetProFormaInvoiceSequenceNumber()
         {
-            return lastDirectDebitReferenceSequenceNumber + 1;
-        }
-        
-        public void SetDirectDebitReferenceSequenceNumber(uint invoiceSequenceNumber)
-        {
-            DataManagerMock.lastDirectDebitReferenceSequenceNumber = invoiceSequenceNumber;
+            return proFormaInvoiceSequenceNumber;
         }
 
-        /*
-        public Dictionary<string,Tax> LoadTaxes()
+        public void SetProFormaInvoiceSequenceNumber(uint proFormaInvoiceSequenceNumber)
         {
-            Dictionary<string, Tax> taxDictionary = new Dictionary<string, Tax>{
-                {"No IGIC", new Tax("No IGIC",0)},
-                {"IGIC Reducido 1", new Tax("IGIC Reducido 1",2.75)},
-                {"IGIC Reducido 2", new Tax("IGIC Reducido 2",3)},
-                {"IGIC General", new Tax("IGIC General",7)},
-                {"IGIC Incrementado 1", new Tax("IGIC Incrementado 1",9.50)},
-                {"IGIC Incrementado 2", new Tax("IGIC Incrementado 2",13.50)},
-                {"IGIC Especial", new Tax("IGIC Especial",20)}};
-            return taxDictionary;
-        }*/
+            DataManagerMock.proFormaInvoiceSequenceNumber = proFormaInvoiceSequenceNumber;
+        }
+
+        public uint GetDirectDebitReferenceSequenceNumber()
+        {
+            return directDebitReferenceSequenceNumber;
+        }
+  
+        public void SetDirectDebitReferenceSequenceNumber(uint directDebitReferenceSequenceNumber)
+        {
+            DataManagerMock.directDebitReferenceSequenceNumber = directDebitReferenceSequenceNumber;
+        }
     }
 }

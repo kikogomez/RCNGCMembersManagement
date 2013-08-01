@@ -11,6 +11,7 @@ namespace RCNGCMembersManagementAppLogic.Billing
 {
     public abstract class BaseInvoice
     {
+        protected BillingDataManager billingDataManager;
         protected InvoiceCustomerData customerData;
         protected string invoiceID;
         protected DateTime issueDate;
@@ -25,6 +26,7 @@ namespace RCNGCMembersManagementAppLogic.Billing
 
         public BaseInvoice(string invoiceID, List<Transaction> transactionsList, DateTime issueDate)
         {
+            this.billingDataManager = BillingDataManager.Instance;
             this.invoiceID = (invoiceID == null) ? GetNewInvoiceID(): invoiceID;
             this.issueDate = issueDate;
             invoiceDetail = transactionsList;
@@ -44,11 +46,6 @@ namespace RCNGCMembersManagementAppLogic.Billing
         {
             get { return CalculateInvoiceAmounts(false); }
         }
-
-        /*public abstract decimal BillsTotalAmountToCollect
-        {
-            get;
-        }*/
 
         protected abstract string GetNewInvoiceID();
 

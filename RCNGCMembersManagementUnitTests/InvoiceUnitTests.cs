@@ -131,11 +131,11 @@ namespace RCNGCMembersManagementUnitTests.Billing
         [TestMethod]
         public void WeCanSetTheInvoiceSequenceNumberValue()
         {
-            billDataManager.SetLastInvoiceNumber(5000);
+            billDataManager.InvoiceSequenceNumber=5000;
             DateTime issueDate = DateTime.Now;
             Invoice invoice = new Invoice(clubMember, transactionsList, issueDate);
             int invoiceSequenceNumber = int.Parse(invoice.InvoiceID.Substring(invoice.InvoiceID.Length - 6));
-            Assert.AreEqual(5001, invoiceSequenceNumber);
+            Assert.AreEqual(5000, invoiceSequenceNumber);
         }
 
         [TestMethod]
@@ -144,7 +144,7 @@ namespace RCNGCMembersManagementUnitTests.Billing
         {
             try
             {
-                billDataManager.SetLastInvoiceNumber(1000000);
+                billDataManager.InvoiceSequenceNumber=1000000;
             }
             catch (ArgumentOutOfRangeException exception)
             {
@@ -152,7 +152,7 @@ namespace RCNGCMembersManagementUnitTests.Billing
                 Assert.AreEqual("Max 999999 invoices per year", exceptionMessages[0]);
                 throw exception;
             }
-            billDataManager.SetLastInvoiceNumber(1000000);
+            billDataManager.InvoiceSequenceNumber=1000000;
         }
 
         [TestMethod]
@@ -175,11 +175,12 @@ namespace RCNGCMembersManagementUnitTests.Billing
         [TestMethod]
         public void InstantiatingAnInvoiceWithAGivenInvoiceIDDoesntChangeTheInvoiceIDSequenceNumber()
         {
-            billDataManager.SetLastInvoiceNumber(5000);
+            billDataManager.InvoiceSequenceNumber = (5000);
+            //billDataManager.SetInvoiceSequenceNumber(5000);
             string invoiceID = "INV20130012345";
             DateTime issueDate = DateTime.Now;
             Invoice invoice = new Invoice(invoiceID, clubMember, transactionsList, issueDate);
-            Assert.AreEqual((uint)5001, billDataManager.NextInvoiceSequenceNumber);
+            Assert.AreEqual((uint)5000, billDataManager.InvoiceSequenceNumber);
         }
 
         [TestMethod]

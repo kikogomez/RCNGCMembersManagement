@@ -29,16 +29,15 @@ namespace RCNGCMembersManagementAppLogic.Billing
 
         protected override string GetNewInvoiceID()
         {
-            BillingDataManager billDataManager = BillingDataManager.Instance;
-            string invoicePrefix = billDataManager.ProFormaInvoicePrefix;
+            string invoicePrefix = billingDataManager.ProFormaInvoicePrefix;
             string invoiceYear = "2013";
-            return invoicePrefix + invoiceYear + billDataManager.NextInvoiceSequenceNumber.ToString("000000");
+            return invoicePrefix + invoiceYear + billingDataManager.ProFormaInvoiceSequenceNumber.ToString("000000");
         }
 
         protected override void UpdateInvoiceSequenceNumber()
         {
             uint currentInvoiceSequenceNumber=ExtractInvoiceSequenceNumberFromInvoiceID();
-            BillingDataManager.Instance.SetLastInvoiceNumber(currentInvoiceSequenceNumber);
+            billingDataManager.ProFormaInvoiceSequenceNumber = currentInvoiceSequenceNumber + 1;
         }
 
         private void InitializeProformaInvoice(ClubMember clubMember)
