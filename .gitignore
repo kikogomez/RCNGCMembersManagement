@@ -145,6 +145,21 @@ $RECYCLE.BIN/
 
 # Mac crap
 .DS_Store
+
+# NDepend Metrics
 /NDependOut/
-/NDependOut1/
+images/
+NDependVersion.xml
+NDependReport.*
+ReportResources.xml
+NDependMain.xml
+InfoWarnings.xml
+ApplicationMetrics.xml
+AssembliesMetrics.xml
+NamespacesMetrics.xml
+TypesMetrics.xml
+
+
+
+
 
