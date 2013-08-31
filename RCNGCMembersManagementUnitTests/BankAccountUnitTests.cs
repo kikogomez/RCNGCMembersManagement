@@ -290,6 +290,7 @@ namespace RCNGCMembersManagementUnitTests
         {
             BankAccountFields bankAccountFields = new BankAccountFields("124", "1 00", " 4", "100/234-1");
             BankAccount testAccount = new BankAccount(bankAccountFields);
+            Assert.IsFalse(testAccount.HasValidBankAccountFields);
             string givenData = "124" + "1 00" + " 4" + "100/234-1";
             string storedData =
                 testAccount.BankAccountFieldCodes.BankCode +

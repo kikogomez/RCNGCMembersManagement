@@ -119,25 +119,5 @@ namespace RCNGCMembersManagementAppLogic.Billing.DirectDebit
         {
             return InternationalAccountBankNumberIBAN.IsValidIBAN(iban);
         }
-
-        private void CheckBankAccountFieldsLength(string bank, string office, string checkDigits, string accountNumber)
-        {
-            try
-            {
-                ThrowExceptionOnTooLongAccountDataString("banco", bank, ClientAccountCodeCCC.CCCFieldLenghts.BankLength);
-                ThrowExceptionOnTooLongAccountDataString("sucursal", office, ClientAccountCodeCCC.CCCFieldLenghts.OfficeLenght);
-                ThrowExceptionOnTooLongAccountDataString("dígito de control", checkDigits, ClientAccountCodeCCC.CCCFieldLenghts.CheckDigitsLenght);
-                ThrowExceptionOnTooLongAccountDataString("número de cuenta", accountNumber, ClientAccountCodeCCC.CCCFieldLenghts.AccountNumberLenght);
-            }
-            catch (System.ArgumentException e)
-            {
-                throw e;
-            }           
-        }
-        
-        private void ThrowExceptionOnTooLongAccountDataString(string fieldName, string fieldValue, int maxLenght)
-        {
-             if ((fieldValue ?? "").Length>maxLenght) throw new System.ArgumentException("El código de " + fieldName + " es demasiado largo", fieldName);
-        }
     }
 }

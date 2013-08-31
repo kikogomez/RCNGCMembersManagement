@@ -12,7 +12,6 @@ namespace RCNGCMembersManagementAppLogic.Billing
 
         static IDataManager dataManager;
         
-        uint nextInvoiceSequenceNumber;
         string invoicePrefix;
         string proFormaInvoicePrefix;
         string amendingInvoicePrefix;
@@ -69,7 +68,7 @@ namespace RCNGCMembersManagementAppLogic.Billing
 
         private void SetInvoiceSequenceNumber(uint invoiceSequenceNumber)
         {
-            if (!InvoiceSequenceMuberIsInRange(invoiceSequenceNumber))
+            if (!InvoiceSequenceNuberIsInRange(invoiceSequenceNumber))
                 throw new ArgumentOutOfRangeException("invoiceSequenceNumber", "Max 999999 invoices per year");
             dataManager.SetInvoiceSequenceNumber(invoiceSequenceNumber);
         }
@@ -84,12 +83,12 @@ namespace RCNGCMembersManagementAppLogic.Billing
 
         private void SetProFormaInvoiceSequenceNumber(uint proFormaInvoiceSequenceNumber)
         {
-            if (!InvoiceSequenceMuberIsInRange(proFormaInvoiceSequenceNumber))
+            if (!InvoiceSequenceNuberIsInRange(proFormaInvoiceSequenceNumber))
                 throw new ArgumentOutOfRangeException("invoiceSequenceNumber", "Max 999999 invoices per year");
             dataManager.SetProFormaInvoiceSequenceNumber(proFormaInvoiceSequenceNumber);
         }
 
-        private bool InvoiceSequenceMuberIsInRange(uint invoiceNumber)
+        private bool InvoiceSequenceNuberIsInRange(uint invoiceNumber)
         {
             return (1 <= invoiceNumber && invoiceNumber < 1000000);
         }

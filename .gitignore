@@ -148,6 +148,12 @@ $RECYCLE.BIN/
 
 # NDepend Metrics
 /NDependOut/
+#/NDependOut1/*
+#/NDependOut1/*/*
+#/NDependOut1/*/*/*
+#!VisualNDepend.bin
+#!/NDependOut1/VisualNDepend.bin
+#!/NDependOut1/*/*/VisualNDepend.bin
 images/
 NDependVersion.xml
 NDependReport.*
