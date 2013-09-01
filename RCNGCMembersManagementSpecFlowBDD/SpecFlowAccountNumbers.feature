@@ -71,8 +71,6 @@ Scenario Outline: Theese are the results when processing theese bank accounts
 	 And The CCC <CCC> is created
 	 And The spanish IBAN code <IBAN> is created
 
-
-
 Scenarios:
 | Bank   | Office | ControlDigit | AccountNumber  | valid     | stored      | CCC                    | IBAN                       |
 | "1234" | "5678" | "06"         | "1234567890"   | "valid"   | "stored"    | "12345678061234567890" | "ES6812345678061234567890" |

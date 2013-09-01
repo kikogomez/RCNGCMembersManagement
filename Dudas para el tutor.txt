@@ -1,0 +1,7 @@
+DUDAS A PLANTEAR
+
+¿Que pasa con la persistencia?
+
+	- Si no introduzco elementos tales como BillID, etc, cada vez que instancie una clase he de cargarla COMPLETA
+		* Un member con todas sus invoices, cada invoice con todos sus pagos, su historial de cobros y pagos, sus domiciliaciones, su historico de cuentas asociadas... etc.
+		* Ha casos, en que tengo que asociar elementos de historicos. por ejemplo, el pago de un recibo lo tendre asociado a una cuenta antiogua que gardo ene el historico, no en la actual

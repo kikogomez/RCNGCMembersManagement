@@ -149,18 +149,25 @@ namespace RCNGCMembersManagementUnitTests.Billing
             catch (ArgumentOutOfRangeException exception)
             {
                 string[] exceptionMessages = exception.Message.Split(new string[] { Environment.NewLine }, StringSplitOptions.None);
-                Assert.AreEqual("Max 999999 invoices per year", exceptionMessages[0]);
+                Assert.AreEqual("Invoice ID out of range (1-999999)", exceptionMessages[0]);
                 throw exception;
             }
-            billDataManager.InvoiceSequenceNumber=1000000;
         }
 
         [TestMethod]
         [ExpectedException(typeof(System.ArgumentOutOfRangeException))]
         public void CantSetInvoiceSequenceNumberTo0()
         {
-            Assert.Inconclusive();
-            //billDataManager.SetLastInvoiceNumber(0);
+            try
+            {
+                billDataManager.InvoiceSequenceNumber = 0;
+            }
+            catch (ArgumentOutOfRangeException exception)
+            {
+                string[] exceptionMessages = exception.Message.Split(new string[] { Environment.NewLine }, StringSplitOptions.None);
+                Assert.AreEqual("Invoice ID out of range (1-999999)", exceptionMessages[0]);
+                throw exception;
+            }
         }
 
         [TestMethod]

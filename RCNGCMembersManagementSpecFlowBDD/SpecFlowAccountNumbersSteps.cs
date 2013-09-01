@@ -6,16 +6,6 @@ using RCNGCMembersManagementAppLogic.Billing.DirectDebit;
 
 namespace RCNGCMembersManagementSpecFlowBDD
 {
-    public class BankAccountContextData 
-    {
-        public string bank;
-        public string office;
-        public string checkDigits;
-        public string accountNumber;
-        public string ccc;
-        public string iban;
-    }
-
     [Binding]
     class ManageAccountNumbersSteps
     {

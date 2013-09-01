@@ -12,21 +12,6 @@ using RCNGCMembersManagementMocks;
 
 namespace RCNGCMembersManagementSpecFlowBDD
 {
-    public class MembersManagementContextData
-    {
-        public ClubMember clubMember;
-    }
-
-    public class InvoiceContextData
-    {
-        public Dictionary<string, Tax> taxesDictionary;
-        public Dictionary<string, ClubService> servicesDictionary;
-        public Dictionary<string, Product> productsDictionary;
-        public List<Transaction> tansactionsList;
-        public string lastInvoiceID;
-        public BillingDataManager billDataManager = BillingDataManager.Instance;
-    }
-
     [Binding]
     class SpecFlowInvoicesSteps
     {
@@ -252,7 +237,7 @@ namespace RCNGCMembersManagementSpecFlowBDD
         {
             ArgumentOutOfRangeException exception = (ArgumentOutOfRangeException)ScenarioContext.Current["Exception_On_Invoice_Creation"];
             string[] exceptionMessages = exception.Message.Split(new string[] { Environment.NewLine }, StringSplitOptions.None);
-            Assert.AreEqual("Max 999999 invoices per year", exceptionMessages[0]);
+            Assert.AreEqual("Invoice ID out of range (1-999999)", exceptionMessages[0]);
         }
 
         [Then(@"The pro forma invoice is modified reflecting the new value: (.*)")]

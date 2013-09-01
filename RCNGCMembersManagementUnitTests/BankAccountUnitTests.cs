@@ -290,13 +290,13 @@ namespace RCNGCMembersManagementUnitTests
         {
             BankAccountFields bankAccountFields = new BankAccountFields("124", "1 00", " 4", "100/234-1");
             BankAccount testAccount = new BankAccount(bankAccountFields);
-            Assert.IsFalse(testAccount.HasValidBankAccountFields);
             string givenData = "124" + "1 00" + " 4" + "100/234-1";
             string storedData =
                 testAccount.BankAccountFieldCodes.BankCode +
                 testAccount.BankAccountFieldCodes.OfficeCode +
                 testAccount.BankAccountFieldCodes.CheckDigits +
                 testAccount.BankAccountFieldCodes.AccountNumber;
+            Assert.IsFalse(testAccount.HasValidBankAccountFields);
             Assert.AreEqual(givenData, storedData);
         }
 
@@ -310,6 +310,7 @@ namespace RCNGCMembersManagementUnitTests
                 testAccount.BankAccountFieldCodes.OfficeCode +
                 testAccount.BankAccountFieldCodes.CheckDigits +
                 testAccount.BankAccountFieldCodes.AccountNumber;
+            Assert.IsFalse(testAccount.HasValidBankAccountFields);
             Assert.AreEqual("", storedData);
         }
 
@@ -318,6 +319,7 @@ namespace RCNGCMembersManagementUnitTests
         {
             BankAccountFields bankAccountFields = new BankAccountFields(null, "", "02", "aaaaa");
             BankAccount testAccount = new BankAccount(bankAccountFields);
+            Assert.IsFalse(testAccount.HasValidBankAccountFields);
             Assert.AreEqual(null, testAccount.BankAccountFieldCodes.BankCode);
         }
 
@@ -331,6 +333,7 @@ namespace RCNGCMembersManagementUnitTests
                 testAccount.BankAccountFieldCodes.OfficeCode +
                 testAccount.BankAccountFieldCodes.CheckDigits +
                 testAccount.BankAccountFieldCodes.AccountNumber;
+            Assert.IsFalse(testAccount.HasValidBankAccountFields);
             Assert.AreEqual("01aaaaa", storedData);
         }
 
