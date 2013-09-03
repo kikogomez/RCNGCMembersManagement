@@ -6,6 +6,8 @@
   </Assemblies>
   <FrameworkAssemblies>
     <Name>mscorlib</Name>
+    <Name>System.Core</Name>
+    <Name>System.Data.Linq</Name>
   </FrameworkAssemblies>
   <Dirs>
     <Dir>C:\Windows\Microsoft.NET\Framework\v4.0.30319</Dir>

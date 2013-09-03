@@ -22,10 +22,12 @@ namespace RCNGCMembersManagementAppLogic.MembersManaging
 
         public ClubMember(string memberID, string name, string firstSurname, string secondSurname)
         {
+            if ((name ?? "").Trim() == "") throw new ArgumentException("Club Member name cannot be empty", "name");
+            if ((firstSurname ?? "").Trim() == "") throw new ArgumentException("Club Member first surname cannot be empty", "firstSurname");
             this.memberID=memberID;
-            this.name=name;
-            this.firstSurname=firstSurname;
-            this.secondSurname=secondSurname;
+            this.name=name.Trim();
+            this.firstSurname=firstSurname.Trim();
+            this.secondSurname=(secondSurname ?? "").Trim();
             this.defaultPaymentMethod = new CashPayment();
             directDebitmandatesList= new List<DirectDebitMandate>();
             invoicesList=new Dictionary<string, Invoice>();
@@ -35,7 +37,22 @@ namespace RCNGCMembersManagementAppLogic.MembersManaging
 
         public string MemberID
         {
-            get {return memberID;}
+            get { return memberID; }
+        }
+
+        public string Name
+        {
+            get { return name; }
+        }
+
+        public string FirstSurname
+        {
+            get { return firstSurname; }
+        }
+
+        public string SecondSurname
+        {
+            get { return secondSurname; }
         }
 
         public string FullName
@@ -64,7 +81,7 @@ namespace RCNGCMembersManagementAppLogic.MembersManaging
         }
         private string GetFullname()
         {
-            return ((name ?? "") + " " + (firstSurname ?? "") + " " + (secondSurname ?? "")).Trim();
+            return (name + " " + firstSurname + " " + (secondSurname ?? "")).Trim();
         }
     }
 }

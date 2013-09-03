@@ -51,6 +51,7 @@
   </Choose>
   <ItemGroup>
     <Compile Include="BankAccountUnitTests.cs" />
+    <Compile Include="ClubMemberUnitTests.cs" />
     <Compile Include="DirectDebitUnitTests.cs" />
     <Compile Include="ProductUnitTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

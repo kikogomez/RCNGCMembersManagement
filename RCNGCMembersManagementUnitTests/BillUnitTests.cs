@@ -7,7 +7,7 @@ using RCNGCMembersManagementAppLogic.Billing.DirectDebit;
 using RCNGCMembersManagementAppLogic.MembersManaging;
 using RCNGCMembersManagementMocks;
 
-namespace RCNGCMembersManagementUnitTests
+namespace RCNGCMembersManagementUnitTests.Billing
 {
     [TestClass]
     public class BillUnitTests
