@@ -29,5 +29,21 @@ namespace ExtensionMethodsUnitTests
             Assert.AreEqual("This is the message", exception.GetMessageWithoutParamName());
         }
 
+        [TestMethod]
+        public void ArgumentNullExceptionMessageWhenParamNameIsGiven()
+        {
+            ArgumentNullException exception = new ArgumentNullException("ParameterName", "This is the message");
+            Assert.AreEqual("This is the message\r\nNombre del parámetro: ParameterName", exception.Message);
+            Assert.AreEqual("This is the message", exception.GetMessageWithoutParamName());
+        }
+
+        [TestMethod]
+        public void ArgumentOutOfRangeExceptionMessageWhenParamNameIsGiven()
+        {
+            ArgumentOutOfRangeException exception = new ArgumentOutOfRangeException("ParameterName", "This is the message");
+            Assert.AreEqual("This is the message\r\nNombre del parámetro: ParameterName", exception.Message);
+            Assert.AreEqual("This is the message", exception.GetMessageWithoutParamName());
+        }
+
     }
 }
