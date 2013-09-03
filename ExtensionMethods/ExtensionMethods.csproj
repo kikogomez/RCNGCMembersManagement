@@ -4,11 +4,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{A2586E2D-F4A2-43EC-B332-DD46C73552B5}</ProjectGuid>
+    <ProjectGuid>{2914EDFC-362E-46D8-A354-CB4DEAEBA6BC}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>RCNGCMembersManagementAppLogic</RootNamespace>
-    <AssemblyName>RCNGCMembersManagementAppLogic</AssemblyName>
+    <RootNamespace>ExtensionMethods</RootNamespace>
+    <AssemblyName>ExtensionMethods</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -32,7 +32,6 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
-    <Reference Include="System.Data.Linq" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -40,42 +39,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Billing\AmendingInvoice.cs" />
-    <Compile Include="Billing\BillPaymentAgreement.cs" />
-    <Compile Include="Billing\CashPayment.cs" />
-    <Compile Include="Billing\DirectDebit\BankAccount.cs" />
-    <Compile Include="Billing\DirectDebit\BankAccountChekNumbersCalculator.cs" />
-    <Compile Include="Billing\BaseInvoice.cs" />
-    <Compile Include="Billing\Bill.cs" />
-    <Compile Include="Billing\BillingDataManager.cs" />
-    <Compile Include="Billing\DirectDebit\BankAccountFields.cs" />
-    <Compile Include="Billing\DirectDebit\ClientAccountCodeCCC.cs" />
-    <Compile Include="Billing\DirectDebit\DirectDebit.cs" />
-    <Compile Include="Billing\DirectDebit\DirectDebitMandate.cs" />
-    <Compile Include="Billing\IDataManager.cs" />
-    <Compile Include="Billing\DirectDebit\InternationalAccountBankNumberIBAN.cs" />
-    <Compile Include="Billing\Invoice.cs" />
-    <Compile Include="Billing\InvoiceCustomerData.cs" />
-    <Compile Include="Billing\ITransactionable.cs" />
-    <Compile Include="Billing\PaymentMethod.cs" />
-    <Compile Include="Billing\ProFormaInvoice.cs" />
-    <Compile Include="Billing\Sale.cs" />
-    <Compile Include="Billing\ServiceCharge.cs" />
-    <Compile Include="Billing\Tax.cs" />
-    <Compile Include="Billing\Transaction.cs" />
-    <Compile Include="ClubServices\ClubService.cs" />
-    <Compile Include="ClubStore\Product.cs" />
-    <Compile Include="Database\IEntity.cs" />
-    <Compile Include="Database\IRepository.cs" />
-    <Compile Include="Database\Repository.cs" />
-    <Compile Include="MembersManaging\ClubMember.cs" />
+    <Compile Include="MyExtensions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\ExtensionMethods\ExtensionMethods.csproj">
-      <Project>{2914edfc-362e-46d8-a354-cb4deaeba6bc}</Project>
-      <Name>ExtensionMethods</Name>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

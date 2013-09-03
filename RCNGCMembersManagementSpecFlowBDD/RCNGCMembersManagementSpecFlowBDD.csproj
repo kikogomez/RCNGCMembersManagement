@@ -111,6 +111,10 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\ExtensionMethods\ExtensionMethods.csproj">
+      <Project>{2914edfc-362e-46d8-a354-cb4deaeba6bc}</Project>
+      <Name>ExtensionMethods</Name>
+    </ProjectReference>
     <ProjectReference Include="..\RCNGCMembersManagementAppLogic\RCNGCMembersManagementAppLogic.csproj">
       <Project>{a2586e2d-f4a2-43ec-b332-dd46c73552b5}</Project>
       <Name>RCNGCMembersManagementAppLogic</Name>

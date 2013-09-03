@@ -1,6 +1,7 @@
 ﻿using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using RCNGCMembersManagementAppLogic.MembersManaging;
+using ExtensionMethods;
 
 namespace RCNGCMembersManagementUnitTests.MembersManaging
 {
@@ -57,8 +58,7 @@ namespace RCNGCMembersManagementUnitTests.MembersManaging
             }
             catch (ArgumentException exception)
             {
-                string exceptionMessageWithoutParamName = exception.Message.Split(new string[] { Environment.NewLine }, StringSplitOptions.None)[0];
-                Assert.AreEqual("Club Member name cannot be empty", exceptionMessageWithoutParamName);
+                Assert.AreEqual("Club Member name cannot be empty", exception.GetMessageWithoutParamName());
                 Assert.AreEqual("name", exception.ParamName);
                 throw exception;
             }
@@ -74,8 +74,7 @@ namespace RCNGCMembersManagementUnitTests.MembersManaging
             }
             catch (ArgumentException exception)
             {
-                string exceptionMessageWithoutParamName = exception.Message.Split(new string[] { Environment.NewLine }, StringSplitOptions.None)[0];
-                Assert.AreEqual("Club Member name cannot be empty", exceptionMessageWithoutParamName);
+                Assert.AreEqual("Club Member name cannot be empty", exception.GetMessageWithoutParamName());
                 Assert.AreEqual("name", exception.ParamName);
                 throw exception;
             }
@@ -91,8 +90,7 @@ namespace RCNGCMembersManagementUnitTests.MembersManaging
             }
             catch (ArgumentException exception)
             {
-                string exceptionMessageWithoutParamName = exception.Message.Split(new string[] { Environment.NewLine }, StringSplitOptions.None)[0];
-                Assert.AreEqual("Club Member name cannot be empty", exceptionMessageWithoutParamName);
+                Assert.AreEqual("Club Member name cannot be empty", exception.GetMessageWithoutParamName());
                 Assert.AreEqual("name", exception.ParamName);
                 throw exception;
             }
@@ -108,8 +106,7 @@ namespace RCNGCMembersManagementUnitTests.MembersManaging
             }
             catch (ArgumentException exception)
             {
-                string exceptionMessageWithoutParamName = exception.Message.Split(new string[] { Environment.NewLine }, StringSplitOptions.None)[0];
-                Assert.AreEqual("Club Member first surname cannot be empty", exceptionMessageWithoutParamName);
+                Assert.AreEqual("Club Member first surname cannot be empty", exception.GetMessageWithoutParamName());
                 Assert.AreEqual("firstSurname", exception.ParamName);
                 throw exception;
             }
@@ -125,8 +122,7 @@ namespace RCNGCMembersManagementUnitTests.MembersManaging
             }
             catch (ArgumentException exception)
             {
-                string exceptionMessageWithoutParamName = exception.Message.Split(new string[] { Environment.NewLine }, StringSplitOptions.None)[0];
-                Assert.AreEqual("Club Member first surname cannot be empty", exceptionMessageWithoutParamName);
+                Assert.AreEqual("Club Member first surname cannot be empty", exception.GetMessageWithoutParamName());
                 Assert.AreEqual("firstSurname", exception.ParamName);
                 throw exception;
             }
@@ -142,8 +138,7 @@ namespace RCNGCMembersManagementUnitTests.MembersManaging
             }
             catch (ArgumentException exception)
             {
-                string exceptionMessageWithoutParamName = exception.Message.Split(new string[] { Environment.NewLine }, StringSplitOptions.None)[0];
-                Assert.AreEqual("Club Member first surname cannot be empty", exceptionMessageWithoutParamName);
+                Assert.AreEqual("Club Member first surname cannot be empty", exception.GetMessageWithoutParamName());
                 Assert.AreEqual("firstSurname", exception.ParamName);
                 throw exception;
             }
