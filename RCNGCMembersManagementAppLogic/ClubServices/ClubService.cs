@@ -36,10 +36,5 @@ namespace RCNGCMembersManagementAppLogic.ClubServices
         {
             get { return tax; }
         }
-
-/*        public Transaction CreateDefaultTransaction()
-        {
-            return new ServiceCharge(this, this.description, 1, this.cost, this.tax, 0);
-        }*/
     }
 }

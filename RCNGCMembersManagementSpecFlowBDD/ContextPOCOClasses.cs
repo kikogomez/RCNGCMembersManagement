@@ -11,6 +11,9 @@ namespace RCNGCMembersManagementSpecFlowBDD
     public class MembersManagementContextData
     {
         public ClubMember clubMember;
+        public string givenName;
+        public string firstSurname;
+        public string secondSurname;
     }
 
     public class InvoiceContextData

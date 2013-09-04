@@ -60,6 +60,12 @@
       <DependentUpon>SpecFlowAccountNumbers.feature</DependentUpon>
     </Compile>
     <Compile Include="SpecFlowAccountNumbersSteps.cs" />
+    <Compile Include="SpecFlowAddMembers.feature.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>SpecFlowAddMembers.feature</DependentUpon>
+    </Compile>
+    <Compile Include="SpecFlowAddMembersSteps.cs" />
     <Compile Include="SpecFlowBillsSteps.cs" />
     <Compile Include="SpecFlowGenerateInvoice.feature.cs">
       <AutoGen>True</AutoGen>
@@ -92,6 +98,10 @@
     <None Include="SpecFlowAccountNumbers.feature">
       <Generator>SpecFlowSingleFileGenerator</Generator>
       <LastGenOutput>SpecFlowAccountNumbers.feature.cs</LastGenOutput>
+    </None>
+    <None Include="SpecFlowAddMembers.feature">
+      <Generator>SpecFlowSingleFileGenerator</Generator>
+      <LastGenOutput>SpecFlowAddMembers.feature.cs</LastGenOutput>
     </None>
     <None Include="SpecFlowGenerateInvoice.feature">
       <Generator>SpecFlowSingleFileGenerator</Generator>

@@ -36,10 +36,5 @@ namespace RCNGCMembersManagementAppLogic.ClubStore
         {
             get { return tax; }
         }
-        
-/*        public Transaction CreateDefaultTransaction()
-        {
-            return new Sale(this, this.description, 1, this.cost, this.tax, 0);
-        }*/
     }
 }
