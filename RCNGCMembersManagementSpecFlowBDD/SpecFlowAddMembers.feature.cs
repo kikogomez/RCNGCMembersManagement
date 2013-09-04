@@ -109,6 +109,84 @@ this.ScenarioSetup(scenarioInfo);
         {
             this.SecondSurnameIsOptionalButGivenNameAndFirstSurnameAreMandatory("\"Francisco\"", "\"Gomez-Caldito\"", "\"\"", "\"valid\"", ((string[])(null)));
         }
+        
+        [Microsoft.VisualStudio.TestTools.UnitTesting.TestMethodAttribute()]
+        [Microsoft.VisualStudio.TestTools.UnitTesting.DescriptionAttribute("Second surname is optional but given name and first surname are mandatory")]
+        [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("FeatureTitle", "Add Members")]
+        [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("VariantName", "Variant 2")]
+        [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("Parameter:GivenName", "\"Francisco\"")]
+        [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("Parameter:FirstSurname", "\"\"")]
+        [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("Parameter:SecondSurname", "\"Viseas\"")]
+        [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("Parameter:valid", "\"invalid\"")]
+        public virtual void SecondSurnameIsOptionalButGivenNameAndFirstSurnameAreMandatory_Variant2()
+        {
+            this.SecondSurnameIsOptionalButGivenNameAndFirstSurnameAreMandatory("\"Francisco\"", "\"\"", "\"Viseas\"", "\"invalid\"", ((string[])(null)));
+        }
+        
+        [Microsoft.VisualStudio.TestTools.UnitTesting.TestMethodAttribute()]
+        [Microsoft.VisualStudio.TestTools.UnitTesting.DescriptionAttribute("Second surname is optional but given name and first surname are mandatory")]
+        [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("FeatureTitle", "Add Members")]
+        [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("VariantName", "Variant 3")]
+        [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("Parameter:GivenName", "\"\"")]
+        [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("Parameter:FirstSurname", "\"Gomez-Caldito\"")]
+        [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("Parameter:SecondSurname", "\"Viseas\"")]
+        [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("Parameter:valid", "\"invalid\"")]
+        public virtual void SecondSurnameIsOptionalButGivenNameAndFirstSurnameAreMandatory_Variant3()
+        {
+            this.SecondSurnameIsOptionalButGivenNameAndFirstSurnameAreMandatory("\"\"", "\"Gomez-Caldito\"", "\"Viseas\"", "\"invalid\"", ((string[])(null)));
+        }
+        
+        [Microsoft.VisualStudio.TestTools.UnitTesting.TestMethodAttribute()]
+        [Microsoft.VisualStudio.TestTools.UnitTesting.DescriptionAttribute("Second surname is optional but given name and first surname are mandatory")]
+        [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("FeatureTitle", "Add Members")]
+        [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("VariantName", "Variant 4")]
+        [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("Parameter:GivenName", "\"Francisco\"")]
+        [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("Parameter:FirstSurname", "\"\"")]
+        [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("Parameter:SecondSurname", "\"\"")]
+        [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("Parameter:valid", "\"invalid\"")]
+        public virtual void SecondSurnameIsOptionalButGivenNameAndFirstSurnameAreMandatory_Variant4()
+        {
+            this.SecondSurnameIsOptionalButGivenNameAndFirstSurnameAreMandatory("\"Francisco\"", "\"\"", "\"\"", "\"invalid\"", ((string[])(null)));
+        }
+        
+        [Microsoft.VisualStudio.TestTools.UnitTesting.TestMethodAttribute()]
+        [Microsoft.VisualStudio.TestTools.UnitTesting.DescriptionAttribute("Second surname is optional but given name and first surname are mandatory")]
+        [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("FeatureTitle", "Add Members")]
+        [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("VariantName", "Variant 5")]
+        [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("Parameter:GivenName", "\"\"")]
+        [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("Parameter:FirstSurname", "\"Gomez-Caldito\"")]
+        [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("Parameter:SecondSurname", "\"\"")]
+        [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("Parameter:valid", "\"invalid\"")]
+        public virtual void SecondSurnameIsOptionalButGivenNameAndFirstSurnameAreMandatory_Variant5()
+        {
+            this.SecondSurnameIsOptionalButGivenNameAndFirstSurnameAreMandatory("\"\"", "\"Gomez-Caldito\"", "\"\"", "\"invalid\"", ((string[])(null)));
+        }
+        
+        [Microsoft.VisualStudio.TestTools.UnitTesting.TestMethodAttribute()]
+        [Microsoft.VisualStudio.TestTools.UnitTesting.DescriptionAttribute("Second surname is optional but given name and first surname are mandatory")]
+        [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("FeatureTitle", "Add Members")]
+        [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("VariantName", "Variant 6")]
+        [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("Parameter:GivenName", "\"\"")]
+        [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("Parameter:FirstSurname", "\"\"")]
+        [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("Parameter:SecondSurname", "\"Viseas\"")]
+        [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("Parameter:valid", "\"invalid\"")]
+        public virtual void SecondSurnameIsOptionalButGivenNameAndFirstSurnameAreMandatory_Variant6()
+        {
+            this.SecondSurnameIsOptionalButGivenNameAndFirstSurnameAreMandatory("\"\"", "\"\"", "\"Viseas\"", "\"invalid\"", ((string[])(null)));
+        }
+        
+        [Microsoft.VisualStudio.TestTools.UnitTesting.TestMethodAttribute()]
+        [Microsoft.VisualStudio.TestTools.UnitTesting.DescriptionAttribute("Second surname is optional but given name and first surname are mandatory")]
+        [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("FeatureTitle", "Add Members")]
+        [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("VariantName", "Variant 7")]
+        [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("Parameter:GivenName", "\"\"")]
+        [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("Parameter:FirstSurname", "\"\"")]
+        [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("Parameter:SecondSurname", "\"\"")]
+        [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("Parameter:valid", "\"invalid\"")]
+        public virtual void SecondSurnameIsOptionalButGivenNameAndFirstSurnameAreMandatory_Variant7()
+        {
+            this.SecondSurnameIsOptionalButGivenNameAndFirstSurnameAreMandatory("\"\"", "\"\"", "\"\"", "\"invalid\"", ((string[])(null)));
+        }
     }
 }
 #pragma warning restore
