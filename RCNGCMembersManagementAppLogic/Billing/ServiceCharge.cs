@@ -16,6 +16,12 @@ namespace RCNGCMembersManagementAppLogic.Billing
         Tax tax;
         double discount;
 
+        public ServiceCharge(ClubService service)
+            : this(service, service.Description, 1, service.Cost, service.Tax,0)
+        {
+
+        }
+
         public ServiceCharge(ClubService service, string concept, int units, double discount)
             : this(service,concept,units,service.Cost, service.Tax, discount)
         {

@@ -120,7 +120,8 @@ namespace RCNGCMembersManagementSpecFlowBDD
         {
             ClubService clubService = invoiceContextData.servicesDictionary[serviceName];
             DateTime issueDate = DateTime.Now;
-            Invoice invoice = new Invoice(membersManagementContextData.clubMember, TransactionListForSingleElement(clubService), issueDate);
+            List<Transaction> serviceChargeList = new List<Transaction> { new ServiceCharge(clubService) };
+            Invoice invoice = new Invoice(membersManagementContextData.clubMember, serviceChargeList, issueDate);
             ScenarioContext.Current.Add("Invoice", invoice);
         }
 
@@ -129,7 +130,8 @@ namespace RCNGCMembersManagementSpecFlowBDD
         public void WhenIGenerateAnInvoiceForTheService()
         {
             DateTime issueDate = DateTime.Now;
-            Invoice invoice = new Invoice(membersManagementContextData.clubMember, TransactionListForSingleElement((ClubService)ScenarioContext.Current["A_Club_Service"]), issueDate);
+            List<Transaction> serviceChargeList = new List<Transaction> { new ServiceCharge((ClubService)ScenarioContext.Current["A_Club_Service"]) };
+            Invoice invoice = new Invoice(membersManagementContextData.clubMember, serviceChargeList, issueDate);
             ScenarioContext.Current.Add("Invoice", invoice);
         }
 
@@ -146,7 +148,8 @@ namespace RCNGCMembersManagementSpecFlowBDD
         public void WhenIGenerateAnInvoiceForTheSale()
         {
             DateTime issueDate = DateTime.Now;
-            Invoice invoice = new Invoice(membersManagementContextData.clubMember, TransactionListForSingleElement((Product)ScenarioContext.Current["A_Sold_Product"]), issueDate);
+            List<Transaction> salesList = new List<Transaction> { new Sale((Product)ScenarioContext.Current["A_Sold_Product"]) };
+            Invoice invoice = new Invoice(membersManagementContextData.clubMember, salesList, issueDate);
             ScenarioContext.Current.Add("Invoice", invoice);
         }
 
@@ -178,7 +181,8 @@ namespace RCNGCMembersManagementSpecFlowBDD
             DateTime issueDate = DateTime.Now;
             try
             {
-                Invoice invoice = new Invoice(membersManagementContextData.clubMember, TransactionListForSingleElement((ClubService)ScenarioContext.Current["A_Club_Service"]), issueDate);
+                List<Transaction> serviceChargeList = new List<Transaction> { new ServiceCharge((ClubService)ScenarioContext.Current["A_Club_Service"])};
+                Invoice invoice = new Invoice(membersManagementContextData.clubMember, serviceChargeList, issueDate);
                 ScenarioContext.Current.Add("Invoice", invoice);
             }
             catch (ArgumentOutOfRangeException e)
@@ -262,17 +266,6 @@ namespace RCNGCMembersManagementSpecFlowBDD
         public void ThenTheTaxesDevolutionIsSeparatedFromTheBaseCostDevolution(Decimal taxValue, double baseCost)
         {
             ScenarioContext.Current.Pending();
-        }
-
-
-
-        private List<Transaction> TransactionListForSingleElement(ITransactionable element)
-        {
-            DateTime issueDate = DateTime.Now;
-            Transaction transaction = element.CreateDefaultTransaction();
-            List<Transaction> transactionsList = new List<Transaction>();
-            transactionsList.Add(transaction);
-            return transactionsList;
         }
 
         private void AddTransactionsToTransactionList(List<Transaction> currentTransactionsList, Table newTransactions)

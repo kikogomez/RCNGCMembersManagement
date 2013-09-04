@@ -1,6 +1,7 @@
 ﻿using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using RCNGCMembersManagementAppLogic.Billing;
+using ExtensionMethods;
 
 namespace RCNGCMembersManagementUnitTests.Billing
 {
@@ -32,10 +33,71 @@ namespace RCNGCMembersManagementUnitTests.Billing
             }
             catch (ArgumentOutOfRangeException exception)
             {
-                string[] exceptionMessages = exception.Message.Split(new string[] { Environment.NewLine }, StringSplitOptions.None);
-                Assert.AreEqual("Tax percentages can't be negative", exceptionMessages[0]);
+                Assert.AreEqual("Tax percentages can't be negative", exception.GetMessageWithoutParamName());
                 throw exception;
             }
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(System.ArgumentException))]
+        public void TaxNameCanNotBeNull()
+        {
+            try
+            {
+                Tax tax = new Tax(null, 5);
+
+            }
+            catch (ArgumentException exception)
+            {
+                Assert.AreEqual("Tax name can't be empty or null", exception.GetMessageWithoutParamName());
+                throw exception;
+            }
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(System.ArgumentException))]
+        public void TaxNameCanNotBeEmpty()
+        {
+            try
+            {
+                Tax tax = new Tax("", 5);
+
+            }
+            catch (ArgumentException exception)
+            {
+                Assert.AreEqual("Tax name can't be empty or null", exception.GetMessageWithoutParamName());
+                throw exception;
+            }
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(System.ArgumentException))]
+        public void TaxNameCanNotBeJustSpaces()
+        {
+            try
+            {
+                Tax tax = new Tax("  ", 5);
+
+            }
+            catch (ArgumentException exception)
+            {
+                Assert.AreEqual("Tax name can't be empty or null", exception.GetMessageWithoutParamName());
+                throw exception;
+            }
+        }
+
+        [TestMethod]
+        public void Special_VoidTax_CanBeZeroAndEmptyDescription()
+        {
+            Tax tax = new Tax("", 0);
+            Assert.AreEqual(0, tax.TaxPercentage);
+        }
+
+        [TestMethod]
+        public void Special_VoidTax_CanBeZeroAndNullDescription()
+        {
+            Tax tax = new Tax(null, 0);
+            Assert.AreEqual(0, tax.TaxPercentage);
         }
     }
 }

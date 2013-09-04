@@ -7,7 +7,7 @@ using RCNGCMembersManagementAppLogic.Billing;
 
 namespace RCNGCMembersManagementAppLogic.ClubStore
 {
-    public class Product: ITransactionable
+    public class Product
     {
         string description;
         double cost;
@@ -15,6 +15,8 @@ namespace RCNGCMembersManagementAppLogic.ClubStore
 
         public Product(string description, double cost, Tax tax)
         {
+            if (cost < 0) throw new System.ArgumentException("Product cost can't be negative", "taxName");
+            if ((description ?? "").Trim() == "") throw new System.ArgumentException("Product name can't be empty or null", "taxName");
             this.description = description;
             this.cost = cost;
             this.tax = tax;
@@ -35,9 +37,9 @@ namespace RCNGCMembersManagementAppLogic.ClubStore
             get { return tax; }
         }
         
-        public Transaction CreateDefaultTransaction()
+/*        public Transaction CreateDefaultTransaction()
         {
             return new Sale(this, this.description, 1, this.cost, this.tax, 0);
-        }
+        }*/
     }
 }

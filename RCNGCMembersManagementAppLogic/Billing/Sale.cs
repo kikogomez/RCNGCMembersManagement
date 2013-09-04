@@ -16,8 +16,12 @@ namespace RCNGCMembersManagementAppLogic.Billing
         Tax tax;
         double discount;
 
+        public Sale(Product product)
+            : this(product, product.Description, 1, product.Cost, product.Tax, 0)
+        {
+        }
         public Sale(Product product, string concept, int units, double discount)
-            : this(product,concept,units, product.Cost, product.Tax,discount)
+            : this(product, concept, units, product.Cost, product.Tax, discount)
         {
         }
 

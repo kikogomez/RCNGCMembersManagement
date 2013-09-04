@@ -6,6 +6,7 @@ using RCNGCMembersManagementAppLogic.MembersManaging;
 using RCNGCMembersManagementAppLogic.ClubServices;
 using RCNGCMembersManagementAppLogic.ClubStore;
 using RCNGCMembersManagementMocks;
+using ExtensionMethods;
 
 namespace RCNGCMembersManagementUnitTests.Billing
 {
@@ -69,8 +70,7 @@ namespace RCNGCMembersManagementUnitTests.Billing
             }
             catch (ArgumentNullException exception)
             {
-                string[] exceptionMessages = exception.Message.Split(new string[] { Environment.NewLine }, StringSplitOptions.None);
-                Assert.AreEqual("The invoice detail can't be empty", exceptionMessages[0]);
+                Assert.AreEqual("The invoice detail can't be empty", exception.GetMessageWithoutParamName());
                 throw exception;
             }
         }
@@ -148,8 +148,7 @@ namespace RCNGCMembersManagementUnitTests.Billing
             }
             catch (ArgumentOutOfRangeException exception)
             {
-                string[] exceptionMessages = exception.Message.Split(new string[] { Environment.NewLine }, StringSplitOptions.None);
-                Assert.AreEqual("Invoice ID out of range (1-999999)", exceptionMessages[0]);
+                Assert.AreEqual("Invoice ID out of range (1-999999)", exception.GetMessageWithoutParamName());
                 throw exception;
             }
         }
@@ -164,8 +163,7 @@ namespace RCNGCMembersManagementUnitTests.Billing
             }
             catch (ArgumentOutOfRangeException exception)
             {
-                string[] exceptionMessages = exception.Message.Split(new string[] { Environment.NewLine }, StringSplitOptions.None);
-                Assert.AreEqual("Invoice ID out of range (1-999999)", exceptionMessages[0]);
+                Assert.AreEqual("Invoice ID out of range (1-999999)", exception.GetMessageWithoutParamName());
                 throw exception;
             }
         }
@@ -183,7 +181,6 @@ namespace RCNGCMembersManagementUnitTests.Billing
         public void InstantiatingAnInvoiceWithAGivenInvoiceIDDoesntChangeTheInvoiceIDSequenceNumber()
         {
             billDataManager.InvoiceSequenceNumber = (5000);
-            //billDataManager.SetInvoiceSequenceNumber(5000);
             string invoiceID = "INV20130012345";
             DateTime issueDate = DateTime.Now;
             Invoice invoice = new Invoice(invoiceID, clubMember, transactionsList, issueDate);
@@ -240,8 +237,7 @@ namespace RCNGCMembersManagementUnitTests.Billing
             }
             catch (ArgumentOutOfRangeException exception)
             {
-                string[] exceptionMessages = exception.Message.Split(new string[] { Environment.NewLine }, StringSplitOptions.None);
-                Assert.AreEqual("Invoice transactions must have at least one element to transact", exceptionMessages[0]);
+                Assert.AreEqual("Invoice transactions must have at least one element to transact", exception.GetMessageWithoutParamName());
                 throw exception;
             }
         }
@@ -261,8 +257,7 @@ namespace RCNGCMembersManagementUnitTests.Billing
             }
             catch (ArgumentOutOfRangeException exception)
             {
-                string[] exceptionMessages = exception.Message.Split(new string[] { Environment.NewLine }, StringSplitOptions.None);
-                Assert.AreEqual("Pro Forma Invoice transactions must have at least one element to transact", exceptionMessages[0]);
+                Assert.AreEqual("Pro Forma Invoice transactions must have at least one element to transact", exception.GetMessageWithoutParamName());
                 throw exception;
             }
         }
@@ -280,8 +275,7 @@ namespace RCNGCMembersManagementUnitTests.Billing
             }
             catch (ArgumentOutOfRangeException exception)
             {
-                string[] exceptionMessages = exception.Message.Split(new string[] { Environment.NewLine }, StringSplitOptions.None);
-                Assert.AreEqual("Transactions units cost can't be negative", exceptionMessages[0]);
+                Assert.AreEqual("Transactions units cost can't be negative", exception.GetMessageWithoutParamName());
                 throw exception;
             }
         }
@@ -324,8 +318,7 @@ namespace RCNGCMembersManagementUnitTests.Billing
             }
             catch (ArgumentOutOfRangeException exception)
             {
-                string[] exceptionMessages = exception.Message.Split(new string[] { Environment.NewLine }, StringSplitOptions.None);
-                Assert.AreEqual("Transactions units cost can't be negative", exceptionMessages[0]);
+                Assert.AreEqual("Transactions units cost can't be negative", exception.GetMessageWithoutParamName());
                 throw exception;
             }
         }
@@ -342,8 +335,7 @@ namespace RCNGCMembersManagementUnitTests.Billing
             }
             catch (ArgumentOutOfRangeException exception)
             {
-                string[] exceptionMessages = exception.Message.Split(new string[] { Environment.NewLine }, StringSplitOptions.None);
-                Assert.AreEqual("Transactions units cost can't be negative", exceptionMessages[0]);
+                Assert.AreEqual("Transactions units cost can't be negative", exception.GetMessageWithoutParamName());
                 throw exception;
             }
         }

@@ -56,7 +56,6 @@
     <Compile Include="Billing\DirectDebit\InternationalAccountBankNumberIBAN.cs" />
     <Compile Include="Billing\Invoice.cs" />
     <Compile Include="Billing\InvoiceCustomerData.cs" />
-    <Compile Include="Billing\ITransactionable.cs" />
     <Compile Include="Billing\PaymentMethod.cs" />
     <Compile Include="Billing\ProFormaInvoice.cs" />
     <Compile Include="Billing\Sale.cs" />

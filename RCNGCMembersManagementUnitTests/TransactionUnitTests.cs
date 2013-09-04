@@ -5,6 +5,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using RCNGCMembersManagementAppLogic.Billing;
 using RCNGCMembersManagementAppLogic.ClubServices;
 using RCNGCMembersManagementAppLogic.ClubStore;
+using ExtensionMethods;
 
 namespace RCNGCMembersManagementUnitTests.Billing
 {
@@ -147,8 +148,7 @@ namespace RCNGCMembersManagementUnitTests.Billing
             }
             catch (ArgumentOutOfRangeException exception)
             {
-                string[] exceptionMessages = exception.Message.Split(new string[] { Environment.NewLine }, StringSplitOptions.None);
-                Assert.AreEqual("Transactions units cost can't be negative", exceptionMessages[0]);
+                Assert.AreEqual("Transactions units cost can't be negative", exception.GetMessageWithoutParamName());
                 throw exception;
             }
         }
@@ -163,8 +163,7 @@ namespace RCNGCMembersManagementUnitTests.Billing
             }
             catch (ArgumentOutOfRangeException exception)
             {
-                string[] exceptionMessages = exception.Message.Split(new string[] { Environment.NewLine }, StringSplitOptions.None);
-                Assert.AreEqual("A transaction can't have zero units", exceptionMessages[0]);
+                Assert.AreEqual("A transaction can't have zero units", exception.GetMessageWithoutParamName());
                 throw exception;
             }
         }

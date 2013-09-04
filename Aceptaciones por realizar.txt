@@ -6,6 +6,41 @@ GENERAL
 VISIBILIDAD DE LAS CLASES PUBLICAS >>>> REVISAR <<<<
 
 
+EXTENSION METHODS
+----------------------------------------------------------------------
+
+
+
+
+
+
+CLUB MEMBER
+----------------------------------------------------------------------
+
+Diseño
+------
+
+
+Coding logic
+------------
+
+
+
+User Stories
+------------
+
+  - Han de tener nombre y primer apellido. El segundo es opcional
+
+
+Unit Tests
+----------
+
+  - Check nulos, cadenas vacias y nombres con solo espacios en nombre y apellidos
+  - Trim los nombres y apellidos
+  - Lanzar excepciones al instanciar y en los 'setters' de las propiedades de los nombres y apellidos
+
+
+
 SERVICIOS
 ----------------------------------------------------------------------
 
