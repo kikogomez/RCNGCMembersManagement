@@ -26,7 +26,6 @@ namespace RCNGCMembersManagementAppLogic.MembersManaging
         {
             InitializeMemberInstance(givenName, firstSurname, secondSurname);
             this.memberID = GetMemberID();
-
         }
 
         public ClubMember(string memberID, string givenName, string firstSurname, string secondSurname)
@@ -112,8 +111,8 @@ namespace RCNGCMembersManagementAppLogic.MembersManaging
         private string GetMemberID()
         {
             clubMemberDataManager = ClubMemberDataManager.Instance;
-            string formatedMemeberID = clubMemberDataManager.MemberSequenceNumber.ToString("00000");
-            clubMemberDataManager.MemberSequenceNumber++;
+            string formatedMemeberID = clubMemberDataManager.AssingnMemberIDSequenceNumber().ToString("00000");
+            //clubMemberDataManager.MemberIDSequenceNumber++;
             return formatedMemeberID;
         }
     }

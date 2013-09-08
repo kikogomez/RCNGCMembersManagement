@@ -160,24 +160,136 @@ namespace RCNGCMembersManagementUnitTests.MembersManaging
         [TestMethod]
         public void ThereIsAMembersIDCounterWichICanSet()
         {
-            clubMemberDataManager.MemberSequenceNumber = 2;
-            Assert.AreEqual((uint)2, clubMemberDataManager.MemberSequenceNumber);
+            clubMemberDataManager.MemberIDSequenceNumber = 2;
+            Assert.AreEqual((uint)2, clubMemberDataManager.MemberIDSequenceNumber);
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(System.ArgumentOutOfRangeException))]
+        public void ICantSetMemberIDSequenceToZero()
+        {
+            try
+            {
+                clubMemberDataManager.MemberIDSequenceNumber = 0;
+            }
+            catch (ArgumentOutOfRangeException exception)
+            {
+                Assert.AreEqual("Member ID out of range (1-99999)", exception.GetMessageWithoutParamName());
+                Assert.AreEqual("memberIDSequenceNumber", exception.ParamName);
+                throw exception;
+            }
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(System.ArgumentOutOfRangeException))]
+        public void ICantSetMemberIDSequenceToNegative()
+        {
+            try
+            {
+                var value = -5;
+                clubMemberDataManager.MemberIDSequenceNumber = (uint)value;
+            }
+            catch (ArgumentOutOfRangeException exception)
+            {
+                Assert.AreEqual("Member ID out of range (1-99999)", exception.GetMessageWithoutParamName());
+                Assert.AreEqual("memberIDSequenceNumber", exception.ParamName);
+                throw exception;
+            }
+        }
+
+        [TestMethod]
+        public void WhenSettingMemberIDSequenceToUpperLimit_TopRangePlusOne_ThereAreNoMoreAvailableMembersID()
+        {
+            clubMemberDataManager.MemberIDSequenceNumber = 100000;
+            Assert.AreEqual((uint)100000, clubMemberDataManager.MemberIDSequenceNumber);
+            Assert.AreEqual(true, clubMemberDataManager.AvailableMembersIDAreExhausted);
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(System.ArgumentOutOfRangeException))]
+        public void CantSetMemberIDOvertheUpperLimit()
+        {
+            try
+            {
+                clubMemberDataManager.MemberIDSequenceNumber = 100001;
+            }
+            catch (ArgumentOutOfRangeException exception)
+            {
+                Assert.AreEqual("Member ID out of range (1-99999)", exception.GetMessageWithoutParamName());
+                Assert.AreEqual("memberIDSequenceNumber", exception.ParamName);
+                throw exception;
+            }
         }
 
         [TestMethod]
         public void WhenAddingANewMemberTheIDIsCreated()
         {
-            clubMemberDataManager.MemberSequenceNumber = 5;
+            clubMemberDataManager.MemberIDSequenceNumber = 5;
             ClubMember clubMember = new ClubMember("Francisco","Gomez-Caldito","Viseas");
             Assert.AreEqual("00005", clubMember.MemberID);
         }
 
         [TestMethod]
-        public void WhenAddingANewMemberTheSequenceNumberIsIncreasedByOne()
+        public void WhenAddingANewMemberTheMemberIDSequenceNumberIsIncreasedByOne()
         {
-            clubMemberDataManager.MemberSequenceNumber = 5;
+            clubMemberDataManager.MemberIDSequenceNumber = 5;
             ClubMember clubMember = new ClubMember("Francisco", "Gomez-Caldito", "Viseas");
-            Assert.AreEqual((uint)6, clubMemberDataManager.MemberSequenceNumber);
+            Assert.AreEqual((uint)6, clubMemberDataManager.MemberIDSequenceNumber);
+        }
+
+        [TestMethod]
+        public void WhenMember99999IsCreatedMemberIDSequenceNumberIsSetUpperLimit_ToMaxValuePlusOne_()
+        {
+            clubMemberDataManager.MemberIDSequenceNumber = 99999;
+            ClubMember clubMember = new ClubMember("Francisco", "Gomez-Caldito", "Viseas");
+            Assert.AreEqual("99999", clubMember.MemberID);
+            Assert.AreEqual((uint)100000, clubMemberDataManager.MemberIDSequenceNumber);
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(System.ArgumentOutOfRangeException))]
+        public void IfITryToCreateMemeber100000AnExceptionIsThrown()
+        {
+            try
+            {
+                clubMemberDataManager.MemberIDSequenceNumber = 100000;
+                ClubMember clubMember = new ClubMember("Francisco", "Gomez-Caldito", "Viseas");
+            }
+            catch (ArgumentOutOfRangeException exception)
+            {
+                Assert.AreEqual("Member ID out of range (1-99999)", exception.GetMessageWithoutParamName());
+                Assert.AreEqual("memberIDSequenceNumber", exception.ParamName);
+                throw exception;
+            }
+        }
+
+        [TestMethod]
+        public void IfITryToCreateMemeber100000TheMemberIsNotCreated()
+        {
+            ClubMember clubMember = null;
+            try
+            {
+                clubMemberDataManager.MemberIDSequenceNumber = 100000;
+                clubMember = new ClubMember("Francisco", "Gomez-Caldito", "Viseas");
+            }
+            catch (ArgumentOutOfRangeException exception)
+            {
+                Assert.IsNull(clubMember);
+            }
+        }
+
+        [TestMethod]
+        public void IfITryToCreateMemeber100000TheSequenceNumberIsNotIncreased()
+        {
+            try
+            {
+                clubMemberDataManager.MemberIDSequenceNumber = 100000;
+                ClubMember clubMember = new ClubMember("Francisco", "Gomez-Caldito", "Viseas");
+            }
+            catch (ArgumentOutOfRangeException exception)
+            {
+                Assert.AreEqual((uint)100000, clubMemberDataManager.MemberIDSequenceNumber);
+            }
         }
     }
 }

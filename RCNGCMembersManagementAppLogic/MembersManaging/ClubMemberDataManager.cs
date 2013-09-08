@@ -10,7 +10,10 @@ namespace RCNGCMembersManagementAppLogic.MembersManaging
     {
         private static readonly ClubMemberDataManager instance = new ClubMemberDataManager();
 
-        static IDataManager dataManager;
+        static IDataManager dataManagerCollaborator;
+
+        static uint memberIDLowerLimit = 1;
+        static uint memberIDUpperLimit = 100000;
 
         private ClubMemberDataManager()
         {
@@ -21,35 +24,60 @@ namespace RCNGCMembersManagementAppLogic.MembersManaging
             get { return instance; }
         }
 
-        public uint MemberSequenceNumber
+        public uint MemberIDSequenceNumber
         {
             get { return GetMemberIDSequenceNumber(); }
             set { SetMemberIDSequenceNumber(value); }
         }
 
-        public void SetDataManagerCollaborator(IDataManager dataMngr)
+        public bool AvailableMembersIDAreExhausted
         {
-            dataManager = dataMngr;
+            get { return (MemberIDSequenceNumber == memberIDUpperLimit); }
+        }
+
+        public uint AssingnMemberIDSequenceNumber()
+        {
+            if (MemberIDSequenceNuberIsInRange(MemberIDSequenceNumber))
+            {
+                return MemberIDSequenceNumber++;
+            }
+            else
+            {
+                throw new ArgumentOutOfRangeException(
+                    "memberIDSequenceNumber", 
+                    "Member ID out of range (" + memberIDLowerLimit.ToString() + "-" + (memberIDUpperLimit-1).ToString() + ")"); 
+            }
+        }
+
+        public void SetDataManagerCollaborator(IDataManager dataManagerCollaborator)
+        {
+            ClubMemberDataManager.dataManagerCollaborator = dataManagerCollaborator;
         }
 
         private uint GetMemberIDSequenceNumber()
         {
-            uint invoiceSequenceNumber=dataManager.GetInvoiceSequenceNumber();
-            if (invoiceSequenceNumber >= 1000000)
-                throw new ArgumentOutOfRangeException("memberIDSequenceNumber", "Max 99999 members");
-            return invoiceSequenceNumber;
+            uint memberSequenceNumber=dataManagerCollaborator.GetMemberIDSequenceNumber();
+            return memberSequenceNumber;
         }
 
-        private void SetMemberIDSequenceNumber(uint invoiceSequenceNumber)
+        private void SetMemberIDSequenceNumber(uint memberIDSequenceNumber)
         {
-            if (!MemberIDSequenceNuberIsInRange(invoiceSequenceNumber))
-                throw new ArgumentOutOfRangeException("memberIDSequenceNumber", "Member ID out of range (1-99999)");
-            dataManager.SetInvoiceSequenceNumber(invoiceSequenceNumber);
+            if (MemberIDSequenceNuberIsInRange(memberIDSequenceNumber) || memberIDSequenceNumber == memberIDUpperLimit)
+            {
+                dataManagerCollaborator.SetMemberIDSequenceNumber(memberIDSequenceNumber);
+                return;
+            }
+            else
+            {
+                throw new ArgumentOutOfRangeException(
+                    "memberIDSequenceNumber",
+                    "Member ID out of range (" + memberIDLowerLimit.ToString() + "-" + (memberIDUpperLimit - 1).ToString() + ")");
+            }
         }
 
-        private bool MemberIDSequenceNuberIsInRange(uint invoiceNumber)
+        private bool MemberIDSequenceNuberIsInRange(uint memberID)
         {
-            return (1 <= invoiceNumber && invoiceNumber < 1000000);
+            return (memberIDLowerLimit <= memberID && memberID < (memberIDUpperLimit));
         }
     }
 }
