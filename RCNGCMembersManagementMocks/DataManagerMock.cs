@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using RCNGCMembersManagementAppLogic;
 using RCNGCMembersManagementAppLogic.Billing;
 
 namespace RCNGCMembersManagementMocks
@@ -13,6 +14,7 @@ namespace RCNGCMembersManagementMocks
         static uint invoiceSequenceNumber = 0;
         static uint proFormaInvoiceSequenceNumber = 0;
         static uint directDebitReferenceSequenceNumber = 0;
+        static uint memberIDSequenceNumber = 0;
 
         public DataManagerMock()
         {
@@ -46,6 +48,16 @@ namespace RCNGCMembersManagementMocks
         public void SetDirectDebitReferenceSequenceNumber(uint directDebitReferenceSequenceNumber)
         {
             DataManagerMock.directDebitReferenceSequenceNumber = directDebitReferenceSequenceNumber;
+        }
+
+        public uint GetMemberIDSequenceNumber()
+        {
+            return memberIDSequenceNumber; ;
+        }
+
+        public void SetMemberIDSequenceNumber(uint memberIDSequenceNumber)
+        {
+            DataManagerMock.memberIDSequenceNumber = memberIDSequenceNumber;
         }
     }
 }

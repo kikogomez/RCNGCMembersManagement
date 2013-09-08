@@ -52,7 +52,7 @@
     <Compile Include="Billing\DirectDebit\ClientAccountCodeCCC.cs" />
     <Compile Include="Billing\DirectDebit\DirectDebit.cs" />
     <Compile Include="Billing\DirectDebit\DirectDebitMandate.cs" />
-    <Compile Include="Billing\IDataManager.cs" />
+    <Compile Include="IDataManager.cs" />
     <Compile Include="Billing\DirectDebit\InternationalAccountBankNumberIBAN.cs" />
     <Compile Include="Billing\Invoice.cs" />
     <Compile Include="Billing\InvoiceCustomerData.cs" />
@@ -68,6 +68,7 @@
     <Compile Include="Database\IRepository.cs" />
     <Compile Include="Database\Repository.cs" />
     <Compile Include="MembersManaging\ClubMember.cs" />
+    <Compile Include="MembersManaging\ClubMemberDataManager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

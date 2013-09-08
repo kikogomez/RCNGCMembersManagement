@@ -1,6 +1,8 @@
 ﻿using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using RCNGCMembersManagementAppLogic;
 using RCNGCMembersManagementAppLogic.MembersManaging;
+using RCNGCMembersManagementMocks;
 using ExtensionMethods;
 
 namespace RCNGCMembersManagementUnitTests.MembersManaging
@@ -8,6 +10,17 @@ namespace RCNGCMembersManagementUnitTests.MembersManaging
     [TestClass]
     public class ClubMemberUnitTests
     {
+
+        static ClubMemberDataManager clubMemberDataManager;
+
+        [ClassInitialize]
+        public static void ClassInit(TestContext context)
+        {
+            clubMemberDataManager = ClubMemberDataManager.Instance;
+            DataManagerMock clubMemberDataManagerMock = new DataManagerMock();
+            clubMemberDataManager.SetDataManagerCollaborator(clubMemberDataManagerMock);
+        }
+
         [TestMethod]
         public void InstantiatingASimpleClubMember()
         {
@@ -142,6 +155,29 @@ namespace RCNGCMembersManagementUnitTests.MembersManaging
                 Assert.AreEqual("firstSurname", exception.ParamName);
                 throw exception;
             }
+        }
+
+        [TestMethod]
+        public void ThereIsAMembersIDCounterWichICanSet()
+        {
+            clubMemberDataManager.MemberSequenceNumber = 2;
+            Assert.AreEqual((uint)2, clubMemberDataManager.MemberSequenceNumber);
+        }
+
+        [TestMethod]
+        public void WhenAddingANewMemberTheIDIsCreated()
+        {
+            clubMemberDataManager.MemberSequenceNumber = 5;
+            ClubMember clubMember = new ClubMember("Francisco","Gomez-Caldito","Viseas");
+            Assert.AreEqual("00005", clubMember.MemberID);
+        }
+
+        [TestMethod]
+        public void WhenAddingANewMemberTheSequenceNumberIsIncreasedByOne()
+        {
+            clubMemberDataManager.MemberSequenceNumber = 5;
+            ClubMember clubMember = new ClubMember("Francisco", "Gomez-Caldito", "Viseas");
+            Assert.AreEqual((uint)6, clubMemberDataManager.MemberSequenceNumber);
         }
     }
 }

@@ -19,4 +19,13 @@ Scenarios:
 | ""          | ""              | "Viseas"      | "invalid" |
 | ""          | ""              | ""            | "invalid" |
 
+Scenario: The members ID are consecutive
+	Given I have a member with an ID "00002"
+	When I add a new member
+	Then The new member ID is "00003"
+
+Scenario: Up to 99999 members
+	Given I have a member with an ID "99999"
+	When I add a new member
+	Then The new member is not created
 

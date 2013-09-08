@@ -10,6 +10,8 @@ namespace RCNGCMembersManagementAppLogic.MembersManaging
 {
     public class ClubMember
     {
+        ClubMemberDataManager clubMemberDataManager;
+
         string memberID;
         string name;
         string firstSurname;
@@ -20,19 +22,17 @@ namespace RCNGCMembersManagementAppLogic.MembersManaging
         Dictionary<string, ProFormaInvoice> proFormaInvoicesList;
         Dictionary<string, AmendingInvoice> amendingInvoices;
 
-        public ClubMember(string memberID, string name, string firstSurname, string secondSurname)
+        public ClubMember(string givenName, string firstSurname, string secondSurname)
         {
-            if ((name ?? "").Trim() == "") throw new ArgumentException("Club Member name cannot be empty", "name");
-            if ((firstSurname ?? "").Trim() == "") throw new ArgumentException("Club Member first surname cannot be empty", "firstSurname");
-            this.memberID=memberID;
-            this.name=name.Trim();
-            this.firstSurname=firstSurname.Trim();
-            this.secondSurname=(secondSurname ?? "").Trim();
-            this.defaultPaymentMethod = new CashPayment();
-            directDebitmandatesList= new List<DirectDebitMandate>();
-            invoicesList=new Dictionary<string, Invoice>();
-            proFormaInvoicesList = new Dictionary<string, ProFormaInvoice>();
-            amendingInvoices=new Dictionary<string,AmendingInvoice>();
+            InitializeMemberInstance(givenName, firstSurname, secondSurname);
+            this.memberID = GetMemberID();
+
+        }
+
+        public ClubMember(string memberID, string givenName, string firstSurname, string secondSurname)
+        {
+            InitializeMemberInstance(givenName, firstSurname, secondSurname);
+            this.memberID = memberID;
         }
 
         public string MemberID
@@ -79,9 +79,42 @@ namespace RCNGCMembersManagementAppLogic.MembersManaging
         {
             directDebitmandatesList.Add(directDebitMandate);
         }
+
         private string GetFullname()
         {
             return (name + " " + firstSurname + " " + (secondSurname ?? "")).Trim();
+        }
+
+        private void InitializeMemberInstance(string givenName, string firstSurname, string secondSurname)
+        {
+            InitializePersonalData(givenName, firstSurname, secondSurname);
+            InitializeBillingData();
+        }
+
+        private void InitializePersonalData(string givenName, string firstSurname, string secondSurname)
+        {
+            if ((givenName ?? "").Trim() == "") throw new ArgumentException("Club Member name cannot be empty", "name");
+            if ((firstSurname ?? "").Trim() == "") throw new ArgumentException("Club Member first surname cannot be empty", "firstSurname");
+            this.name = givenName.Trim();
+            this.firstSurname = firstSurname.Trim();
+            this.secondSurname = (secondSurname ?? "").Trim();
+        }
+
+        private void InitializeBillingData()
+        {
+            this.defaultPaymentMethod = new CashPayment();
+            directDebitmandatesList = new List<DirectDebitMandate>();
+            invoicesList = new Dictionary<string, Invoice>();
+            proFormaInvoicesList = new Dictionary<string, ProFormaInvoice>();
+            amendingInvoices = new Dictionary<string, AmendingInvoice>();
+        }
+
+        private string GetMemberID()
+        {
+            clubMemberDataManager = ClubMemberDataManager.Instance;
+            string formatedMemeberID = clubMemberDataManager.MemberSequenceNumber.ToString("00000");
+            clubMemberDataManager.MemberSequenceNumber++;
+            return formatedMemeberID;
         }
     }
 }

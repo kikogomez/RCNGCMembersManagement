@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace RCNGCMembersManagementAppLogic.Billing
+namespace RCNGCMembersManagementAppLogic
 {
     public interface IDataManager
     {
@@ -14,5 +14,7 @@ namespace RCNGCMembersManagementAppLogic.Billing
         void SetProFormaInvoiceSequenceNumber(uint proFormaInvoiceSequenceNumber);
         uint GetDirectDebitReferenceSequenceNumber();
         void SetDirectDebitReferenceSequenceNumber(uint directDebitReferenceSequenceNumber);
+        uint GetMemberIDSequenceNumber();
+        void SetMemberIDSequenceNumber(uint memberIDSequenceNumber);
     }
 }
