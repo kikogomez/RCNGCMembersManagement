@@ -272,7 +272,7 @@ namespace RCNGCMembersManagementUnitTests.MembersManaging
                 clubMemberDataManager.MemberIDSequenceNumber = 100000;
                 clubMember = new ClubMember("Francisco", "Gomez-Caldito", "Viseas");
             }
-            catch (ArgumentOutOfRangeException exception)
+            catch 
             {
                 Assert.IsNull(clubMember);
             }
@@ -286,7 +286,7 @@ namespace RCNGCMembersManagementUnitTests.MembersManaging
                 clubMemberDataManager.MemberIDSequenceNumber = 100000;
                 ClubMember clubMember = new ClubMember("Francisco", "Gomez-Caldito", "Viseas");
             }
-            catch (ArgumentOutOfRangeException exception)
+            catch 
             {
                 Assert.AreEqual((uint)100000, clubMemberDataManager.MemberIDSequenceNumber);
             }
