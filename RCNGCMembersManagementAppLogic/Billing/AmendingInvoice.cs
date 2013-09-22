@@ -19,6 +19,11 @@ namespace RCNGCMembersManagementAppLogic.Billing
             get { return customerData; }
         }
 
+        public List<Transaction> InvoiceDetail
+        {
+            get { return invoiceDetail; }
+        }
+
         protected override string GetNewInvoiceID()
         {
             return null;

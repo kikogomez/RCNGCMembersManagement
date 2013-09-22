@@ -405,32 +405,53 @@ namespace RCNGCMembersManagementUnitTests.Billing
             Assert.AreEqual(invoiceCustomerData, amendingInvoice.CustomerData);
         }
 
-/*
+        [TestMethod]
+        public void AnAmendingInvoiceHasTheSameNumberOfTransactionsThanTheAmendedInvoicePlusOne()
+        {
+            DateTime issueDate = DateTime.Now;
+            Invoice invoice = new Invoice(invoiceCustomerData, transactionsList, issueDate);
+            AmendingInvoice amendingInvoice = new AmendingInvoice(invoice);
+            List<Transaction> invoiceDetail = invoice.InvoiceDetail;
+            List<Transaction> amendingInvoiceDetail = amendingInvoice.InvoiceDetail;
+            Assert.AreEqual(invoiceDetail.Count, amendingInvoiceDetail.Count - 1);
+        }
+
         [TestMethod]
         public void FirstTransactionInAmendingInvoiceIsANoValueReferenceToOriginalInvoice()
         {
             DateTime issueDate = DateTime.Now;
-            billDataManager.InvoiceSequenceNumber = 5000;
             Invoice invoice = new Invoice(invoiceCustomerData, transactionsList, issueDate);
+            Transaction originalInvoiceReference = new Transaction("Amending invoice " + invoice.InvoiceID + "as detailed", 1, 0, new Tax("VoidTax", 0), 0);
             AmendingInvoice amendingInvoice = new AmendingInvoice(invoice);
-            Transaction originalInvoiceReference = new Transaction("Amending invoice " + invoiceToAmend.InvoiceID + "as detailed", 1, 0, voidTax, 0);
-            string amendingInvoiceFirstTransactionDetail = "Amending invoice " + invoiceToAmend.InvoiceID + "as detailed";
-            Assert.Fail();
+            Transaction firstTransactionFromAmendingInvoice = amendingInvoice.InvoiceDetail[0];
+            Assert.AreEqual(true, firstTransactionFromAmendingInvoice.CompareTo(originalInvoiceReference));
         }
 
         [TestMethod]
-        public void AnAmendingInvoiceHasTheSameTransactionsThanOriginalInvoiceButWithNegativeUnits()
+        public void AfterTheFirstReferenceAnAmendingInvoiceHasTheSameTransactionsThanOriginalInvoiceButWithNegativeUnits()
         {
             DateTime issueDate = DateTime.Now;
             Invoice invoice = new Invoice(invoiceCustomerData, transactionsList, issueDate);
             AmendingInvoice amendingInvoice = new AmendingInvoice(invoice);
-            Assert.Fail();
+            List<Transaction> invoiceDetail = invoice.InvoiceDetail;
+            List<Transaction> amendingInvoiceDetail = amendingInvoice.InvoiceDetail;
+            bool bothDetailsAreComplementary = true;
+            for (int index = 0; index < invoiceDetail.Count; index++)
+            {
+                Transaction currentLine= invoiceDetail[index];
+                Transaction amendingTransaction = new Transaction(
+                    "Amending " + currentLine.Description, -currentLine.Units, currentLine.UnitCost, currentLine.Tax, currentLine.Discount);
+                if (!amendingTransaction.CompareTo(amendingInvoiceDetail[index + 1]))
+                {
+                    bothDetailsAreComplementary = false;
+                    break;
+                }
+            }
+            Assert.AreEqual(true, bothDetailsAreComplementary);
         }
-        */
+
+
 /*
-
-
- 
         [TestMethod]
         public void WhenCancellingAnInvoiceTheInvoiceIsMarjkedAsCancelled()
         {

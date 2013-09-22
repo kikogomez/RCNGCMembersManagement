@@ -65,6 +65,16 @@ namespace RCNGCMembersManagementAppLogic.Billing
             get { return CalculateTaxAmount(); }
         }
 
+        public bool CompareTo(Transaction otherTransaction)
+        {
+            return
+                Description == otherTransaction.Description &&
+                Units == otherTransaction.Units &&
+                UnitCost == otherTransaction.UnitCost &&
+                Discount == otherTransaction.Discount &&
+                Tax.TaxPercentage == otherTransaction.Tax.TaxPercentage;
+        }
+
         private decimal unitCostWithDiscount()
         {
             return Math.Round((decimal)unitCost * ((decimal)(1 - discount / 100)), 2, MidpointRounding.AwayFromZero);
