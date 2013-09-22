@@ -15,6 +15,7 @@ namespace RCNGCMembersManagementUnitTests.Billing
         static List<Transaction> transactionList;
         static List<Bill> unassignedBillsList;
         static ClubMember clubMember;
+        static InvoiceCustomerData invoiceCustomerData;
 
         [ClassInitialize]
         public static void ClassInit(TestContext context)
@@ -38,6 +39,7 @@ namespace RCNGCMembersManagementUnitTests.Billing
             };
 
             clubMember = new ClubMember("0002", "Francisco", "Gomez", "");
+            invoiceCustomerData = new InvoiceCustomerData(clubMember);
         }
 
         [TestMethod]
@@ -59,7 +61,7 @@ namespace RCNGCMembersManagementUnitTests.Billing
         {
             BillingDataManager billingDataManager = BillingDataManager.Instance;
             billingDataManager.InvoiceSequenceNumber = 5000;
-            Invoice invoice = new Invoice(clubMember, transactionList, DateTime.Now);
+            Invoice invoice = new Invoice(invoiceCustomerData, transactionList, DateTime.Now);
             Assert.AreEqual(1, invoice.Bills.Count);
         }
 
@@ -68,7 +70,7 @@ namespace RCNGCMembersManagementUnitTests.Billing
         {
             BillingDataManager billingDataManager = BillingDataManager.Instance;
             billingDataManager.InvoiceSequenceNumber = 5000;
-            Invoice invoice = new Invoice(clubMember, transactionList, DateTime.Now);
+            Invoice invoice = new Invoice(invoiceCustomerData, transactionList, DateTime.Now);
             Assert.AreEqual(650, invoice.Bills.Values.ElementAt(0).Amount);
         }
 
@@ -77,7 +79,7 @@ namespace RCNGCMembersManagementUnitTests.Billing
         {
             BillingDataManager billingDataManager = BillingDataManager.Instance;
             billingDataManager.InvoiceSequenceNumber = 5000;
-            Invoice invoice = new Invoice(clubMember, transactionList, DateTime.Now);
+            Invoice invoice = new Invoice(invoiceCustomerData, transactionList, DateTime.Now);
             Assert.IsNotNull(invoice.Bills.Values.ElementAt(0).BillID);
         }
 
@@ -86,7 +88,7 @@ namespace RCNGCMembersManagementUnitTests.Billing
         {
             BillingDataManager billingDataManager = BillingDataManager.Instance;
             billingDataManager.InvoiceSequenceNumber = 5000;
-            Invoice invoice = new Invoice(clubMember, transactionList, DateTime.Now);
+            Invoice invoice = new Invoice(invoiceCustomerData, transactionList, DateTime.Now);
             Assert.AreEqual("INV2013005000/001", invoice.Bills.Values.ElementAt(0).BillID);
         }
 
@@ -96,7 +98,7 @@ namespace RCNGCMembersManagementUnitTests.Billing
             decimal invoiceInitialAmount;
             BillingDataManager billingDataManager = BillingDataManager.Instance;
             billingDataManager.InvoiceSequenceNumber = 5000;
-            Invoice invoice = new Invoice(clubMember, transactionList, DateTime.Now);
+            Invoice invoice = new Invoice(invoiceCustomerData, transactionList, DateTime.Now);
             invoiceInitialAmount = invoice.NetAmount;
             string agreementTerms = "New Payment Agreement";
             DateTime agreementDate = DateTime.Now;
@@ -130,7 +132,7 @@ namespace RCNGCMembersManagementUnitTests.Billing
             assignedBillsList[0].BillID = "MMM2013005001/001";
             assignedBillsList[1].BillID = "MMM2013005001/002";
             assignedBillsList[2].BillID = "MMM2013005001/003";
-            Invoice invoice = new Invoice(invoiceID, clubMember, transactionList, assignedBillsList, DateTime.Now);
+            Invoice invoice = new Invoice(invoiceID, invoiceCustomerData, transactionList, assignedBillsList, DateTime.Now);
             invoiceInitialAmount = invoice.NetAmount;
             Assert.AreEqual(invoiceInitialAmount, invoice.NetAmount);
         }

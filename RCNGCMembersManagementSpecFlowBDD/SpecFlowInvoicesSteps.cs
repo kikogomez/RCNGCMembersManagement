@@ -121,7 +121,7 @@ namespace RCNGCMembersManagementSpecFlowBDD
             ClubService clubService = invoiceContextData.servicesDictionary[serviceName];
             DateTime issueDate = DateTime.Now;
             List<Transaction> serviceChargeList = new List<Transaction> { new ServiceCharge(clubService) };
-            Invoice invoice = new Invoice(membersManagementContextData.clubMember, serviceChargeList, issueDate);
+            Invoice invoice = new Invoice(new InvoiceCustomerData(membersManagementContextData.clubMember), serviceChargeList, issueDate);
             ScenarioContext.Current.Add("Invoice", invoice);
         }
 
@@ -131,7 +131,7 @@ namespace RCNGCMembersManagementSpecFlowBDD
         {
             DateTime issueDate = DateTime.Now;
             List<Transaction> serviceChargeList = new List<Transaction> { new ServiceCharge((ClubService)ScenarioContext.Current["A_Club_Service"]) };
-            Invoice invoice = new Invoice(membersManagementContextData.clubMember, serviceChargeList, issueDate);
+            Invoice invoice = new Invoice(new InvoiceCustomerData(membersManagementContextData.clubMember), serviceChargeList, issueDate);
             ScenarioContext.Current.Add("Invoice", invoice);
         }
 
@@ -140,7 +140,7 @@ namespace RCNGCMembersManagementSpecFlowBDD
         {
             List<Transaction> transactionsList = new List<Transaction>();
             AddTransactionsToTransactionList(transactionsList, transactions);
-            ProFormaInvoice proFormaInvoice = new ProFormaInvoice(membersManagementContextData.clubMember, transactionsList, DateTime.Now);
+            ProFormaInvoice proFormaInvoice = new ProFormaInvoice(new InvoiceCustomerData(membersManagementContextData.clubMember), transactionsList, DateTime.Now);
             ScenarioContext.Current.Add("ProFormaInvoice", proFormaInvoice);
         }
 
@@ -149,21 +149,21 @@ namespace RCNGCMembersManagementSpecFlowBDD
         {
             DateTime issueDate = DateTime.Now;
             List<Transaction> salesList = new List<Transaction> { new Sale((Product)ScenarioContext.Current["A_Sold_Product"]) };
-            Invoice invoice = new Invoice(membersManagementContextData.clubMember, salesList, issueDate);
+            Invoice invoice = new Invoice(new InvoiceCustomerData(membersManagementContextData.clubMember), salesList, issueDate);
             ScenarioContext.Current.Add("Invoice", invoice);
         }
 
         [When(@"I generate an invoice for this/these transaction/s")]
         public void WhenIGenerateAnInvoiceForThisTheseTransactionS()
         {
-            Invoice invoice = new Invoice(membersManagementContextData.clubMember, (List<Transaction>)ScenarioContext.Current["Transactions_List"], DateTime.Now);
+            Invoice invoice = new Invoice(new InvoiceCustomerData(membersManagementContextData.clubMember), (List<Transaction>)ScenarioContext.Current["Transactions_List"], DateTime.Now);
             ScenarioContext.Current.Add("Invoice", invoice);
         }
 
         [When(@"I generate a pro forma invoice for this/these transaction/s")]
         public void WhenIGenerateAProFormaInvoiceForThisTheseTransactionS()
         {
-            ProFormaInvoice proFormaInvoice = new ProFormaInvoice(membersManagementContextData.clubMember, (List<Transaction>)ScenarioContext.Current["Transactions_List"], DateTime.Now);
+            ProFormaInvoice proFormaInvoice = new ProFormaInvoice(new InvoiceCustomerData(membersManagementContextData.clubMember), (List<Transaction>)ScenarioContext.Current["Transactions_List"], DateTime.Now);
             ScenarioContext.Current.Add("ProFormaInvoice", proFormaInvoice);
         }
 
@@ -182,7 +182,7 @@ namespace RCNGCMembersManagementSpecFlowBDD
             try
             {
                 List<Transaction> serviceChargeList = new List<Transaction> { new ServiceCharge((ClubService)ScenarioContext.Current["A_Club_Service"])};
-                Invoice invoice = new Invoice(membersManagementContextData.clubMember, serviceChargeList, issueDate);
+                Invoice invoice = new Invoice(new InvoiceCustomerData(membersManagementContextData.clubMember), serviceChargeList, issueDate);
                 ScenarioContext.Current.Add("Invoice", invoice);
             }
             catch (ArgumentOutOfRangeException e)

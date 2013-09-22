@@ -11,10 +11,10 @@ namespace RCNGCMembersManagementAppLogic.Billing
 {
     public class ProFormaInvoice: BaseInvoice
     {
-        public ProFormaInvoice(ClubMember clubMember, List<Transaction> transactionsList, DateTime issueDate)
+        public ProFormaInvoice(InvoiceCustomerData invoiceCustomerData, List<Transaction> transactionsList, DateTime issueDate)
             : base(transactionsList, issueDate)
         {
-            InitializeProformaInvoice(clubMember);
+            InitializeProformaInvoice(invoiceCustomerData);
         }
         
         public decimal BillsTotalAmountToCollect
@@ -40,10 +40,10 @@ namespace RCNGCMembersManagementAppLogic.Billing
             billingDataManager.ProFormaInvoiceSequenceNumber = currentInvoiceSequenceNumber + 1;
         }
 
-        private void InitializeProformaInvoice(ClubMember clubMember)
+        private void InitializeProformaInvoice(InvoiceCustomerData invoiceCustomerData)
         {
             CheckProFormaInvoiceDetail();
-            this.customerData = new InvoiceCustomerData(clubMember);
+            this.customerData = invoiceCustomerData;
         }
 
         private void CheckProFormaInvoiceDetail()

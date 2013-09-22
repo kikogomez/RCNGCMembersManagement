@@ -17,6 +17,7 @@ namespace RCNGCMembersManagementUnitTests.Billing
         List<Transaction> transactionsList;
         Dictionary<string, Tax> taxesDictionary;
         ClubMember clubMember;
+        InvoiceCustomerData invoiceCustomerData;
 
         [ClassInitialize]
         public static void ClassInit(TestContext context)
@@ -48,13 +49,14 @@ namespace RCNGCMembersManagementUnitTests.Billing
             };
 
             clubMember = new ClubMember("0002", "Francisco", "Gomez", "");
+            invoiceCustomerData= new InvoiceCustomerData(clubMember);
         }
 
         [TestMethod]
         public void CreatingANewInvoiceForASetOfTransactions()
         {
             DateTime issueDate = DateTime.Now;
-            Invoice invoice = new Invoice(clubMember, transactionsList, issueDate);
+            Invoice invoice = new Invoice(invoiceCustomerData, transactionsList, issueDate);
             Assert.IsNotNull(invoice);
         }
 
@@ -66,7 +68,7 @@ namespace RCNGCMembersManagementUnitTests.Billing
             List<Transaction> transactionsList = new List<Transaction>();
             try
             {
-                Invoice invoice = new Invoice(clubMember, transactionsList, issueDate);
+                Invoice invoice = new Invoice(invoiceCustomerData, transactionsList, issueDate);
             }
             catch (ArgumentNullException exception)
             {
@@ -79,7 +81,7 @@ namespace RCNGCMembersManagementUnitTests.Billing
         public void AFreshlyCreatedInvoiceIsSetToBePaid()
         {
             DateTime issueDate = DateTime.Now;
-            Invoice invoice = new Invoice(clubMember, transactionsList, issueDate);
+            Invoice invoice = new Invoice(invoiceCustomerData, transactionsList, issueDate);
             Assert.AreEqual(Invoice.InvoicePaymentState.ToBePaid, invoice.InvoiceState);
         }
 
@@ -87,7 +89,7 @@ namespace RCNGCMembersManagementUnitTests.Billing
         public void InvoiceCustomerDataIsWellStoredAndReadable()
         {
             DateTime issueDate = DateTime.Now;
-            Invoice invoice = new Invoice(clubMember, transactionsList, issueDate);
+            Invoice invoice = new Invoice(invoiceCustomerData, transactionsList, issueDate);
             Assert.AreEqual("Francisco Gomez", invoice.CustomerFullName);
         }
 
@@ -95,7 +97,7 @@ namespace RCNGCMembersManagementUnitTests.Billing
         public void IssueDateIsWellStoredAndReadable()
         {
             DateTime issueDate = DateTime.Now;
-            Invoice invoice = new Invoice(clubMember, transactionsList, issueDate);
+            Invoice invoice = new Invoice(invoiceCustomerData, transactionsList, issueDate);
             Assert.AreEqual(issueDate, invoice.IssueDate);
         }
 
@@ -103,7 +105,7 @@ namespace RCNGCMembersManagementUnitTests.Billing
         public void WhenInstantiatingANewInvoiceANewInvoiceIDIsAssigned()
         {
             DateTime issueDate = DateTime.Now;
-            Invoice invoice = new Invoice(clubMember, transactionsList, issueDate);
+            Invoice invoice = new Invoice(invoiceCustomerData, transactionsList, issueDate);
             Assert.IsNotNull(invoice.InvoiceID);
         }
 
@@ -111,7 +113,7 @@ namespace RCNGCMembersManagementUnitTests.Billing
         public void TheLastSixCharactersOfAnInvoiceAreANumber()
         {
             DateTime issueDate = DateTime.Now;
-            Invoice invoice = new Invoice(clubMember, transactionsList, issueDate);
+            Invoice invoice = new Invoice(invoiceCustomerData, transactionsList, issueDate);
             string invoiceIDLastSixCharacters = invoice.InvoiceID.Substring(invoice.InvoiceID.Length - 6);
             int number;
             Assert.IsTrue(int.TryParse(invoiceIDLastSixCharacters, out number));
@@ -121,9 +123,9 @@ namespace RCNGCMembersManagementUnitTests.Billing
         public void TheLastSixCharactersOfAnInvoiceAreASequenceNumber()
         {
             DateTime issueDate = DateTime.Now;
-            Invoice firstInvoice = new Invoice(clubMember, transactionsList, issueDate);
+            Invoice firstInvoice = new Invoice(invoiceCustomerData, transactionsList, issueDate);
             int firstSequenceNumber = int.Parse(firstInvoice.InvoiceID.Substring(firstInvoice.InvoiceID.Length - 6));
-            Invoice secondInvoice = new Invoice(clubMember, transactionsList, issueDate);
+            Invoice secondInvoice = new Invoice(invoiceCustomerData, transactionsList, issueDate);
             int secondSequenceNumber = int.Parse(secondInvoice.InvoiceID.Substring(secondInvoice.InvoiceID.Length - 6));
             Assert.AreEqual(secondSequenceNumber, firstSequenceNumber + 1);
         }
@@ -133,7 +135,7 @@ namespace RCNGCMembersManagementUnitTests.Billing
         {
             billDataManager.InvoiceSequenceNumber=5000;
             DateTime issueDate = DateTime.Now;
-            Invoice invoice = new Invoice(clubMember, transactionsList, issueDate);
+            Invoice invoice = new Invoice(invoiceCustomerData, transactionsList, issueDate);
             int invoiceSequenceNumber = int.Parse(invoice.InvoiceID.Substring(invoice.InvoiceID.Length - 6));
             Assert.AreEqual(5000, invoiceSequenceNumber);
         }
@@ -173,7 +175,7 @@ namespace RCNGCMembersManagementUnitTests.Billing
         {
             string invoiceID = "INV20130012345";
             DateTime issueDate = DateTime.Now;
-            Invoice invoice = new Invoice(invoiceID, clubMember, transactionsList, issueDate);
+            Invoice invoice = new Invoice(invoiceID, invoiceCustomerData, transactionsList, issueDate);
             Assert.AreEqual(invoiceID, invoice.InvoiceID);
         }
 
@@ -183,7 +185,7 @@ namespace RCNGCMembersManagementUnitTests.Billing
             billDataManager.InvoiceSequenceNumber = (5000);
             string invoiceID = "INV20130012345";
             DateTime issueDate = DateTime.Now;
-            Invoice invoice = new Invoice(invoiceID, clubMember, transactionsList, issueDate);
+            Invoice invoice = new Invoice(invoiceID, invoiceCustomerData, transactionsList, issueDate);
             Assert.AreEqual((uint)5000, billDataManager.InvoiceSequenceNumber);
         }
 
@@ -194,7 +196,7 @@ namespace RCNGCMembersManagementUnitTests.Billing
             List<Transaction> transactionsList = new List<Transaction>{
                 new Transaction("Nice Blue Cap", 1,10,new Tax("5% Tax",5),0),
                 new Transaction("Nice Blue T-Shirt", 1,20,new Tax("10% Tax",10),0)};
-            Invoice invoice = new Invoice(clubMember, transactionsList, issueDate);
+            Invoice invoice = new Invoice(invoiceCustomerData, transactionsList, issueDate);
             Assert.AreEqual((decimal)32.5, invoice.NetAmount);
         }
 
@@ -207,7 +209,7 @@ namespace RCNGCMembersManagementUnitTests.Billing
             List<Transaction> transactionsList = new List<Transaction>{
                 new Sale(cap, "Nice Blue Cap", 1,0),
                 new ServiceCharge(membership, "June Membership Fee", 1,0)};
-            Invoice invoice = new Invoice(clubMember, transactionsList, issueDate);
+            Invoice invoice = new Invoice(invoiceCustomerData, transactionsList, issueDate);
             Assert.AreEqual((decimal)94.5, invoice.NetAmount);
         }
 
@@ -218,7 +220,7 @@ namespace RCNGCMembersManagementUnitTests.Billing
             List<Transaction> transactionsList = new List<Transaction>{
                 new Transaction("Nice Blue Cap", 1,10,new Tax("5% Tax", 5),0),
                 new Transaction("June Membership Fee", 1,40,new Tax("No Tax", 0),0)};
-            Invoice invoice = new Invoice(clubMember, transactionsList, issueDate);
+            Invoice invoice = new Invoice(invoiceCustomerData, transactionsList, issueDate);
             Assert.AreEqual((decimal)50.5, invoice.NetAmount);
         }
 
@@ -233,7 +235,7 @@ namespace RCNGCMembersManagementUnitTests.Billing
                 new ServiceCharge(membership, "June Membership Fee", 0,79,taxesDictionary["IGIC General"],0)};
             try
             {
-                Invoice invoice = new Invoice(clubMember, transactionsList, issueDate);
+                Invoice invoice = new Invoice(invoiceCustomerData, transactionsList, issueDate);
             }
             catch (ArgumentOutOfRangeException exception)
             {
@@ -253,7 +255,7 @@ namespace RCNGCMembersManagementUnitTests.Billing
                 new ServiceCharge(membership, "June Membership Fee", 0,79,taxesDictionary["IGIC General"],0)};
             try
             {
-                ProFormaInvoice proFormaInvoice = new ProFormaInvoice(clubMember, transactionsList, issueDate);
+                ProFormaInvoice proFormaInvoice = new ProFormaInvoice(invoiceCustomerData, transactionsList, issueDate);
             }
             catch (ArgumentOutOfRangeException exception)
             {
@@ -289,7 +291,7 @@ namespace RCNGCMembersManagementUnitTests.Billing
             List<Transaction> transactionsList = new List<Transaction>{
                 new Sale(cap, "Nice Blue Cap", 1,0,taxesDictionary["IGIC Reducido 2"],0),
                 new ServiceCharge(membership, "June Membership Fee", 1,0,taxesDictionary["IGIC General"],0)};
-            Invoice invoice = new Invoice(clubMember, transactionsList, issueDate);
+            Invoice invoice = new Invoice(invoiceCustomerData, transactionsList, issueDate);
             Assert.AreEqual((decimal)0, invoice.NetAmount);
         }
 
@@ -302,7 +304,7 @@ namespace RCNGCMembersManagementUnitTests.Billing
             List<Transaction> transactionsList = new List<Transaction>{
                 new Sale(cap, "Nice Blue Cap", 1,0,taxesDictionary["IGIC Reducido 2"],0),
                 new ServiceCharge(membership, "June Membership Fee", 1,0,taxesDictionary["IGIC General"],0)};
-            ProFormaInvoice proFormaInvoice = new ProFormaInvoice(clubMember, transactionsList, issueDate);
+            ProFormaInvoice proFormaInvoice = new ProFormaInvoice(invoiceCustomerData, transactionsList, issueDate);
             Assert.AreEqual((decimal)0, proFormaInvoice.NetAmount);
         }
 
@@ -360,7 +362,7 @@ namespace RCNGCMembersManagementUnitTests.Billing
         public void AnAmendingInvoiceHasTheSameGrossAmountThanTheAmendedInvoiceButNegative()
         {
             DateTime issueDate = DateTime.Now;
-            Invoice invoice = new Invoice(clubMember, transactionsList, issueDate);
+            Invoice invoice = new Invoice(invoiceCustomerData, transactionsList, issueDate);
             AmendingInvoice amendingInvoice = new AmendingInvoice(invoice);
             Assert.AreEqual(-invoice.GrossAmount, amendingInvoice.GrossAmount);
         }
@@ -369,7 +371,7 @@ namespace RCNGCMembersManagementUnitTests.Billing
         public void AnAmendingInvoiceHasTheSameNetAmountThanTheAmendedInvoiceButNegative()
         {
             DateTime issueDate = DateTime.Now;
-            Invoice invoice = new Invoice(clubMember, transactionsList, issueDate);
+            Invoice invoice = new Invoice(invoiceCustomerData, transactionsList, issueDate);
             AmendingInvoice amendingInvoice = new AmendingInvoice(invoice);
             Assert.AreEqual(-invoice.NetAmount, amendingInvoice.NetAmount);
         }

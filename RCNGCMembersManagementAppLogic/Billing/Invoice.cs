@@ -14,27 +14,27 @@ namespace RCNGCMembersManagementAppLogic.Billing
         Dictionary<string, Bill> invoiceBills;
         InvoicePaymentState invoiceState;
 
-        public Invoice(ClubMember clubMember, List<Transaction> transactionsList, DateTime issueDate)
-            : this(clubMember, transactionsList, null, issueDate)
+        public Invoice(InvoiceCustomerData invoiceCustomerData, List<Transaction> transactionsList, DateTime issueDate)
+            : this(invoiceCustomerData, transactionsList, null, issueDate)
         {
         }
 
-        
-        public Invoice(string invoiceID, ClubMember clubMember, List<Transaction> transactionsList, DateTime issueDate)
-            : this(invoiceID, clubMember, transactionsList, null, issueDate)
+
+        public Invoice(string invoiceID, InvoiceCustomerData invoiceCustomerData, List<Transaction> transactionsList, DateTime issueDate)
+            : this(invoiceID, invoiceCustomerData, transactionsList, null, issueDate)
         {
         }
 
-        public Invoice(ClubMember clubMember, List<Transaction> transactionsList, List<Bill> billsList, DateTime issueDate)
+        public Invoice(InvoiceCustomerData invoiceCustomerData, List<Transaction> transactionsList, List<Bill> billsList, DateTime issueDate)
             :base(transactionsList, issueDate)
         {
-            InitializeInvoice(clubMember, billsList);
+            InitializeInvoice(invoiceCustomerData, billsList);
         }
 
-        public Invoice(string invoiceID, ClubMember clubMember, List<Transaction> transactionsList, List<Bill> billsList, DateTime issueDate)
+        public Invoice(string invoiceID, InvoiceCustomerData invoiceCustomerData, List<Transaction> transactionsList, List<Bill> billsList, DateTime issueDate)
             : base(invoiceID,transactionsList, issueDate)
         {
-            InitializeInvoice(clubMember, billsList);
+            InitializeInvoice(invoiceCustomerData, billsList);
         }
 
         public enum InvoicePaymentState { ToBePaid, Paid, Unpaid, Cancelled, Uncollectible }
@@ -114,9 +114,9 @@ namespace RCNGCMembersManagementAppLogic.Billing
             return amount;
         }
 
-        private void InitializeInvoice(ClubMember clubMember, List<Bill> billsList)
+        private void InitializeInvoice(InvoiceCustomerData invoiceCustomerData, List<Bill> billsList)
         {
-            customerData = new InvoiceCustomerData(clubMember);
+            this.customerData = invoiceCustomerData;
             CheckInvoiceDetail();
             invoiceBills = new Dictionary<string, Bill>();
             if (billsList == null) billsList = new List<Bill> { CreateASingleBillForInvoiceTotal() };
