@@ -90,7 +90,7 @@ namespace RCNGCMembersManagementUnitTests.Billing
         {
             DateTime issueDate = DateTime.Now;
             Invoice invoice = new Invoice(invoiceCustomerData, transactionsList, issueDate);
-            Assert.AreEqual("Francisco Gomez", invoice.CustomerFullName);
+            Assert.AreEqual("Francisco Gomez", invoice.CustomerData.FullName);
         }
 
         [TestMethod]
@@ -171,9 +171,18 @@ namespace RCNGCMembersManagementUnitTests.Billing
         }
 
         [TestMethod]
+        public void TheInvoiceIDIsINVplusYEARpulsInvoiceSequencenumber()
+        {
+            DateTime issueDate = DateTime.Parse("01/01/2013");
+            billDataManager.InvoiceSequenceNumber=5000;
+            Invoice invoice = new Invoice(invoiceCustomerData, transactionsList, issueDate);
+            Assert.AreEqual("INV2013005000", invoice.InvoiceID);
+        }
+
+        [TestMethod]
         public void ICanInstantiateAnInvoiceWithAGivenInvoiceID()
         {
-            string invoiceID = "INV20130012345";
+            string invoiceID = "INV2013012345";
             DateTime issueDate = DateTime.Now;
             Invoice invoice = new Invoice(invoiceID, invoiceCustomerData, transactionsList, issueDate);
             Assert.AreEqual(invoiceID, invoice.InvoiceID);
@@ -183,7 +192,7 @@ namespace RCNGCMembersManagementUnitTests.Billing
         public void InstantiatingAnInvoiceWithAGivenInvoiceIDDoesntChangeTheInvoiceIDSequenceNumber()
         {
             billDataManager.InvoiceSequenceNumber = (5000);
-            string invoiceID = "INV20130012345";
+            string invoiceID = "INV2013012345";
             DateTime issueDate = DateTime.Now;
             Invoice invoice = new Invoice(invoiceID, invoiceCustomerData, transactionsList, issueDate);
             Assert.AreEqual((uint)5000, billDataManager.InvoiceSequenceNumber);
@@ -376,14 +385,52 @@ namespace RCNGCMembersManagementUnitTests.Billing
             Assert.AreEqual(-invoice.NetAmount, amendingInvoice.NetAmount);
         }
 
+        [TestMethod]
+        public void AmendingInvoiceHasTheSameInvoiceIDButWithDifferentPrefix()
+        {
+            DateTime issueDate = DateTime.Parse("01/01/2013");
+            billDataManager.InvoiceSequenceNumber = 5000;
+            Invoice invoice = new Invoice(invoiceCustomerData, transactionsList, issueDate);
+            AmendingInvoice amendingInvoice = new AmendingInvoice(invoice);
+            Assert.AreEqual("INV2013005000", invoice.InvoiceID);
+            Assert.AreEqual("AMN2013005000", amendingInvoice.InvoiceID);
+        }
+
+        [TestMethod]
+        public void TheCustomerDataInfoOfdAnAmendingInvoiceIsTheSameThanTheOriginalInvoice()
+        {
+            DateTime issueDate = DateTime.Now;
+            Invoice invoice = new Invoice(invoiceCustomerData, transactionsList, issueDate);
+            AmendingInvoice amendingInvoice = new AmendingInvoice(invoice);
+            Assert.AreEqual(invoiceCustomerData, amendingInvoice.CustomerData);
+        }
 
 /*
         [TestMethod]
-        public void AnAmendingInvoiceHasTheSameTransactionsThanOriginalInvoiceButWithNegativeUnits()
+        public void FirstTransactionInAmendingInvoiceIsANoValueReferenceToOriginalInvoice()
         {
+            DateTime issueDate = DateTime.Now;
+            billDataManager.InvoiceSequenceNumber = 5000;
+            Invoice invoice = new Invoice(invoiceCustomerData, transactionsList, issueDate);
+            AmendingInvoice amendingInvoice = new AmendingInvoice(invoice);
+            Transaction originalInvoiceReference = new Transaction("Amending invoice " + invoiceToAmend.InvoiceID + "as detailed", 1, 0, voidTax, 0);
+            string amendingInvoiceFirstTransactionDetail = "Amending invoice " + invoiceToAmend.InvoiceID + "as detailed";
             Assert.Fail();
         }
 
+        [TestMethod]
+        public void AnAmendingInvoiceHasTheSameTransactionsThanOriginalInvoiceButWithNegativeUnits()
+        {
+            DateTime issueDate = DateTime.Now;
+            Invoice invoice = new Invoice(invoiceCustomerData, transactionsList, issueDate);
+            AmendingInvoice amendingInvoice = new AmendingInvoice(invoice);
+            Assert.Fail();
+        }
+        */
+/*
+
+
+ 
         [TestMethod]
         public void WhenCancellingAnInvoiceTheInvoiceIsMarjkedAsCancelled()
         {

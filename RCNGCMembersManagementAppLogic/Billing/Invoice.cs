@@ -39,9 +39,14 @@ namespace RCNGCMembersManagementAppLogic.Billing
 
         public enum InvoicePaymentState { ToBePaid, Paid, Unpaid, Cancelled, Uncollectible }
 
-        public string CustomerFullName
+/*        public string CustomerFullName
         {
             get { return customerData.FullName; }
+        }*/
+
+        public InvoiceCustomerData CustomerData
+        {
+            get { return customerData; }
         }
 
         public DateTime IssueDate

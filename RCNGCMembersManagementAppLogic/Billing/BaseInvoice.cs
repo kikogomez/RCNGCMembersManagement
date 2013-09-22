@@ -15,7 +15,6 @@ namespace RCNGCMembersManagementAppLogic.Billing
         protected InvoiceCustomerData customerData;
         protected string invoiceID;
         protected DateTime issueDate;
-        protected string clientFullName;
         protected List<Transaction> invoiceDetail;
 
         public BaseInvoice(List<Transaction> transactionsList, DateTime issueDate)

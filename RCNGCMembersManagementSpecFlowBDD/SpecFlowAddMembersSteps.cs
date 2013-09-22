@@ -31,25 +31,6 @@ namespace RCNGCMembersManagementSpecFlowBDD
         {
             membersManagementContextData.clubMemberDataManager.MemberIDSequenceNumber = memberIDSequenceNumber;
         }
-
-/*        [Given(@"I create a member with an ID ""(.*)""")]
-        public void GivenICreateAMemberWithAnID(string memberID)
-        {
-            ClubMember clubMember;
-            try
-            {
-                clubMember = new ClubMember(
-                    memberID,
-                    membersManagementContextData.givenName,
-                    membersManagementContextData.firstSurname,
-                    membersManagementContextData.secondSurname);
-                membersManagementContextData.clubMember = clubMember;
-            }
-            catch
-            {
-                membersManagementContextData.clubMember = null;
-            } 
-        }*/
         
         [When(@"I process the names")]
         public void WhenIProcessTheNames()
@@ -91,12 +72,6 @@ namespace RCNGCMembersManagementSpecFlowBDD
             bool valid = (validity == "valid" ? true : false);
             Assert.AreEqual(membersManagementContextData.clubMember != null, valid);
         }
-
-/*        [Then(@"The new member ID is ""(.*)""")]
-        public void ThenTheNewMemberIDIs(string memberID)
-        {
-            Assert.AreEqual(memberID, membersManagementContextData.clubMember.MemberID);
-        }*/
 
         [Then(@"The current memberID sequence number is (.*)")]
         public void ThenTheCurrentMemberIDSequenceNumberIs(uint memberID)
