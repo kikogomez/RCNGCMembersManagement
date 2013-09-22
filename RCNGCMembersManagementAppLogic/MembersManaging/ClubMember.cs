@@ -112,7 +112,6 @@ namespace RCNGCMembersManagementAppLogic.MembersManaging
         {
             clubMemberDataManager = ClubMemberDataManager.Instance;
             string formatedMemeberID = clubMemberDataManager.AssingnMemberIDSequenceNumber().ToString("00000");
-            //clubMemberDataManager.MemberIDSequenceNumber++;
             return formatedMemeberID;
         }
     }

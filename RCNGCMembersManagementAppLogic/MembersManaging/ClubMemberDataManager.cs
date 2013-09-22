@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace RCNGCMembersManagementAppLogic.MembersManaging
 {
-    class ClubMemberDataManager
+    public sealed class ClubMemberDataManager
     {
         private static readonly ClubMemberDataManager instance = new ClubMemberDataManager();
 

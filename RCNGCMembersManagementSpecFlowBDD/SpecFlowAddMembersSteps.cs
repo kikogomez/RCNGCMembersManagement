@@ -1,6 +1,7 @@
 ﻿using System;
 using TechTalk.SpecFlow;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using RCNGCMembersManagementMocks;
 using RCNGCMembersManagementAppLogic.MembersManaging;
 
 namespace RCNGCMembersManagementSpecFlowBDD
@@ -13,6 +14,8 @@ namespace RCNGCMembersManagementSpecFlowBDD
         public SpecFlowAddMembersSteps(MembersManagementContextData membersManagementContextData)
         {
             this.membersManagementContextData = membersManagementContextData;
+            DataManagerMock clubMemberDataManagerMock = new DataManagerMock();
+            membersManagementContextData.clubMemberDataManager.SetDataManagerCollaborator(clubMemberDataManagerMock);
         }
 
         [Given(@"These names ""(.*)"", ""(.*)"", ""(.*)""")]
@@ -23,21 +26,39 @@ namespace RCNGCMembersManagementSpecFlowBDD
             membersManagementContextData.secondSurname = secondSurname;
         }
 
-
-        [Given(@"I have a member with an ID ""(.*)""")]
-        public void GivenIHaveAMemberWithAnID(int p0)
+        [Given(@"The current memberID sequence number is (.*)")]
+        public void GivenTheCurrentMemberIDSequenceNumberIs(uint memberIDSequenceNumber)
         {
-            ScenarioContext.Current.Pending();
+            membersManagementContextData.clubMemberDataManager.MemberIDSequenceNumber = memberIDSequenceNumber;
         }
-        
-        [When(@"I process the names")]
-        public void WhenIProcessTheNames()
+
+/*        [Given(@"I create a member with an ID ""(.*)""")]
+        public void GivenICreateAMemberWithAnID(string memberID)
         {
             ClubMember clubMember;
             try
             {
                 clubMember = new ClubMember(
-                    "0002",
+                    memberID,
+                    membersManagementContextData.givenName,
+                    membersManagementContextData.firstSurname,
+                    membersManagementContextData.secondSurname);
+                membersManagementContextData.clubMember = clubMember;
+            }
+            catch
+            {
+                membersManagementContextData.clubMember = null;
+            } 
+        }*/
+        
+        [When(@"I process the names")]
+        public void WhenIProcessTheNames()
+        {
+            ClubMember clubMember;
+            membersManagementContextData.clubMemberDataManager.MemberIDSequenceNumber = 1;
+            try
+            {
+                clubMember = new ClubMember(
                     membersManagementContextData.givenName,
                     membersManagementContextData.firstSurname,
                     membersManagementContextData.secondSurname);
@@ -52,7 +73,16 @@ namespace RCNGCMembersManagementSpecFlowBDD
         [When(@"I add a new member")]
         public void WhenIAddANewMember()
         {
-            ScenarioContext.Current.Pending();
+            ClubMember clubMember;
+            try
+            {
+                clubMember = new ClubMember("Francisco","Gomez-Caldito",null);
+                membersManagementContextData.clubMember = clubMember;
+            }
+            catch
+            {
+                membersManagementContextData.clubMember = null;
+            }    
         }
         
         [Then(@"The name is considered ""(.*)""")]
@@ -62,17 +92,23 @@ namespace RCNGCMembersManagementSpecFlowBDD
             Assert.AreEqual(membersManagementContextData.clubMember != null, valid);
         }
 
-        [Then(@"The new member ID is ""(.*)""")]
-        public void ThenTheNewMemberIDIs(int p0)
+/*        [Then(@"The new member ID is ""(.*)""")]
+        public void ThenTheNewMemberIDIs(string memberID)
         {
-            ScenarioContext.Current.Pending();
+            Assert.AreEqual(memberID, membersManagementContextData.clubMember.MemberID);
+        }*/
+
+        [Then(@"The current memberID sequence number is (.*)")]
+        public void ThenTheCurrentMemberIDSequenceNumberIs(uint memberID)
+        {
+            Assert.AreEqual(memberID, membersManagementContextData.clubMemberDataManager.MemberIDSequenceNumber);
         }
+
 
         [Then(@"The new member is not created")]
         public void ThenTheNewMemberIsNotCreated()
         {
-            ScenarioContext.Current.Pending();
+            Assert.AreEqual(null, membersManagementContextData.clubMember);
         }
-
     }
 }

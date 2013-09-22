@@ -20,12 +20,12 @@ Scenarios:
 | ""          | ""              | ""            | "invalid" |
 
 Scenario: The members ID are consecutive
-	Given I have a member with an ID "00002"
+	Given The current memberID sequence number is 2
 	When I add a new member
-	Then The new member ID is "00003"
+	Then The current memberID sequence number is 3
 
 Scenario: Up to 99999 members
-	Given I have a member with an ID "99999"
+	Given The current memberID sequence number is 100000
 	When I add a new member
 	Then The new member is not created
 

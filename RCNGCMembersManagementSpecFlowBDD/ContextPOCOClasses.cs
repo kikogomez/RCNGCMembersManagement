@@ -14,6 +14,7 @@ namespace RCNGCMembersManagementSpecFlowBDD
         public string givenName;
         public string firstSurname;
         public string secondSurname;
+        public ClubMemberDataManager clubMemberDataManager = ClubMemberDataManager.Instance;
     }
 
     public class InvoiceContextData
