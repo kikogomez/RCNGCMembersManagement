@@ -125,13 +125,13 @@ namespace RCNGCMembersManagementSpecFlowBDD
             ScenarioContext.Current.Add("Invoice", invoice);
         }
 
-
         [When(@"I generate an invoice for the service")]
         public void WhenIGenerateAnInvoiceForTheService()
         {
             DateTime issueDate = DateTime.Now;
             List<Transaction> serviceChargeList = new List<Transaction> { new ServiceCharge((ClubService)ScenarioContext.Current["A_Club_Service"]) };
             Invoice invoice = new Invoice(new InvoiceCustomerData(membersManagementContextData.clubMember), serviceChargeList, issueDate);
+            membersManagementContextData.clubMember.AddInvoice(invoice);
             ScenarioContext.Current.Add("Invoice", invoice);
         }
 
@@ -150,6 +150,7 @@ namespace RCNGCMembersManagementSpecFlowBDD
             DateTime issueDate = DateTime.Now;
             List<Transaction> salesList = new List<Transaction> { new Sale((Product)ScenarioContext.Current["A_Sold_Product"]) };
             Invoice invoice = new Invoice(new InvoiceCustomerData(membersManagementContextData.clubMember), salesList, issueDate);
+            membersManagementContextData.clubMember.AddInvoice(invoice);
             ScenarioContext.Current.Add("Invoice", invoice);
         }
 
@@ -223,6 +224,14 @@ namespace RCNGCMembersManagementSpecFlowBDD
             string invoiceStateEnumToString = ((Invoice)ScenarioContext.Current["Invoice"]).InvoiceState.ToString();
             Assert.AreEqual(invoiceState,  invoiceStateEnumToString);
         }
+
+        [Then(@"The invoice is assigned to the Club Member")]
+        public void ThenTheInvoiceIsAssignedToTheClubMember()
+        {
+            Invoice generatedInvoice = ((Invoice)ScenarioContext.Current["Invoice"]);
+            Assert.IsNotNull(membersManagementContextData.clubMember.InvoicesList[generatedInvoice.InvoiceID]);
+        }
+
 
         [Then(@"The generated Invoice ID should be ""(.*)""")]
         public void ThenTheGeneratedInvoiceIDShouldBe(string invoiceID)
