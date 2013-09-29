@@ -1,4 +1,4 @@
-﻿Feature: Add Members
+﻿Feature: Add members
 	In order to manage the club members
 	As a administrative assistant
 	I want to add new members to the system

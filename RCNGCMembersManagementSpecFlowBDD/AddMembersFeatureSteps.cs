@@ -6,12 +6,12 @@ using RCNGCMembersManagementAppLogic.MembersManaging;
 
 namespace RCNGCMembersManagementSpecFlowBDD
 {
-    [Binding]
-    public class SpecFlowAddMembersSteps
+    [Binding, Scope(Feature = "Add Members")]
+    public class AddMembersFeatureSteps
     {
         private readonly MembersManagementContextData membersManagementContextData;
 
-        public SpecFlowAddMembersSteps(MembersManagementContextData membersManagementContextData)
+        public AddMembersFeatureSteps(MembersManagementContextData membersManagementContextData)
         {
             this.membersManagementContextData = membersManagementContextData;
             DataManagerMock clubMemberDataManagerMock = new DataManagerMock();
@@ -31,7 +31,7 @@ namespace RCNGCMembersManagementSpecFlowBDD
         {
             membersManagementContextData.clubMemberDataManager.MemberIDSequenceNumber = memberIDSequenceNumber;
         }
-        
+
         [When(@"I process the names")]
         public void WhenIProcessTheNames()
         {
@@ -65,7 +65,7 @@ namespace RCNGCMembersManagementSpecFlowBDD
                 membersManagementContextData.clubMember = null;
             }    
         }
-        
+
         [Then(@"The name is considered ""(.*)""")]
         public void ThenTheNameIsConsidered(string validity)
         {
@@ -73,7 +73,7 @@ namespace RCNGCMembersManagementSpecFlowBDD
             Assert.AreEqual(membersManagementContextData.clubMember != null, valid);
         }
 
-        [Then(@"The current memberID sequence number is (.*)")]
+        [Then(@"The current memberID sequence number is (.*)"), Scope(Feature = "Add members")]
         public void ThenTheCurrentMemberIDSequenceNumberIs(uint memberID)
         {
             Assert.AreEqual(memberID, membersManagementContextData.clubMemberDataManager.MemberIDSequenceNumber);

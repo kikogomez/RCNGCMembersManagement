@@ -4,7 +4,7 @@
 	I want to generate pro forma invoices
 
 Background: 
-	Given Last generated InvoiceID is "MMM2013000023"
+	Given Last generated pro forma invoice ID is "PRF2013000023"
 			
 	Given A Club Member
 	| MemberID | Name      | FirstSurname  | SecondSurname |

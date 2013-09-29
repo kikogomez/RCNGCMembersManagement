@@ -6,12 +6,12 @@ using RCNGCMembersManagementAppLogic.Billing.DirectDebit;
 
 namespace RCNGCMembersManagementSpecFlowBDD
 {
-    [Binding]
-    class ManageAccountNumbersSteps
+    [Binding, Scope(Feature = "Manage account numbers")]
+    class ManageAccountNumbersFeatureSteps
     {
         private readonly BankAccountContextData bankAccountContextData;
 
-        public ManageAccountNumbersSteps(BankAccountContextData bankAccountContextData)
+        public ManageAccountNumbersFeatureSteps(BankAccountContextData bankAccountContextData)
         {
             this.bankAccountContextData = bankAccountContextData;
         }
@@ -37,7 +37,7 @@ namespace RCNGCMembersManagementSpecFlowBDD
             bankAccountContextData.iban = iban;
         }
 
-        
+
         [When(@"I process the bank account")]
         public void WhenIProcessTheBankAccount()
         {
@@ -115,7 +115,7 @@ namespace RCNGCMembersManagementSpecFlowBDD
             bool valid = (validity == "valid" ? true : false);
             Assert.AreEqual(valid, BankAccount.IsValidIBAN(bankAccountContextData.iban));
         }
-        
+
         [Then(@"the bank account is ""(.*)""")]
         public void ThenTheBankAccountIs(string storage)
         {
@@ -175,7 +175,7 @@ namespace RCNGCMembersManagementSpecFlowBDD
             Assert.AreEqual(accountNumber, bankAccount.BankAccountFieldCodes.AccountNumber);
         }
 
-     
+
         [Then(@"The CCC ""(.*)"" is created")]
         public void ThenTheCCCIsCreated(string ccc)
         {
@@ -188,7 +188,7 @@ namespace RCNGCMembersManagementSpecFlowBDD
                 Assert.AreEqual(ccc, ((BankAccount)ScenarioContext.Current["Bank_Account"]).CCC.CCC ?? "");
             }
         }
-        
+
         [Then(@"The spanish IBAN code ""(.*)"" is created")]
         public void ThenTheSpanishIBANCodeIsCreated(string iban)
         {

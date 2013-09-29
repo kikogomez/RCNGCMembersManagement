@@ -12,13 +12,13 @@ using RCNGCMembersManagementMocks;
 
 namespace RCNGCMembersManagementSpecFlowBDD
 {
-    [Binding]
-    class SpecFlowInvoicesSteps
+    [Binding, Scope(Feature = "Generating invoices")]
+    class GeneratingInvoicesFeatureSteps
     {
         private readonly MembersManagementContextData membersManagementContextData;
         private readonly InvoiceContextData invoiceContextData;
 
-        public SpecFlowInvoicesSteps(
+        public GeneratingInvoicesFeatureSteps(
             MembersManagementContextData membersManagementContextData,
             InvoiceContextData invoiceContextData)
         {
@@ -115,16 +115,6 @@ namespace RCNGCMembersManagementSpecFlowBDD
             AddTransactionsToTransactionList((List<Transaction>)ScenarioContext.Current["Transactions_List"], transactions);
         }
 
-        [Given(@"I have an invoice for the service ""(.*)""")]
-        public void GivenIHaveAnInvoiceForTheService(string serviceName)
-        {
-            ClubService clubService = invoiceContextData.servicesDictionary[serviceName];
-            DateTime issueDate = DateTime.Now;
-            List<Transaction> serviceChargeList = new List<Transaction> { new ServiceCharge(clubService) };
-            Invoice invoice = new Invoice(new InvoiceCustomerData(membersManagementContextData.clubMember), serviceChargeList, issueDate);
-            ScenarioContext.Current.Add("Invoice", invoice);
-        }
-
         [When(@"I generate an invoice for the service")]
         public void WhenIGenerateAnInvoiceForTheService()
         {
@@ -133,15 +123,6 @@ namespace RCNGCMembersManagementSpecFlowBDD
             Invoice invoice = new Invoice(new InvoiceCustomerData(membersManagementContextData.clubMember), serviceChargeList, issueDate);
             membersManagementContextData.clubMember.AddInvoice(invoice);
             ScenarioContext.Current.Add("Invoice", invoice);
-        }
-
-        [Given(@"I generate a pro forma invoice for this/these transaction/s")]
-        public void GivenIGenerateAProFormaInvoiceForThisTheseTransactionS(Table transactions)
-        {
-            List<Transaction> transactionsList = new List<Transaction>();
-            AddTransactionsToTransactionList(transactionsList, transactions);
-            ProFormaInvoice proFormaInvoice = new ProFormaInvoice(new InvoiceCustomerData(membersManagementContextData.clubMember), transactionsList, DateTime.Now);
-            ScenarioContext.Current.Add("ProFormaInvoice", proFormaInvoice);
         }
 
         [When(@"I generate an invoice for the sale")]
@@ -154,6 +135,22 @@ namespace RCNGCMembersManagementSpecFlowBDD
             ScenarioContext.Current.Add("Invoice", invoice);
         }
 
+        [When(@"I try to generate an invoice for the service")]
+        public void WhenITryToGenerateAnInvoiceForTheService()
+        {
+            DateTime issueDate = DateTime.Now;
+            try
+            {
+                List<Transaction> serviceChargeList = new List<Transaction> { new ServiceCharge((ClubService)ScenarioContext.Current["A_Club_Service"]) };
+                Invoice invoice = new Invoice(new InvoiceCustomerData(membersManagementContextData.clubMember), serviceChargeList, issueDate);
+                ScenarioContext.Current.Add("Invoice", invoice);
+            }
+            catch (ArgumentOutOfRangeException e)
+            {
+                ScenarioContext.Current.Add("Exception_On_Invoice_Creation", e);
+            }
+        }
+
         [When(@"I generate an invoice for this/these transaction/s")]
         public void WhenIGenerateAnInvoiceForThisTheseTransactionS()
         {
@@ -161,53 +158,10 @@ namespace RCNGCMembersManagementSpecFlowBDD
             ScenarioContext.Current.Add("Invoice", invoice);
         }
 
-        [When(@"I generate a pro forma invoice for this/these transaction/s")]
-        public void WhenIGenerateAProFormaInvoiceForThisTheseTransactionS()
-        {
-            ProFormaInvoice proFormaInvoice = new ProFormaInvoice(new InvoiceCustomerData(membersManagementContextData.clubMember), (List<Transaction>)ScenarioContext.Current["Transactions_List"], DateTime.Now);
-            ScenarioContext.Current.Add("ProFormaInvoice", proFormaInvoice);
-        }
-
-        [When(@"I change the invoice detail to these values")]
-        public void WhenIChangeTheInvoiceDetailToTheseValues(Table transactions)
-        {
-            List<Transaction> transactionsList = new List<Transaction>();
-            AddTransactionsToTransactionList(transactionsList, transactions);
-            ((ProFormaInvoice)ScenarioContext.Current["ProFormaInvoice"]).SetNewInvoiceDetail(transactionsList);
-        }
-
-        [When(@"I try to generate an invoice for the service")]
-        public void WhenITryToGenerateAnInvoiceForTheService()
-        {
-            DateTime issueDate = DateTime.Now;
-            try
-            {
-                List<Transaction> serviceChargeList = new List<Transaction> { new ServiceCharge((ClubService)ScenarioContext.Current["A_Club_Service"])};
-                Invoice invoice = new Invoice(new InvoiceCustomerData(membersManagementContextData.clubMember), serviceChargeList, issueDate);
-                ScenarioContext.Current.Add("Invoice", invoice);
-            }
-            catch (ArgumentOutOfRangeException e)
-            {
-                ScenarioContext.Current.Add("Exception_On_Invoice_Creation", e);
-            }   
-        }
-
-        [When(@"I cancel the invoice")]
-        public void WhenICancelTheInvoice()
-        {
-            ((Invoice)ScenarioContext.Current["Invoice"]).Cancel();
-        }
-
         [Then(@"An invoice is created for the cost of the service: (.*)")]
         public void ThenAnInvoiceIsCreatedForTheCostOfTheService(decimal cost)
         {
             Assert.AreEqual(cost, ((Invoice)ScenarioContext.Current["Invoice"]).NetAmount);
-        }
-
-        [Then(@"A pro forma invoice is created for the cost of the service: (.*)")]
-        public void ThenAProFormaInvoiceIsCreatedForTheCostOfTheService(Decimal cost)
-        {
-            Assert.AreEqual(cost, ((ProFormaInvoice)ScenarioContext.Current["ProFormaInvoice"]).NetAmount);
         }
 
         [Then(@"An invoice is created for the cost of the sale: (.*)")]
@@ -251,30 +205,6 @@ namespace RCNGCMembersManagementSpecFlowBDD
             ArgumentOutOfRangeException exception = (ArgumentOutOfRangeException)ScenarioContext.Current["Exception_On_Invoice_Creation"];
             string[] exceptionMessages = exception.Message.Split(new string[] { Environment.NewLine }, StringSplitOptions.None);
             Assert.AreEqual("Invoice ID out of range (1-999999)", exceptionMessages[0]);
-        }
-
-        [Then(@"The pro forma invoice is modified reflecting the new value: (.*)")]
-        public void ThenTheProFormaInvoiceIsModifiedReflectingTheNewValue(Decimal amount)
-        {
-            Assert.AreEqual(amount, ((ProFormaInvoice)ScenarioContext.Current["ProFormaInvoice"]).NetAmount);
-        }
-
-        [Then(@"An amending invoice is created for the negative value of the original invoice: (.*)")]
-        public void ThenAnAmendingInvoiceIsCreatedForTheNegativeValueOfTheOriginalInvoice(Decimal amount)
-        {
-            ScenarioContext.Current.Pending();
-        }
-
-        [Then(@"The amending invoice ID is the same than the original invoice with different prefix: ""(.*)""")]
-        public void ThenTheAmendingInvoiceIDIsTheSameThanTheOriginalInvoiceWithDifferentPrefix(string amendingInvoiceID)
-        {
-            ScenarioContext.Current.Pending();
-        }
-
-        [Then(@"The taxes devolution \((.*)\) is separated from the base cost devolution \((.*)\)")]
-        public void ThenTheTaxesDevolutionIsSeparatedFromTheBaseCostDevolution(Decimal taxValue, double baseCost)
-        {
-            ScenarioContext.Current.Pending();
         }
 
         private void AddTransactionsToTransactionList(List<Transaction> currentTransactionsList, Table newTransactions)

@@ -450,20 +450,33 @@ namespace RCNGCMembersManagementUnitTests.Billing
             Assert.AreEqual(true, bothDetailsAreComplementary);
         }
 
-
-/*
         [TestMethod]
-        public void WhenCancellingAnInvoiceTheInvoiceIsMarjkedAsCancelled()
+        public void WhenCancellingAnInvoiceTheInvoiceIsMarkedAsCancelled()
         {
-            Assert.Fail();
+            DateTime issueDate = DateTime.Now;
+            Invoice invoice = new Invoice(invoiceCustomerData, transactionsList, issueDate);
+            invoice.Cancel();
+            Assert.AreEqual(Invoice.InvoicePaymentState.Cancelled, invoice.InvoiceState);
         }
 
         [TestMethod]
         public void WhenCancellingAnInvoiceAnAmendingInvoiceIsCreatedForIt()
         {
+
             //Aqui hay ue hacer un assert de que se INVOCA a la creacion de una Amending Invoice ¿Como?
+            //Debemos testear desde ClubMember. Es mas un test de Integración, que miraremos en BDD
             Assert.Fail();
-        }*/
+        }
+/*
+        [TestMethod]
+        public void WhenCancellingAnInvoiceAllThePendingBillsAreMarkedAsCancelled()
+        {
+
+            //Aqui hay ue hacer un assert de que se INVOCA a la creacion de una Amending Invoice ¿Como?
+            //Debemos testear desde ClubMember. Es mas un test de Integración, que miraremos en BDD
+            Assert.Fail();
+        }
+        */
 
     }
 }

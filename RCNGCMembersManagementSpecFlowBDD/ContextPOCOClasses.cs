@@ -24,6 +24,7 @@ namespace RCNGCMembersManagementSpecFlowBDD
         public Dictionary<string, Product> productsDictionary;
         public List<Transaction> tansactionsList;
         public string lastInvoiceID;
+        public string lastProFormaInvoiceID;
         public BillingDataManager billDataManager = BillingDataManager.Instance;
     }
 

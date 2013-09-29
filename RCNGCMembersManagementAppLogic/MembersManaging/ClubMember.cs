@@ -64,6 +64,11 @@ namespace RCNGCMembersManagementAppLogic.MembersManaging
             get { return defaultPaymentMethod; }
         }
 
+        public Dictionary<string, Invoice> InvoicesList
+        {
+            get { return invoicesList; }
+        }
+
         public void SetDefaultPaymentMethod(PaymentMethod paymentMethod)
         {
             this.defaultPaymentMethod = paymentMethod;

@@ -1,4 +1,4 @@
-﻿Feature: Generating Invoices
+﻿Feature: Generating invoices
 	In order to bill the club members
 	As an administrtative assistant
 	I want to generate invoices
@@ -38,12 +38,14 @@ Scenario: Generate an invoice for a service charge
 	When I generate an invoice for the service
 	Then An invoice is created for the cost of the service: 53.50
 	And The invoice state is "To be paid"
+	And The invoice is assigned to the Club Member
 
 Scenario: Generate an invoice for a sale
 	Given The member buys a "Pennant"
 	When I generate an invoice for the sale
 	Then An invoice is created for the cost of the sale: 10.70
 	And The invoice state is "To be paid"
+	And The invoice is assigned to the Club Member
 
 Scenario: The invoices ID must allways be consecutive
 	Given The member uses the club service "Rent a kajak"

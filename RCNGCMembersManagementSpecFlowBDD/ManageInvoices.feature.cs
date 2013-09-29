@@ -24,7 +24,7 @@ namespace RCNGCMembersManagementSpecFlowBDD
         
         private static TechTalk.SpecFlow.ITestRunner testRunner;
         
-#line 1 "SpecFlowManageInvoices.feature"
+#line 1 "ManageInvoices.feature"
 #line hidden
         
         [Microsoft.VisualStudio.TestTools.UnitTesting.ClassInitializeAttribute()]
@@ -179,10 +179,10 @@ this.FeatureBackground();
  testRunner.And("An amending invoice is created for the negative value of the original invoice: -5" +
                     "3.50", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 42
- testRunner.And("The amending invoice ID is the same than the original invoice with different pref" +
-                    "ix: \"MMM2013000024\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
-#line 43
  testRunner.And("The taxes devolution (-3.50) is separated from the base cost devolution (-50)", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line 43
+ testRunner.And("The amending invoice ID is the same than the original invoice with different pref" +
+                    "ix: \"AMN2013000024\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
             this.ScenarioCleanup();
         }

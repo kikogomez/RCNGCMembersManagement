@@ -24,7 +24,7 @@ namespace RCNGCMembersManagementSpecFlowBDD
         
         private static TechTalk.SpecFlow.ITestRunner testRunner;
         
-#line 1 "SpecFlowGenerateProFormaInvoice.feature"
+#line 1 "GeneratingProFormaInvoice.feature"
 #line hidden
         
         [Microsoft.VisualStudio.TestTools.UnitTesting.ClassInitializeAttribute()]
@@ -73,7 +73,7 @@ namespace RCNGCMembersManagementSpecFlowBDD
         {
 #line 6
 #line 7
- testRunner.Given("Last generated InvoiceID is \"MMM2013000023\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+ testRunner.Given("Last generated pro forma invoice ID is \"PRF2013000023\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line hidden
             TechTalk.SpecFlow.Table table1 = new TechTalk.SpecFlow.Table(new string[] {
                         "MemberID",

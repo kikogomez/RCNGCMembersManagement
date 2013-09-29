@@ -54,40 +54,42 @@
   </Choose>
   <ItemGroup>
     <Compile Include="ContextPOCOClasses.cs" />
-    <Compile Include="SpecFlowAccountNumbers.feature.cs">
+    <Compile Include="GeneratingProFormaInvoicesFeatureSteps.cs" />
+    <Compile Include="ManageAccountNumbers.feature.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>SpecFlowAccountNumbers.feature</DependentUpon>
+      <DependentUpon>ManageAccountNumbers.feature</DependentUpon>
     </Compile>
-    <Compile Include="SpecFlowAccountNumbersSteps.cs" />
-    <Compile Include="SpecFlowAddMembers.feature.cs">
+    <Compile Include="ManageAccountNumbersFeatureSteps.cs" />
+    <Compile Include="AddMembers.feature.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>SpecFlowAddMembers.feature</DependentUpon>
+      <DependentUpon>AddMembers.feature</DependentUpon>
     </Compile>
-    <Compile Include="SpecFlowAddMembersSteps.cs" />
-    <Compile Include="SpecFlowBillsSteps.cs" />
-    <Compile Include="SpecFlowGenerateInvoice.feature.cs">
+    <Compile Include="AddMembersFeatureSteps.cs" />
+    <Compile Include="ManageInvoicesFeatureSteps.cs" />
+    <Compile Include="ManageBillsFeatureSteps.cs" />
+    <Compile Include="GeneratingInvoices.feature.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>SpecFlowGenerateInvoice.feature</DependentUpon>
+      <DependentUpon>GeneratingInvoices.feature</DependentUpon>
     </Compile>
-    <Compile Include="SpecFlowInvoicesSteps.cs" />
-    <Compile Include="SpecFlowGenerateProFormaInvoice.feature.cs">
+    <Compile Include="GeneratingInvoicesFeatureSteps.cs" />
+    <Compile Include="GeneratingProFormaInvoice.feature.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>SpecFlowGenerateProFormaInvoice.feature</DependentUpon>
+      <DependentUpon>GeneratingProFormaInvoice.feature</DependentUpon>
     </Compile>
-    <Compile Include="SpecFlowManageBills.feature.cs">
+    <Compile Include="ManageBills.feature.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>SpecFlowManageBills.feature</DependentUpon>
+      <DependentUpon>ManageBills.feature</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="SpecFlowManageInvoices.feature.cs">
+    <Compile Include="ManageInvoices.feature.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>SpecFlowManageInvoices.feature</DependentUpon>
+      <DependentUpon>ManageInvoices.feature</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>
@@ -95,29 +97,29 @@
       <SubType>Designer</SubType>
     </None>
     <None Include="packages.config" />
-    <None Include="SpecFlowAccountNumbers.feature">
+    <None Include="ManageAccountNumbers.feature">
       <Generator>SpecFlowSingleFileGenerator</Generator>
-      <LastGenOutput>SpecFlowAccountNumbers.feature.cs</LastGenOutput>
+      <LastGenOutput>ManageAccountNumbers.feature.cs</LastGenOutput>
     </None>
-    <None Include="SpecFlowAddMembers.feature">
+    <None Include="AddMembers.feature">
       <Generator>SpecFlowSingleFileGenerator</Generator>
-      <LastGenOutput>SpecFlowAddMembers.feature.cs</LastGenOutput>
+      <LastGenOutput>AddMembers.feature.cs</LastGenOutput>
     </None>
-    <None Include="SpecFlowGenerateInvoice.feature">
+    <None Include="GeneratingInvoices.feature">
       <Generator>SpecFlowSingleFileGenerator</Generator>
-      <LastGenOutput>SpecFlowGenerateInvoice.feature.cs</LastGenOutput>
+      <LastGenOutput>GeneratingInvoices.feature.cs</LastGenOutput>
     </None>
-    <None Include="SpecFlowGenerateProFormaInvoice.feature">
+    <None Include="GeneratingProFormaInvoice.feature">
       <Generator>SpecFlowSingleFileGenerator</Generator>
-      <LastGenOutput>SpecFlowGenerateProFormaInvoice.feature.cs</LastGenOutput>
+      <LastGenOutput>GeneratingProFormaInvoice.feature.cs</LastGenOutput>
     </None>
-    <None Include="SpecFlowManageBills.feature">
+    <None Include="ManageBills.feature">
       <Generator>SpecFlowSingleFileGenerator</Generator>
-      <LastGenOutput>SpecFlowManageBills.feature.cs</LastGenOutput>
+      <LastGenOutput>ManageBills.feature.cs</LastGenOutput>
     </None>
-    <None Include="SpecFlowManageInvoices.feature">
+    <None Include="ManageInvoices.feature">
       <Generator>SpecFlowSingleFileGenerator</Generator>
-      <LastGenOutput>SpecFlowManageInvoices.feature.cs</LastGenOutput>
+      <LastGenOutput>ManageInvoices.feature.cs</LastGenOutput>
     </None>
   </ItemGroup>
   <ItemGroup>

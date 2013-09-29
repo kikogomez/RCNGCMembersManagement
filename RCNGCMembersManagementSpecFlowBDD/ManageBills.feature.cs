@@ -24,7 +24,7 @@ namespace RCNGCMembersManagementSpecFlowBDD
         
         private static TechTalk.SpecFlow.ITestRunner testRunner;
         
-#line 1 "SpecFlowManageBills.feature"
+#line 1 "ManageBills.feature"
 #line hidden
         
         [Microsoft.VisualStudio.TestTools.UnitTesting.ClassInitializeAttribute()]
