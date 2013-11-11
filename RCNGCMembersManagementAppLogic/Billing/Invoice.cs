@@ -89,6 +89,7 @@ namespace RCNGCMembersManagementAppLogic.Billing
         public void Cancel()
         {
             this.invoiceState = InvoicePaymentState.Cancelled;
+            CancelAllPendingBills();
         }
 
         protected override string GetNewInvoiceID()
@@ -146,6 +147,13 @@ namespace RCNGCMembersManagementAppLogic.Billing
         private void CheckInvoiceDetail()
         {
             if (invoiceDetail.Count == 0) throw new System.ArgumentNullException("invoiceDetail","The invoice detail can't be empty");
+        }
+
+        private void CancelAllPendingBills()
+        {
+            this.Bills
+                .Select(bill => bill.Value.PaymentResult = Bill.BillPaymentResult.CancelledOut)
+                .Where(paymentResult => paymentResult == Bill.BillPaymentResult.ToCollect || paymentResult == Bill.BillPaymentResult.Unpaid);
         }
     }
 }

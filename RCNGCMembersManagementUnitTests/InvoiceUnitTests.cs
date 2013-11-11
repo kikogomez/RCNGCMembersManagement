@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using RCNGCMembersManagementAppLogic;
 using RCNGCMembersManagementAppLogic.Billing;
 using RCNGCMembersManagementAppLogic.MembersManaging;
 using RCNGCMembersManagementAppLogic.ClubServices;
@@ -18,6 +19,8 @@ namespace RCNGCMembersManagementUnitTests.Billing
         Dictionary<string, Tax> taxesDictionary;
         ClubMember clubMember;
         InvoiceCustomerData invoiceCustomerData;
+        InvoicesManager invoicesManager;
+
 
         [ClassInitialize]
         public static void ClassInit(TestContext context)
@@ -50,6 +53,7 @@ namespace RCNGCMembersManagementUnitTests.Billing
 
             clubMember = new ClubMember("0002", "Francisco", "Gomez", "");
             invoiceCustomerData= new InvoiceCustomerData(clubMember);
+            invoicesManager = new InvoicesManager();
         }
 
         [TestMethod]
@@ -460,23 +464,13 @@ namespace RCNGCMembersManagementUnitTests.Billing
         }
 
         [TestMethod]
-        public void WhenCancellingAnInvoiceAnAmendingInvoiceIsCreatedForIt()
-        {
-
-            //Aqui hay ue hacer un assert de que se INVOCA a la creacion de una Amending Invoice ¿Como?
-            //Debemos testear desde ClubMember. Es mas un test de Integración, que miraremos en BDD
-            Assert.Fail();
-        }
-/*
-        [TestMethod]
         public void WhenCancellingAnInvoiceAllThePendingBillsAreMarkedAsCancelled()
         {
+            DateTime issueDate = DateTime.Now;
+            Invoice invoice = new Invoice(invoiceCustomerData, transactionsList, issueDate);
+            invoice.Cancel();
 
-            //Aqui hay ue hacer un assert de que se INVOCA a la creacion de una Amending Invoice ¿Como?
-            //Debemos testear desde ClubMember. Es mas un test de Integración, que miraremos en BDD
-            Assert.Fail();
+            Assert.Inconclusive();
         }
-        */
-
     }
 }

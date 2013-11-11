@@ -84,7 +84,7 @@ namespace RCNGCMembersManagementUnitTests.Billing
         }
 
         [TestMethod]
-        public void IfTheInvoiceIDIsDINV2013005000ThenTheCreatedBillIDIsINV2013005000_001()
+        public void IfTheInvoiceIDIsDINV2013005000ThenTheAutomaticallyCreatedBillIDIsINV2013005000_001()
         {
             BillingDataManager billingDataManager = BillingDataManager.Instance;
             billingDataManager.InvoiceSequenceNumber = 5000;
@@ -107,6 +107,35 @@ namespace RCNGCMembersManagementUnitTests.Billing
             invoice.AcceptBillsPaymentAgreement(agreementTerms, agreementDate, billsIDToRenegotiate, billsToAdd);
             Assert.AreEqual(invoiceInitialAmount, invoice.NetAmount);
         }
+
+        [TestMethod]
+        public void ICanLoadAListOfExistingBillsWhenCreatingAnInvoice()
+        {
+            string invoiceID = "MMM2013005001";
+            List<Bill> assignedBillsList = new List<Bill>(unassignedBillsList);
+            assignedBillsList[0].BillID = "MMM2013005001/001";
+            assignedBillsList[1].BillID = "MMM2013005001/002";
+            assignedBillsList[2].BillID = "MMM2013005001/003";
+            Invoice invoice = new Invoice(invoiceID, invoiceCustomerData, transactionList, assignedBillsList, DateTime.Now);
+            Assert.AreEqual(3, invoice.Bills.Count);
+        }
+
+        [TestMethod]
+        public void TheBillsListTotalMustEqualTheTheInvoiceNetAmoutWhenProvided()
+        {
+            
+            string invoiceID = "MMM2013005001";
+            List<Bill> assignedBillsList = new List<Bill>(unassignedBillsList);
+            assignedBillsList[0].BillID = "MMM2013005001/001";
+            assignedBillsList[1].BillID = "MMM2013005001/002";
+            assignedBillsList[2].BillID = "MMM2013005001/003";
+            decimal billsTotalAmount = assignedBillsList.Select(bill => bill.Amount).Sum();
+            Invoice invoice = new Invoice(invoiceID, invoiceCustomerData, transactionList, assignedBillsList, DateTime.Now);
+            decimal invoiceInitialAmount = invoice.NetAmount;
+            Assert.AreEqual(billsTotalAmount, invoiceInitialAmount);
+        }
+
+
 /*
         [TestMethod]
         public void TheBillIDOfTheReplpacingBillsAreCalculatedByTheInvoiceAndHaveConsecutiveNumbers()
@@ -123,27 +152,9 @@ namespace RCNGCMembersManagementUnitTests.Billing
         }
  * */
 
-        [TestMethod]
-        public void ICanLoadAListOfExistingBillsWhenLoadingAnInvoice()
-        {
-            decimal invoiceInitialAmount;
-            string invoiceID = "MMM2013005001";
-            List<Bill> assignedBillsList = new List<Bill>(unassignedBillsList);
-            assignedBillsList[0].BillID = "MMM2013005001/001";
-            assignedBillsList[1].BillID = "MMM2013005001/002";
-            assignedBillsList[2].BillID = "MMM2013005001/003";
-            Invoice invoice = new Invoice(invoiceID, invoiceCustomerData, transactionList, assignedBillsList, DateTime.Now);
-            invoiceInitialAmount = invoice.NetAmount;
-            Assert.AreEqual(invoiceInitialAmount, invoice.NetAmount);
-        }
 
-/*        [TestMethod]
-        public void TheSecondBillOfAInvoiceWithAnIDMMM2013005001IsMMM2013005001_002()
-        {
-            BillDataManager.Instance.SetInvoiceNumber(5000);
-            Invoice invoice = new Invoice(clubMember, transactionList, DateTime.Now);
-            Assert.AreEqual("MMM2013005001/002", invoice.Bills[1].BillID);
-        }*/
+
+
 
         [TestMethod]
         public void ByDefaultABillIsGeneratedWithoutAPaymentMethod()
@@ -160,6 +171,11 @@ namespace RCNGCMembersManagementUnitTests.Billing
             Assert.AreEqual(typeof(CashPayment),bill.PaymentMethod.GetType());
         }
 
+        [TestMethod]
+        public void WhenPayingABillTheBillIsSetAsPaid()
+        {
+            Assert.Inconclusive();
+        }
 
     }
 }

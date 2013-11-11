@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace RCNGCMembersManagementAppLogic.Billing
 {
-    class AmendingInvoice: BaseInvoice
+    public class AmendingInvoice: BaseInvoice
     {
         public AmendingInvoice(Invoice invoiceToAmend)
             :base(null,DateTime.Now)

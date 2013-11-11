@@ -3,6 +3,7 @@ using System.Globalization;
 using System.Collections.Generic;
 using TechTalk.SpecFlow;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using RCNGCMembersManagementAppLogic;
 using RCNGCMembersManagementAppLogic.MembersManaging;
 using RCNGCMembersManagementAppLogic.ClubServices;
 using RCNGCMembersManagementAppLogic.ClubStore;
@@ -97,12 +98,15 @@ namespace RCNGCMembersManagementSpecFlowBDD
             List<Transaction> serviceChargeList = new List<Transaction> { new ServiceCharge(clubService) };
             Invoice invoice = new Invoice(new InvoiceCustomerData(membersManagementContextData.clubMember), serviceChargeList, issueDate);
             ScenarioContext.Current.Add("Invoice", invoice);
+            InvoicesManager invoicesManager = new InvoicesManager();
+            invoicesManager.AddInvoiceToClubMember(invoice, membersManagementContextData.clubMember);
         }
 
         [When(@"I cancel the invoice")]
         public void WhenICancelTheInvoice()
         {
-            ((Invoice)ScenarioContext.Current["Invoice"]).Cancel();
+            InvoicesManager invoicesManager = new InvoicesManager();
+            invoicesManager.CancelInvoice((Invoice)ScenarioContext.Current["Invoice"], membersManagementContextData.clubMember);
         }
 
         [Then(@"The invoice state is ""(.*)""")]

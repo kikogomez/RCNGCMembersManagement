@@ -1,7 +1,9 @@
 ﻿using System;
+using System.Collections.Generic;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using RCNGCMembersManagementAppLogic;
 using RCNGCMembersManagementAppLogic.MembersManaging;
+using RCNGCMembersManagementAppLogic.Billing;
 using RCNGCMembersManagementMocks;
 using ExtensionMethods;
 
@@ -12,6 +14,7 @@ namespace RCNGCMembersManagementUnitTests.MembersManaging
     {
 
         static ClubMemberDataManager clubMemberDataManager;
+        static BillingDataManager billDataManager;
 
         [ClassInitialize]
         public static void ClassInit(TestContext context)
@@ -19,6 +22,10 @@ namespace RCNGCMembersManagementUnitTests.MembersManaging
             clubMemberDataManager = ClubMemberDataManager.Instance;
             DataManagerMock clubMemberDataManagerMock = new DataManagerMock();
             clubMemberDataManager.SetDataManagerCollaborator(clubMemberDataManagerMock);
+
+            DataManagerMock invoiceDataManagerMock = new DataManagerMock();
+            billDataManager = BillingDataManager.Instance;
+            billDataManager.SetDataManagerCollaborator(invoiceDataManagerMock);
         }
 
         [TestMethod]
@@ -290,6 +297,39 @@ namespace RCNGCMembersManagementUnitTests.MembersManaging
             {
                 Assert.AreEqual((uint)100000, clubMemberDataManager.MemberIDSequenceNumber);
             }
+        }
+
+        [TestMethod]
+        public void AnInvoiceIsCorrectlyAddedToClubMember()
+        {
+            clubMemberDataManager.MemberIDSequenceNumber = 5;
+            ClubMember clubMember = new ClubMember("Francisco", "Gomez-Caldito", "Viseas");
+            Assert.AreEqual(0, clubMember.InvoicesList.Count);
+
+            InvoiceCustomerData invoiceCustomerData = new InvoiceCustomerData(clubMember);
+            Invoice invoice = new Invoice(
+                new InvoiceCustomerData(clubMember),
+                new List<Transaction>() { new Transaction("Kajak Rent", 1, 50, new Tax("No Tax", 0), 0) },
+                DateTime.Now);
+            clubMember.AddInvoice(invoice);
+            Assert.IsNotNull(clubMember.InvoicesList[invoice.InvoiceID]);
+        }
+
+        [TestMethod]
+        public void AmendingInvoiceIsCorrectlyAddedToClubMember()
+        {
+            clubMemberDataManager.MemberIDSequenceNumber = 5;
+            ClubMember clubMember = new ClubMember("Francisco", "Gomez-Caldito", "Viseas");
+            Assert.AreEqual(0, clubMember.InvoicesList.Count);
+
+            InvoiceCustomerData invoiceCustomerData = new InvoiceCustomerData(clubMember);
+            Invoice invoice = new Invoice(
+                new InvoiceCustomerData(clubMember),
+                new List<Transaction>() { new Transaction("Kajak Rent", 1, 50, new Tax("No Tax", 0), 0) },
+                DateTime.Now);
+            AmendingInvoice amendingInvoice = new AmendingInvoice(invoice);
+            clubMember.AddAmendingInvoice(amendingInvoice);
+            Assert.IsNotNull(clubMember.AmendingInvoicesList[amendingInvoice.InvoiceID]);
         }
     }
 }

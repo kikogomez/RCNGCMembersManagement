@@ -20,7 +20,7 @@ namespace RCNGCMembersManagementAppLogic.MembersManaging
         List<DirectDebitMandate> directDebitmandatesList;
         Dictionary<string, Invoice> invoicesList;
         Dictionary<string, ProFormaInvoice> proFormaInvoicesList;
-        Dictionary<string, AmendingInvoice> amendingInvoices;
+        Dictionary<string, AmendingInvoice> amendingInvoicesList;
 
         public ClubMember(string givenName, string firstSurname, string secondSurname)
         {
@@ -69,6 +69,11 @@ namespace RCNGCMembersManagementAppLogic.MembersManaging
             get { return invoicesList; }
         }
 
+        public Dictionary<string, AmendingInvoice> AmendingInvoicesList
+        {
+            get { return amendingInvoicesList; }
+        }
+
         public void SetDefaultPaymentMethod(PaymentMethod paymentMethod)
         {
             this.defaultPaymentMethod = paymentMethod;
@@ -77,6 +82,11 @@ namespace RCNGCMembersManagementAppLogic.MembersManaging
         public void AddInvoice(Invoice invoice)
         {
             invoicesList.Add(invoice.InvoiceID, invoice);
+        }
+
+        public void AddAmendingInvoice(AmendingInvoice amendinginvoice)
+        {
+            amendingInvoicesList.Add(amendinginvoice.InvoiceID, amendinginvoice);
         }
 
         public void AddDirectDebitMandate(DirectDebitMandate directDebitMandate)
@@ -110,7 +120,7 @@ namespace RCNGCMembersManagementAppLogic.MembersManaging
             directDebitmandatesList = new List<DirectDebitMandate>();
             invoicesList = new Dictionary<string, Invoice>();
             proFormaInvoicesList = new Dictionary<string, ProFormaInvoice>();
-            amendingInvoices = new Dictionary<string, AmendingInvoice>();
+            amendingInvoicesList = new Dictionary<string, AmendingInvoice>();
         }
 
         private string GetMemberID()
