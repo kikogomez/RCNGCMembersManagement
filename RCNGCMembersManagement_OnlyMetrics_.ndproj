@@ -3,11 +3,19 @@
   <OutputDir KeepHistoric="True" KeepXmlFiles="True">C:\Users\Kaikus\Documents\Visual Studio 2012\Projects\RCNGCMembersManagement\NDependOut1</OutputDir>
   <Assemblies>
     <Name>RCNGCMembersManagementAppLogic</Name>
+    <Name>RCNGCMembersManagementSpecFlowBDD</Name>
+    <Name>RCNGCMembersManagementUnitTests</Name>
+    <Name>RCNGCMembersManagementMocks</Name>
+    <Name>ExtensionMethods</Name>
+    <Name>ExtensionMethodsUnitTests</Name>
   </Assemblies>
   <FrameworkAssemblies>
     <Name>mscorlib</Name>
     <Name>System.Core</Name>
     <Name>System.Data.Linq</Name>
+    <Name>TechTalk.SpecFlow</Name>
+    <Name>Microsoft.VisualStudio.QualityTools.UnitTestFramework</Name>
+    <Name>System</Name>
   </FrameworkAssemblies>
   <Dirs>
     <Dir>C:\Windows\Microsoft.NET\Framework\v4.0.30319</Dir>
@@ -15,6 +23,9 @@
     <Dir>C:\Users\Kaikus\documents\visual studio 2012\Projects\RCNGCMembersManagement\RCNGCMembersManagementAppLogic\bin\Debug</Dir>
     <Dir>C:\Users\Kaikus\documents\visual studio 2012\Projects\RCNGCMembersManagement\RCNGCMembersManagementSpecFlowBDD\bin\Debug</Dir>
     <Dir>C:\Users\Kaikus\documents\visual studio 2012\Projects\RCNGCMembersManagement\RCNGCMembersManagementUnitTests\bin\Debug</Dir>
+    <Dir>C:\Users\Kaikus\documents\visual studio 2012\Projects\RCNGCMembersManagement\RCNGCMembersManagementMocks\bin\Debug</Dir>
+    <Dir>C:\Users\Kaikus\documents\visual studio 2012\Projects\RCNGCMembersManagement\ExtensionMethods\bin\Debug</Dir>
+    <Dir>C:\Users\Kaikus\documents\visual studio 2012\Projects\RCNGCMembersManagement\ExtensionMethodsUnitTests\bin\Debug</Dir>
   </Dirs>
   <Report Kind="0" SectionsEnabled="10243" XslPath="" Flags="64512">
     <Section Enabled="True">Application Metrics</Section>

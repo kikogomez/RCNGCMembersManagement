@@ -70,6 +70,7 @@
     <Compile Include="MembersManaging\ClubMember.cs" />
     <Compile Include="MembersManaging\ClubMemberDataManager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="XML\XMLSerializer.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\ExtensionMethods\ExtensionMethods.csproj">
