@@ -9,7 +9,7 @@ using ExtensionMethods;
 namespace RCNGCMembersManagementUnitTests
 {
     [TestClass]
-    public class XMLTests
+    public class XMLSerializationUnitTests
     {
         [TestMethod]
         public void SerializationToStringWorksOK()

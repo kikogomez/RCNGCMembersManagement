@@ -66,7 +66,8 @@
     <Compile Include="TransactionUnitTests.cs" />
     <Compile Include="XML POCO Classes\DateTimeTest.cs" />
     <Compile Include="XML POCO Classes\OrderedItem.cs" />
-    <Compile Include="XMLTests.cs" />
+    <Compile Include="XMLSerializationUnitTests.cs" />
+    <Compile Include="XMLValidationUnitTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\ExtensionMethods\ExtensionMethods.csproj">
@@ -83,8 +84,26 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="XML Test Files\DirectDebitTransactionInfo.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="XML Test Files\DirectDebitTransactionInfo2.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="XML Test Files\Document.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="XML Test Files\GroupHeader.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="XML Test Files\InitiatingParty.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="XML Test Files\OrderedItem.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="XML Test Files\PaymentInformation.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
   <Choose>
