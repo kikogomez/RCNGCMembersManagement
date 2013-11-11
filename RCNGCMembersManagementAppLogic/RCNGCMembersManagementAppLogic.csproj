@@ -49,6 +49,8 @@
     <Compile Include="Billing\Bill.cs" />
     <Compile Include="Billing\BillingDataManager.cs" />
     <Compile Include="Billing\DirectDebit\BankAccountFields.cs" />
+    <Compile Include="Billing\DirectDebit\BankCode.cs" />
+    <Compile Include="Billing\DirectDebit\BankCodes.cs" />
     <Compile Include="Billing\DirectDebit\ClientAccountCodeCCC.cs" />
     <Compile Include="Billing\DirectDebit\DirectDebit.cs" />
     <Compile Include="Billing\DirectDebit\DirectDebitMandate.cs" />
@@ -100,6 +102,9 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
+    <None Include="CSVFiles\SpanishBankCodes.csv">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Include="XSDFiles\pain.002.001.03.xsd">
       <SubType>Designer</SubType>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
