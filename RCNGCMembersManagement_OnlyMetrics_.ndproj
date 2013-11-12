@@ -16,6 +16,8 @@
     <Name>TechTalk.SpecFlow</Name>
     <Name>Microsoft.VisualStudio.QualityTools.UnitTestFramework</Name>
     <Name>System</Name>
+    <Name>System.Xml</Name>
+    <Name>System.Xml.Linq</Name>
   </FrameworkAssemblies>
   <Dirs>
     <Dir>C:\Windows\Microsoft.NET\Framework\v4.0.30319</Dir>
@@ -26,6 +28,7 @@
     <Dir>C:\Users\Kaikus\documents\visual studio 2012\Projects\RCNGCMembersManagement\RCNGCMembersManagementMocks\bin\Debug</Dir>
     <Dir>C:\Users\Kaikus\documents\visual studio 2012\Projects\RCNGCMembersManagement\ExtensionMethods\bin\Debug</Dir>
     <Dir>C:\Users\Kaikus\documents\visual studio 2012\Projects\RCNGCMembersManagement\ExtensionMethodsUnitTests\bin\Debug</Dir>
+    <Dir>C:\Program Files\Microsoft Visual Studio 11.0\Common7\IDE\PublicAssemblies</Dir>
   </Dirs>
   <Report Kind="0" SectionsEnabled="10243" XslPath="" Flags="64512">
     <Section Enabled="True">Application Metrics</Section>

@@ -25,29 +25,9 @@ namespace RCNGCMembersManagementAppLogic.Billing.DirectDebit
 
         public static string CalculateSpanishIBANCheckDigits(string ccc)
         {
-            string longNumber = ccc + "142800";
-            ulong modulus = CalculateLongNumberModulus(longNumber, 97);
-
-            return ((98 - modulus).ToString());
+            return ISO7064CheckDigits.CalculateIBANCheckDigits("ES", ccc);
         }
 
-        private static ulong CalculateLongNumberModulus(string longNumber, ulong baseNumber)
-        {
-            const int ulongMaxLenght = 19;
-            string leftPart;
-            string rightPart;
-            ulong leftPartModulus;
-                        
-            while (longNumber.Length > 19)
-            {
-                leftPart = longNumber.Substring(0, ulongMaxLenght);
-                rightPart = longNumber.Substring(ulongMaxLenght);
-                leftPartModulus = ulong.Parse(leftPart) % baseNumber;
-                longNumber = leftPartModulus.ToString() + rightPart;
-            }
-            return ulong.Parse(longNumber) % baseNumber;
-        }
- 
         private static bool ItParsesLongInt(string stringToCheck)
         {
             long longResult;

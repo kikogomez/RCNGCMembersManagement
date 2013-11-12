@@ -9,14 +9,14 @@ using RCNGCMembersManagementAppLogic.Billing;
 
 namespace RCNGCMembersManagementMocks
 {
-    public class DataManagerMock : IDataManager
+    public class BillingSequenceNumbersMock : IBillingSequenceNumbersManager
     {
         static uint invoiceSequenceNumber = 0;
         static uint proFormaInvoiceSequenceNumber = 0;
         static uint directDebitReferenceSequenceNumber = 0;
-        static uint memberIDSequenceNumber = 0;
+        //static uint memberIDSequenceNumber = 0;
 
-        public DataManagerMock()
+        public BillingSequenceNumbersMock()
         {
         }
 
@@ -27,7 +27,7 @@ namespace RCNGCMembersManagementMocks
 
         public void SetInvoiceSequenceNumber(uint invoiceSequenceNumber)
         {
-            DataManagerMock.invoiceSequenceNumber = invoiceSequenceNumber;
+            BillingSequenceNumbersMock.invoiceSequenceNumber = invoiceSequenceNumber;
         }
 
         public uint GetProFormaInvoiceSequenceNumber()
@@ -37,7 +37,7 @@ namespace RCNGCMembersManagementMocks
 
         public void SetProFormaInvoiceSequenceNumber(uint proFormaInvoiceSequenceNumber)
         {
-            DataManagerMock.proFormaInvoiceSequenceNumber = proFormaInvoiceSequenceNumber;
+            BillingSequenceNumbersMock.proFormaInvoiceSequenceNumber = proFormaInvoiceSequenceNumber;
         }
 
         public uint GetDirectDebitReferenceSequenceNumber()
@@ -47,17 +47,17 @@ namespace RCNGCMembersManagementMocks
   
         public void SetDirectDebitReferenceSequenceNumber(uint directDebitReferenceSequenceNumber)
         {
-            DataManagerMock.directDebitReferenceSequenceNumber = directDebitReferenceSequenceNumber;
+            BillingSequenceNumbersMock.directDebitReferenceSequenceNumber = directDebitReferenceSequenceNumber;
         }
 
-        public uint GetMemberIDSequenceNumber()
+/*        public uint GetMemberIDSequenceNumber()
         {
             return memberIDSequenceNumber; ;
         }
 
         public void SetMemberIDSequenceNumber(uint memberIDSequenceNumber)
         {
-            DataManagerMock.memberIDSequenceNumber = memberIDSequenceNumber;
-        }
+            BillingSequenceNumbersMock.memberIDSequenceNumber = memberIDSequenceNumber;
+        }*/
     }
 }

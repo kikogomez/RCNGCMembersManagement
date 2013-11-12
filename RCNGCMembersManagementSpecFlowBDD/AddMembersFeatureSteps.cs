@@ -14,8 +14,8 @@ namespace RCNGCMembersManagementSpecFlowBDD
         public AddMembersFeatureSteps(MembersManagementContextData membersManagementContextData)
         {
             this.membersManagementContextData = membersManagementContextData;
-            DataManagerMock clubMemberDataManagerMock = new DataManagerMock();
-            membersManagementContextData.clubMemberDataManager.SetDataManagerCollaborator(clubMemberDataManagerMock);
+            MembersSequenceNumberMock clubMemberDataManagerMock = new MembersSequenceNumberMock();
+            membersManagementContextData.clubMemberDataManager.SetMembersSequenceNumberCollaborator(clubMemberDataManagerMock);
         }
 
         [Given(@"These names ""(.*)"", ""(.*)"", ""(.*)""")]

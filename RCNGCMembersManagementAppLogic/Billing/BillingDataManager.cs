@@ -10,7 +10,7 @@ namespace RCNGCMembersManagementAppLogic.Billing
     {
         private static readonly BillingDataManager instance = new BillingDataManager();
 
-        static IDataManager dataManager;
+        static IBillingSequenceNumbersManager billingSequenceNumbersManager;
         
         string invoicePrefix;
         string proFormaInvoicePrefix;
@@ -53,14 +53,14 @@ namespace RCNGCMembersManagementAppLogic.Billing
             get { return amendingInvoicePrefix; }
         }
 
-        public void SetDataManagerCollaborator(IDataManager dataMngr)
+        public void SetBillingSequenceNumberCollaborator(IBillingSequenceNumbersManager billingSequenceNumbersManager)
         {
-            dataManager = dataMngr;
+            BillingDataManager.billingSequenceNumbersManager = billingSequenceNumbersManager;
         }
 
         private uint GetInvoiceSequenceNumber()
         {
-            uint invoiceSequenceNumber=dataManager.GetInvoiceSequenceNumber();
+            uint invoiceSequenceNumber=billingSequenceNumbersManager.GetInvoiceSequenceNumber();
             if (invoiceSequenceNumber >= 1000000)
                 throw new ArgumentOutOfRangeException("invoiceSequenceNumber", "Max 999999 invoices per year");
             return invoiceSequenceNumber;
@@ -70,12 +70,12 @@ namespace RCNGCMembersManagementAppLogic.Billing
         {
             if (!InvoiceSequenceNuberIsInRange(invoiceSequenceNumber))
                 throw new ArgumentOutOfRangeException("invoiceSequenceNumber", "Invoice ID out of range (1-999999)");
-            dataManager.SetInvoiceSequenceNumber(invoiceSequenceNumber);
+            billingSequenceNumbersManager.SetInvoiceSequenceNumber(invoiceSequenceNumber);
         }
 
         private uint GetProFormaInvoiceSequenceNumber()
         {
-            uint proFormaInvoiceSequenceNumber = dataManager.GetProFormaInvoiceSequenceNumber();
+            uint proFormaInvoiceSequenceNumber = billingSequenceNumbersManager.GetProFormaInvoiceSequenceNumber();
             if (proFormaInvoiceSequenceNumber >= 1000000)
                 throw new ArgumentOutOfRangeException("invoiceSequenceNumber", "Max 999999 invoices per year");
             return proFormaInvoiceSequenceNumber;
@@ -85,7 +85,7 @@ namespace RCNGCMembersManagementAppLogic.Billing
         {
             if (!InvoiceSequenceNuberIsInRange(proFormaInvoiceSequenceNumber))
                 throw new ArgumentOutOfRangeException("invoiceSequenceNumber", "Pro Forma Invoice ID out of range (1-999999)");
-            dataManager.SetProFormaInvoiceSequenceNumber(proFormaInvoiceSequenceNumber);
+            billingSequenceNumbersManager.SetProFormaInvoiceSequenceNumber(proFormaInvoiceSequenceNumber);
         }
 
         private bool InvoiceSequenceNuberIsInRange(uint invoiceNumber)

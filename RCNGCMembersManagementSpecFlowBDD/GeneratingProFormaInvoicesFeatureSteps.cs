@@ -38,8 +38,8 @@ namespace RCNGCMembersManagementSpecFlowBDD
         {
 
             invoiceContextData.lastProFormaInvoiceID = lastProFormaInvoiceID;
-            DataManagerMock invoiceDataManagerMock = new DataManagerMock();
-            invoiceContextData.billDataManager.SetDataManagerCollaborator(invoiceDataManagerMock);
+            BillingSequenceNumbersMock invoiceDataManagerMock = new BillingSequenceNumbersMock();
+            invoiceContextData.billDataManager.SetBillingSequenceNumberCollaborator(invoiceDataManagerMock);
             invoiceContextData.billDataManager.ProFormaInvoiceSequenceNumber = uint.Parse(lastProFormaInvoiceID.Substring(7));
         }
 

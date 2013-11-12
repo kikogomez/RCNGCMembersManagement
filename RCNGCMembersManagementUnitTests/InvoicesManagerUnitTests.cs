@@ -18,13 +18,13 @@ namespace RCNGCMembersManagementUnitTests
         [ClassInitialize]
         public static void ClassInit(TestContext context)
         {
+            MembersSequenceNumberMock membersSequenceNumbersMock = new MembersSequenceNumberMock();
             clubMemberDataManager = ClubMemberDataManager.Instance;
-            DataManagerMock clubMemberDataManagerMock = new DataManagerMock();
-            clubMemberDataManager.SetDataManagerCollaborator(clubMemberDataManagerMock);
+            clubMemberDataManager.SetMembersSequenceNumberCollaborator(membersSequenceNumbersMock);
 
-            DataManagerMock invoiceDataManagerMock = new DataManagerMock();
+            BillingSequenceNumbersMock billingSequenceNumbersMock = new BillingSequenceNumbersMock();
             billDataManager = BillingDataManager.Instance;
-            billDataManager.SetDataManagerCollaborator(invoiceDataManagerMock);
+            billDataManager.SetBillingSequenceNumberCollaborator(billingSequenceNumbersMock);
         }
 
         [TestMethod]
@@ -64,6 +64,7 @@ namespace RCNGCMembersManagementUnitTests
         public void WhenCancellingAnInvoiceAnAmendingInvoiceIsCreatedAndAssignedToTheDebtor()
         {
             clubMemberDataManager.MemberIDSequenceNumber = 5;
+            billDataManager.InvoiceSequenceNumber = 5;
             ClubMember clubMember = new ClubMember("Francisco", "Gomez-Caldito", "Viseas");
             InvoiceCustomerData invoiceCustomerData = new InvoiceCustomerData(clubMember);
             Invoice invoice = new Invoice(
@@ -74,7 +75,7 @@ namespace RCNGCMembersManagementUnitTests
             invoicesManager.AddInvoiceToClubMember(invoice, clubMember);
             Assert.AreEqual(0, clubMember.AmendingInvoicesList.Count);
             invoicesManager.CancelInvoice(invoice, clubMember);
-            Assert.IsNotNull(clubMember.AmendingInvoicesList["AMN2013000000"]);
+            Assert.IsNotNull(clubMember.AmendingInvoicesList["AMN2013000005"]);
         }
 
 

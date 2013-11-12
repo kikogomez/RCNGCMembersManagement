@@ -10,7 +10,7 @@ namespace RCNGCMembersManagementAppLogic.MembersManaging
     {
         private static readonly ClubMemberDataManager instance = new ClubMemberDataManager();
 
-        static IDataManager dataManagerCollaborator;
+        static IMembersSequenceNumberManager membersSequenceNumberCollaborator;
 
         static uint memberIDLowerLimit = 1;
         static uint memberIDUpperLimit = 100000;
@@ -49,14 +49,14 @@ namespace RCNGCMembersManagementAppLogic.MembersManaging
             }
         }
 
-        public void SetDataManagerCollaborator(IDataManager dataManagerCollaborator)
+        public void SetMembersSequenceNumberCollaborator(IMembersSequenceNumberManager membersSequenceNumberCollaborator)
         {
-            ClubMemberDataManager.dataManagerCollaborator = dataManagerCollaborator;
+            ClubMemberDataManager.membersSequenceNumberCollaborator = membersSequenceNumberCollaborator;
         }
 
         private uint GetMemberIDSequenceNumber()
         {
-            uint memberSequenceNumber=dataManagerCollaborator.GetMemberIDSequenceNumber();
+            uint memberSequenceNumber=membersSequenceNumberCollaborator.GetMemberIDSequenceNumber();
             return memberSequenceNumber;
         }
 
@@ -64,7 +64,7 @@ namespace RCNGCMembersManagementAppLogic.MembersManaging
         {
             if (MemberIDSequenceNuberIsInRange(memberIDSequenceNumber) || memberIDSequenceNumber == memberIDUpperLimit)
             {
-                dataManagerCollaborator.SetMemberIDSequenceNumber(memberIDSequenceNumber);
+                membersSequenceNumberCollaborator.SetMemberIDSequenceNumber(memberIDSequenceNumber);
                 return;
             }
             else

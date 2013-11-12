@@ -39,7 +39,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="DataManagerMock.cs" />
+    <Compile Include="BillingSequenceNumbersMock.cs" />
+    <Compile Include="MembersSequenceNumberMock.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

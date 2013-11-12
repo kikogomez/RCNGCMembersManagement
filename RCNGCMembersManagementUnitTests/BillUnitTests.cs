@@ -20,8 +20,8 @@ namespace RCNGCMembersManagementUnitTests.Billing
         [ClassInitialize]
         public static void ClassInit(TestContext context)
         {
-            DataManagerMock invoiceDataManagerMock = new DataManagerMock();
-            BillingDataManager.Instance.SetDataManagerCollaborator(invoiceDataManagerMock);
+            BillingSequenceNumbersMock invoiceDataManagerMock = new BillingSequenceNumbersMock();
+            BillingDataManager.Instance.SetBillingSequenceNumberCollaborator(invoiceDataManagerMock);
 
             transactionList = new List<Transaction>()
             {

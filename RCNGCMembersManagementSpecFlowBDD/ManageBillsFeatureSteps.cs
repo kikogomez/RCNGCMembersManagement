@@ -31,8 +31,8 @@ namespace RCNGCMembersManagementSpecFlowBDD
         public void GivenLastGeneratedInvoiceIDIs(string lastInvoiceID)
         {
             invoiceContextData.lastInvoiceID = lastInvoiceID;
-            DataManagerMock invoiceDataManagerMock = new DataManagerMock();
-            invoiceContextData.billDataManager.SetDataManagerCollaborator(invoiceDataManagerMock);
+            BillingSequenceNumbersMock invoiceDataManagerMock = new BillingSequenceNumbersMock();
+            invoiceContextData.billDataManager.SetBillingSequenceNumberCollaborator(invoiceDataManagerMock);
             invoiceContextData.billDataManager.InvoiceSequenceNumber = uint.Parse(lastInvoiceID.Substring(7));
         }
 

@@ -19,13 +19,13 @@ namespace RCNGCMembersManagementUnitTests.MembersManaging
         [ClassInitialize]
         public static void ClassInit(TestContext context)
         {
+            MembersSequenceNumberMock membersSequenceNumberMock = new MembersSequenceNumberMock();
             clubMemberDataManager = ClubMemberDataManager.Instance;
-            DataManagerMock clubMemberDataManagerMock = new DataManagerMock();
-            clubMemberDataManager.SetDataManagerCollaborator(clubMemberDataManagerMock);
+            clubMemberDataManager.SetMembersSequenceNumberCollaborator(membersSequenceNumberMock);
 
-            DataManagerMock invoiceDataManagerMock = new DataManagerMock();
+            BillingSequenceNumbersMock billingSequenceNumbersMock = new BillingSequenceNumbersMock();
             billDataManager = BillingDataManager.Instance;
-            billDataManager.SetDataManagerCollaborator(invoiceDataManagerMock);
+            billDataManager.SetBillingSequenceNumberCollaborator(billingSequenceNumbersMock);
         }
 
         [TestMethod]

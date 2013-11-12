@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace RCNGCMembersManagementAppLogic
 {
-    public interface IDataManager
+    public interface IBillingSequenceNumbersManager
     {
         uint GetInvoiceSequenceNumber();
         void SetInvoiceSequenceNumber(uint invoiceSequenceNumber);
@@ -14,7 +14,5 @@ namespace RCNGCMembersManagementAppLogic
         void SetProFormaInvoiceSequenceNumber(uint proFormaInvoiceSequenceNumber);
         uint GetDirectDebitReferenceSequenceNumber();
         void SetDirectDebitReferenceSequenceNumber(uint directDebitReferenceSequenceNumber);
-        uint GetMemberIDSequenceNumber();
-        void SetMemberIDSequenceNumber(uint memberIDSequenceNumber);
     }
 }
