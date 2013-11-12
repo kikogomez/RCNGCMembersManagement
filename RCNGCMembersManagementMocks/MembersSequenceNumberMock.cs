@@ -17,7 +17,7 @@ namespace RCNGCMembersManagementMocks
 
         public uint GetMemberIDSequenceNumber()
         {
-            return memberIDSequenceNumber; ;
+            return memberIDSequenceNumber;
         }
 
         public void SetMemberIDSequenceNumber(uint memberIDSequenceNumber)

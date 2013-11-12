@@ -14,7 +14,6 @@ namespace RCNGCMembersManagementMocks
         static uint invoiceSequenceNumber = 0;
         static uint proFormaInvoiceSequenceNumber = 0;
         static uint directDebitReferenceSequenceNumber = 0;
-        //static uint memberIDSequenceNumber = 0;
 
         public BillingSequenceNumbersMock()
         {
@@ -49,15 +48,5 @@ namespace RCNGCMembersManagementMocks
         {
             BillingSequenceNumbersMock.directDebitReferenceSequenceNumber = directDebitReferenceSequenceNumber;
         }
-
-/*        public uint GetMemberIDSequenceNumber()
-        {
-            return memberIDSequenceNumber; ;
-        }
-
-        public void SetMemberIDSequenceNumber(uint memberIDSequenceNumber)
-        {
-            BillingSequenceNumbersMock.memberIDSequenceNumber = memberIDSequenceNumber;
-        }*/
     }
 }

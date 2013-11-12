@@ -45,5 +45,36 @@ namespace ExtensionMethodsUnitTests
             Assert.AreEqual("This is the message", exception.GetMessageWithoutParamName());
         }
 
+        [TestMethod]
+        public void DateIdCorrectlyTruncatedToSeconds()
+        {
+            DateTime dateTime = new DateTime(2013, 11, 9, 10, 10, 10, 10);
+            DateTime truncatedDateTime = dateTime.Truncate(TimeSpan.FromSeconds(1));
+            Assert.AreEqual(new DateTime(2013, 11, 9, 10, 10, 10), truncatedDateTime);
+        }
+
+        [TestMethod]
+        public void DateIdCorrectlyTruncatedToMinutes()
+        {
+            DateTime dateTime = new DateTime(2013, 11, 9, 10, 10, 10, 10);
+            DateTime truncatedDateTime = dateTime.Truncate(TimeSpan.FromMinutes(1));
+            Assert.AreEqual(new DateTime(2013, 11, 9, 10, 10, 0), truncatedDateTime);
+        }
+
+        [TestMethod]
+        public void DateIdCorrectlyTruncatedToHours()
+        {
+            DateTime dateTime = new DateTime(2013, 11, 9, 10, 10, 10, 10);
+            DateTime truncatedDateTime = dateTime.Truncate(TimeSpan.FromHours(1));
+            Assert.AreEqual(new DateTime(2013, 11, 9, 10, 0, 0), truncatedDateTime);
+        }
+
+        [TestMethod]
+        public void DateIdCorrectlyTruncatedToStarOfTheDay()
+        {
+            DateTime dateTime = new DateTime(2013, 11, 9, 10, 10, 10, 10);
+            DateTime truncatedDateTime = dateTime.Truncate(TimeSpan.FromDays(1));
+            Assert.AreEqual(new DateTime(2013, 11, 9, 0, 0, 0), truncatedDateTime);
+        }
     }
 }

@@ -131,6 +131,61 @@ namespace RCNGCMembersManagementSpecFlowBDD
             Assert.IsNull(((Invoice)ScenarioContext.Current["Invoice"]).Bills.Values.ElementAt(0).PaymentMethod);
         }
 
+        [Given(@"I have a bill to collect")]
+        public void GivenIHaveABillToCollect()
+        {
+            ScenarioContext.Current.Pending();
+        }
+
+        [When(@"The bill is paid in cash")]
+        public void WhenTheBillIsPaidInCash()
+        {
+            ScenarioContext.Current.Pending();
+        }
+
+        [Then(@"The bill state is set to ""(.*)""")]
+        public void ThenTheBillStateIsSetTo(string billState)
+        {
+            ScenarioContext.Current.Pending();
+        }
+
+        [Then(@"The bill payment method is set to ""(.*)""")]
+        public void ThenTheBillPaymentMethodIsSetTo(string paymentMethod)
+        {
+            ScenarioContext.Current.Pending();
+        }
+
+        [Then(@"The bill payment date is stored")]
+        public void ThenTheBillPaymentDateIsStored()
+        {
+            ScenarioContext.Current.Pending();
+        }
+
+        [Then(@"The bill amount is deduced form the invoice total amount")]
+        public void ThenTheBillAmountIsDeducedFormTheInvoiceTotalAmount()
+        {
+            ScenarioContext.Current.Pending();
+        }
+
+        [When(@"The bill is paid by bank transfer")]
+        public void WhenTheBillIsPaidByBankTransfer()
+        {
+            ScenarioContext.Current.Pending();
+        }
+
+        [Then(@"The transferor account is stored")]
+        public void ThenTheTransferorAccountIsStored()
+        {
+            ScenarioContext.Current.Pending();
+        }
+
+        [Then(@"The transferee account is stored")]
+        public void ThenTheTransfereeAccountIsStored()
+        {
+            ScenarioContext.Current.Pending();
+        }
+
+
 
     }
 }

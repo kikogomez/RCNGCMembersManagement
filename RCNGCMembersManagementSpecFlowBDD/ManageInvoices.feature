@@ -4,7 +4,7 @@
 	I want to manage the created invoices
 
 Background: 
-	Given Last generated InvoiceID is "MMM2013000023"
+	Given Last generated InvoiceID is "INV2013000023"
 	
 	Given A Club Member
 	| MemberID | Name      | FirstSurname  | SecondSurname |

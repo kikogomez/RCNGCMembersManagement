@@ -18,6 +18,7 @@ namespace RCNGCMembersManagementSpecFlowBDD
     {
         private readonly MembersManagementContextData membersManagementContextData;
         private readonly InvoiceContextData invoiceContextData;
+        private InvoicesManager invoicesManager;
 
         public ManageInvoicesFeatureSteps(
             MembersManagementContextData membersManagementContextData,
@@ -25,6 +26,7 @@ namespace RCNGCMembersManagementSpecFlowBDD
         {
             this.membersManagementContextData = membersManagementContextData;
             this.invoiceContextData = invoiceContextData;
+            invoicesManager = new InvoicesManager();
         }
 
         [BeforeScenario]
@@ -98,14 +100,12 @@ namespace RCNGCMembersManagementSpecFlowBDD
             List<Transaction> serviceChargeList = new List<Transaction> { new ServiceCharge(clubService) };
             Invoice invoice = new Invoice(new InvoiceCustomerData(membersManagementContextData.clubMember), serviceChargeList, issueDate);
             ScenarioContext.Current.Add("Invoice", invoice);
-            InvoicesManager invoicesManager = new InvoicesManager();
             invoicesManager.AddInvoiceToClubMember(invoice, membersManagementContextData.clubMember);
         }
 
         [When(@"I cancel the invoice")]
         public void WhenICancelTheInvoice()
         {
-            InvoicesManager invoicesManager = new InvoicesManager();
             invoicesManager.CancelInvoice((Invoice)ScenarioContext.Current["Invoice"], membersManagementContextData.clubMember);
         }
 
@@ -121,19 +121,27 @@ namespace RCNGCMembersManagementSpecFlowBDD
         [Then(@"An amending invoice is created for the negative value of the original invoice: (.*)")]
         public void ThenAnAmendingInvoiceIsCreatedForTheNegativeValueOfTheOriginalInvoice(Decimal amount)
         {
-            ScenarioContext.Current.Pending();
+            Invoice originalInvoice = (Invoice)ScenarioContext.Current["Invoice"];
+            decimal originalInvoiceAmount= originalInvoice.NetAmount;
+            string amendingInvoiceID = originalInvoice.InvoiceID.Replace("INV", "AMN");
+            AmendingInvoice amendingInvoice = membersManagementContextData.clubMember.AmendingInvoicesList[amendingInvoiceID];
+            Assert.AreEqual(-originalInvoiceAmount, amendingInvoice.NetAmount);
         }
 
         [Then(@"The amending invoice ID is the same than the original invoice with different prefix: ""(.*)""")]
         public void ThenTheAmendingInvoiceIDIsTheSameThanTheOriginalInvoiceWithDifferentPrefix(string amendingInvoiceID)
         {
-            ScenarioContext.Current.Pending();
+            Invoice originalInvoice = (Invoice)ScenarioContext.Current["Invoice"];
+            Assert.IsNotNull(membersManagementContextData.clubMember.AmendingInvoicesList[amendingInvoiceID]);
         }
 
         [Then(@"The taxes devolution \((.*)\) is separated from the base cost devolution \((.*)\)")]
         public void ThenTheTaxesDevolutionIsSeparatedFromTheBaseCostDevolution(Decimal taxValue, double baseCost)
         {
-            ScenarioContext.Current.Pending();
+            Invoice originalInvoice = (Invoice)ScenarioContext.Current["Invoice"];
+            string amendingInvoiceID = originalInvoice.InvoiceID.Replace("INV", "AMN");
+            AmendingInvoice amendingInvoice = membersManagementContextData.clubMember.AmendingInvoicesList[amendingInvoiceID];
+            Assert.Inconclusive();
         }
 
         private void AddTransactionsToTransactionList(List<Transaction> currentTransactionsList, Table newTransactions)

@@ -47,4 +47,23 @@ Scenario: No bills are created for a pro forma invoice
 	And A single bill To Collect is generated for the total amount of the invoice: 53.50
 	And By default no payment method is associated to bill
 
+Scenario: A bill to collect is paid in cash
+	Given I have a bill to collect
+	When The bill is paid in cash
+	Then The bill state is set to "Paid"
+	And The bill payment method is set to "Cash"
+	And The bill payment date is stored
+	And The bill amount is deduced form the invoice total amount
+
+Scenario: A bill to collect is paid by bank transfer
+	Given I have a bill to collect
+	When The bill is paid by bank transfer
+	Then The bill state is set to "Paid"
+	And The bill payment method is set to "Bank Transfer"
+	And The transferor account is stored
+	And The transferee account is stored
+	And The bill payment date is stored
+	And The bill amount is deduced form the invoice total amount
+	 
+
 

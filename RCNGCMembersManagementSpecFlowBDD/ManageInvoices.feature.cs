@@ -73,7 +73,7 @@ namespace RCNGCMembersManagementSpecFlowBDD
         {
 #line 6
 #line 7
- testRunner.Given("Last generated InvoiceID is \"MMM2013000023\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+ testRunner.Given("Last generated InvoiceID is \"INV2013000023\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line hidden
             TechTalk.SpecFlow.Table table1 = new TechTalk.SpecFlow.Table(new string[] {
                         "MemberID",
