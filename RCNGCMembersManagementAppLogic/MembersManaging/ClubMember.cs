@@ -84,6 +84,11 @@ namespace RCNGCMembersManagementAppLogic.MembersManaging
             invoicesList.Add(invoice.InvoiceID, invoice);
         }
 
+        public void AddProFormainvoice(ProFormaInvoice proFormaInvoice)
+        {
+            proFormaInvoicesList.Add(proFormaInvoice.InvoiceID, proFormaInvoice);
+        }
+
         public void AddAmendingInvoice(AmendingInvoice amendinginvoice)
         {
             amendingInvoicesList.Add(amendinginvoice.InvoiceID, amendinginvoice);

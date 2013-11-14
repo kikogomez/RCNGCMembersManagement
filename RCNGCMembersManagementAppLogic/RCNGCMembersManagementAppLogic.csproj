@@ -55,7 +55,9 @@
     <Compile Include="Billing\DirectDebit\DirectDebit.cs" />
     <Compile Include="Billing\DirectDebit\DirectDebitMandate.cs" />
     <Compile Include="Billing\DirectDebit\ISO20022Elements\CustomerDirectDebitInitiationV02\Enums.cs" />
+    <Compile Include="Billing\DirectDebit\ISO20022Elements\CustomerDirectDebitInitiationV02\OrganisationIdentificationSchemeName1Choice.cs" />
     <Compile Include="Billing\DirectDebit\SEPAAttributes.cs" />
+    <Compile Include="Billing\PaymentAgreement.cs" />
     <Compile Include="BillsManager.cs" />
     <Compile Include="IMembersSequenceNumberManager.cs" />
     <Compile Include="InvoicesManager.cs" />

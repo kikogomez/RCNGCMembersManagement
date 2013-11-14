@@ -118,6 +118,12 @@ namespace RCNGCMembersManagementSpecFlowBDD
             Assert.AreEqual(invoiceState,  invoiceStateEnumToString);
         }
 
+        [Then(@"All the pending bills are marked as Cancelled")]
+        public void ThenAllThePendingBillsAreMarkedAsCancelled()
+        {
+            ScenarioContext.Current.Pending();
+        }
+
         [Then(@"An amending invoice is created for the negative value of the original invoice: (.*)")]
         public void ThenAnAmendingInvoiceIsCreatedForTheNegativeValueOfTheOriginalInvoice(Decimal amount)
         {
@@ -136,12 +142,13 @@ namespace RCNGCMembersManagementSpecFlowBDD
         }
 
         [Then(@"The taxes devolution \((.*)\) is separated from the base cost devolution \((.*)\)")]
-        public void ThenTheTaxesDevolutionIsSeparatedFromTheBaseCostDevolution(Decimal taxValue, double baseCost)
+        public void ThenTheTaxesDevolutionIsSeparatedFromTheBaseCostDevolution(decimal taxValue, decimal baseCost)
         {
             Invoice originalInvoice = (Invoice)ScenarioContext.Current["Invoice"];
             string amendingInvoiceID = originalInvoice.InvoiceID.Replace("INV", "AMN");
             AmendingInvoice amendingInvoice = membersManagementContextData.clubMember.AmendingInvoicesList[amendingInvoiceID];
-            Assert.Inconclusive();
+            Assert.AreEqual(taxValue, amendingInvoice.TaxAmount);
+            Assert.AreEqual(baseCost, amendingInvoice.GrossAmount);
         }
 
         private void AddTransactionsToTransactionList(List<Transaction> currentTransactionsList, Table newTransactions)

@@ -15,6 +15,7 @@ namespace RCNGCMembersManagementAppLogic.Billing
         DateTime dueDate;
         BillPaymentResult paymentResult;
         PaymentMethod paymentMethod;
+        PaymentAgreement paymentAgreement;
 
         public Bill(string billID, string description, decimal amount, DateTime issueDate, DateTime dueDate)
             : this(billID, description, amount, issueDate, dueDate, null) { }
@@ -51,7 +52,7 @@ namespace RCNGCMembersManagementAppLogic.Billing
 
         public BillPaymentResult PaymentResult
         {
-            get { return (BillPaymentResult)paymentResult; }
+            get { return paymentResult; }
             set { paymentResult = value; }
         }
 
@@ -59,6 +60,12 @@ namespace RCNGCMembersManagementAppLogic.Billing
         {
             get { return paymentMethod; }
             set { paymentMethod = value; }
+        }
+
+        public PaymentAgreement PaymentAgreement
+        {
+            get { return paymentAgreement; }
+            set { paymentAgreement = value; }
         }
     }
 }

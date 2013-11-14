@@ -11,7 +11,6 @@ namespace RCNGCMembersManagementAppLogic.Billing.DirectDebit.ISO20022Elements.Cu
     [System.Xml.Serialization.XmlTypeAttribute(Namespace = "urn:iso:std:iso:20022:tech:xsd:pain.008.001.02")]
     public enum SequenceType1Code
     {
-
         /// First
         FRST,
 
@@ -23,5 +22,18 @@ namespace RCNGCMembersManagementAppLogic.Billing.DirectDebit.ISO20022Elements.Cu
 
         /// OneOff
         OOFF,
+    }
+
+    /// Choice option: Coded ("Cd") or Propietary("Prtry")
+    [System.SerializableAttribute()]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace = "urn:iso:std:iso:20022:tech:xsd:pain.008.001.02", IncludeInSchema = false)]
+    public enum ItemChoiceType
+    {
+
+        /// Coded
+        Cd,
+
+        /// Propietary
+        Prtry,
     }
 }

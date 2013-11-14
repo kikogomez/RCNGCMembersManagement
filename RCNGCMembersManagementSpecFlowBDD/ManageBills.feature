@@ -4,7 +4,7 @@
 	I want reate and manage bills for my invoices
 
 Background: 
-	Given Last generated InvoiceID is "MMM2013000023"
+	Given Last generated InvoiceID is "INV2013000023"
 	
 	Given A Club Member with a default Payment method
 	| MemberID | Name      | FirstSurname  | SecondSurname | Default Payment method | Spanish IBAN Bank Account          | Direct Debit Reference Number |
@@ -38,14 +38,22 @@ Scenario: A single bill is automatically created for a new invoice
 	When I generate an invoice for the service
 	Then An invoice is created for the cost of the service: 53.50
 	And A single bill To Collect is generated for the total amount of the invoice: 53.50
+	And The bill ID is "INV2013000023/001"
 	And By default no payment method is associated to bill
 
 Scenario: No bills are created for a pro forma invoice
 	Given The member uses the club service "Rent a kajak"
-	When I generate an invoice for the service
-	Then An invoice is created for the cost of the service: 53.50
-	And A single bill To Collect is generated for the total amount of the invoice: 53.50
-	And By default no payment method is associated to bill
+	When I generate an pro-forma invoice for the service
+	Then A pro-forma invoice is created for the cost of the service: 53.50
+	And No bills are created for a pro-forma invoice
+
+Scenario: A bill can be renegotiated into instalments
+	Given I have an invoice with cost 650 with a single bill with ID "INV2013000023/001"
+	When I renegotiate the bill "INV2013000023/001" into three instalments: 200, 200, 250 to pay in 30, 60 and 90 days with agreement terms "Renegotiating bill"
+	Then The bill "INV2013000023/001" is marked as renegotiated
+	And A bill with ID "INV2013000023/001" and cost of 200 to be paid in 30 days is created
+	And A bill with ID "INV2013000023/002" and cost of 200 to be paid in 60 days is created
+	And A bill with ID "INV2013000023/002" and cost of 250 to be paid in 90 days is created
 
 Scenario: A bill to collect is paid in cash
 	Given I have a bill to collect
@@ -64,6 +72,13 @@ Scenario: A bill to collect is paid by bank transfer
 	And The transferee account is stored
 	And The bill payment date is stored
 	And The bill amount is deduced form the invoice total amount
+
+Scenario: A bill is past due date
+	Given I have a bill to collect
+	And the bill has a payment agreement associated
+	When The bill is past due date
+	Then the bill is marked as "Unpaid"
+	And The associated payment agreement is set to "NotAcomplished" 
 	 
 
 

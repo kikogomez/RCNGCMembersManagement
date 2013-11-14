@@ -46,6 +46,11 @@ namespace RCNGCMembersManagementAppLogic.Billing
             get { return CalculateInvoiceAmounts(false); }
         }
 
+        public decimal TaxAmount
+        {
+            get { return CalculateTaxAmount(); }
+        }
+
         protected abstract string GetNewInvoiceID();
 
         protected abstract void UpdateInvoiceSequenceNumber();
@@ -61,6 +66,16 @@ namespace RCNGCMembersManagementAppLogic.Billing
             foreach (Transaction line in invoiceDetail)
             {
                 amount += (netAmount ? (decimal)line.NetAmount : line.GrossAmount);
+            }
+            return amount;
+        }
+
+        protected decimal CalculateTaxAmount()
+        {
+            decimal amount = 0;
+            foreach (Transaction line in invoiceDetail)
+            {
+                amount += ((decimal)line.TaxAmount);
             }
             return amount;
         }

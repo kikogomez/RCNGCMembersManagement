@@ -4,6 +4,7 @@ using System.Globalization;
 using System.Collections.Generic;
 using TechTalk.SpecFlow;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using RCNGCMembersManagementAppLogic;
 using RCNGCMembersManagementAppLogic.MembersManaging;
 using RCNGCMembersManagementAppLogic.ClubServices;
 using RCNGCMembersManagementAppLogic.ClubStore;
@@ -18,6 +19,7 @@ namespace RCNGCMembersManagementSpecFlowBDD
     {
         private readonly MembersManagementContextData membersManagementContextData;
         private readonly InvoiceContextData invoiceContextData;
+        InvoicesManager invoicesManager;
 
         public ManageBillsFeatureSteps(
             MembersManagementContextData membersManagementContextData,
@@ -25,6 +27,7 @@ namespace RCNGCMembersManagementSpecFlowBDD
         {
             this.membersManagementContextData = membersManagementContextData;
             this.invoiceContextData = invoiceContextData;
+            invoicesManager = new InvoicesManager();
         }
 
         [Given(@"Last generated InvoiceID is ""(.*)""")]
@@ -103,7 +106,7 @@ namespace RCNGCMembersManagementSpecFlowBDD
             DateTime issueDate = DateTime.Now;
             List<Transaction> serviceChargeList = new List<Transaction> { new ServiceCharge((ClubService)ScenarioContext.Current["A_Club_Service"]) };
             Invoice invoice = new Invoice(new InvoiceCustomerData(membersManagementContextData.clubMember), serviceChargeList, issueDate);
-            membersManagementContextData.clubMember.AddInvoice(invoice);
+            invoicesManager.AddInvoiceToClubMember(invoice, membersManagementContextData.clubMember);
             ScenarioContext.Current.Add("Invoice", invoice);
         }
 
@@ -116,13 +119,16 @@ namespace RCNGCMembersManagementSpecFlowBDD
         [Then(@"A single bill To Collect is generated for the total amount of the invoice: (.*)")]
         public void ThenASingleBillToCollectIsGeneratedForTheTotalAmountOfTheInvoice(decimal totalAmount)
         {
+            Invoice invoice = (Invoice)ScenarioContext.Current["Invoice"];
+            Assert.AreEqual(1, invoice.Bills.Count);
+            ScenarioContext.Current.Add("UniqueBillID", invoice.Bills.ElementAt(0).Key);
             Assert.AreEqual(totalAmount, ((Invoice)ScenarioContext.Current["Invoice"]).BillsTotalAmountToCollect);
         }
 
-        [Then(@"No bills are created for a pro forma invoice")]
-        public void ThenNoBillsAreCreatedForAProFormaInvoice()
+        [Then(@"The bill ID is ""(.*)""")]
+        public void ThenTheBillIDIs(string billID)
         {
-            Assert.AreEqual(0, ((ProFormaInvoice)ScenarioContext.Current["ProFormaInvoice"]).BillsTotalAmountToCollect);
+            Assert.AreEqual(billID, ScenarioContext.Current["UniqueBillID"].ToString());
         }
 
         [Then(@"By default no payment method is associated to bill")]
@@ -130,6 +136,67 @@ namespace RCNGCMembersManagementSpecFlowBDD
         {
             Assert.IsNull(((Invoice)ScenarioContext.Current["Invoice"]).Bills.Values.ElementAt(0).PaymentMethod);
         }
+
+
+        [When(@"I generate an pro-forma invoice for the service")]
+        public void WhenIGenerateAnPro_FormaInvoiceForTheService()
+        {
+            DateTime issueDate = DateTime.Now;
+            List<Transaction> serviceChargeList = new List<Transaction> { new ServiceCharge((ClubService)ScenarioContext.Current["A_Club_Service"]) };
+            ProFormaInvoice proFormaInvoice = new ProFormaInvoice(new InvoiceCustomerData(membersManagementContextData.clubMember), serviceChargeList, issueDate);
+            invoicesManager.AddProFormaInvoiceToClubMember(proFormaInvoice, membersManagementContextData.clubMember);
+            ScenarioContext.Current.Add("ProFormaInvoice", proFormaInvoice);
+        }
+
+        [Then(@"A pro-forma invoice is created for the cost of the service: (.*)")]
+        public void ThenAPro_FormaInvoiceIsCreatedForTheCostOfTheService(decimal cost)
+        {
+            Assert.AreEqual(cost, ((ProFormaInvoice)ScenarioContext.Current["ProFormaInvoice"]).NetAmount);
+        }
+
+        [Then(@"No bills are created for a pro-forma invoice")]
+        public void ThenNoBillsAreCreatedForAPro_FormaInvoice()
+        {
+            Assert.AreEqual(0, ((ProFormaInvoice)ScenarioContext.Current["ProFormaInvoice"]).BillsTotalAmountToCollect);
+        }
+
+
+        [Given(@"I have an invoice with cost (.*) with a single bill with ID ""(.*)""")]
+        public void GivenIHaveAnInvoiceWithCostWithASingleBillWithID(int invoiceNetAmout, string billID)
+        {
+            List<Transaction> transactionList = new List<Transaction>()
+            {
+                {new Transaction("Monthly Fee",1,80,new Tax("NOIGIC",0),0)},
+                {new Transaction("Renting a Kajak",1,50,new Tax("NOIGIC",0),0)},
+                {new Transaction("Blue cup",2,10,new Tax("NOIGIC",0),0)},
+                {new Transaction("BIG Mouring",1,500,new Tax("NOIGIC",0),0)}
+            };
+            DateTime issueDate = DateTime.Now;
+            Invoice invoice = new Invoice(new InvoiceCustomerData(membersManagementContextData.clubMember), transactionList, issueDate);
+            invoicesManager.AddInvoiceToClubMember(invoice, membersManagementContextData.clubMember);
+            ScenarioContext.Current.Add("Invoice", invoice);
+            ScenarioContext.Current.Add("InvoiceNetAmount", invoiceNetAmout);
+            ScenarioContext.Current.Add("billID",billID);
+        }
+
+        [When(@"I renegotiate the bill ""(.*)"" into three instalments: (.*), (.*), (.*) to pay in (.*), (.*) and (.*) days with agreement terms ""(.*)""")]
+        public void WhenIRenegotiateTheBillIntoThreeInstalmentsToPayInAndDaysWithAgreementTerms(string p0, int p1, int p2, int p3, int p4, int p5, int p6, string p7)
+        {
+            ScenarioContext.Current.Pending();
+        }
+
+        [Then(@"The bill ""(.*)"" is marked as renegotiated")]
+        public void ThenTheBillIsMarkedAsRenegotiated(string p0)
+        {
+            ScenarioContext.Current.Pending();
+        }
+
+        [Then(@"A bill with ID ""(.*)"" and cost of (.*) to be paid in (.*) days is created")]
+        public void ThenABillWithIDAndCostOfToBePaidInDaysIsCreated(string p0, int p1, int p2)
+        {
+            ScenarioContext.Current.Pending();
+        }
+
 
         [Given(@"I have a bill to collect")]
         public void GivenIHaveABillToCollect()
@@ -184,6 +251,31 @@ namespace RCNGCMembersManagementSpecFlowBDD
         {
             ScenarioContext.Current.Pending();
         }
+
+        [Given(@"the bill has a payment agreement associated")]
+        public void GivenTheBillHasAPaymentAgreementAssociated()
+        {
+            ScenarioContext.Current.Pending();
+        }
+
+        [When(@"The bill is past due date")]
+        public void WhenTheBillIsPastDueDate()
+        {
+            ScenarioContext.Current.Pending();
+        }
+
+        [Then(@"the bill is marked as ""(.*)""")]
+        public void ThenTheBillIsMarkedAs(string p0)
+        {
+            ScenarioContext.Current.Pending();
+        }
+
+        [Then(@"The associated payment agreement is set to ""(.*)""")]
+        public void ThenTheAssociatedPaymentAgreementIsSetTo(string p0)
+        {
+            ScenarioContext.Current.Pending();
+        }
+
 
 
 

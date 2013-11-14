@@ -15,6 +15,16 @@ namespace RCNGCMembersManagementAppLogic
             debtor.AddInvoice(invoice);
         }
 
+        public void AddProFormaInvoiceToClubMember(ProFormaInvoice proFormaInvoice, ClubMember debtor)
+        {
+            debtor.AddProFormainvoice(proFormaInvoice);
+        }
+
+        public void RenegotiateBillsOnInvoice(Invoice invoice, PaymentAgreement paymentAgreement, List<Bill> billsToRenegotiate, List<Bill> billsToAdd)
+        {
+            invoice.AcceptBillsPaymentAgreement(paymentAgreement, billsToRenegotiate, billsToAdd);
+        }
+
         public void CancelInvoice(Invoice invoiceToCancel, ClubMember debtor)
         {
             invoiceToCancel.Cancel();

@@ -93,22 +93,6 @@ namespace RCNGCMembersManagementUnitTests.Billing
         }
 
         [TestMethod]
-        public void ICanReplaceASetOfBillsInAnInvoiceWithASetOfNewBillsThatAddTheSameAmountByAddingABillPaymentAgreement()
-        {
-            decimal invoiceInitialAmount;
-            BillingDataManager billingDataManager = BillingDataManager.Instance;
-            billingDataManager.InvoiceSequenceNumber = 5000;
-            Invoice invoice = new Invoice(invoiceCustomerData, transactionList, DateTime.Now);
-            invoiceInitialAmount = invoice.NetAmount;
-            string agreementTerms = "New Payment Agreement";
-            DateTime agreementDate = DateTime.Now;
-            string[] billsIDToRenegotiate = { "MMM2013005001/001" };
-            List<Bill> billsToAdd = new List<Bill>(unassignedBillsList);
-            invoice.AcceptBillsPaymentAgreement(agreementTerms, agreementDate, billsIDToRenegotiate, billsToAdd);
-            Assert.AreEqual(invoiceInitialAmount, invoice.NetAmount);
-        }
-
-        [TestMethod]
         public void ICanLoadAListOfExistingBillsWhenCreatingAnInvoice()
         {
             string invoiceID = "MMM2013005001";
@@ -122,8 +106,7 @@ namespace RCNGCMembersManagementUnitTests.Billing
 
         [TestMethod]
         public void TheBillsListTotalMustEqualTheTheInvoiceNetAmoutWhenProvided()
-        {
-            
+        {  
             string invoiceID = "MMM2013005001";
             List<Bill> assignedBillsList = new List<Bill>(unassignedBillsList);
             assignedBillsList[0].BillID = "MMM2013005001/001";
@@ -135,12 +118,40 @@ namespace RCNGCMembersManagementUnitTests.Billing
             Assert.AreEqual(billsTotalAmount, invoiceInitialAmount);
         }
 
+        [TestMethod]
+        public void APaymentAgreementIsCorrectlyCreated()
+        {
+            PaymentAgreement paymentAgreement = new PaymentAgreement("Club President", "New Payment Agreement", new DateTime(2013, 11, 11));
+            Assert.AreEqual("Club President", paymentAgreement.AuthorizingPerson);
+            Assert.AreEqual("New Payment Agreement", paymentAgreement.AgreementTerms);
+            Assert.AreEqual(new DateTime(2013,11,11), paymentAgreement.AgreementDate);
+        }
 
-/*
+        [TestMethod]
+        public void ICanReplaceASetOfBillsInAnInvoiceWithASetOfNewBillsThatAddTheSameAmountByAddingABillPaymentAgreement()
+        {
+            decimal invoiceInitialAmount;
+            BillingDataManager billingDataManager = BillingDataManager.Instance;
+            billingDataManager.InvoiceSequenceNumber = 5000;
+            Invoice invoice = new Invoice(invoiceCustomerData, transactionList, DateTime.Now);
+            invoiceInitialAmount = invoice.NetAmount;
+            string authorizingPerson = "Club President";
+            string agreementTerms = "New Payment Agreement";
+            DateTime agreementDate = DateTime.Now;
+            PaymentAgreement paymentAgreement = new PaymentAgreement(authorizingPerson, agreementTerms, agreementDate);
+            List<Bill> billsToRenegotiate = new List<Bill>() {invoice.Bills["INV2013005000/001"]};
+            List<Bill> billsToAdd = new List<Bill>(unassignedBillsList);
+            invoice.AcceptBillsPaymentAgreement(paymentAgreement, billsToRenegotiate, billsToAdd);
+            Assert.AreEqual(invoiceInitialAmount, invoice.NetAmount);
+            billsToRenegotiate.ForEach(bill => Assert.AreEqual(Bill.BillPaymentResult.Renegotiated, bill.PaymentResult));
+            billsToRenegotiate.ForEach(bill => Assert.AreEqual("New Payment Agreement", bill.PaymentAgreement.AgreementTerms));
+            billsToAdd.ForEach(bill => Assert.AreEqual("New Payment Agreement", bill.PaymentAgreement.AgreementTerms));
+        }
+
         [TestMethod]
         public void TheBillIDOfTheReplpacingBillsAreCalculatedByTheInvoiceAndHaveConsecutiveNumbers()
         {
-            decimal invoiceInitialAmount;
+            /*decimal invoiceInitialAmount;
             BillDataManager.Instance.SetInvoiceNumber(5000);
             Invoice invoice = new Invoice(clubMember, transactionList, DateTime.Now);
             invoiceInitialAmount = invoice.NetAmount;
@@ -148,12 +159,9 @@ namespace RCNGCMembersManagementUnitTests.Billing
             invoice.ReplaceBills(billToReplace, unassignedBillsList);
             Assert.AreEqual("MMM2013005001/002", invoice.Bills.ElementAt(0).Value.BillID);
             Assert.AreEqual("MMM2013005001/003", invoice.Bills.ElementAt(1).Value.BillID);
-            Assert.AreEqual("MMM2013005001/004", invoice.Bills.ElementAt(2).Value.BillID);
+            Assert.AreEqual("MMM2013005001/004", invoice.Bills.ElementAt(2).Value.BillID);*/
+            Assert.Inconclusive();
         }
- * */
-
-
-
 
 
         [TestMethod]
