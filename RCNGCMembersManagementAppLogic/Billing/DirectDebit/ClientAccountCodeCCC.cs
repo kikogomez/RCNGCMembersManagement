@@ -11,17 +11,17 @@ namespace RCNGCMembersManagementAppLogic.Billing.DirectDebit
         CCCCheckDigits checkDigits;
         string ccc;
 
-        public ClientAccountCodeCCC(BankAccountFields bankAccountFields)
+        public ClientAccountCodeCCC(string bankCode, string officeCode, string checkDigits, string accountNumber)
         {
-            if (IsValidCCC(bankAccountFields.BankCode, bankAccountFields.OfficeCode, bankAccountFields.CheckDigits, bankAccountFields.AccountNumber))
+            if (IsValidCCC(bankCode, officeCode, checkDigits, accountNumber))
             {
-                this.checkDigits.bankOfficeCheckDigit = bankAccountFields.CheckDigits[0].ToString();
-                this.checkDigits.accountNumberCheckDigit = bankAccountFields.CheckDigits[1].ToString();
-                this.ccc = 
-                    bankAccountFields.BankCode +
-                    bankAccountFields.OfficeCode +
-                    bankAccountFields.CheckDigits +
-                    bankAccountFields.AccountNumber;
+                this.checkDigits.bankOfficeCheckDigit = checkDigits[0].ToString();
+                this.checkDigits.accountNumberCheckDigit = checkDigits[1].ToString();
+                this.ccc =
+                    bankCode +
+                    officeCode +
+                    checkDigits +
+                    accountNumber;
             }
         }
 
@@ -103,12 +103,12 @@ namespace RCNGCMembersManagementAppLogic.Billing.DirectDebit
 
         private static string BankOfficeCCCCheck(string bank, string office)
         {
-            return BankAccountChekNumbersCalculator.CalculateCCCCheckDigit("00" + bank + office);
+            return BankAccountCheckNumbersCalculator.CalculateCCCCheckDigit("00" + bank + office);
         }
 
         private static string AccountNumberCCCCheck(string accountNumber)
         {
-            return BankAccountChekNumbersCalculator.CalculateCCCCheckDigit(accountNumber);
+            return BankAccountCheckNumbersCalculator.CalculateCCCCheckDigit(accountNumber);
         }
 
         private static bool CheckDigitsAreRightSize(string checkDigits)

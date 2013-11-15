@@ -32,7 +32,7 @@ namespace RCNGCMembersManagementAppLogic.Billing
             this.description = description;
             this.amount = amount;
             this.issueDate = issueDate;
-            this.dueDate = dueDate;
+            this.dueDate = dueDate.Date;
             this.paymentResult = (int)BillPaymentResult.ToCollect;
             this.paymentMethod = paymentMethod;
         }
@@ -66,6 +66,11 @@ namespace RCNGCMembersManagementAppLogic.Billing
         {
             get { return paymentAgreement; }
             set { paymentAgreement = value; }
+        }
+
+        public DateTime DueDate
+        {
+            get { return dueDate; }
         }
     }
 }

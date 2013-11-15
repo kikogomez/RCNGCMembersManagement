@@ -80,7 +80,7 @@ namespace RCNGCMembersManagementAppLogic.Billing
 
         private void ReplaceNegotiatedBills(List<Bill> billsToRenegotiate, List<Bill> billsToAdd)
         {
-            SetBillsPaymentResult(Bill.BillPaymentResult.Renegotiated, billsToRenegotiate);
+            SetBillsPaymentResult(billsToRenegotiate, Bill.BillPaymentResult.Renegotiated);
             AddBillsToInvoice(billsToAdd);
         }
 
@@ -157,10 +157,10 @@ namespace RCNGCMembersManagementAppLogic.Billing
 
         private void AssignPaymentAgreementToBills(PaymentAgreement paymentAgreement, List<Bill> billsList)
         {
-            billsList.ForEach(bill => bill.PaymentAgreement = paymentAgreement);
+            foreach (Bill bill in billsList) bill.PaymentAgreement = paymentAgreement;
         }
 
-        private void SetBillsPaymentResult(Bill.BillPaymentResult billPaymentResult, List<Bill> billsToMark)
+        private void SetBillsPaymentResult(List<Bill> billsToMark, Bill.BillPaymentResult billPaymentResult)
         {
             List<string> billsIDList = billsToMark.Select(bill => bill.BillID).ToList();
             SetBillsPaymentResult_ByID(billPaymentResult, billsIDList);

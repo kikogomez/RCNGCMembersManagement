@@ -44,7 +44,7 @@
     <Compile Include="Billing\BillPaymentAgreement.cs" />
     <Compile Include="Billing\CashPayment.cs" />
     <Compile Include="Billing\DirectDebit\BankAccount.cs" />
-    <Compile Include="Billing\DirectDebit\BankAccountChekNumbersCalculator.cs" />
+    <Compile Include="Billing\DirectDebit\BankAccountCheckNumbersCalculator.cs" />
     <Compile Include="Billing\BaseInvoice.cs" />
     <Compile Include="Billing\Bill.cs" />
     <Compile Include="Billing\BillingDataManager.cs" />
@@ -55,6 +55,9 @@
     <Compile Include="Billing\DirectDebit\DirectDebit.cs" />
     <Compile Include="Billing\DirectDebit\DirectDebitMandate.cs" />
     <Compile Include="Billing\DirectDebit\ISO20022Elements\CustomerDirectDebitInitiationV02\Enums.cs" />
+    <Compile Include="Billing\DirectDebit\ISO20022Elements\CustomerDirectDebitInitiationV02\FinancialIdentificationSchemeName1Choice.cs" />
+    <Compile Include="Billing\DirectDebit\ISO20022Elements\CustomerDirectDebitInitiationV02\GenericFinancialIdentification1.cs" />
+    <Compile Include="Billing\DirectDebit\ISO20022Elements\CustomerDirectDebitInitiationV02\GenericOrganisationIdentification1.cs" />
     <Compile Include="Billing\DirectDebit\ISO20022Elements\CustomerDirectDebitInitiationV02\OrganisationIdentificationSchemeName1Choice.cs" />
     <Compile Include="Billing\DirectDebit\SEPAAttributes.cs" />
     <Compile Include="Billing\PaymentAgreement.cs" />

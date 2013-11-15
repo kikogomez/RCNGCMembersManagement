@@ -171,30 +171,53 @@ namespace RCNGCMembersManagementSpecFlowBDD
                 {new Transaction("Blue cup",2,10,new Tax("NOIGIC",0),0)},
                 {new Transaction("BIG Mouring",1,500,new Tax("NOIGIC",0),0)}
             };
-            DateTime issueDate = DateTime.Now;
+            DateTime issueDate = DateTime.Now.Date;
             Invoice invoice = new Invoice(new InvoiceCustomerData(membersManagementContextData.clubMember), transactionList, issueDate);
             invoicesManager.AddInvoiceToClubMember(invoice, membersManagementContextData.clubMember);
             ScenarioContext.Current.Add("Invoice", invoice);
             ScenarioContext.Current.Add("InvoiceNetAmount", invoiceNetAmout);
-            ScenarioContext.Current.Add("billID",billID);
+            ScenarioContext.Current.Add("BillID",billID);
+            ScenarioContext.Current.Add("IssueDate", issueDate);
         }
 
         [When(@"I renegotiate the bill ""(.*)"" into three instalments: (.*), (.*), (.*) to pay in (.*), (.*) and (.*) days with agreement terms ""(.*)""")]
-        public void WhenIRenegotiateTheBillIntoThreeInstalmentsToPayInAndDaysWithAgreementTerms(string p0, int p1, int p2, int p3, int p4, int p5, int p6, string p7)
+        public void WhenIRenegotiateTheBillIntoThreeInstalmentsToPayInAndDaysWithAgreementTerms(
+            string billID,
+            decimal firstInstalmentAmount,
+            decimal secondInstalmentAmount,
+            decimal thirdInstalmentAmount,
+            int firstInstalmentDueDays,
+            int secondInstalmentDueDays,
+            int thirdInstalmentDueDays,
+            string agreementTerms)
         {
-            ScenarioContext.Current.Pending();
+            Invoice invoice = (Invoice)ScenarioContext.Current["Invoice"];
+            List<Bill> billsToRenegotiate = new List<Bill>() { invoice.Bills[ScenarioContext.Current["BillID"].ToString()] };
+            List<Bill> billsToAdd = new List<Bill>()
+            {
+                {new Bill("First Instalment", 200, DateTime.Now, DateTime.Now.AddDays(firstInstalmentDueDays))},
+                {new Bill("Second Instalment", 200, DateTime.Now, DateTime.Now.AddDays(secondInstalmentDueDays))},
+                {new Bill("Third Instalment", 250, DateTime.Now, DateTime.Now.AddDays(thirdInstalmentDueDays))}
+            };
+            string authorizingPerson = "Club President";
+            DateTime agreementDate = DateTime.Now;
+            PaymentAgreement paymentAgreement = new PaymentAgreement(authorizingPerson, agreementTerms, agreementDate); 
+            invoice.AcceptBillsPaymentAgreement(paymentAgreement, billsToRenegotiate, billsToAdd);
         }
 
         [Then(@"The bill ""(.*)"" is marked as renegotiated")]
-        public void ThenTheBillIsMarkedAsRenegotiated(string p0)
+        public void ThenTheBillIsMarkedAsRenegotiated(string renegotiatedBillID)
         {
-            ScenarioContext.Current.Pending();
+            Invoice invoice = (Invoice)ScenarioContext.Current["Invoice"];
+            Assert.AreEqual(Bill.BillPaymentResult.Renegotiated, invoice.Bills[renegotiatedBillID].PaymentResult);
         }
 
         [Then(@"A bill with ID ""(.*)"" and cost of (.*) to be paid in (.*) days is created")]
-        public void ThenABillWithIDAndCostOfToBePaidInDaysIsCreated(string p0, int p1, int p2)
+        public void ThenABillWithIDAndCostOfToBePaidInDaysIsCreated(string createdBillID, decimal billAmount, int daysToDue)
         {
-            ScenarioContext.Current.Pending();
+            Invoice invoice = (Invoice)ScenarioContext.Current["Invoice"];
+            Assert.AreEqual(billAmount, invoice.Bills[createdBillID].Amount);
+            Assert.AreEqual(((DateTime)ScenarioContext.Current["IssueDate"]).AddDays(daysToDue), invoice.Bills[createdBillID].DueDate);
         }
 
 

@@ -15,7 +15,7 @@ namespace RCNGCMembersManagementAppLogic.Billing.DirectDebit
         public BankAccount(BankAccountFields bankAccountFields)
         {
             this.bankAccountFields = bankAccountFields;
-            ccc = new ClientAccountCodeCCC(bankAccountFields);
+            ccc = new ClientAccountCodeCCC(bankAccountFields.BankCode, bankAccountFields.OfficeCode, bankAccountFields.CheckDigits, bankAccountFields.AccountNumber);
             iban = new InternationalAccountBankNumberIBAN(ccc);
         }
 

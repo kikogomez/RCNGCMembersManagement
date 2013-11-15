@@ -5,7 +5,7 @@ using System.Text;
 
 namespace RCNGCMembersManagementAppLogic.Billing.DirectDebit
 {
-    static class BankAccountChekNumbersCalculator
+    static class BankAccountCheckNumbersCalculator
     {
         public static string CalculateCCCCheckDigit(string tenDigitsLongInt)
         {

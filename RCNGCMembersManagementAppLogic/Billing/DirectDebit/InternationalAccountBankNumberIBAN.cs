@@ -60,20 +60,20 @@ namespace RCNGCMembersManagementAppLogic.Billing.DirectDebit
             return (
                 countryCode=="ES" &&
                 ClientAccountCodeCCC.IsValidCCC(ccc) &&
-                BankAccountChekNumbersCalculator.CalculateSpanishIBANCheckDigits(ccc)== ibanCheckDigits);
+                BankAccountCheckNumbersCalculator.CalculateSpanishIBANCheckDigits(ccc)== ibanCheckDigits);
         }
 
         public static string CalculateSpanishIBAN(string ccc)
         {
             if (!ClientAccountCodeCCC.IsValidCCC(ccc)) return null;
-            string iban = "ES" + BankAccountChekNumbersCalculator.CalculateSpanishIBANCheckDigits(ccc) + ccc;
+            string iban = "ES" + BankAccountCheckNumbersCalculator.CalculateSpanishIBANCheckDigits(ccc) + ccc;
             return iban;
         }
 
         public static string CalculateSpanishIBANCheck(string ccc)
         {
             if (!ClientAccountCodeCCC.IsValidCCC(ccc)) return null;
-            return BankAccountChekNumbersCalculator.CalculateSpanishIBANCheckDigits(ccc);
+            return BankAccountCheckNumbersCalculator.CalculateSpanishIBANCheckDigits(ccc);
         }
 
         private string splitIBAN(string iban)

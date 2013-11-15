@@ -70,5 +70,22 @@ namespace RCNGCMembersManagementUnitTests
                 "SchemeNm", "OrganisationIdentificationSchemeName1Choice", xMLNamespace, xmlString, xSDFilePath);
             Assert.AreEqual("", validatingErrors);
         }
+
+        [TestMethod]
+        public void GenericOrganisationIdentification1_Othr_IsCorrectlyCreated()
+        {
+            OrganisationIdentificationSchemeName1Choice orgIDSchemeNameChoice_schmeNm = new OrganisationIdentificationSchemeName1Choice(
+                "SEPA", ItemChoiceType.Prtry);
+
+            GenericOrganisationIdentification1 genericOrganisationIdentification_othr = new GenericOrganisationIdentification1(
+                creditor.Identification,            //<Id>
+                orgIDSchemeNameChoice_schmeNm,      //<SchemeNm>
+                null);                              //<Issr> - No issuer
+
+            string xmlString = XMLSerializer.XMLSerializeToString<GenericOrganisationIdentification1>(genericOrganisationIdentification_othr, "Othr", xMLNamespace);
+            string validatingErrors = XMLValidator.ValidateXMLNodeThroughModifiedXSD(
+                "Othr", "GenericOrganisationIdentification1", xMLNamespace, xmlString, xSDFilePath);
+            Assert.AreEqual("", validatingErrors);
+        }
     }
 }

@@ -12,10 +12,13 @@ namespace RCNGCMembersManagementUnitTests.Billing
     [TestClass]
     public class BillUnitTests
     {
-        static List<Transaction> transactionList;
-        static List<Bill> unassignedBillsList;
+        static List<Transaction> transactionList;        
         static ClubMember clubMember;
         static InvoiceCustomerData invoiceCustomerData;
+        
+        BillingDataManager billingDataManager;
+        List<Bill> unassignedBillsList;
+
 
         [ClassInitialize]
         public static void ClassInit(TestContext context)
@@ -31,16 +34,24 @@ namespace RCNGCMembersManagementUnitTests.Billing
                 {new Transaction("BIG Mouring",1,500,new Tax("NOIGIC",0),0)}
             };
 
+            clubMember = new ClubMember("0002", "Francisco", "Gomez", "");
+            invoiceCustomerData = new InvoiceCustomerData(clubMember);
+        }
+
+        [TestInitialize]
+        public void IntializeTests()
+        {
+            billingDataManager = BillingDataManager.Instance;
+            billingDataManager.InvoiceSequenceNumber = 5000;
+
             unassignedBillsList = new List<Bill>()
             {
                 {new Bill("First Instalment", 200, DateTime.Now, DateTime.Now.AddDays(30))},
                 {new Bill("Second Instalment", 200, DateTime.Now, DateTime.Now.AddDays(60))},
                 {new Bill("Third Instalment", 250, DateTime.Now, DateTime.Now.AddDays(90))}
             };
-
-            clubMember = new ClubMember("0002", "Francisco", "Gomez", "");
-            invoiceCustomerData = new InvoiceCustomerData(clubMember);
         }
+
 
         [TestMethod]
         public void ABillShouldHaveABillID()
@@ -59,8 +70,6 @@ namespace RCNGCMembersManagementUnitTests.Billing
         [TestMethod]
         public void WhenCreatingANewInvoiceASingleBillIsCreated()
         {
-            BillingDataManager billingDataManager = BillingDataManager.Instance;
-            billingDataManager.InvoiceSequenceNumber = 5000;
             Invoice invoice = new Invoice(invoiceCustomerData, transactionList, DateTime.Now);
             Assert.AreEqual(1, invoice.Bills.Count);
         }
@@ -68,8 +77,6 @@ namespace RCNGCMembersManagementUnitTests.Billing
         [TestMethod]
         public void ABillOf650IsAutomaticallyCreatedForAnInvoiceOf650NetAmount()
         {
-            BillingDataManager billingDataManager = BillingDataManager.Instance;
-            billingDataManager.InvoiceSequenceNumber = 5000;
             Invoice invoice = new Invoice(invoiceCustomerData, transactionList, DateTime.Now);
             Assert.AreEqual(650, invoice.Bills.Values.ElementAt(0).Amount);
         }
@@ -77,8 +84,6 @@ namespace RCNGCMembersManagementUnitTests.Billing
         [TestMethod]
         public void WhenCreatingAnInvoiceItProvidesTheBillIDtoItsAssociatedBill()
         {
-            BillingDataManager billingDataManager = BillingDataManager.Instance;
-            billingDataManager.InvoiceSequenceNumber = 5000;
             Invoice invoice = new Invoice(invoiceCustomerData, transactionList, DateTime.Now);
             Assert.IsNotNull(invoice.Bills.Values.ElementAt(0).BillID);
         }
@@ -86,8 +91,6 @@ namespace RCNGCMembersManagementUnitTests.Billing
         [TestMethod]
         public void IfTheInvoiceIDIsDINV2013005000ThenTheAutomaticallyCreatedBillIDIsINV2013005000_001()
         {
-            BillingDataManager billingDataManager = BillingDataManager.Instance;
-            billingDataManager.InvoiceSequenceNumber = 5000;
             Invoice invoice = new Invoice(invoiceCustomerData, transactionList, DateTime.Now);
             Assert.AreEqual("INV2013005000/001", invoice.Bills.Values.ElementAt(0).BillID);
         }
@@ -131,8 +134,6 @@ namespace RCNGCMembersManagementUnitTests.Billing
         public void ICanReplaceASetOfBillsInAnInvoiceWithASetOfNewBillsThatAddTheSameAmountByAddingABillPaymentAgreement()
         {
             decimal invoiceInitialAmount;
-            BillingDataManager billingDataManager = BillingDataManager.Instance;
-            billingDataManager.InvoiceSequenceNumber = 5000;
             Invoice invoice = new Invoice(invoiceCustomerData, transactionList, DateTime.Now);
             invoiceInitialAmount = invoice.NetAmount;
             string authorizingPerson = "Club President";
@@ -149,20 +150,49 @@ namespace RCNGCMembersManagementUnitTests.Billing
         }
 
         [TestMethod]
-        public void TheBillIDOfTheReplpacingBillsAreCalculatedByTheInvoiceAndHaveConsecutiveNumbers()
+        public void WhenReplacingBillsTheOldBillsAreMarkedAsRenegotiated()
         {
-            /*decimal invoiceInitialAmount;
-            BillDataManager.Instance.SetInvoiceNumber(5000);
-            Invoice invoice = new Invoice(clubMember, transactionList, DateTime.Now);
-            invoiceInitialAmount = invoice.NetAmount;
-            string billToReplace = "MMM2013005001/001";
-            invoice.ReplaceBills(billToReplace, unassignedBillsList);
-            Assert.AreEqual("MMM2013005001/002", invoice.Bills.ElementAt(0).Value.BillID);
-            Assert.AreEqual("MMM2013005001/003", invoice.Bills.ElementAt(1).Value.BillID);
-            Assert.AreEqual("MMM2013005001/004", invoice.Bills.ElementAt(2).Value.BillID);*/
-            Assert.Inconclusive();
+            Invoice invoice = new Invoice(invoiceCustomerData, transactionList, DateTime.Now);
+            string authorizingPerson = "Club President";
+            string agreementTerms = "New Payment Agreement";
+            DateTime agreementDate = DateTime.Now;
+            PaymentAgreement paymentAgreement = new PaymentAgreement(authorizingPerson, agreementTerms, agreementDate);
+            List<Bill> billsToRenegotiate = new List<Bill>() { invoice.Bills["INV2013005000/001"] };
+            List<Bill> billsToAdd = new List<Bill>(unassignedBillsList);
+            invoice.AcceptBillsPaymentAgreement(paymentAgreement, billsToRenegotiate, billsToAdd);
+            billsToRenegotiate.ForEach(bill => Assert.AreEqual(Bill.BillPaymentResult.Renegotiated, bill.PaymentResult));
         }
 
+        [TestMethod]
+        public void WhenReplacingBillsThePaymentAgreementIsAssociatedToReplacedandReplacingBills()
+        {
+            Invoice invoice = new Invoice(invoiceCustomerData, transactionList, DateTime.Now);
+            string authorizingPerson = "Club President";
+            string agreementTerms = "New Payment Agreement";
+            DateTime agreementDate = DateTime.Now;
+            PaymentAgreement paymentAgreement = new PaymentAgreement(authorizingPerson, agreementTerms, agreementDate);
+            List<Bill> billsToRenegotiate = new List<Bill>() { invoice.Bills["INV2013005000/001"] };
+            List<Bill> billsToAdd = new List<Bill>(unassignedBillsList);
+            invoice.AcceptBillsPaymentAgreement(paymentAgreement, billsToRenegotiate, billsToAdd);
+            billsToRenegotiate.ForEach(bill => Assert.AreEqual("New Payment Agreement", bill.PaymentAgreement.AgreementTerms));
+            billsToAdd.ForEach(bill => Assert.AreEqual("New Payment Agreement", bill.PaymentAgreement.AgreementTerms));
+        }
+
+        [TestMethod]
+        public void TheBillIDOfTheReplpacingBillsAreCalculatedByTheInvoiceAndHaveConsecutiveNumbers()
+        {
+            Invoice invoice = new Invoice(invoiceCustomerData, transactionList, DateTime.Now);
+            string authorizingPerson = "Club President";
+            string agreementTerms = "New Payment Agreement";
+            DateTime agreementDate = DateTime.Now;
+            PaymentAgreement paymentAgreement = new PaymentAgreement(authorizingPerson, agreementTerms, agreementDate);
+            List<Bill> billsToRenegotiate = new List<Bill>() { invoice.Bills["INV2013005000/001"] };
+            List<Bill> billsToAdd = new List<Bill>(unassignedBillsList);
+            invoice.AcceptBillsPaymentAgreement(paymentAgreement, billsToRenegotiate, billsToAdd);
+            Assert.AreEqual("INV2013005000/002", billsToAdd[0].BillID);
+            Assert.AreEqual("INV2013005000/003", billsToAdd[1].BillID);
+            Assert.AreEqual("INV2013005000/004", billsToAdd[2].BillID);
+        }
 
         [TestMethod]
         public void ByDefaultABillIsGeneratedWithoutAPaymentMethod()

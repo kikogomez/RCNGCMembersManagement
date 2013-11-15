@@ -51,9 +51,9 @@ Scenario: A bill can be renegotiated into instalments
 	Given I have an invoice with cost 650 with a single bill with ID "INV2013000023/001"
 	When I renegotiate the bill "INV2013000023/001" into three instalments: 200, 200, 250 to pay in 30, 60 and 90 days with agreement terms "Renegotiating bill"
 	Then The bill "INV2013000023/001" is marked as renegotiated
-	And A bill with ID "INV2013000023/001" and cost of 200 to be paid in 30 days is created
-	And A bill with ID "INV2013000023/002" and cost of 200 to be paid in 60 days is created
-	And A bill with ID "INV2013000023/002" and cost of 250 to be paid in 90 days is created
+	And A bill with ID "INV2013000023/002" and cost of 200 to be paid in 30 days is created
+	And A bill with ID "INV2013000023/003" and cost of 200 to be paid in 60 days is created
+	And A bill with ID "INV2013000023/004" and cost of 250 to be paid in 90 days is created
 
 Scenario: A bill to collect is paid in cash
 	Given I have a bill to collect

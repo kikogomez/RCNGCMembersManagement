@@ -231,13 +231,13 @@ this.FeatureBackground();
 #line 53
  testRunner.Then("The bill \"INV2013000023/001\" is marked as renegotiated", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line 54
- testRunner.And("A bill with ID \"INV2013000023/001\" and cost of 200 to be paid in 30 days is creat" +
+ testRunner.And("A bill with ID \"INV2013000023/002\" and cost of 200 to be paid in 30 days is creat" +
                     "ed", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 55
- testRunner.And("A bill with ID \"INV2013000023/002\" and cost of 200 to be paid in 60 days is creat" +
+ testRunner.And("A bill with ID \"INV2013000023/003\" and cost of 200 to be paid in 60 days is creat" +
                     "ed", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 56
- testRunner.And("A bill with ID \"INV2013000023/002\" and cost of 250 to be paid in 90 days is creat" +
+ testRunner.And("A bill with ID \"INV2013000023/004\" and cost of 250 to be paid in 90 days is creat" +
                     "ed", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
             this.ScenarioCleanup();

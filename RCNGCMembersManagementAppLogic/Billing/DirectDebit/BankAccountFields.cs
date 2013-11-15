@@ -13,19 +13,19 @@ namespace RCNGCMembersManagementAppLogic.Billing.DirectDebit
         string checkDigits;
         string accountNumber;
 
-        public BankAccountFields(string bank, string office, string checkDigits, string accountNumber)
+        public BankAccountFields(string bankCode, string officeCode, string checkDigits, string accountNumber)
         {
             try
             {
-                CheckBankAccountFieldsLength(bank,office,checkDigits,accountNumber);
+                CheckBankAccountFieldsLength(bankCode,officeCode,checkDigits,accountNumber);
             }
             catch (ArgumentException e)
             {
                 throw e;
             }
                         
-            this.bank = bank;
-            this.office = office;
+            this.bank = bankCode;
+            this.office = officeCode;
             this.checkDigits = checkDigits;
             this.accountNumber = accountNumber;
         }
@@ -54,6 +54,7 @@ namespace RCNGCMembersManagementAppLogic.Billing.DirectDebit
         {
             return ClientAccountCodeCCC.IsValidCCC(bank, office, checkDigits, accountNumber);
         }
+
 
         private void CheckBankAccountFieldsLength(string bank, string office, string checkDigits, string accountNumber)
         {
