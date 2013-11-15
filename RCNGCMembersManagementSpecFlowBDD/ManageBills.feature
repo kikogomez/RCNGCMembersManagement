@@ -56,29 +56,38 @@ Scenario: A bill can be renegotiated into instalments
 	And A bill with ID "INV2013000023/004" and cost of 250 to be paid in 90 days is created
 
 Scenario: A bill to collect is paid in cash
-	Given I have a bill to collect
-	When The bill is paid in cash
+	Given I have an invoice with some bills to collect
+	When A bill is paid in cash
 	Then The bill state is set to "Paid"
 	And The bill payment method is set to "Cash"
 	And The bill payment date is stored
 	And The bill amount is deduced form the invoice total amount
+	And If the invoice total to be paid is 0 the invoice is marked as "Paid"
 
 Scenario: A bill to collect is paid by bank transfer
-	Given I have a bill to collect
-	When The bill is paid by bank transfer
+	Given I have an invoice with some bills to collect
+	When A bill is paid by bank transfer
 	Then The bill state is set to "Paid"
 	And The bill payment method is set to "Bank Transfer"
 	And The transferor account is stored
 	And The transferee account is stored
 	And The bill payment date is stored
 	And The bill amount is deduced form the invoice total amount
+	And If the invoice total to be paid is 0 the invoice is marked as "Paid"
 
 Scenario: A bill is past due date
-	Given I have a bill to collect
-	And the bill has a payment agreement associated
+	Given I have an bill
+	When The bill is past due date
+	Then The bill is marked as "Unpaid"
+	And The invoice containig the bill is marked as "Unpaid"
+
+Scenario: A bill with an associated agreement is past due date
+	Given I have an invoice with some bills to collect
 	When The bill is past due date
 	Then the bill is marked as "Unpaid"
-	And The associated payment agreement is set to "NotAcomplished" 
+	And The invoice containig the bill is marked as "Unpaid"
+	And The associated payment agreement is set to "NotAcomplished" for all bills involved on the agreement
+	And The associated payment agreement is set to "NotAcomplished" for the invoice
 	 
 
 

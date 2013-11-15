@@ -8,7 +8,6 @@ namespace RCNGCMembersManagementAppLogic.Billing
 {
     public class PaymentMethod
     {
-        private DateTime paymentDate;
         public PaymentMethod()
         {
         }

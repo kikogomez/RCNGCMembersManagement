@@ -87,5 +87,46 @@ namespace RCNGCMembersManagementUnitTests
                 "Othr", "GenericOrganisationIdentification1", xMLNamespace, xmlString, xSDFilePath);
             Assert.AreEqual("", validatingErrors);
         }
+
+        [TestMethod]
+        public void OrganisationIdentification4IsCorrectlyCreated()
+        {
+            OrganisationIdentificationSchemeName1Choice orgIDSchemeNameChoice_schmeNm = new OrganisationIdentificationSchemeName1Choice(
+                "SEPA", ItemChoiceType.Prtry);
+
+            GenericOrganisationIdentification1 genericOrganisationIdentification_othr = new GenericOrganisationIdentification1(
+                creditor.Identification, orgIDSchemeNameChoice_schmeNm, null);
+
+            OrganisationIdentification4 organisationIdentification_orgiD = new OrganisationIdentification4(
+                null,
+                new GenericOrganisationIdentification1[] { genericOrganisationIdentification_othr });
+
+            string xmlString = XMLSerializer.XMLSerializeToString<OrganisationIdentification4>(organisationIdentification_orgiD, "OrgId", xMLNamespace);
+            string validatingErrors = XMLValidator.ValidateXMLNodeThroughModifiedXSD(
+                "OrgId", "OrganisationIdentification4", xMLNamespace, xmlString, xSDFilePath);
+            Assert.AreEqual("", validatingErrors);
+        }
+
+        [TestMethod]
+        public void Party6ChoiceIsCorrectlyCreated()
+        {
+            OrganisationIdentificationSchemeName1Choice orgIDSchemeNameChoice_schmeNm = new OrganisationIdentificationSchemeName1Choice(
+                "SEPA", ItemChoiceType.Prtry);
+
+            GenericOrganisationIdentification1 genericOrganisationIdentification_othr = new GenericOrganisationIdentification1(
+                creditor.Identification, orgIDSchemeNameChoice_schmeNm, null);
+
+            OrganisationIdentification4 organisationIdentification_orgiD = new OrganisationIdentification4(
+                null,   //<BICOrBEI> - We dont use BIC nor BEI
+                new GenericOrganisationIdentification1[] { genericOrganisationIdentification_othr }); //<Othr>
+
+            Party6Choice organisationOrPrivateIdentification_id = new Party6Choice(
+                organisationIdentification_orgiD);    //<OrgId>
+
+            string xmlString = XMLSerializer.XMLSerializeToString<Party6Choice>(organisationOrPrivateIdentification_id, "Id", xMLNamespace);
+            string validatingErrors = XMLValidator.ValidateXMLNodeThroughModifiedXSD(
+                "Id", "Party6Choice", xMLNamespace, xmlString, xSDFilePath);
+            Assert.AreEqual("", validatingErrors);
+        }
     }
 }

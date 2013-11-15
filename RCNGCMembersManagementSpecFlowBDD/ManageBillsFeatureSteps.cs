@@ -20,6 +20,7 @@ namespace RCNGCMembersManagementSpecFlowBDD
         private readonly MembersManagementContextData membersManagementContextData;
         private readonly InvoiceContextData invoiceContextData;
         InvoicesManager invoicesManager;
+        BillsManager billsManager;
 
         public ManageBillsFeatureSteps(
             MembersManagementContextData membersManagementContextData,
@@ -28,6 +29,7 @@ namespace RCNGCMembersManagementSpecFlowBDD
             this.membersManagementContextData = membersManagementContextData;
             this.invoiceContextData = invoiceContextData;
             invoicesManager = new InvoicesManager();
+            billsManager = new BillsManager();
         }
 
         [Given(@"Last generated InvoiceID is ""(.*)""")]
@@ -201,8 +203,8 @@ namespace RCNGCMembersManagementSpecFlowBDD
             };
             string authorizingPerson = "Club President";
             DateTime agreementDate = DateTime.Now;
-            PaymentAgreement paymentAgreement = new PaymentAgreement(authorizingPerson, agreementTerms, agreementDate); 
-            invoice.AcceptBillsPaymentAgreement(paymentAgreement, billsToRenegotiate, billsToAdd);
+            PaymentAgreement paymentAgreement = new PaymentAgreement(authorizingPerson, agreementTerms, agreementDate);
+            billsManager.RenegotiateBills(invoice, billsToRenegotiate, billsToAdd, paymentAgreement);
         }
 
         [Then(@"The bill ""(.*)"" is marked as renegotiated")]
@@ -220,15 +222,14 @@ namespace RCNGCMembersManagementSpecFlowBDD
             Assert.AreEqual(((DateTime)ScenarioContext.Current["IssueDate"]).AddDays(daysToDue), invoice.Bills[createdBillID].DueDate);
         }
 
-
-        [Given(@"I have a bill to collect")]
-        public void GivenIHaveABillToCollect()
+        [Given(@"I have an invoice with some bills to collect")]
+        public void GivenIHaveAnInvoiceWithSomeBillsToCollect()
         {
             ScenarioContext.Current.Pending();
         }
 
-        [When(@"The bill is paid in cash")]
-        public void WhenTheBillIsPaidInCash()
+        [When(@"A bill is paid in cash")]
+        public void WhenABillIsPaidInCash()
         {
             ScenarioContext.Current.Pending();
         }
@@ -257,8 +258,14 @@ namespace RCNGCMembersManagementSpecFlowBDD
             ScenarioContext.Current.Pending();
         }
 
-        [When(@"The bill is paid by bank transfer")]
-        public void WhenTheBillIsPaidByBankTransfer()
+        [Then(@"If the invoice total to be paid is (.*) the invoice is marked as ""(.*)""")]
+        public void ThenIfTheInvoiceTotalToBePaidIsTheInvoiceIsMarkedAs(int p0, string p1)
+        {
+            ScenarioContext.Current.Pending();
+        }
+
+        [When(@"A bill is paid by bank transfer")]
+        public void WhenABillIsPaidByBankTransfer()
         {
             ScenarioContext.Current.Pending();
         }
@@ -275,8 +282,8 @@ namespace RCNGCMembersManagementSpecFlowBDD
             ScenarioContext.Current.Pending();
         }
 
-        [Given(@"the bill has a payment agreement associated")]
-        public void GivenTheBillHasAPaymentAgreementAssociated()
+        [Given(@"I have an bill")]
+        public void GivenIHaveAnBill()
         {
             ScenarioContext.Current.Pending();
         }
@@ -293,11 +300,42 @@ namespace RCNGCMembersManagementSpecFlowBDD
             ScenarioContext.Current.Pending();
         }
 
-        [Then(@"The associated payment agreement is set to ""(.*)""")]
-        public void ThenTheAssociatedPaymentAgreementIsSetTo(string p0)
+        [Then(@"The invoice containig the bill is marked as ""(.*)""")]
+        public void ThenTheInvoiceContainigTheBillIsMarkedAs(string p0)
         {
             ScenarioContext.Current.Pending();
         }
+
+        [Then(@"The associated payment agreement is set to ""(.*)"" for all bills involved on the agreement")]
+        public void ThenTheAssociatedPaymentAgreementIsSetToForAllBillsInvolvedOnTheAgreement(string p0)
+        {
+            ScenarioContext.Current.Pending();
+        }
+
+        [Then(@"The associated payment agreement is set to ""(.*)"" for the invoice")]
+        public void ThenTheAssociatedPaymentAgreementIsSetToForTheInvoice(string p0)
+        {
+            ScenarioContext.Current.Pending();
+        }
+
+
+
+
+
+
+
+
+
+/*        [Then(@"The bill is marked as ""(.*)""")]
+        public void ThenTheBillIsMarkedAs(string p0)
+        {
+            ScenarioContext.Current.Pending();
+        }*/
+
+
+
+
+
 
 
 
