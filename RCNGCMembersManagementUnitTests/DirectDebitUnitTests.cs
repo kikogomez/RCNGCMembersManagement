@@ -116,7 +116,5 @@ namespace RCNGCMembersManagementUnitTests
             Assert.AreEqual("01280035690987654321", directDebitMandate.BankAccount.CCC.CCC);*/
             Assert.Inconclusive(); //Se debe añadir el manejo del histórico
         }
-
-
     }
 }
