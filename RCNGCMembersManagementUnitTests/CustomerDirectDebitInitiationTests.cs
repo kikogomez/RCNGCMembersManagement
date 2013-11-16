@@ -11,12 +11,12 @@ namespace RCNGCMembersManagementUnitTests
     [TestClass]
     public class CustomerDirectDebitInitiationTests
     {
-        static Creditor creditor;
-        static CreditorAgent creditorAgent;
+        static Creditor_POCOTestClass creditor;
+        static CreditorAgent_POCOTestClass creditorAgent;
         static BankCodes bankCodes;
-        static DirectDebitTransactionInfo directDebitMandateInfo1;
-        static DirectDebitTransactionInfo directDebitMandateInfo2;
-        static List<DirectDebitTransactionInfo> directDebitMandateInfoList;
+        static DirectDebitTransactionInfo_POCOTestClass directDebitMandateInfo1;
+        static DirectDebitTransactionInfo_POCOTestClass directDebitMandateInfo2;
+        static List<DirectDebitTransactionInfo_POCOTestClass> directDebitMandateInfoList;
         static string xMLNamespace;
         static string xSDFilePath;
 
@@ -25,12 +25,12 @@ namespace RCNGCMembersManagementUnitTests
         {
             SEPAAttributes sEPAAttributes = new SEPAAttributes();
             bankCodes = new BankCodes(@"XMLFiles\SpanishBankCodes.xml", BankCodes.BankCodesFileFormat.XML);
-            creditor = new Creditor(
+            creditor = new Creditor_POCOTestClass(
                 "Real Club Náutico de Gran Canaria",
                 sEPAAttributes.AT02CreditorIdentifier("ES", "G35008770", "777"),
                 sEPAAttributes.AT07IBAN_Spanish("12345678061234567890"));
-            creditorAgent = new CreditorAgent(bankCodes.BankDictionaryByLocalBankCode["3183"].BankBIC);
-            directDebitMandateInfo1 = new DirectDebitTransactionInfo(
+            creditorAgent = new CreditorAgent_POCOTestClass(bankCodes.BankDictionaryByLocalBankCode["3183"].BankBIC);
+            directDebitMandateInfo1 = new DirectDebitTransactionInfo_POCOTestClass(
                 "Pedro Piqueras",
                 "InternalID2510201300099",
                 new string[] { "Cuota Mensual Numerario Septiembre 2013", "Cuota Mensual Numerario Octubre 2013" },
@@ -41,7 +41,7 @@ namespace RCNGCMembersManagementUnitTests
                 sEPAAttributes.AT01MandateReference("000001101111"),
                 sEPAAttributes.AT07IBAN_Spanish("01000100761234567890"));
 
-            directDebitMandateInfo2 = new DirectDebitTransactionInfo(
+            directDebitMandateInfo2 = new DirectDebitTransactionInfo_POCOTestClass(
                 "Manuel Moreno",
                 "InternalID2510201300100",
                 new string[] { "Cuota Mensual Numerario Octubre 2013" },
@@ -52,7 +52,7 @@ namespace RCNGCMembersManagementUnitTests
                 null,
                 null);
 
-            directDebitMandateInfoList = new List<DirectDebitTransactionInfo>() { directDebitMandateInfo1, directDebitMandateInfo2 };
+            directDebitMandateInfoList = new List<DirectDebitTransactionInfo_POCOTestClass>() { directDebitMandateInfo1, directDebitMandateInfo2 };
 
             xMLNamespace = "urn:iso:std:iso:20022:tech:xsd:pain.008.001.02";
             xSDFilePath = @"XSDFiles\pain.008.001.02.xsd";

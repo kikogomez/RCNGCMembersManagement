@@ -6,16 +6,16 @@ using System.Threading.Tasks;
 
 namespace RCNGCMembersManagementUnitTests.DirectDebitPOCOClasses
 {
-    public class PaymentInfo
+    public class PaymentInfo_POCOTestClass
     {
         string paymentInformationID;
         string localInstrument;
-        List<DirectDebitTransactionInfo> drctDbtTXList;
+        List<DirectDebitTransactionInfo_POCOTestClass> drctDbtTXList;
 
-        public PaymentInfo(
+        public PaymentInfo_POCOTestClass(
             string paymentInformationID, 
             string localInstrument,
-            List<DirectDebitTransactionInfo> drctDbtTXList)
+            List<DirectDebitTransactionInfo_POCOTestClass> drctDbtTXList)
         {
             this.paymentInformationID = paymentInformationID;
             this.localInstrument = localInstrument;
@@ -32,7 +32,7 @@ namespace RCNGCMembersManagementUnitTests.DirectDebitPOCOClasses
             get { return localInstrument; }
         }
 
-        public List<DirectDebitTransactionInfo> DrctDbtTXList
+        public List<DirectDebitTransactionInfo_POCOTestClass> DrctDbtTXList
         {
             get { return drctDbtTXList; }
         }

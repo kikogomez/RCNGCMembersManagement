@@ -52,8 +52,8 @@
     <Compile Include="Billing\DirectDebit\BankCode.cs" />
     <Compile Include="Billing\DirectDebit\BankCodes.cs" />
     <Compile Include="Billing\DirectDebit\ClientAccountCodeCCC.cs" />
-    <Compile Include="Billing\DirectDebit\CreditAgent.cs" />
-    <Compile Include="Billing\DirectDebit\CreditAgentDirectDebitInitiationContract.cs" />
+    <Compile Include="Billing\DirectDebit\CreditorAgent.cs" />
+    <Compile Include="Billing\DirectDebit\CreditorAgentDirectDebitInitiationContract.cs" />
     <Compile Include="Billing\DirectDebit\DirectDebit.cs" />
     <Compile Include="Billing\DirectDebit\DirectDebitMandate.cs" />
     <Compile Include="Billing\DirectDebit\ISO20022Elements\CustomerDirectDebitInitiationV02\ContactDetails2.cs" />

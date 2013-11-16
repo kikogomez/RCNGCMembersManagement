@@ -6,11 +6,11 @@ using System.Threading.Tasks;
 
 namespace RCNGCMembersManagementUnitTests.DirectDebitPOCOClasses
 {
-    public class CreditorAgent
+    public class CreditorAgent_POCOTestClass
     {
         string bIC;
 
-        public CreditorAgent(string bIC)
+        public CreditorAgent_POCOTestClass(string bIC)
         {
             this.bIC= bIC;
         }

@@ -6,13 +6,13 @@ using System.Threading.Tasks;
 
 namespace RCNGCMembersManagementUnitTests.DirectDebitPOCOClasses
 {
-    public class Creditor
+    public class Creditor_POCOTestClass
     {
         string name;
         string identification;
         string iBAN;
 
-        public Creditor(string name, string identification, string iBAN)
+        public Creditor_POCOTestClass(string name, string identification, string iBAN)
         {
             this.name = name;
             this.identification = identification;

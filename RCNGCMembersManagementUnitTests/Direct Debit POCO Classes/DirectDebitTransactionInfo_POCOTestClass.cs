@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace RCNGCMembersManagementUnitTests.DirectDebitPOCOClasses
 {
-    public class DirectDebitTransactionInfo
+    public class DirectDebitTransactionInfo_POCOTestClass
     {
         string debtorName;
         string txInternalId;
@@ -18,7 +18,7 @@ namespace RCNGCMembersManagementUnitTests.DirectDebitPOCOClasses
         string previousMandateID;
         string previuosIBAN;
 
-        public DirectDebitTransactionInfo(
+        public DirectDebitTransactionInfo_POCOTestClass(
             string debtorName,
             string txInternalId,
             string[] remitanceInformation,
