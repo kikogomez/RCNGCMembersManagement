@@ -52,8 +52,11 @@
     <Compile Include="Billing\DirectDebit\BankCode.cs" />
     <Compile Include="Billing\DirectDebit\BankCodes.cs" />
     <Compile Include="Billing\DirectDebit\ClientAccountCodeCCC.cs" />
+    <Compile Include="Billing\DirectDebit\CreditAgent.cs" />
+    <Compile Include="Billing\DirectDebit\CreditAgentDirectDebitInitiationContract.cs" />
     <Compile Include="Billing\DirectDebit\DirectDebit.cs" />
     <Compile Include="Billing\DirectDebit\DirectDebitMandate.cs" />
+    <Compile Include="Billing\DirectDebit\ISO20022Elements\CustomerDirectDebitInitiationV02\ContactDetails2.cs" />
     <Compile Include="Billing\DirectDebit\ISO20022Elements\CustomerDirectDebitInitiationV02\DateAndPlaceOfBirth.cs" />
     <Compile Include="Billing\DirectDebit\ISO20022Elements\CustomerDirectDebitInitiationV02\Enums.cs" />
     <Compile Include="Billing\DirectDebit\ISO20022Elements\CustomerDirectDebitInitiationV02\FinancialIdentificationSchemeName1Choice.cs" />
@@ -63,8 +66,10 @@
     <Compile Include="Billing\DirectDebit\ISO20022Elements\CustomerDirectDebitInitiationV02\OrganisationIdentification4.cs" />
     <Compile Include="Billing\DirectDebit\ISO20022Elements\CustomerDirectDebitInitiationV02\OrganisationIdentificationSchemeName1Choice.cs" />
     <Compile Include="Billing\DirectDebit\ISO20022Elements\CustomerDirectDebitInitiationV02\Party6Choice.cs" />
+    <Compile Include="Billing\DirectDebit\ISO20022Elements\CustomerDirectDebitInitiationV02\PartyIdentification32.cs" />
     <Compile Include="Billing\DirectDebit\ISO20022Elements\CustomerDirectDebitInitiationV02\PersonIdentification5.cs" />
     <Compile Include="Billing\DirectDebit\ISO20022Elements\CustomerDirectDebitInitiationV02\PersonIdentificationSchemeName1Choice.cs" />
+    <Compile Include="Billing\DirectDebit\ISO20022Elements\CustomerDirectDebitInitiationV02\PostalAddress6.cs" />
     <Compile Include="Billing\DirectDebit\SEPAAttributes.cs" />
     <Compile Include="Billing\Payment.cs" />
     <Compile Include="Billing\PaymentAgreement.cs" />

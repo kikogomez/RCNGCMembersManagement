@@ -128,5 +128,33 @@ namespace RCNGCMembersManagementUnitTests
                 "Id", "Party6Choice", xMLNamespace, xmlString, xSDFilePath);
             Assert.AreEqual("", validatingErrors);
         }
+
+        [TestMethod]
+        public void InitiationPartyElement_InitPty_IsCorrectlyCreated()
+        {
+            OrganisationIdentificationSchemeName1Choice orgIDSchemeNameChoice_schmeNm = new OrganisationIdentificationSchemeName1Choice(
+                "SEPA", ItemChoiceType.Prtry);
+
+            GenericOrganisationIdentification1 genericOrganisationIdentification_othr = new GenericOrganisationIdentification1(
+                creditor.Identification, orgIDSchemeNameChoice_schmeNm, null);
+
+            OrganisationIdentification4 organisationIdentification_orgiD = new OrganisationIdentification4(
+                null,
+                new GenericOrganisationIdentification1[] { genericOrganisationIdentification_othr });
+
+            Party6Choice organisationOrPrivateIdentification_id = new Party6Choice(organisationIdentification_orgiD);
+
+            PartyIdentification32 initiationParty_initgPty = new PartyIdentification32(
+                creditor.Name,                              //<Nm>
+                null,                                       //<PstlAdr> - Not used in SEPA
+                organisationOrPrivateIdentification_id,     //<OrgID> or <PrvtId>
+                null,                                       //<CtryOfRes> - Not used in SEPA
+                null);                                      //<CtctDtls> - Not used in SEPA
+
+            string xmlString = XMLSerializer.XMLSerializeToString<PartyIdentification32>(initiationParty_initgPty, "InitgPty", xMLNamespace);
+            string validatingErrors = XMLValidator.ValidateXMLNodeThroughModifiedXSD(
+                "InitgPty", "PartyIdentification32", xMLNamespace, xmlString, xSDFilePath);
+            Assert.AreEqual("", validatingErrors);
+        }
     }
 }

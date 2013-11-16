@@ -48,7 +48,7 @@ namespace RCNGCMembersManagementSpecFlowBDD
             string electronicIBANString = clientsTable.Rows[0]["Spanish IBAN Bank Account"].Replace(" ","").Substring(4);
             InternationalAccountBankNumberIBAN iban = new InternationalAccountBankNumberIBAN(electronicIBANString);
             BankAccount bankAccount = new BankAccount(iban);
-            DirectDebitMandate directDebitmandate = new DirectDebitMandate(bankAccount, "12345");
+            DirectDebitMandate directDebitmandate = new DirectDebitMandate(DateTime.Now.Date, bankAccount, "12345");
             PaymentMethod paymentMethod = new DirectDebit(directDebitmandate);
             membersManagementContextData.clubMember.AddDirectDebitMandate(directDebitmandate);
             membersManagementContextData.clubMember.SetDefaultPaymentMethod(paymentMethod);
@@ -136,7 +136,7 @@ namespace RCNGCMembersManagementSpecFlowBDD
         [Then(@"By default no payment method is associated to bill")]
         public void ThenByDefaultNoPaymentMethodIsAssociatedToBill()
         {
-            Assert.IsNull(((Invoice)ScenarioContext.Current["Invoice"]).Bills.Values.ElementAt(0).PaymentMethod);
+            Assert.IsNull(((Invoice)ScenarioContext.Current["Invoice"]).Bills.Values.ElementAt(0).AssignedPaymentMethod);
         }
 
 
@@ -203,8 +203,9 @@ namespace RCNGCMembersManagementSpecFlowBDD
             };
             string authorizingPerson = "Club President";
             DateTime agreementDate = DateTime.Now;
+            ScenarioContext.Current.Add("AgreementDate", agreementDate);
             PaymentAgreement paymentAgreement = new PaymentAgreement(authorizingPerson, agreementTerms, agreementDate);
-            billsManager.RenegotiateBills(invoice, billsToRenegotiate, billsToAdd, paymentAgreement);
+            invoicesManager.RenegotiateBillsOnInvoice(invoice, paymentAgreement, billsToRenegotiate, billsToAdd);
         }
 
         [Then(@"The bill ""(.*)"" is marked as renegotiated")]
@@ -212,6 +213,13 @@ namespace RCNGCMembersManagementSpecFlowBDD
         {
             Invoice invoice = (Invoice)ScenarioContext.Current["Invoice"];
             Assert.AreEqual(Bill.BillPaymentResult.Renegotiated, invoice.Bills[renegotiatedBillID].PaymentResult);
+        }
+
+        [Then(@"The renegotiated bill ""(.*)"" has associated the agreement terms ""(.*)"" to it")]
+        public void ThenTheRenegotiatedBillHasAssociatedTheAgreementTermsToIt(string renegotiatedBillID, string agreemetTerms)
+        {
+            Invoice invoice = (Invoice)ScenarioContext.Current["Invoice"];
+            Assert.AreEqual(agreemetTerms, invoice.Bills[renegotiatedBillID].RenegotiationAgreement.AgreementTerms);
         }
 
         [Then(@"A bill with ID ""(.*)"" and cost of (.*) to be paid in (.*) days is created")]
@@ -222,17 +230,43 @@ namespace RCNGCMembersManagementSpecFlowBDD
             Assert.AreEqual(((DateTime)ScenarioContext.Current["IssueDate"]).AddDays(daysToDue), invoice.Bills[createdBillID].DueDate);
         }
 
-        [Given(@"I have an invoice with some bills to collect")]
-        public void GivenIHaveAnInvoiceWithSomeBillsToCollect()
+        [Then(@"The new bill ""(.*)"" has associated the agreement terms ""(.*)"" to it")]
+        public void ThenTheNewBillHasAssociatedTheAgreementTermsToIt(string newBillID, string agreementTerms)
+        {
+            Invoice invoice = (Invoice)ScenarioContext.Current["Invoice"];
+            DateTime agreementDate = (DateTime)ScenarioContext.Current["AgreementDate"];
+            Assert.AreEqual(agreementTerms, invoice.Bills[newBillID].PaymentAgreements[DateTime.Now.Date].AgreementTerms);
+        }
+
+        [Given(@"I have an invoice with some bills")]
+        public void GivenIHaveAnInvoiceWithSomeBills()
         {
             ScenarioContext.Current.Pending();
         }
 
-        [When(@"A bill is paid in cash")]
-        public void WhenABillIsPaidInCash()
+        [Given(@"I have a bill to collect in the invoice")]
+        public void GivenIHaveABillToCollectInTheInvoice()
         {
             ScenarioContext.Current.Pending();
         }
+
+        [When(@"The bill is paid in cash")]
+        public void WhenTheBillIsPaidInCash()
+        {
+            ScenarioContext.Current.Pending();
+        }
+
+        /*[Given(@"I have an invoice with some bills to collect")]
+        public void GivenIHaveAnInvoiceWithSomeBillsToCollect()
+        {
+            ScenarioContext.Current.Pending();
+        }*/
+
+        /*[When(@"A bill is paid in cash")]
+        public void WhenABillIsPaidInCash()
+        {
+            ScenarioContext.Current.Pending();
+        }*/
 
         [Then(@"The bill state is set to ""(.*)""")]
         public void ThenTheBillStateIsSetTo(string billState)
@@ -264,11 +298,17 @@ namespace RCNGCMembersManagementSpecFlowBDD
             ScenarioContext.Current.Pending();
         }
 
-        [When(@"A bill is paid by bank transfer")]
-        public void WhenABillIsPaidByBankTransfer()
+        [When(@"The bill is paid by bank transfer")]
+        public void WhenTheBillIsPaidByBankTransfer()
         {
             ScenarioContext.Current.Pending();
         }
+
+        /*[When(@"A bill is paid by bank transfer")]
+        public void WhenABillIsPaidByBankTransfer()
+        {
+            ScenarioContext.Current.Pending();
+        }*/
 
         [Then(@"The transferor account is stored")]
         public void ThenTheTransferorAccountIsStored()
@@ -282,11 +322,11 @@ namespace RCNGCMembersManagementSpecFlowBDD
             ScenarioContext.Current.Pending();
         }
 
-        [Given(@"I have an bill")]
+        /*[Given(@"I have an bill")]
         public void GivenIHaveAnBill()
         {
             ScenarioContext.Current.Pending();
-        }
+        }*/
 
         [When(@"The bill is past due date")]
         public void WhenTheBillIsPastDueDate()
@@ -294,7 +334,7 @@ namespace RCNGCMembersManagementSpecFlowBDD
             ScenarioContext.Current.Pending();
         }
 
-        [Then(@"the bill is marked as ""(.*)""")]
+        [Then(@"The bill is marked as ""(.*)""")]
         public void ThenTheBillIsMarkedAs(string p0)
         {
             ScenarioContext.Current.Pending();
@@ -302,6 +342,12 @@ namespace RCNGCMembersManagementSpecFlowBDD
 
         [Then(@"The invoice containig the bill is marked as ""(.*)""")]
         public void ThenTheInvoiceContainigTheBillIsMarkedAs(string p0)
+        {
+            ScenarioContext.Current.Pending();
+        }
+
+        [Given(@"The bill has associated a payment agreement")]
+        public void GivenTheBillHasAssociatedAPaymentAgreement()
         {
             ScenarioContext.Current.Pending();
         }
@@ -318,19 +364,30 @@ namespace RCNGCMembersManagementSpecFlowBDD
             ScenarioContext.Current.Pending();
         }
 
-
-
-
-
-
-
-
-
-/*        [Then(@"The bill is marked as ""(.*)""")]
-        public void ThenTheBillIsMarkedAs(string p0)
+        [When(@"I renew the due date")]
+        public void WhenIRenewTheDueDate()
         {
             ScenarioContext.Current.Pending();
-        }*/
+        }
+
+        [Then(@"The new due date is assigned to the bill")]
+        public void ThenTheNewDueDateIsAssignedToTheBill()
+        {
+            ScenarioContext.Current.Pending();
+        }
+
+        [Given(@"The bill is past due date")]
+        public void GivenTheBillIsPastDueDate()
+        {
+            ScenarioContext.Current.Pending();
+        }
+
+        [Then(@"If there are no other bills marked as ""(.*)"" the invoice is marked ""(.*)""")]
+        public void ThenIfThereAreNoOtherBillsMarkedAsTheInvoiceIsMarked(string p0, string p1)
+        {
+            ScenarioContext.Current.Pending();
+        }
+
 
 
 

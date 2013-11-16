@@ -471,5 +471,18 @@ namespace RCNGCMembersManagementUnitTests.Billing
 
             Assert.Inconclusive();
         }
+
+        [TestMethod]
+        public void WhenPayingABillTheInvoiceTotalAmountToCollectIsCorrectlyUpdates()
+        {
+            Assert.Inconclusive();
+        }
+
+        [TestMethod]
+        public void WhenPayingABillIfTheraAreNomMoreBillsToCollectTheBillIsmarkedAsPaid()
+        {
+            Assert.Inconclusive();
+        }
+
     }
 }

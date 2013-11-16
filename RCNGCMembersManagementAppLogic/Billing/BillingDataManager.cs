@@ -38,6 +38,12 @@ namespace RCNGCMembersManagementAppLogic.Billing
             set { SetProFormaInvoiceSequenceNumber(value); }
         }
 
+        public uint DirectDebitSequenceNumber
+        {
+            get { return GetDirectDebitSequenceNumber(); }
+            set { SetDirectDebitSequenceNumber(value); }
+        }
+
         public string InvoicePrefix
         {
             get { return invoicePrefix; }
@@ -88,9 +94,29 @@ namespace RCNGCMembersManagementAppLogic.Billing
             billingSequenceNumbersManager.SetProFormaInvoiceSequenceNumber(proFormaInvoiceSequenceNumber);
         }
 
+        private uint GetDirectDebitSequenceNumber()
+        {
+            uint directDebitSequenceNumber = billingSequenceNumbersManager.GetDirectDebitReferenceSequenceNumber();
+            if (directDebitSequenceNumber >= 100000)
+                throw new ArgumentOutOfRangeException("directDebitSequenceNumber", "Max 99999 direct debit references");
+            return directDebitSequenceNumber;
+        }
+
+        private void SetDirectDebitSequenceNumber(uint directDebitSequenceNumber)
+        {
+            if (!DirectDebitSequenceNumberIsInRange(directDebitSequenceNumber))
+                throw new ArgumentOutOfRangeException("invoiceSequenceNumber", "Invoice ID out of range (1-99999)");
+            billingSequenceNumbersManager.SetInvoiceSequenceNumber(directDebitSequenceNumber);
+        }
+
         private bool InvoiceSequenceNuberIsInRange(uint invoiceNumber)
         {
             return (1 <= invoiceNumber && invoiceNumber < 1000000);
+        }
+
+        private bool DirectDebitSequenceNumberIsInRange(uint directDebitSequenceNumber)
+        {
+            return (1 <= directDebitSequenceNumber && directDebitSequenceNumber < 100000);
         }
 
         private void LoadConfig()

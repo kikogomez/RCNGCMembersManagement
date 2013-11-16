@@ -56,6 +56,7 @@
     <Compile Include="BankAccountUnitTests.cs" />
     <Compile Include="BankCodesUnitTests.cs" />
     <Compile Include="ClubMemberUnitTests.cs" />
+    <Compile Include="CreditAgentTests.cs" />
     <Compile Include="CustomerDirectDebitInitiationTests.cs" />
     <Compile Include="Direct Debit POCO Classes\Creditor.cs" />
     <Compile Include="Direct Debit POCO Classes\CreditorAgent.cs" />
@@ -68,6 +69,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="InvoiceUnitTests.cs" />
     <Compile Include="BillUnitTests.cs" />
+    <Compile Include="SEPAAttributesTest.cs" />
     <Compile Include="ServiceUnitTests.cs" />
     <Compile Include="TaxTestUnits.cs" />
     <Compile Include="TransactionUnitTests.cs" />

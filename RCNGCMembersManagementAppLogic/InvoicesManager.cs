@@ -22,7 +22,7 @@ namespace RCNGCMembersManagementAppLogic
 
         public void RenegotiateBillsOnInvoice(Invoice invoice, PaymentAgreement paymentAgreement, List<Bill> billsToRenegotiate, List<Bill> billsToAdd)
         {
-            invoice.AcceptBillsPaymentAgreement(paymentAgreement, billsToRenegotiate, billsToAdd);
+            invoice.RenegotiateBillsIntoInstalments(paymentAgreement, billsToRenegotiate, billsToAdd);
         }
 
         public void CancelInvoice(Invoice invoiceToCancel, ClubMember debtor)

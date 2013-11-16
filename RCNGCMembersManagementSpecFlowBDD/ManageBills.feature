@@ -49,15 +49,22 @@ Scenario: No bills are created for a pro forma invoice
 
 Scenario: A bill can be renegotiated into instalments
 	Given I have an invoice with cost 650 with a single bill with ID "INV2013000023/001"
-	When I renegotiate the bill "INV2013000023/001" into three instalments: 200, 200, 250 to pay in 30, 60 and 90 days with agreement terms "Renegotiating bill"
+	When I renegotiate the bill "INV2013000023/001" into three instalments: 200, 200, 250 to pay in 30, 60 and 90 days with agreement terms "Payment Agtreement"
 	Then The bill "INV2013000023/001" is marked as renegotiated
+	And The renegotiated bill "INV2013000023/001" has associated the agreement terms "Payment Agtreement" to it
 	And A bill with ID "INV2013000023/002" and cost of 200 to be paid in 30 days is created
+	And The new bill "INV2013000023/002" has associated the agreement terms "Payment Agtreement" to it
 	And A bill with ID "INV2013000023/003" and cost of 200 to be paid in 60 days is created
+	And The new bill "INV2013000023/003" has associated the agreement terms "Payment Agtreement" to it
 	And A bill with ID "INV2013000023/004" and cost of 250 to be paid in 90 days is created
+	And The new bill "INV2013000023/004" has associated the agreement terms "Payment Agtreement" to it
+
+Scenario: I can assign an specific payment method for a single bill
 
 Scenario: A bill to collect is paid in cash
-	Given I have an invoice with some bills to collect
-	When A bill is paid in cash
+	Given I have an invoice with some bills
+	And I have a bill to collect in the invoice
+	When The bill is paid in cash
 	Then The bill state is set to "Paid"
 	And The bill payment method is set to "Cash"
 	And The bill payment date is stored
@@ -65,8 +72,9 @@ Scenario: A bill to collect is paid in cash
 	And If the invoice total to be paid is 0 the invoice is marked as "Paid"
 
 Scenario: A bill to collect is paid by bank transfer
-	Given I have an invoice with some bills to collect
-	When A bill is paid by bank transfer
+	Given I have an invoice with some bills
+	And I have a bill to collect in the invoice
+	When The bill is paid by bank transfer
 	Then The bill state is set to "Paid"
 	And The bill payment method is set to "Bank Transfer"
 	And The transferor account is stored
@@ -76,18 +84,37 @@ Scenario: A bill to collect is paid by bank transfer
 	And If the invoice total to be paid is 0 the invoice is marked as "Paid"
 
 Scenario: A bill is past due date
-	Given I have an bill
+	Given I have an invoice with some bills
+	And I have a bill to collect in the invoice
 	When The bill is past due date
 	Then The bill is marked as "Unpaid"
 	And The invoice containig the bill is marked as "Unpaid"
 
 Scenario: A bill with an associated agreement is past due date
-	Given I have an invoice with some bills to collect
+	Given I have an invoice with some bills
+	And I have a bill to collect in the invoice
+	And The bill has associated a payment agreement
 	When The bill is past due date
-	Then the bill is marked as "Unpaid"
+	Then The bill is marked as "Unpaid"
 	And The invoice containig the bill is marked as "Unpaid"
 	And The associated payment agreement is set to "NotAcomplished" for all bills involved on the agreement
 	And The associated payment agreement is set to "NotAcomplished" for the invoice
 	 
+Scenario: A bill due date can be extended
+	Given I have an invoice with some bills
+	And I have a bill to collect in the invoice
+	When I renew the due date
+	Then The new due date is assigned to the bill
+
+Scenario: A past due bill due date can be renewed
+	Given I have an invoice with some bills
+	And I have a bill to collect in the invoice
+	And The bill is past due date
+	When I renew the due date
+	Then The new due date is assigned to the bill
+	And The bill is marked as "ToCollect"
+	And If there are no other bills marked as "Unpaid" the invoice is marked "ToBePaid"
+
+
 
 

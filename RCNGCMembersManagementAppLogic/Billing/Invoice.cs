@@ -13,13 +13,12 @@ namespace RCNGCMembersManagementAppLogic.Billing
     {
         Dictionary<string, Bill> invoiceBills;
         InvoicePaymentState invoiceState;
-        List<PaymentAgreement> paymentAgreements;
+        Dictionary<DateTime,PaymentAgreement> paymentAgreements;
 
         public Invoice(InvoiceCustomerData invoiceCustomerData, List<Transaction> transactionsList, DateTime issueDate)
             : this(invoiceCustomerData, transactionsList, null, issueDate)
         {
         }
-
 
         public Invoice(string invoiceID, InvoiceCustomerData invoiceCustomerData, List<Transaction> transactionsList, DateTime issueDate)
             : this(invoiceID, invoiceCustomerData, transactionsList, null, issueDate)
@@ -70,17 +69,18 @@ namespace RCNGCMembersManagementAppLogic.Billing
             get { return invoiceState; }
         }
 
-        public void AcceptBillsPaymentAgreement (PaymentAgreement paymentAgreement, List<Bill> billsToRenegotiate, List<Bill> billsToAdd)
+        public void RenegotiateBillsIntoInstalments (PaymentAgreement paymentAgreement, List<Bill> billsToRenegotiate, List<Bill> billsToAdd)
         {
-            this.paymentAgreements.Add(paymentAgreement);
-            AssignPaymentAgreementToBills(paymentAgreement, billsToAdd);
-            AssignPaymentAgreementToBills(paymentAgreement, billsToRenegotiate);
-            ReplaceNegotiatedBills(billsToRenegotiate, billsToAdd);
+            this.paymentAgreements.Add(paymentAgreement.AgreementDate.Date, paymentAgreement);
+            //AssignPaymentAgreementToBills(paymentAgreement, billsToAdd);
+            //AssignPaymentAgreementToBills(paymentAgreement, billsToRenegotiate);
+            ReplaceNegotiatedBills(billsToRenegotiate, billsToAdd, paymentAgreement);
         }
 
-        private void ReplaceNegotiatedBills(List<Bill> billsToRenegotiate, List<Bill> billsToAdd)
+        private void ReplaceNegotiatedBills(List<Bill> billsToRenegotiate, List<Bill> billsToAdd, PaymentAgreement paymentAgreement)
         {
-            SetBillsPaymentResult(billsToRenegotiate, Bill.BillPaymentResult.Renegotiated);
+            AssignPaymentAgreementToBills(paymentAgreement, billsToAdd);
+            MarkRenegotiatedBills(billsToRenegotiate, paymentAgreement);
             AddBillsToInvoice(billsToAdd);
         }
 
@@ -121,7 +121,7 @@ namespace RCNGCMembersManagementAppLogic.Billing
             if (billsList == null) billsList = new List<Bill> { CreateASingleBillForInvoiceTotal() };
             AddBillsToInvoice(billsList);
             invoiceState = InvoicePaymentState.ToBePaid;
-            paymentAgreements = new List<PaymentAgreement>();
+            paymentAgreements = new Dictionary<DateTime,PaymentAgreement>();
         }
 
         private Bill CreateASingleBillForInvoiceTotal()
@@ -150,25 +150,20 @@ namespace RCNGCMembersManagementAppLogic.Billing
 
         private void CancelAllPendingBills()
         {
-            this.Bills
-                .Select(bill => bill.Value.PaymentResult = Bill.BillPaymentResult.CancelledOut)
-                .Where(paymentResult => paymentResult == Bill.BillPaymentResult.ToCollect || paymentResult == Bill.BillPaymentResult.Unpaid);
+            List<Bill> pendingBills = Bills
+                .Select(billsDictionayElement => billsDictionayElement.Value)
+                .Where(bill => bill.PaymentResult == Bill.BillPaymentResult.ToCollect || bill.PaymentResult == Bill.BillPaymentResult.Unpaid).ToList();
+            foreach (Bill bill in pendingBills) bill.CancelBill();
         }
 
         private void AssignPaymentAgreementToBills(PaymentAgreement paymentAgreement, List<Bill> billsList)
         {
-            foreach (Bill bill in billsList) bill.PaymentAgreement = paymentAgreement;
+            foreach (Bill bill in billsList) bill.AssignAgreement(paymentAgreement);
         }
 
-        private void SetBillsPaymentResult(List<Bill> billsToMark, Bill.BillPaymentResult billPaymentResult)
+        private void MarkRenegotiatedBills(List<Bill> billsToMark, PaymentAgreement paymentAgreement)
         {
-            List<string> billsIDList = billsToMark.Select(bill => bill.BillID).ToList();
-            SetBillsPaymentResult_ByID(billPaymentResult, billsIDList);
-        }
-
-        private void SetBillsPaymentResult_ByID(Bill.BillPaymentResult billPaymentResult, List<string> billsIDToSet)
-        {
-            billsIDToSet.ForEach(billID => invoiceBills[billID].PaymentResult = billPaymentResult);
+            foreach (Bill bill in billsToMark) bill.RenegotiateBill(paymentAgreement);
         }
     }
 }

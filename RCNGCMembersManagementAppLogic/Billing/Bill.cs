@@ -14,8 +14,9 @@ namespace RCNGCMembersManagementAppLogic.Billing
         DateTime issueDate;
         DateTime dueDate;
         BillPaymentResult paymentResult;
-        PaymentMethod paymentMethod;
-        PaymentAgreement paymentAgreement;
+        PaymentMethod assignedPaymentMethod;
+        Dictionary<DateTime,PaymentAgreement> paymentAgreements;
+        PaymentAgreement renegotiationAgreement;
 
         public Bill(string billID, string description, decimal amount, DateTime issueDate, DateTime dueDate)
             : this(billID, description, amount, issueDate, dueDate, null) { }
@@ -34,11 +35,12 @@ namespace RCNGCMembersManagementAppLogic.Billing
             this.issueDate = issueDate;
             this.dueDate = dueDate.Date;
             this.paymentResult = (int)BillPaymentResult.ToCollect;
-            this.paymentMethod = paymentMethod;
+            this.assignedPaymentMethod = paymentMethod;
+            this.paymentAgreements = new Dictionary<DateTime, PaymentAgreement>();
         }
 
         public enum BillPaymentResult { ToCollect, Paid, Unpaid, CancelledOut, Renegotiated, Failed };
-        //public enum BillPaymentMethod { Cash, CreditCard, Check, BankTransfer, DirectDebit };
+        public enum BillPaymentMethod { Cash, CreditCard, Check, BankTransfer, DirectDebit };
 
         public string BillID
         {
@@ -53,24 +55,48 @@ namespace RCNGCMembersManagementAppLogic.Billing
         public BillPaymentResult PaymentResult
         {
             get { return paymentResult; }
-            set { paymentResult = value; }
         }
 
-        public PaymentMethod PaymentMethod
+        public PaymentMethod AssignedPaymentMethod
         {
-            get { return paymentMethod; }
-            set { paymentMethod = value; }
+            get { return assignedPaymentMethod; }
+            set { assignedPaymentMethod = value; }
         }
 
-        public PaymentAgreement PaymentAgreement
+        public Dictionary<DateTime, PaymentAgreement> PaymentAgreements
         {
-            get { return paymentAgreement; }
-            set { paymentAgreement = value; }
+            get { return paymentAgreements; }
+        }
+
+        public PaymentAgreement RenegotiationAgreement
+        {
+            get { return renegotiationAgreement; }
         }
 
         public DateTime DueDate
         {
             get { return dueDate; }
+        }
+
+        public void PayBill()
+        {
+
+        }
+
+        public void CancelBill()
+        {
+            paymentResult = BillPaymentResult.CancelledOut;
+        }
+
+        public void RenegotiateBill(PaymentAgreement renegotiationAgreement)
+        {
+            paymentResult = BillPaymentResult.Renegotiated;
+            this.renegotiationAgreement = renegotiationAgreement;
+        }
+
+        public void AssignAgreement(PaymentAgreement paymentAgreement)
+        {
+            this.paymentAgreements.Add(paymentAgreement.AgreementDate.Date, paymentAgreement);
         }
     }
 }

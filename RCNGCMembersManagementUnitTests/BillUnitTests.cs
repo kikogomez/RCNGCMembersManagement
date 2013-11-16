@@ -138,15 +138,12 @@ namespace RCNGCMembersManagementUnitTests.Billing
             invoiceInitialAmount = invoice.NetAmount;
             string authorizingPerson = "Club President";
             string agreementTerms = "New Payment Agreement";
-            DateTime agreementDate = DateTime.Now;
+            DateTime agreementDate = DateTime.Now.Date;
             PaymentAgreement paymentAgreement = new PaymentAgreement(authorizingPerson, agreementTerms, agreementDate);
             List<Bill> billsToRenegotiate = new List<Bill>() {invoice.Bills["INV2013005000/001"]};
             List<Bill> billsToAdd = new List<Bill>(unassignedBillsList);
-            invoice.AcceptBillsPaymentAgreement(paymentAgreement, billsToRenegotiate, billsToAdd);
+            invoice.RenegotiateBillsIntoInstalments(paymentAgreement, billsToRenegotiate, billsToAdd);
             Assert.AreEqual(invoiceInitialAmount, invoice.NetAmount);
-            billsToRenegotiate.ForEach(bill => Assert.AreEqual(Bill.BillPaymentResult.Renegotiated, bill.PaymentResult));
-            billsToRenegotiate.ForEach(bill => Assert.AreEqual("New Payment Agreement", bill.PaymentAgreement.AgreementTerms));
-            billsToAdd.ForEach(bill => Assert.AreEqual("New Payment Agreement", bill.PaymentAgreement.AgreementTerms));
         }
 
         [TestMethod]
@@ -159,23 +156,24 @@ namespace RCNGCMembersManagementUnitTests.Billing
             PaymentAgreement paymentAgreement = new PaymentAgreement(authorizingPerson, agreementTerms, agreementDate);
             List<Bill> billsToRenegotiate = new List<Bill>() { invoice.Bills["INV2013005000/001"] };
             List<Bill> billsToAdd = new List<Bill>(unassignedBillsList);
-            invoice.AcceptBillsPaymentAgreement(paymentAgreement, billsToRenegotiate, billsToAdd);
+            invoice.RenegotiateBillsIntoInstalments(paymentAgreement, billsToRenegotiate, billsToAdd);
             billsToRenegotiate.ForEach(bill => Assert.AreEqual(Bill.BillPaymentResult.Renegotiated, bill.PaymentResult));
         }
 
         [TestMethod]
-        public void WhenReplacingBillsThePaymentAgreementIsAssociatedToReplacedandReplacingBills()
+        public void WhenReplacingBillsThePaymentAgreementIsAssociatedToReplacedAndReplacingBills()
         {
             Invoice invoice = new Invoice(invoiceCustomerData, transactionList, DateTime.Now);
             string authorizingPerson = "Club President";
             string agreementTerms = "New Payment Agreement";
-            DateTime agreementDate = DateTime.Now;
+            DateTime agreementDate = DateTime.Now.Date;
             PaymentAgreement paymentAgreement = new PaymentAgreement(authorizingPerson, agreementTerms, agreementDate);
             List<Bill> billsToRenegotiate = new List<Bill>() { invoice.Bills["INV2013005000/001"] };
             List<Bill> billsToAdd = new List<Bill>(unassignedBillsList);
-            invoice.AcceptBillsPaymentAgreement(paymentAgreement, billsToRenegotiate, billsToAdd);
-            billsToRenegotiate.ForEach(bill => Assert.AreEqual("New Payment Agreement", bill.PaymentAgreement.AgreementTerms));
-            billsToAdd.ForEach(bill => Assert.AreEqual("New Payment Agreement", bill.PaymentAgreement.AgreementTerms));
+            invoice.RenegotiateBillsIntoInstalments(paymentAgreement, billsToRenegotiate, billsToAdd);
+            billsToRenegotiate.ForEach(bill => Assert.AreEqual(Bill.BillPaymentResult.Renegotiated, bill.PaymentResult));
+            billsToRenegotiate.ForEach(bill => Assert.AreEqual("New Payment Agreement", bill.RenegotiationAgreement.AgreementTerms));
+            billsToAdd.ForEach(bill => Assert.AreEqual("New Payment Agreement", bill.PaymentAgreements[agreementDate].AgreementTerms));
         }
 
         [TestMethod]
@@ -188,7 +186,7 @@ namespace RCNGCMembersManagementUnitTests.Billing
             PaymentAgreement paymentAgreement = new PaymentAgreement(authorizingPerson, agreementTerms, agreementDate);
             List<Bill> billsToRenegotiate = new List<Bill>() { invoice.Bills["INV2013005000/001"] };
             List<Bill> billsToAdd = new List<Bill>(unassignedBillsList);
-            invoice.AcceptBillsPaymentAgreement(paymentAgreement, billsToRenegotiate, billsToAdd);
+            invoice.RenegotiateBillsIntoInstalments(paymentAgreement, billsToRenegotiate, billsToAdd);
             Assert.AreEqual("INV2013005000/002", billsToAdd[0].BillID);
             Assert.AreEqual("INV2013005000/003", billsToAdd[1].BillID);
             Assert.AreEqual("INV2013005000/004", billsToAdd[2].BillID);
@@ -198,15 +196,15 @@ namespace RCNGCMembersManagementUnitTests.Billing
         public void ByDefaultABillIsGeneratedWithoutAPaymentMethod()
         {
             Bill bill = new Bill("MMM201300015/001","An easy to pay bill", 1, DateTime.Now, DateTime.Now.AddYears(10));
-            Assert.IsNull(bill.PaymentMethod);
+            Assert.IsNull(bill.AssignedPaymentMethod);
         }
 
         [TestMethod]
         public void AsigningAPaymentMethodToANewlyCreatedBill()
         {
             Bill bill = new Bill("MMM201300015/001", "An easy to pay bill", 1, DateTime.Now, DateTime.Now.AddYears(10));
-            bill.PaymentMethod = new CashPayment();
-            Assert.AreEqual(typeof(CashPayment),bill.PaymentMethod.GetType());
+            bill.AssignedPaymentMethod = new CashPayment();
+            Assert.AreEqual(typeof(CashPayment),bill.AssignedPaymentMethod.GetType());
         }
 
         [TestMethod]
@@ -214,6 +212,46 @@ namespace RCNGCMembersManagementUnitTests.Billing
         {
             Assert.Inconclusive();
         }
+
+        [TestMethod]
+        public void WhenPayingABillTheBillAPaymentIsAssignedToTheBill()
+        {
+            Assert.Inconclusive();
+        }
+
+        [TestMethod]
+        public void WhenPayingABillTheBillPaymentDateIsStored()
+        {
+            Assert.Inconclusive();
+        }
+
+        [TestMethod]
+        public void WhenABillIsPaidOnCashTheBillPaymentMethodIsSetAsCash()
+        {
+            Assert.Inconclusive();
+        }
+
+        [TestMethod]
+        public void WhenABillIsPaidByBankTransferTheBillPaymentMethodIsSetAsPaidByBankTransfer()
+        {
+            Assert.Inconclusive();
+        }
+
+        [TestMethod]
+        public void WhenABillIsPaidByBankTransferTheTransferorAccountIsStored()
+        {
+            Assert.Inconclusive();
+        }
+
+        [TestMethod]
+        public void WhenABillIsPaidByBankTransferTheTransfereeAccountIsStored()
+        {
+            Assert.Inconclusive();
+        }
+
+
+
+
 
     }
 }
