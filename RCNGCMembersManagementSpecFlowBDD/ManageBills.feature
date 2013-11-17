@@ -60,6 +60,7 @@ Scenario: A bill can be renegotiated into instalments
 	And The new bill "INV2013000023/004" has associated the agreement terms "Payment Agtreement" to it
 
 Scenario: I can assign an specific payment method for a single bill
+	Given I have an invoice with cost 650 with a single bill with ID "INV2013000023/001"
 
 Scenario: A bill to collect is paid in cash
 	Given I have an invoice with some bills

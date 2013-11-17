@@ -10,40 +10,58 @@ namespace RCNGCMembersManagementAppLogic.Billing.DirectDebit
     {
         BillingDataManager billingDataManager;
 
-        DateTime directDebitMandateCreationDate;
+        DirectDebitmandateStatus status;
         string internalReferenceNumber;
-        DateTime bankAccountActivationDate;
+        DateTime directDebitMandateCreationDate;
         BankAccount bankAccount;
+        DateTime bankAccountActivationDate;
         Dictionary<DateTime, BankAccountHistoricData> bankAccountHistory;
 
-        public DirectDebitMandate(DateTime directDebitMandateCreationDate, BankAccount bankAccount, string mandateID)
+        public DirectDebitMandate(string mandateID, DateTime directDebitMandateCreationDate, BankAccount bankAccount)
         {
             this.billingDataManager = BillingDataManager.Instance;
 
+            this.status = DirectDebitmandateStatus.Active;
             this.directDebitMandateCreationDate = directDebitMandateCreationDate;
             this.bankAccount = bankAccount;
+            this.bankAccountActivationDate = directDebitMandateCreationDate;
             this.internalReferenceNumber = mandateID;
         }
 
         public DirectDebitMandate(DateTime directDebitMandateCreationDate, BankAccount bankAccount)
-            :this(directDebitMandateCreationDate, bankAccount,String.Empty)
+            : this(String.Empty, directDebitMandateCreationDate, bankAccount)
         {
-            GetInternalReferenceNumber();
+            GetInternalReferenceSequenceNumber();
+        }
+
+        public enum DirectDebitmandateStatus { Active, Inactive }
+
+        public DirectDebitmandateStatus Status
+        {
+            get { return status; }
         }
 
         public string InternalReferenceNumber
         {
             get { return internalReferenceNumber; }
-            set { internalReferenceNumber = value; }
+        }
+
+        public DateTime DirectDebitMandateCreationDate
+        {
+            get { return directDebitMandateCreationDate; }
         }
 
         public BankAccount BankAccount
         {
             get { return bankAccount; }
-            set { bankAccount = value; }
         }
 
-        private void GetInternalReferenceNumber()
+        public DateTime BankAccountActivationDate
+        {
+            get { return bankAccountActivationDate; }
+        }
+
+        private void GetInternalReferenceSequenceNumber()
         {
             internalReferenceNumber = billingDataManager.InvoiceSequenceNumber.ToString("00000");
             billingDataManager.InvoiceSequenceNumber++;

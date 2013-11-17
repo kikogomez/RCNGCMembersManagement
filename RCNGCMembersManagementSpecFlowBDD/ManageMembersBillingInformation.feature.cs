@@ -135,11 +135,11 @@ this.FeatureBackground();
         }
         
         [Microsoft.VisualStudio.TestTools.UnitTesting.TestMethodAttribute()]
-        [Microsoft.VisualStudio.TestTools.UnitTesting.DescriptionAttribute("I can assign a new direct debit to a member")]
+        [Microsoft.VisualStudio.TestTools.UnitTesting.DescriptionAttribute("I can assign a new direct debit mandate to a member")]
         [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("FeatureTitle", "Manage Members Billing Information")]
-        public virtual void ICanAssignANewDirectDebitToAMember()
+        public virtual void ICanAssignANewDirectDebitMandateToAMember()
         {
-            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("I can assign a new direct debit to a member", ((string[])(null)));
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("I can assign a new direct debit mandate to a member", ((string[])(null)));
 #line 28
 this.ScenarioSetup(scenarioInfo);
 #line 6

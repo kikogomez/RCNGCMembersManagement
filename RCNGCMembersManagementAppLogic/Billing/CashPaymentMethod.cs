@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace RCNGCMembersManagementAppLogic.Billing
 {
-    class CashPayment: PaymentMethod
+    class CashPaymentMethod: PaymentMethod
     {
-        public CashPayment()
+        public CashPaymentMethod()
             : base()
         {
         }

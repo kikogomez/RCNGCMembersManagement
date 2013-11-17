@@ -121,7 +121,7 @@ namespace RCNGCMembersManagementAppLogic.MembersManaging
 
         private void InitializeBillingData()
         {
-            this.defaultPaymentMethod = new CashPayment();
+            this.defaultPaymentMethod = new CashPaymentMethod();
             directDebitmandatesList = new List<DirectDebitMandate>();
             invoicesList = new Dictionary<string, Invoice>();
             proFormaInvoicesList = new Dictionary<string, ProFormaInvoice>();

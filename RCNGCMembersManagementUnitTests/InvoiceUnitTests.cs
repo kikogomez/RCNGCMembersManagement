@@ -500,7 +500,7 @@ namespace RCNGCMembersManagementUnitTests.Billing
             };
             Invoice invoice = new Invoice(invoiceID, invoiceCustomerData, transactionsList, billsList, DateTime.Now);
             Assert.AreEqual(Invoice.InvoicePaymentState.ToBePaid, invoice.InvoiceState);
-            CashPayment cashPayment = new CashPayment();
+            CashPaymentMethod cashPayment = new CashPaymentMethod();
             DateTime paymentDate = new DateTime(2013, 11, 11);
             Payment payment200 = new Payment((decimal)200, paymentDate, cashPayment);
             Payment payment250 = new Payment((decimal)250, paymentDate, cashPayment);

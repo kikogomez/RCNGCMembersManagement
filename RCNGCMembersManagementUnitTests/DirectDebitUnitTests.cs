@@ -22,23 +22,26 @@ namespace RCNGCMembersManagementUnitTests
 
 
         [TestMethod]
-        public void GivenAReferenceNumberAndABankAccountADirectDebitOrderIsCreatedAndReferenceNumberIsAccesible()
+        public void GivenAReferenceNumberADirectDebitMandateIsCorrectlyCreated()
         {
-            string referenceNumber = "002645";
-            ClientAccountCodeCCC ccc = new ClientAccountCodeCCC("12345678061234567890");
-            BankAccount bankAccount = new BankAccount(ccc);
-            DirectDebitMandate directDebitMandate = new DirectDebitMandate(DateTime.Now.Date, bankAccount, referenceNumber);
-            Assert.AreEqual(referenceNumber, directDebitMandate.InternalReferenceNumber);
+            string internalReferenceNumber = "02645";
+            BankAccount bankAccount = new BankAccount(new ClientAccountCodeCCC("12345678061234567890"));
+            DateTime directDebitMandateCreationDate = new DateTime(2013, 11, 11);
+            DirectDebitMandate directDebitMandate = new DirectDebitMandate(internalReferenceNumber, directDebitMandateCreationDate, bankAccount);
+            Assert.AreEqual(DirectDebitMandate.DirectDebitmandateStatus.Active, directDebitMandate.Status);
+            Assert.AreEqual(internalReferenceNumber, directDebitMandate.InternalReferenceNumber);
+            Assert.AreEqual(directDebitMandateCreationDate, directDebitMandate.DirectDebitMandateCreationDate);
+            Assert.AreEqual(bankAccount, directDebitMandate.BankAccount);
+            Assert.AreEqual(directDebitMandateCreationDate, directDebitMandate.BankAccountActivationDate);
         }
 
         [TestMethod]
-        public void GivenAReferenceNumberAndABankAccountADirectDebitOrderIsCreatedAndBankAccountIsAccesible()
+        public void IfNoReferenceNumberIsProvidedASequenceNumberIsAssigned()
         {
-            string referenceNumber = "002645";
-            ClientAccountCodeCCC ccc = new ClientAccountCodeCCC("12345678061234567890");
-            BankAccount bankAccount = new BankAccount(ccc);
-            DirectDebitMandate directDebitMandate = new DirectDebitMandate(DateTime.Now.Date, bankAccount, referenceNumber);
-            Assert.AreEqual("12345678061234567890", directDebitMandate.BankAccount.CCC.CCC);
+            BankAccount bankAccount = new BankAccount(new ClientAccountCodeCCC("12345678061234567890"));
+            DateTime directDebitMandateCreationDate = new DateTime(2013, 11, 11);
+            DirectDebitMandate directDebitMandate = new DirectDebitMandate(directDebitMandateCreationDate, bankAccount);
+            Assert.IsNotNull(directDebitMandate.InternalReferenceNumber);
         }
 
         [TestMethod]

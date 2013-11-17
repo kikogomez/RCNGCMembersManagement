@@ -48,8 +48,8 @@ namespace RCNGCMembersManagementSpecFlowBDD
             string electronicIBANString = clientsTable.Rows[0]["Spanish IBAN Bank Account"].Replace(" ","").Substring(4);
             InternationalAccountBankNumberIBAN iban = new InternationalAccountBankNumberIBAN(electronicIBANString);
             BankAccount bankAccount = new BankAccount(iban);
-            DirectDebitMandate directDebitmandate = new DirectDebitMandate(DateTime.Now.Date, bankAccount, "12345");
-            PaymentMethod paymentMethod = new DirectDebit(directDebitmandate);
+            DirectDebitMandate directDebitmandate = new DirectDebitMandate("12345", DateTime.Now.Date, bankAccount);
+            PaymentMethod paymentMethod = new DirectDebitPaymentMethod(directDebitmandate);
             membersManagementContextData.clubMember.AddDirectDebitMandate(directDebitmandate);
             membersManagementContextData.clubMember.SetDefaultPaymentMethod(paymentMethod);
         }

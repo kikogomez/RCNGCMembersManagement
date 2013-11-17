@@ -25,7 +25,7 @@ Scenario: I can change the member default payment method
 	When I set "Direct Debit" as new payment method
 	Then The new payment method is correctly updated
 
-Scenario: I can assign a new direct debit to a member
+Scenario: I can assign a new direct debit mandate to a member
 	Given I have a member
 	And The direct debit reference sequence number is 5000
 	When I add a new direct debit mandate to the member

@@ -216,14 +216,14 @@ namespace RCNGCMembersManagementUnitTests.Billing
         public void AsigningAPaymentMethodToANewlyCreatedBill()
         {
             Bill bill = new Bill("MMM201300015/001", "An easy to pay bill", 1, DateTime.Now, DateTime.Now.AddYears(10));
-            bill.AssignedPaymentMethod = new CashPayment();
-            Assert.AreEqual(typeof(CashPayment),bill.AssignedPaymentMethod.GetType());
+            bill.AssignedPaymentMethod = new CashPaymentMethod();
+            Assert.AreEqual(typeof(CashPaymentMethod),bill.AssignedPaymentMethod.GetType());
         }
 
         [TestMethod]
         public void APaymentIsCorrectlyCreated()
         {
-            CashPayment cashPayment = new CashPayment();
+            CashPaymentMethod cashPayment = new CashPaymentMethod();
             DateTime paymentDate = new DateTime(2013,11,11);
             Payment payment= new Payment((decimal)100, paymentDate , cashPayment);
             Assert.AreEqual((decimal)100, payment.PaymentAmount);
@@ -235,7 +235,7 @@ namespace RCNGCMembersManagementUnitTests.Billing
         public void WhenPayingABillTheBillIsSetAsPaid()
         {
             Bill bill = new Bill("MMM201300015/001", "An easy to pay bill", 1, DateTime.Now, DateTime.Now.AddYears(10));
-            CashPayment cashPayment = new CashPayment();
+            CashPaymentMethod cashPayment = new CashPaymentMethod();
             DateTime paymentDate = new DateTime(2013, 11, 11);
             Payment payment = new Payment(bill.Amount, paymentDate, cashPayment);
             bill.PayBill(payment);
@@ -246,7 +246,7 @@ namespace RCNGCMembersManagementUnitTests.Billing
         public void WhenPayingABillTheBillAPaymentIsAssignedToTheBill()
         {
             Bill bill = new Bill("MMM201300015/001", "An easy to pay bill", 1, DateTime.Now, DateTime.Now.AddYears(10));
-            CashPayment cashPayment = new CashPayment();
+            CashPaymentMethod cashPayment = new CashPaymentMethod();
             DateTime paymentDate = new DateTime(2013, 11, 11);
             Payment payment = new Payment(bill.Amount, paymentDate, cashPayment);
             bill.PayBill(payment);
@@ -258,7 +258,7 @@ namespace RCNGCMembersManagementUnitTests.Billing
         public void OnlyPaymentsForTheTotalBillAmoutAreAccepted()
         {
             Bill bill = new Bill("MMM201300015/001", "An easy to pay bill", 1, DateTime.Now, DateTime.Now.AddYears(10));
-            CashPayment cashPaymentMethod = new CashPayment();
+            CashPaymentMethod cashPaymentMethod = new CashPaymentMethod();
             DateTime paymentDate = new DateTime(2013, 11, 11);
             Payment payment = new Payment((decimal)2, paymentDate, cashPaymentMethod);
             try
@@ -276,7 +276,7 @@ namespace RCNGCMembersManagementUnitTests.Billing
         public void WhenPayingABillTheBillPaymentDateIsStored()
         {
             Bill bill = new Bill("MMM201300015/001", "An easy to pay bill", 1, DateTime.Now, DateTime.Now.AddYears(10));
-            CashPayment cashPayment = new CashPayment();
+            CashPaymentMethod cashPayment = new CashPaymentMethod();
             DateTime paymentDate = new DateTime(2013, 11, 11);
             Payment payment = new Payment(bill.Amount, paymentDate, cashPayment);
             bill.PayBill(payment);
@@ -293,7 +293,7 @@ namespace RCNGCMembersManagementUnitTests.Billing
             assignedBillsList[2].BillID = "MMM2013005001/003";
             Invoice invoice = new Invoice(invoiceID, invoiceCustomerData, transactionList, assignedBillsList, DateTime.Now);
             Assert.AreEqual((decimal)650, invoice.BillsTotalAmountToCollect);
-            CashPayment cashPayment = new CashPayment();
+            CashPaymentMethod cashPayment = new CashPaymentMethod();
             DateTime paymentDate = new DateTime(2013, 11, 11);
             Payment payment = new Payment((decimal)200, paymentDate, cashPayment);
             invoice.Bills["MMM2013005001/001"].PayBill(payment);
@@ -303,25 +303,49 @@ namespace RCNGCMembersManagementUnitTests.Billing
         [TestMethod]
         public void WhenABillIsPaidOnCashTheBillPaymentMethodIsSetAsCash()
         {
-            Assert.Inconclusive();
+            Bill bill = new Bill("MMM201300015/001", "An easy to pay bill", 1, DateTime.Now, DateTime.Now.AddYears(10));
+            CashPaymentMethod cashPayment = new CashPaymentMethod();
+            DateTime paymentDate = new DateTime(2013, 11, 11);
+            Payment payment = new Payment(bill.Amount, paymentDate, cashPayment);
+            bill.PayBill(payment);
+            Assert.AreEqual(cashPayment, bill.Payment.PaymentMethod);
+        }
+
+        [TestMethod]
+        public void ABankTransferPaymentMethodIsCorrectlyCreated()
+        {
+            BankAccount transferorAccount = new BankAccount(new ClientAccountCodeCCC("20381111401111111111"));
+            BankAccount transfereeAccount = new BankAccount(new ClientAccountCodeCCC("21001111301111111111"));
+            BankTransferPaymentMethod bankTransferPaymentMethod = new BankTransferPaymentMethod(transferorAccount, transfereeAccount);
+            Assert.AreEqual(transferorAccount, bankTransferPaymentMethod.TransferorAccount);
+            Assert.AreEqual(transfereeAccount, bankTransferPaymentMethod.TransfereeAccount);
         }
 
         [TestMethod]
         public void WhenABillIsPaidByBankTransferTheBillPaymentMethodIsSetAsPaidByBankTransfer()
         {
-            Assert.Inconclusive();
+            Bill bill = new Bill("MMM201300015/001", "An easy to pay bill", 1, DateTime.Now, DateTime.Now.AddYears(10));
+            BankAccount transferorAccount = new BankAccount(new ClientAccountCodeCCC("20381111401111111111"));
+            BankAccount transfereeAccount = new BankAccount(new ClientAccountCodeCCC("21001111301111111111"));
+            BankTransferPaymentMethod bankTransferPaymentMethod = new BankTransferPaymentMethod(transferorAccount, transfereeAccount);
+            DateTime paymentDate = new DateTime(2013, 11, 11);
+            Payment payment = new Payment(bill.Amount, paymentDate, bankTransferPaymentMethod);
+            bill.PayBill(payment);
+            Assert.AreEqual(bankTransferPaymentMethod, bill.Payment.PaymentMethod);
         }
 
         [TestMethod]
-        public void WhenABillIsPaidByBankTransferTheTransferorAccountIsStored()
+        public void WhenABillIsPaidByBankTransferTheTransferorAndTheTransfereeAccountsAreStored()
         {
-            Assert.Inconclusive();
-        }
-
-        [TestMethod]
-        public void WhenABillIsPaidByBankTransferTheTransfereeAccountIsStored()
-        {
-            Assert.Inconclusive();
+            Bill bill = new Bill("MMM201300015/001", "An easy to pay bill", 1, DateTime.Now, DateTime.Now.AddYears(10));
+            BankAccount transferorAccount = new BankAccount(new ClientAccountCodeCCC("20381111401111111111"));
+            BankAccount transfereeAccount = new BankAccount(new ClientAccountCodeCCC("21001111301111111111"));
+            BankTransferPaymentMethod bankTransferPaymentMethod = new BankTransferPaymentMethod(transferorAccount, transfereeAccount);
+            DateTime paymentDate = new DateTime(2013, 11, 11);
+            Payment payment = new Payment(bill.Amount, paymentDate, bankTransferPaymentMethod);
+            bill.PayBill(payment);
+            Assert.AreEqual(transferorAccount, ((BankTransferPaymentMethod)bill.Payment.PaymentMethod).TransferorAccount);
+            Assert.AreEqual(transfereeAccount, ((BankTransferPaymentMethod)bill.Payment.PaymentMethod).TransfereeAccount);
         }
     }
 }

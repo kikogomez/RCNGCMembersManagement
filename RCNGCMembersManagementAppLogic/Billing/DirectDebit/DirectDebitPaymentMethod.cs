@@ -6,11 +6,11 @@ using System.Threading.Tasks;
 
 namespace RCNGCMembersManagementAppLogic.Billing.DirectDebit
 {
-    class DirectDebit: PaymentMethod
+    class DirectDebitPaymentMethod: PaymentMethod
     {
         private DirectDebitMandate directDebitMandate;
 
-        public DirectDebit(DirectDebitMandate directDebitMandate)
+        public DirectDebitPaymentMethod(DirectDebitMandate directDebitMandate)
             : base()
         {
             this.directDebitMandate = directDebitMandate;

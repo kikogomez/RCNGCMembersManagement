@@ -41,8 +41,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Billing\AmendingInvoice.cs" />
+    <Compile Include="Billing\BankTransferPaymentMethod.cs" />
     <Compile Include="Billing\BillPaymentAgreement.cs" />
-    <Compile Include="Billing\CashPayment.cs" />
+    <Compile Include="Billing\CashPaymentMethod.cs" />
     <Compile Include="Billing\DirectDebit\BankAccount.cs" />
     <Compile Include="Billing\DirectDebit\BankAccountCheckNumbersCalculator.cs" />
     <Compile Include="Billing\BaseInvoice.cs" />
@@ -55,7 +56,7 @@
     <Compile Include="Billing\DirectDebit\Creditor.cs" />
     <Compile Include="Billing\DirectDebit\CreditorAgent.cs" />
     <Compile Include="Billing\DirectDebit\DirectDebitInitiationContract.cs" />
-    <Compile Include="Billing\DirectDebit\DirectDebit.cs" />
+    <Compile Include="Billing\DirectDebit\DirectDebitPaymentMethod.cs" />
     <Compile Include="Billing\DirectDebit\DirectDebitMandate.cs" />
     <Compile Include="Billing\DirectDebit\ISO20022Elements\CustomerDirectDebitInitiationV02\Authorisation1Choice.cs" />
     <Compile Include="Billing\DirectDebit\ISO20022Elements\CustomerDirectDebitInitiationV02\BranchAndFinancialInstitutionIdentification4.cs" />
