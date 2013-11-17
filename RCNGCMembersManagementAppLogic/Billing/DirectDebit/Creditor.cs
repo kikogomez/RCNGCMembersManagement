@@ -8,9 +8,9 @@ namespace RCNGCMembersManagementAppLogic.Billing.DirectDebit
 {
     public class Creditor
     {
-        Dictionary<string, DirectDebitInitiationContract> directDebitInitiationContracts;
         string nIF;
         string name;
+        Dictionary<string, DirectDebitInitiationContract> directDebitInitiationContracts;
 
         public Creditor(string nIF, string name)
         {
@@ -27,6 +27,11 @@ namespace RCNGCMembersManagementAppLogic.Billing.DirectDebit
         public string Name
         {
             get { return name; }
+        }
+
+        public Dictionary<string, DirectDebitInitiationContract> DirectDebitInitiationContracts
+        {
+            get { return directDebitInitiationContracts; }
         }
 
         public void AddDirectDebitInitiacionContract(DirectDebitInitiationContract creditorAgentDirectDebitInitiationContract)

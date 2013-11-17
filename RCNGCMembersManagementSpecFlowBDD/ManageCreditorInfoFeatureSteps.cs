@@ -25,7 +25,9 @@ namespace RCNGCMembersManagementSpecFlowBDD
         [Given(@"I have a creditor agent")]
         public void GivenIHaveACreditorAgent()
         {
-            ScenarioContext.Current.Pending();
+            BankCode bankCode = new BankCode("2038", "Bankia, S.A.", "CAHMESMMXXX");
+            CreditorAgent creditorAgent = new CreditorAgent(bankCode);
+            ScenarioContext.Current.Add("CreditorAgent", creditorAgent);    
         }
         
         [Given(@"I have a direct debit initiation contract registered")]
@@ -51,7 +53,12 @@ namespace RCNGCMembersManagementSpecFlowBDD
         [When(@"I register a contract data")]
         public void WhenIRegisterAContractData()
         {
-            ScenarioContext.Current.Pending();
+            Creditor creditor = (Creditor)ScenarioContext.Current["Creditor"];
+            BankAccount creditorAccount = new BankAccount(new ClientAccountCodeCCC("20381111401111111111"));
+            CreditorAgent creditorAgent = (CreditorAgent)ScenarioContext.Current["CreditorAgent"];
+            DirectDebitInitiationContract direcDebitinitiationContract = new DirectDebitInitiationContract(
+                creditorAccount, creditor.NIF, "777", creditorAgent);
+            ScenarioContext.Current.Add("Contract", direcDebitinitiationContract);
         }
         
         [When(@"I change the creditor account")]
@@ -66,7 +73,7 @@ namespace RCNGCMembersManagementSpecFlowBDD
             ScenarioContext.Current.Pending();
         }
         
-        [Then(@"The creditor agent is correctly registered")]
+        [Then(@"The creditor agent is correctly created")]
         public void ThenTheCreditorAgentIsCorrectlyRegistered()
         {
             BankCode bankCode= (BankCode)ScenarioContext.Current["BankCode"];
@@ -79,7 +86,11 @@ namespace RCNGCMembersManagementSpecFlowBDD
         [Then(@"The contract is correctly registered")]
         public void ThenTheContractIsCorrectlyRegistered()
         {
-            ScenarioContext.Current.Pending();
+            DirectDebitInitiationContract directDebitInitiationContract = (DirectDebitInitiationContract)ScenarioContext.Current["Contract"];
+            Assert.AreEqual("20381111401111111111", directDebitInitiationContract.CreditorAcount.CCC.CCC);
+            Assert.AreEqual("CAHMESMMXXX", directDebitInitiationContract.CreditorAgent.BankBIC);
+            Assert.AreEqual("777", directDebitInitiationContract.CreditorBussinessCode);
+            Assert.AreEqual("ES90777G35008770", directDebitInitiationContract.CreditorID);
         }
         
         [Then(@"The contract is correctly updated")]

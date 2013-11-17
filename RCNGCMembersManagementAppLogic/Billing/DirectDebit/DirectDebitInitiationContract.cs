@@ -10,8 +10,8 @@ namespace RCNGCMembersManagementAppLogic.Billing.DirectDebit
     {
         BankAccount creditorAccount;
         string creditorBusinessCode;
-        string creditorID;
         CreditorAgent creditorAgent;
+        string creditorID;
 
         public DirectDebitInitiationContract(BankAccount creditorAccount, string nIF, string creditorBusinessCode, CreditorAgent creditorAgent)
         {
@@ -34,6 +34,11 @@ namespace RCNGCMembersManagementAppLogic.Billing.DirectDebit
         public CreditorAgent CreditorAgent
         {
             get { return creditorAgent; }
+        }
+
+        public string CreditorID
+        {
+            get { return creditorID; }
         }
 
         private void GenerateCreditID(string nIF, string creditorBusinessCode)

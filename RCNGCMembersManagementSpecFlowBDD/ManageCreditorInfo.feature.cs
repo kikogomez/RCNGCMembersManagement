@@ -85,11 +85,11 @@ namespace RCNGCMembersManagementSpecFlowBDD
         }
         
         [Microsoft.VisualStudio.TestTools.UnitTesting.TestMethodAttribute()]
-        [Microsoft.VisualStudio.TestTools.UnitTesting.DescriptionAttribute("Register a creditor agent")]
+        [Microsoft.VisualStudio.TestTools.UnitTesting.DescriptionAttribute("Create a creditor agent")]
         [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("FeatureTitle", "Manage Creditor Info")]
-        public virtual void RegisterACreditorAgent()
+        public virtual void CreateACreditorAgent()
         {
-            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Register a creditor agent", ((string[])(null)));
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Create a creditor agent", ((string[])(null)));
 #line 12
 this.ScenarioSetup(scenarioInfo);
 #line 6
@@ -99,17 +99,17 @@ this.FeatureBackground();
 #line 14
  testRunner.When("I register the bank as a creditor agent", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line 15
- testRunner.Then("The creditor agent is correctly registered", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+ testRunner.Then("The creditor agent is correctly created", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
             this.ScenarioCleanup();
         }
         
         [Microsoft.VisualStudio.TestTools.UnitTesting.TestMethodAttribute()]
-        [Microsoft.VisualStudio.TestTools.UnitTesting.DescriptionAttribute("Register a creditor agent direct debit initiation contract")]
+        [Microsoft.VisualStudio.TestTools.UnitTesting.DescriptionAttribute("Register a direct debit initiation contract")]
         [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("FeatureTitle", "Manage Creditor Info")]
-        public virtual void RegisterACreditorAgentDirectDebitInitiationContract()
+        public virtual void RegisterADirectDebitInitiationContract()
         {
-            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Register a creditor agent direct debit initiation contract", ((string[])(null)));
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Register a direct debit initiation contract", ((string[])(null)));
 #line 17
 this.ScenarioSetup(scenarioInfo);
 #line 6
@@ -125,11 +125,11 @@ this.FeatureBackground();
         }
         
         [Microsoft.VisualStudio.TestTools.UnitTesting.TestMethodAttribute()]
-        [Microsoft.VisualStudio.TestTools.UnitTesting.DescriptionAttribute("Register more than one creditor agent direct debit initiation contract")]
+        [Microsoft.VisualStudio.TestTools.UnitTesting.DescriptionAttribute("Register more than one direct debit initiation contract")]
         [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("FeatureTitle", "Manage Creditor Info")]
-        public virtual void RegisterMoreThanOneCreditorAgentDirectDebitInitiationContract()
+        public virtual void RegisterMoreThanOneDirectDebitInitiationContract()
         {
-            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Register more than one creditor agent direct debit initiation contract", ((string[])(null)));
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Register more than one direct debit initiation contract", ((string[])(null)));
 #line 22
 this.ScenarioSetup(scenarioInfo);
 #line 6

@@ -9,17 +9,17 @@ Background:
 	| NIF       | Name                              |
 	| G35008770 | Real Club Náutico de Gran Canaria |
 
-Scenario: Register a creditor agent
+Scenario: Create a creditor agent
 	Given I have a bank
 	When I register the bank as a creditor agent
-	Then The creditor agent is correctly registered
+	Then The creditor agent is correctly created
 
-Scenario: Register a creditor agent direct debit initiation contract
+Scenario: Register a direct debit initiation contract
 	Given I have a creditor agent
 	When I register a contract data
 	Then The contract is correctly registered
 
-Scenario: Register more than one creditor agent direct debit initiation contract
+Scenario: Register more than one direct debit initiation contract
 	Given I have a direct debit initiation contract registered
 	When I register a contract data
 	Then The contract is correctly registered
