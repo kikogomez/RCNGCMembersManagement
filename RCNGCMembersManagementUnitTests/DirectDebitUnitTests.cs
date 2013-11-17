@@ -47,12 +47,11 @@ namespace RCNGCMembersManagementUnitTests
         [TestMethod]
         public void WeCanSetTheDirectDebitSequenceNumberValue()
         {
-/*            billDataManager.DirectDebitSequenceNumber = 5000;
-            DateTime issueDate = DateTime.Now;
-            Invoice invoice = new Invoice(invoiceCustomerData, transactionsList, issueDate);
-            int invoiceSequenceNumber = int.Parse(invoice.InvoiceID.Substring(invoice.InvoiceID.Length - 6));
-            Assert.AreEqual(5000, invoiceSequenceNumber);*/
-            Assert.Inconclusive();
+            billDataManager.DirectDebitSequenceNumber = 5000;
+            BankAccount bankAccount = new BankAccount(new ClientAccountCodeCCC("12345678061234567890"));
+            DateTime directDebitMandateCreationDate = new DateTime(2013, 11, 11);
+            DirectDebitMandate directDebitMandate = new DirectDebitMandate(directDebitMandateCreationDate, bankAccount);
+            Assert.AreEqual("05000", directDebitMandate.InternalReferenceNumber);
         }
 
         [TestMethod]
