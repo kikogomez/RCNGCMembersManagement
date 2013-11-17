@@ -15,5 +15,10 @@ namespace RCNGCMembersManagementAppLogic.Billing.DirectDebit
         {
             this.directDebitMandate = directDebitMandate;
         }
+
+        public DirectDebitMandate DirectDebitMandate
+        {
+            get { return directDebitMandate; }
+        }
     }
 }

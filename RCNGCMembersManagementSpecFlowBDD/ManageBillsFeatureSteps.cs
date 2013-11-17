@@ -166,13 +166,8 @@ namespace RCNGCMembersManagementSpecFlowBDD
         [Given(@"I have an invoice with cost (.*) with a single bill with ID ""(.*)""")]
         public void GivenIHaveAnInvoiceWithCostWithASingleBillWithID(int invoiceNetAmout, string billID)
         {
-            List<Transaction> transactionList = new List<Transaction>()
-            {
-                {new Transaction("Monthly Fee",1,80,new Tax("NOIGIC",0),0)},
-                {new Transaction("Renting a Kajak",1,50,new Tax("NOIGIC",0),0)},
-                {new Transaction("Blue cup",2,10,new Tax("NOIGIC",0),0)},
-                {new Transaction("BIG Mouring",1,500,new Tax("NOIGIC",0),0)}
-            };
+            List<Transaction> transactionList =
+                new List<Transaction>() { new Transaction("Big Payment", 1, invoiceNetAmout, new Tax("NOIGIC", 0), 0) };
             DateTime issueDate = DateTime.Now.Date;
             Invoice invoice = new Invoice(new InvoiceCustomerData(membersManagementContextData.clubMember), transactionList, issueDate);
             invoicesManager.AddInvoiceToClubMember(invoice, membersManagementContextData.clubMember);
@@ -238,70 +233,136 @@ namespace RCNGCMembersManagementSpecFlowBDD
             Assert.AreEqual(agreementTerms, invoice.Bills[newBillID].PaymentAgreements[DateTime.Now.Date].AgreementTerms);
         }
 
+        [When(@"I assign to be paid with a direct debit")]
+        public void WhenIAssignToBePaidWithADirectDebit()
+        {
+            string internalReferenceNumber = "02645";
+            BankAccount bankAccount = new BankAccount(new ClientAccountCodeCCC("12345678061234567890"));
+            DateTime directDebitMandateCreationDate = new DateTime(2013, 11, 11);
+            DirectDebitMandate directDebitMandate = new DirectDebitMandate(internalReferenceNumber, directDebitMandateCreationDate, bankAccount);
+            DirectDebitPaymentMethod directDebitPaymentMethod = new DirectDebitPaymentMethod(directDebitMandate);
+            ScenarioContext.Current.Add("DirectDebitpaymentMethod", directDebitPaymentMethod);
+            Invoice invoice = (Invoice)ScenarioContext.Current["Invoice"];
+            string billID= (string)ScenarioContext.Current["BillID"];
+            Bill bill = invoice.Bills[billID];
+            bill.AssignPaymentMethod(directDebitPaymentMethod);
+        }
+
+        [Then(@"The new payment method is correctly assigned")]
+        public void ThenTheNewPaymentMethodIsCorrectlyAssigned()
+        {
+            Invoice invoice = (Invoice)ScenarioContext.Current["Invoice"];
+            string billID = (string)ScenarioContext.Current["BillID"];
+            DirectDebitPaymentMethod directDebitPaymentMethod = (DirectDebitPaymentMethod)ScenarioContext.Current["DirectDebitpaymentMethod"];
+            Bill bill = invoice.Bills[billID];
+            Assert.AreEqual(directDebitPaymentMethod, (DirectDebitPaymentMethod)bill.AssignedPaymentMethod);
+        }
+
         [Given(@"I have an invoice with some bills")]
         public void GivenIHaveAnInvoiceWithSomeBills()
         {
-            ScenarioContext.Current.Pending();
+            string invoiceID = "MMM2013005001";
+            List<Transaction> transactionList = new List<Transaction>()
+                {new Transaction("Big Payment",1,650,new Tax("NOIGIC",0),0)};
+            List<Bill> unassignedBillsList = new List<Bill>()
+            {
+                {new Bill("MMM2013005001/001", "First Instalment", 200, DateTime.Now, DateTime.Now.AddDays(30))},
+                {new Bill("MMM2013005001/002", "Second Instalment", 200, DateTime.Now, DateTime.Now.AddDays(60))},
+                {new Bill("MMM2013005001/003", "Third Instalment", 250, DateTime.Now, DateTime.Now.AddDays(90))}
+            };
+            Invoice invoice = new Invoice(
+                invoiceID,
+                new InvoiceCustomerData(membersManagementContextData.clubMember),
+                transactionList,
+                unassignedBillsList,
+                DateTime.Now);
+            ScenarioContext.Current.Add("Invoice", invoice);
         }
 
         [Given(@"I have a bill to collect in the invoice")]
         public void GivenIHaveABillToCollectInTheInvoice()
         {
-            ScenarioContext.Current.Pending();
+            Invoice invoice = (Invoice)ScenarioContext.Current["Invoice"];
+            ScenarioContext.Current.Add("Bill", invoice.Bills["MMM2013005001/001"]);
         }
 
         [When(@"The bill is paid in cash")]
         public void WhenTheBillIsPaidInCash()
         {
-            ScenarioContext.Current.Pending();
+            Invoice invoice = (Invoice)ScenarioContext.Current["Invoice"];
+            Bill bill = (Bill)ScenarioContext.Current["Bill"];
+            CashPaymentMethod cashPaymentMethod = new CashPaymentMethod();
+            Payment payment = new Payment(bill.Amount, new DateTime(2013, 11, 11), cashPaymentMethod);
+            billsManager.PayBill(invoice, bill, payment);
         }
 
         [Then(@"The bill state is set to ""(.*)""")]
         public void ThenTheBillStateIsSetTo(string billState)
         {
-            ScenarioContext.Current.Pending();
+            Bill bill = (Bill)ScenarioContext.Current["Bill"];
+            Assert.AreEqual(billState, bill.PaymentResult.ToString());
         }
 
         [Then(@"The bill payment method is set to ""(.*)""")]
         public void ThenTheBillPaymentMethodIsSetTo(string paymentMethod)
         {
-            ScenarioContext.Current.Pending();
+            Bill bill = (Bill)ScenarioContext.Current["Bill"];
+            PaymentMethod billPaymentMethod = bill.Payment.PaymentMethod;
+            Type paymentMethodType = billPaymentMethod.GetType();
+            switch (paymentMethod)
+            {
+                case "Cash":
+                    Assert.AreEqual(paymentMethodType, typeof(CashPaymentMethod));
+                    break;
+                case "Bank Transfer":
+                    Assert.AreEqual(paymentMethodType, typeof(BankTransferPaymentMethod));
+                    break;
+                case "Direct Debit":
+                    Assert.AreEqual(paymentMethodType, typeof(DirectDebitPaymentMethod));
+                    break;
+            }
         }
 
         [Then(@"The bill payment date is stored")]
         public void ThenTheBillPaymentDateIsStored()
         {
-            ScenarioContext.Current.Pending();
+            Bill bill = (Bill)ScenarioContext.Current["Bill"];
+            Assert.AreEqual(new DateTime(2013, 11, 11), bill.Payment.PaymentDate);
         }
 
         [Then(@"The bill amount is deduced form the invoice total amount")]
         public void ThenTheBillAmountIsDeducedFormTheInvoiceTotalAmount()
         {
-            ScenarioContext.Current.Pending();
-        }
-
-        [Then(@"If the invoice total to be paid is (.*) the invoice is marked as ""(.*)""")]
-        public void ThenIfTheInvoiceTotalToBePaidIsTheInvoiceIsMarkedAs(int p0, string p1)
-        {
-            ScenarioContext.Current.Pending();
+            Invoice invoice = (Invoice)ScenarioContext.Current["Invoice"];
+            Bill bill = (Bill)ScenarioContext.Current["Bill"];
+            decimal restToPay = invoice.NetAmount - bill.Amount;
+            Assert.AreEqual(restToPay, invoice.BillsTotalAmountToCollect);
         }
 
         [When(@"The bill is paid by bank transfer")]
         public void WhenTheBillIsPaidByBankTransfer()
         {
-            ScenarioContext.Current.Pending();
+            Invoice invoice = (Invoice)ScenarioContext.Current["Invoice"];
+            Bill bill = (Bill)ScenarioContext.Current["Bill"];
+            BankAccount transferorAccount = new BankAccount(new ClientAccountCodeCCC("20381111401111111111"));
+            BankAccount transfereeAccount = new BankAccount(new ClientAccountCodeCCC("21001111301111111111"));
+            BankTransferPaymentMethod bankTransferPaymentMethod = new BankTransferPaymentMethod(transferorAccount, transfereeAccount);
+            Payment payment = new Payment(bill.Amount, new DateTime(2013, 11, 11), bankTransferPaymentMethod);
+            billsManager.PayBill(invoice, bill, payment);
         }
 
         [Then(@"The transferor account is stored")]
         public void ThenTheTransferorAccountIsStored()
         {
-            ScenarioContext.Current.Pending();
+            Bill bill = (Bill)ScenarioContext.Current["Bill"];
+            Assert.AreEqual("20381111401111111111", ((BankTransferPaymentMethod)bill.Payment.PaymentMethod).TransferorAccount.CCC.CCC);
         }
 
         [Then(@"The transferee account is stored")]
         public void ThenTheTransfereeAccountIsStored()
         {
-            ScenarioContext.Current.Pending();
+            Bill bill = (Bill)ScenarioContext.Current["Bill"];
+            Assert.AreEqual("21001111301111111111", ((BankTransferPaymentMethod)bill.Payment.PaymentMethod).TransfereeAccount.CCC.CCC);
         }
 
         [When(@"The bill is paid by direct debit")]
@@ -314,6 +375,26 @@ namespace RCNGCMembersManagementSpecFlowBDD
         public void ThenTheDirectDebitInitiationIDIsStored()
         {
             ScenarioContext.Current.Pending();
+        }
+
+        [When(@"All the bills are paid")]
+        public void WhenAllTheBillsArePaid()
+        {
+            Invoice invoice = (Invoice)ScenarioContext.Current["Invoice"];
+            CashPaymentMethod cashPayment = new CashPaymentMethod();
+            DateTime paymentDate = new DateTime(2013, 11, 11);
+            Payment payment200 = new Payment((decimal)200, paymentDate, cashPayment);
+            Payment payment250 = new Payment((decimal)250, paymentDate, cashPayment);
+            billsManager.PayBill(invoice, invoice.Bills["MMM2013005001/001"], payment200);
+            billsManager.PayBill(invoice, invoice.Bills["MMM2013005001/002"], payment200);
+            billsManager.PayBill(invoice, invoice.Bills["MMM2013005001/003"], payment250);
+        }
+
+        [Then(@"The invoice state is set as ""(.*)""")]
+        public void ThenTheInvoiceStateIsSetAs(string paymentStatus)
+        {
+            Invoice invoice = (Invoice)ScenarioContext.Current["Invoice"];
+            Assert.AreEqual(paymentStatus, invoice.InvoiceState.ToString());
         }
 
         [When(@"The bill is past due date")]

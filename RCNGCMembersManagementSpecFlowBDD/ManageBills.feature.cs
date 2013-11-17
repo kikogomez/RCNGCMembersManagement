@@ -256,17 +256,21 @@ this.FeatureBackground();
         }
         
         [Microsoft.VisualStudio.TestTools.UnitTesting.TestMethodAttribute()]
-        [Microsoft.VisualStudio.TestTools.UnitTesting.DescriptionAttribute("I can assign an specific payment method for a single bill")]
+        [Microsoft.VisualStudio.TestTools.UnitTesting.DescriptionAttribute("I can assign an specific expected payment method for a single bill")]
         [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("FeatureTitle", "Manage bills")]
-        public virtual void ICanAssignAnSpecificPaymentMethodForASingleBill()
+        public virtual void ICanAssignAnSpecificExpectedPaymentMethodForASingleBill()
         {
-            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("I can assign an specific payment method for a single bill", ((string[])(null)));
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("I can assign an specific expected payment method for a single bill", ((string[])(null)));
 #line 62
 this.ScenarioSetup(scenarioInfo);
 #line 6
 this.FeatureBackground();
 #line 63
  testRunner.Given("I have an invoice with cost 650 with a single bill with ID \"INV2013000023/001\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+#line 64
+ testRunner.When("I assign to be paid with a direct debit", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#line 65
+ testRunner.Then("The new payment method is correctly assigned", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
             this.ScenarioCleanup();
         }
@@ -277,26 +281,24 @@ this.FeatureBackground();
         public virtual void ABillToCollectIsPaidInCash()
         {
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("A bill to collect is paid in cash", ((string[])(null)));
-#line 65
+#line 67
 this.ScenarioSetup(scenarioInfo);
 #line 6
 this.FeatureBackground();
-#line 66
- testRunner.Given("I have an invoice with some bills", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
-#line 67
- testRunner.And("I have a bill to collect in the invoice", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 68
- testRunner.When("The bill is paid in cash", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+ testRunner.Given("I have an invoice with some bills", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line 69
- testRunner.Then("The bill state is set to \"Paid\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+ testRunner.And("I have a bill to collect in the invoice", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 70
- testRunner.And("The bill payment method is set to \"Cash\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+ testRunner.When("The bill is paid in cash", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line 71
- testRunner.And("The bill payment date is stored", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+ testRunner.Then("The bill state is set to \"Paid\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line 72
- testRunner.And("The bill amount is deduced form the invoice total amount", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+ testRunner.And("The bill payment method is set to \"Cash\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 73
- testRunner.And("If the invoice total to be paid is 0 the invoice is marked as \"Paid\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+ testRunner.And("The bill payment date is stored", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line 74
+ testRunner.And("The bill amount is deduced form the invoice total amount", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
             this.ScenarioCleanup();
         }
@@ -307,30 +309,28 @@ this.FeatureBackground();
         public virtual void ABillToCollectIsPaidByBankTransfer()
         {
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("A bill to collect is paid by bank transfer", ((string[])(null)));
-#line 75
+#line 76
 this.ScenarioSetup(scenarioInfo);
 #line 6
 this.FeatureBackground();
-#line 76
- testRunner.Given("I have an invoice with some bills", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line 77
- testRunner.And("I have a bill to collect in the invoice", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+ testRunner.Given("I have an invoice with some bills", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line 78
- testRunner.When("The bill is paid by bank transfer", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+ testRunner.And("I have a bill to collect in the invoice", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 79
- testRunner.Then("The bill state is set to \"Paid\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+ testRunner.When("The bill is paid by bank transfer", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line 80
- testRunner.And("The bill payment method is set to \"Bank Transfer\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+ testRunner.Then("The bill state is set to \"Paid\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line 81
- testRunner.And("The transferor account is stored", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+ testRunner.And("The bill payment method is set to \"Bank Transfer\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 82
- testRunner.And("The transferee account is stored", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+ testRunner.And("The transferor account is stored", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 83
- testRunner.And("The bill payment date is stored", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+ testRunner.And("The transferee account is stored", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 84
- testRunner.And("The bill amount is deduced form the invoice total amount", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+ testRunner.And("The bill payment date is stored", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 85
- testRunner.And("If the invoice total to be paid is 0 the invoice is marked as \"Paid\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+ testRunner.And("The bill amount is deduced form the invoice total amount", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
             this.ScenarioCleanup();
         }
@@ -354,15 +354,33 @@ this.FeatureBackground();
 #line 91
  testRunner.Then("The bill state is set to \"Paid\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line 92
- testRunner.And("The bill payment method is set to \"Direct Debitr\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+ testRunner.And("The bill payment method is set to \"Direct Debit\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 93
  testRunner.And("The direct debit initiation ID is stored", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 94
  testRunner.And("The bill payment date is stored", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 95
  testRunner.And("The bill amount is deduced form the invoice total amount", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
-#line 96
- testRunner.And("If the invoice total to be paid is 0 the invoice is marked as \"Paid\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line hidden
+            this.ScenarioCleanup();
+        }
+        
+        [Microsoft.VisualStudio.TestTools.UnitTesting.TestMethodAttribute()]
+        [Microsoft.VisualStudio.TestTools.UnitTesting.DescriptionAttribute("All the bills of an invoice are paid")]
+        [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("FeatureTitle", "Manage bills")]
+        public virtual void AllTheBillsOfAnInvoiceArePaid()
+        {
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("All the bills of an invoice are paid", ((string[])(null)));
+#line 97
+this.ScenarioSetup(scenarioInfo);
+#line 6
+this.FeatureBackground();
+#line 98
+ testRunner.Given("I have an invoice with some bills", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+#line 99
+ testRunner.When("All the bills are paid", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#line 100
+ testRunner.Then("The invoice state is set as \"Paid\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
             this.ScenarioCleanup();
         }
@@ -373,19 +391,19 @@ this.FeatureBackground();
         public virtual void ABillIsPastDueDate()
         {
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("A bill is past due date", ((string[])(null)));
-#line 98
+#line 102
 this.ScenarioSetup(scenarioInfo);
 #line 6
 this.FeatureBackground();
-#line 99
- testRunner.Given("I have an invoice with some bills", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
-#line 100
- testRunner.And("I have a bill to collect in the invoice", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
-#line 101
- testRunner.When("The bill is past due date", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
-#line 102
- testRunner.Then("The bill is marked as \"Unpaid\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line 103
+ testRunner.Given("I have an invoice with some bills", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+#line 104
+ testRunner.And("I have a bill to collect in the invoice", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line 105
+ testRunner.When("The bill is past due date", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#line 106
+ testRunner.Then("The bill is marked as \"Unpaid\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line 107
  testRunner.And("The invoice containig the bill is marked as \"Unpaid\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
             this.ScenarioCleanup();
@@ -397,26 +415,26 @@ this.FeatureBackground();
         public virtual void ABillWithAnAssociatedAgreementIsPastDueDate()
         {
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("A bill with an associated agreement is past due date", ((string[])(null)));
-#line 105
+#line 109
 this.ScenarioSetup(scenarioInfo);
 #line 6
 this.FeatureBackground();
-#line 106
- testRunner.Given("I have an invoice with some bills", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
-#line 107
- testRunner.And("I have a bill to collect in the invoice", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
-#line 108
- testRunner.And("The bill has associated a payment agreement", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
-#line 109
- testRunner.When("The bill is past due date", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line 110
- testRunner.Then("The bill is marked as \"Unpaid\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+ testRunner.Given("I have an invoice with some bills", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line 111
- testRunner.And("The invoice containig the bill is marked as \"Unpaid\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+ testRunner.And("I have a bill to collect in the invoice", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 112
+ testRunner.And("The bill has associated a payment agreement", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line 113
+ testRunner.When("The bill is past due date", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#line 114
+ testRunner.Then("The bill is marked as \"Unpaid\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line 115
+ testRunner.And("The invoice containig the bill is marked as \"Unpaid\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line 116
  testRunner.And("The associated payment agreement is set to \"NotAcomplished\" for all bills involve" +
                     "d on the agreement", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
-#line 113
+#line 117
  testRunner.And("The associated payment agreement is set to \"NotAcomplished\" for the invoice", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
             this.ScenarioCleanup();
@@ -428,17 +446,17 @@ this.FeatureBackground();
         public virtual void ABillDueDateCanBeExtended()
         {
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("A bill due date can be extended", ((string[])(null)));
-#line 115
+#line 119
 this.ScenarioSetup(scenarioInfo);
 #line 6
 this.FeatureBackground();
-#line 116
+#line 120
  testRunner.Given("I have an invoice with some bills", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
-#line 117
+#line 121
  testRunner.And("I have a bill to collect in the invoice", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
-#line 118
+#line 122
  testRunner.When("I renew the due date", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
-#line 119
+#line 123
  testRunner.Then("The new due date is assigned to the bill", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
             this.ScenarioCleanup();
@@ -450,23 +468,23 @@ this.FeatureBackground();
         public virtual void APastDueBillDueDateCanBeRenewed()
         {
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("A past due bill due date can be renewed", ((string[])(null)));
-#line 121
+#line 125
 this.ScenarioSetup(scenarioInfo);
 #line 6
 this.FeatureBackground();
-#line 122
- testRunner.Given("I have an invoice with some bills", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
-#line 123
- testRunner.And("I have a bill to collect in the invoice", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
-#line 124
- testRunner.And("The bill is past due date", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
-#line 125
- testRunner.When("I renew the due date", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line 126
- testRunner.Then("The new due date is assigned to the bill", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+ testRunner.Given("I have an invoice with some bills", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line 127
- testRunner.And("The bill is marked as \"ToCollect\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+ testRunner.And("I have a bill to collect in the invoice", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 128
+ testRunner.And("The bill is past due date", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line 129
+ testRunner.When("I renew the due date", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#line 130
+ testRunner.Then("The new due date is assigned to the bill", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line 131
+ testRunner.And("The bill is marked as \"ToCollect\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line 132
  testRunner.And("If there are no other bills marked as \"Unpaid\" the invoice is marked \"ToBePaid\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
             this.ScenarioCleanup();

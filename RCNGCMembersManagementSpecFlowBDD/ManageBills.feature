@@ -59,8 +59,10 @@ Scenario: A bill can be renegotiated into instalments
 	And A bill with ID "INV2013000023/004" and cost of 250 to be paid in 90 days is created
 	And The new bill "INV2013000023/004" has associated the agreement terms "Payment Agtreement" to it
 
-Scenario: I can assign an specific payment method for a single bill
+Scenario: I can assign an specific expected payment method for a single bill
 	Given I have an invoice with cost 650 with a single bill with ID "INV2013000023/001"
+	When I assign to be paid with a direct debit
+	Then The new payment method is correctly assigned
 
 Scenario: A bill to collect is paid in cash
 	Given I have an invoice with some bills
@@ -70,7 +72,6 @@ Scenario: A bill to collect is paid in cash
 	And The bill payment method is set to "Cash"
 	And The bill payment date is stored
 	And The bill amount is deduced form the invoice total amount
-	And If the invoice total to be paid is 0 the invoice is marked as "Paid"
 
 Scenario: A bill to collect is paid by bank transfer
 	Given I have an invoice with some bills
@@ -82,18 +83,21 @@ Scenario: A bill to collect is paid by bank transfer
 	And The transferee account is stored
 	And The bill payment date is stored
 	And The bill amount is deduced form the invoice total amount
-	And If the invoice total to be paid is 0 the invoice is marked as "Paid"
 
 Scenario: A bill to collect is paid by direct debit
 	Given I have an invoice with some bills
 	And I have a bill to collect in the invoice
 	When The bill is paid by direct debit
 	Then The bill state is set to "Paid"
-	And The bill payment method is set to "Direct Debitr"
+	And The bill payment method is set to "Direct Debit"
 	And The direct debit initiation ID is stored
 	And The bill payment date is stored
 	And The bill amount is deduced form the invoice total amount
-	And If the invoice total to be paid is 0 the invoice is marked as "Paid"
+
+Scenario: All the bills of an invoice are paid
+	Given I have an invoice with some bills
+	When All the bills are paid
+	Then The invoice state is set as "Paid"
 
 Scenario: A bill is past due date
 	Given I have an invoice with some bills

@@ -347,5 +347,31 @@ namespace RCNGCMembersManagementUnitTests.Billing
             Assert.AreEqual(transferorAccount, ((BankTransferPaymentMethod)bill.Payment.PaymentMethod).TransferorAccount);
             Assert.AreEqual(transfereeAccount, ((BankTransferPaymentMethod)bill.Payment.PaymentMethod).TransfereeAccount);
         }
+
+        [TestMethod]
+        public void ADirectDebitPaymentMethodIsCorrectlyCreated()
+        {
+            string internalReferenceNumber = "02645";
+            BankAccount bankAccount = new BankAccount(new ClientAccountCodeCCC("12345678061234567890"));
+            DateTime directDebitMandateCreationDate = new DateTime(2013, 11, 11);
+            DirectDebitMandate directDebitMandate = new DirectDebitMandate(internalReferenceNumber, directDebitMandateCreationDate, bankAccount);
+            DirectDebitPaymentMethod directDebitTransfermethod = new DirectDebitPaymentMethod(directDebitMandate);
+            Assert.AreEqual(directDebitMandate, directDebitTransfermethod.DirectDebitMandate);
+        }
+
+        [TestMethod]
+        public void WhenABillIsPaidByDirectDebitTheBillPaymentMethodIsSetAsPaidByDirectDebit()
+        {
+            Bill bill = new Bill("MMM201300015/001", "An easy to pay bill", 1, DateTime.Now, DateTime.Now.AddYears(10));
+            string internalReferenceNumber = "02645";
+            BankAccount bankAccount = new BankAccount(new ClientAccountCodeCCC("12345678061234567890"));
+            DateTime directDebitMandateCreationDate = new DateTime(2013, 11, 11);
+            DirectDebitMandate directDebitMandate = new DirectDebitMandate(internalReferenceNumber, directDebitMandateCreationDate, bankAccount);
+            DirectDebitPaymentMethod directDebitTransfermethod = new DirectDebitPaymentMethod(directDebitMandate);
+            DateTime paymentDate = new DateTime(2013, 11, 11);
+            Payment payment = new Payment(bill.Amount, paymentDate, directDebitTransfermethod);
+            bill.PayBill(payment);
+            Assert.AreEqual(directDebitTransfermethod, bill.Payment.PaymentMethod);
+        }
     }
 }

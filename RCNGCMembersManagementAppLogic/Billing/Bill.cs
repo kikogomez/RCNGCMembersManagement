@@ -118,5 +118,10 @@ namespace RCNGCMembersManagementAppLogic.Billing
         {
             this.paymentAgreements.Add(paymentAgreement.AgreementDate.Date, paymentAgreement);
         }
+
+        public void AssignPaymentMethod(PaymentMethod paymentMethod)
+        {
+            this.AssignedPaymentMethod = paymentMethod;
+        }
     }
 }
