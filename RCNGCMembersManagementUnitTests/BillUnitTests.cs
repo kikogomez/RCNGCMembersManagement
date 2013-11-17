@@ -373,5 +373,20 @@ namespace RCNGCMembersManagementUnitTests.Billing
             bill.PayBill(payment);
             Assert.AreEqual(directDebitTransfermethod, bill.Payment.PaymentMethod);
         }
+
+        [TestMethod]
+        public void WhenABillIsPaidByDirectDebitTheDebtorAccountIsStored()
+        {
+            Bill bill = new Bill("MMM201300015/001", "An easy to pay bill", 1, DateTime.Now, DateTime.Now.AddYears(10));
+            string internalReferenceNumber = "02645";
+            BankAccount bankAccount = new BankAccount(new ClientAccountCodeCCC("12345678061234567890"));
+            DateTime directDebitMandateCreationDate = new DateTime(2013, 11, 11);
+            DirectDebitMandate directDebitMandate = new DirectDebitMandate(internalReferenceNumber, directDebitMandateCreationDate, bankAccount);
+            DirectDebitPaymentMethod directDebitTransfermethod = new DirectDebitPaymentMethod(directDebitMandate);
+            DateTime paymentDate = new DateTime(2013, 11, 11);
+            Payment payment = new Payment(bill.Amount, paymentDate, directDebitTransfermethod);
+            bill.PayBill(payment);
+            Assert.AreEqual("12345678061234567890", ((DirectDebitPaymentMethod)bill.Payment.PaymentMethod).DirectDebitMandate.BankAccount.CCC.CCC);
+        }
     }
 }
