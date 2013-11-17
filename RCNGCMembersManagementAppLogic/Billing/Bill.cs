@@ -13,10 +13,11 @@ namespace RCNGCMembersManagementAppLogic.Billing
         decimal amount;
         DateTime issueDate;
         DateTime dueDate;
-        BillPaymentResult paymentResult;
         PaymentMethod assignedPaymentMethod;
         Dictionary<DateTime,PaymentAgreement> paymentAgreements;
         PaymentAgreement renegotiationAgreement;
+        Payment payment;
+        BillPaymentResult paymentResult;
 
         public Bill(string billID, string description, decimal amount, DateTime issueDate, DateTime dueDate)
             : this(billID, description, amount, issueDate, dueDate, null) { }
@@ -47,14 +48,25 @@ namespace RCNGCMembersManagementAppLogic.Billing
             get { return billID; }
             set { billID = value; }
         }
+
+        public string Description
+        {
+            get { return description; }
+        }
+
         public decimal Amount
         {
             get { return amount; }
         }
 
-        public BillPaymentResult PaymentResult
+        public DateTime IssueDate
         {
-            get { return paymentResult; }
+            get { return issueDate; }
+        }
+
+        public DateTime DueDate
+        {
+            get { return dueDate; }
         }
 
         public PaymentMethod AssignedPaymentMethod
@@ -73,14 +85,15 @@ namespace RCNGCMembersManagementAppLogic.Billing
             get { return renegotiationAgreement; }
         }
 
-        public DateTime DueDate
+        public void PayBill(Payment payment)
         {
-            get { return dueDate; }
+            this.payment = payment;
+            paymentResult = BillPaymentResult.Paid;
         }
 
-        public void PayBill()
+        public BillPaymentResult PaymentResult
         {
-
+            get { return paymentResult; }
         }
 
         public void CancelBill()

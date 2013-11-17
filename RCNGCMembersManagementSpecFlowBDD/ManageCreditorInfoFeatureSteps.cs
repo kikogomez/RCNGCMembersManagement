@@ -45,7 +45,13 @@ namespace RCNGCMembersManagementSpecFlowBDD
         [Given(@"I have a direct debit initiation contract")]
         public void GivenIHaveADirectDebitInitiationContract()
         {
-            ScenarioContext.Current.Pending();
+            Creditor creditor = (Creditor)ScenarioContext.Current["Creditor"];
+            BankCode bankCode = new BankCode("2100", "CaixaBank, S.A.", "CAIXESBBXXX");
+            CreditorAgent creditorAgent = new CreditorAgent(bankCode);
+            BankAccount creditorAccount = new BankAccount(new ClientAccountCodeCCC("21001111301111111111"));
+            DirectDebitInitiationContract directDebitInitiationContract = new DirectDebitInitiationContract(
+                creditorAccount, creditor.NIF, "333", creditorAgent);
+            ScenarioContext.Current.Add("Contract333", directDebitInitiationContract);
         }
         
         [When(@"I register the bank as a creditor agent")]
@@ -78,12 +84,13 @@ namespace RCNGCMembersManagementSpecFlowBDD
                 creditorAccount, creditor.NIF, "777", creditorAgent);
             creditor.AddDirectDebitInitiacionContract(directDebitInitiationContract);
         }
-
         
-        [When(@"I change the creditor account")]
-        public void WhenIChangeTheCreditorAccount()
+        [When(@"I change the creditor account to ""(.*)""")]
+        public void WhenIChangeTheCreditorAccountTo(string iBAN)
         {
-            ScenarioContext.Current.Pending();
+            DirectDebitInitiationContract contract333 = (DirectDebitInitiationContract)ScenarioContext.Current["Contract333"];
+            BankAccount newCreditorAccount = new BankAccount(new InternationalAccountBankNumberIBAN(iBAN));
+            contract333.ChangeCreditorBank(newCreditorAccount);
         }
                
         [Then(@"The creditor agent is correctly created")]
@@ -105,24 +112,39 @@ namespace RCNGCMembersManagementSpecFlowBDD
             Assert.AreEqual("777", creditor.DirectDebitInitiationContracts["777"].CreditorBussinessCode);
             Assert.AreEqual("ES90777G35008770", creditor.DirectDebitInitiationContracts["777"].CreditorID);
         }
-        
-        [Then(@"The contract is correctly updated")]
-        public void ThenTheContractIsCorrectlyUpdated()
+
+        [Then(@"The contract account is correctly updated to ""(.*)""")]
+        public void ThenTheContractAccountIsCorrectlyUpdatedTo(string iBAN)
         {
-            ScenarioContext.Current.Pending();
+            DirectDebitInitiationContract contract333 = (DirectDebitInitiationContract)ScenarioContext.Current["Contract333"];
+            Assert.AreEqual(iBAN, contract333.CreditorAcount.IBAN.IBAN);
         }
 
-        [When(@"I remove the contract")]
-        public void WhenIRemoveTheContract()
+
+        [Given(@"I have a direct debit initiation contract registered with bussines code ""(.*)""")]
+        public void GivenIHaveADirectDebitInitiationContractRegisteredWithBussinesCode(string creditorBussinessCode)
         {
-            ScenarioContext.Current.Pending();
+            Creditor creditor = (Creditor)ScenarioContext.Current["Creditor"];
+            BankCode bankCode = new BankCode("2100", "CaixaBank, S.A.", "CAIXESBBXXX");
+            CreditorAgent creditorAgent = new CreditorAgent(bankCode);
+            BankAccount creditorAccount = new BankAccount(new ClientAccountCodeCCC("21001111301111111111"));
+            DirectDebitInitiationContract directDebitInitiationContract = new DirectDebitInitiationContract(
+                creditorAccount, creditor.NIF, "333", creditorAgent);
+            creditor.AddDirectDebitInitiacionContract(directDebitInitiationContract);
         }
 
-        [Then(@"The contract is correctly removed")]
-        public void ThenTheContractIsCorrectlyRemoved()
+        [When(@"I remove the contract ""(.*)""")]
+        public void WhenIRemoveTheContract(string creditorBussinessCode)
         {
-            ScenarioContext.Current.Pending();
+            Creditor creditor = (Creditor)ScenarioContext.Current["Creditor"];
+            creditor.DirectDebitInitiationContracts.Remove(creditorBussinessCode);
         }
 
+        [Then(@"The contract ""(.*)"" is correctly removed")]
+        public void ThenTheContractIsCorrectlyRemoved(string creditorBussinessCode)
+        {
+            Creditor creditor = (Creditor)ScenarioContext.Current["Creditor"];
+            Assert.IsFalse(creditor.DirectDebitInitiationContracts.ContainsKey(creditorBussinessCode));
+        }
     }
 }

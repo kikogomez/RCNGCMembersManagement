@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace RCNGCMembersManagementAppLogic.Billing
 {
-    public class PaymentMethod
+    public abstract class PaymentMethod
     {
         public PaymentMethod()
         {

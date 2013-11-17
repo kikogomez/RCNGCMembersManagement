@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using RCNGCMembersManagementAppLogic;
 using RCNGCMembersManagementAppLogic.Billing;
@@ -467,22 +468,26 @@ namespace RCNGCMembersManagementUnitTests.Billing
         {
             DateTime issueDate = DateTime.Now;
             Invoice invoice = new Invoice(invoiceCustomerData, transactionsList, issueDate);
+            List<Bill> pendingBills = invoice.Bills
+                .Select(billsDictionayElement => billsDictionayElement.Value)
+                .Where(bill => bill.PaymentResult == Bill.BillPaymentResult.ToCollect || bill.PaymentResult == Bill.BillPaymentResult.Unpaid).ToList();
             invoice.Cancel();
-
-            Assert.Inconclusive();
+            foreach (Bill bill in pendingBills) Assert.AreEqual(Bill.BillPaymentResult.CancelledOut, bill.PaymentResult);
         }
 
         [TestMethod]
-        public void WhenPayingABillTheInvoiceTotalAmountToCollectIsCorrectlyUpdates()
+        public void WhenCancellingAnInvoiceTheBillTotalAmountToBePaidIs0()
         {
-            Assert.Inconclusive();
+            DateTime issueDate = DateTime.Now;
+            Invoice invoice = new Invoice(invoiceCustomerData, transactionsList, issueDate);
+            List<Bill> pendingBills = invoice.Bills
+                .Select(billsDictionayElement => billsDictionayElement.Value)
+                .Where(bill => bill.PaymentResult == Bill.BillPaymentResult.ToCollect || bill.PaymentResult == Bill.BillPaymentResult.Unpaid).ToList();
+            invoice.Cancel();
+            foreach (Bill bill in pendingBills) Assert.AreEqual(Bill.BillPaymentResult.CancelledOut, bill.PaymentResult);
         }
 
-        [TestMethod]
-        public void WhenPayingABillIfTheraAreNomMoreBillsToCollectTheBillIsmarkedAsPaid()
-        {
-            Assert.Inconclusive();
-        }
+
 
     }
 }

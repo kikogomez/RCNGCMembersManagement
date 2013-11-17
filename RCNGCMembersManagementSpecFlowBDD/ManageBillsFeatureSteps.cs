@@ -256,18 +256,6 @@ namespace RCNGCMembersManagementSpecFlowBDD
             ScenarioContext.Current.Pending();
         }
 
-        /*[Given(@"I have an invoice with some bills to collect")]
-        public void GivenIHaveAnInvoiceWithSomeBillsToCollect()
-        {
-            ScenarioContext.Current.Pending();
-        }*/
-
-        /*[When(@"A bill is paid in cash")]
-        public void WhenABillIsPaidInCash()
-        {
-            ScenarioContext.Current.Pending();
-        }*/
-
         [Then(@"The bill state is set to ""(.*)""")]
         public void ThenTheBillStateIsSetTo(string billState)
         {
@@ -304,12 +292,6 @@ namespace RCNGCMembersManagementSpecFlowBDD
             ScenarioContext.Current.Pending();
         }
 
-        /*[When(@"A bill is paid by bank transfer")]
-        public void WhenABillIsPaidByBankTransfer()
-        {
-            ScenarioContext.Current.Pending();
-        }*/
-
         [Then(@"The transferor account is stored")]
         public void ThenTheTransferorAccountIsStored()
         {
@@ -322,11 +304,17 @@ namespace RCNGCMembersManagementSpecFlowBDD
             ScenarioContext.Current.Pending();
         }
 
-        /*[Given(@"I have an bill")]
-        public void GivenIHaveAnBill()
+        [When(@"The bill is paid by direct debit")]
+        public void WhenTheBillIsPaidByDirectDebit()
         {
             ScenarioContext.Current.Pending();
-        }*/
+        }
+
+        [Then(@"The direct debit initiation ID is stored")]
+        public void ThenTheDirectDebitInitiationIDIsStored()
+        {
+            ScenarioContext.Current.Pending();
+        }
 
         [When(@"The bill is past due date")]
         public void WhenTheBillIsPastDueDate()

@@ -83,6 +83,17 @@ Scenario: A bill to collect is paid by bank transfer
 	And The bill amount is deduced form the invoice total amount
 	And If the invoice total to be paid is 0 the invoice is marked as "Paid"
 
+Scenario: A bill to collect is paid by direct debit
+	Given I have an invoice with some bills
+	And I have a bill to collect in the invoice
+	When The bill is paid by direct debit
+	Then The bill state is set to "Paid"
+	And The bill payment method is set to "Direct Debitr"
+	And The direct debit initiation ID is stored
+	And The bill payment date is stored
+	And The bill amount is deduced form the invoice total amount
+	And If the invoice total to be paid is 0 the invoice is marked as "Paid"
+
 Scenario: A bill is past due date
 	Given I have an invoice with some bills
 	And I have a bill to collect in the invoice

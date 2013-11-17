@@ -39,6 +39,7 @@ Scenario: In some special cases, an invoice can be cancelled
 	When I cancel the invoice
 	Then The invoice state is "Cancelled"
 	And All the pending bills are marked as Cancelled
+	And The bill total amount to be paid is 0
 	And An amending invoice is created for the negative value of the original invoice: -53.50 
 	And The taxes devolution (-3.50) is separated from the base cost devolution (-50)
 	And The amending invoice ID is the same than the original invoice with different prefix: "AMN2013000023"

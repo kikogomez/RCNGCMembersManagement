@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Globalization;
 using System.Collections.Generic;
+using System.Linq;
 using TechTalk.SpecFlow;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using RCNGCMembersManagementAppLogic;
@@ -106,6 +107,11 @@ namespace RCNGCMembersManagementSpecFlowBDD
         [When(@"I cancel the invoice")]
         public void WhenICancelTheInvoice()
         {
+            Invoice invoice = (Invoice)ScenarioContext.Current["Invoice"];
+            List<Bill> pendingBills = invoice.Bills
+                .Select(billsDictionayElement => billsDictionayElement.Value)
+                .Where(bill => bill.PaymentResult == Bill.BillPaymentResult.ToCollect || bill.PaymentResult == Bill.BillPaymentResult.Unpaid).ToList();
+            ScenarioContext.Current.Add("PendingBills", pendingBills);
             invoicesManager.CancelInvoice((Invoice)ScenarioContext.Current["Invoice"], membersManagementContextData.clubMember);
         }
 
@@ -121,7 +127,15 @@ namespace RCNGCMembersManagementSpecFlowBDD
         [Then(@"All the pending bills are marked as Cancelled")]
         public void ThenAllThePendingBillsAreMarkedAsCancelled()
         {
-            ScenarioContext.Current.Pending();
+            List<Bill> pendingBills = (List<Bill>)ScenarioContext.Current["PendingBills"];
+            foreach (Bill bill in pendingBills) Assert.AreEqual(Bill.BillPaymentResult.CancelledOut, bill.PaymentResult);
+        }
+
+        [Then(@"The bill total amount to be paid is (.*)")]
+        public void ThenTheBillTotalAmountToBePaidIs(decimal invoiceTotalAmountToBePaid)
+        {
+            Invoice invoice = (Invoice)ScenarioContext.Current["Invoice"];
+            Assert.AreEqual(invoiceTotalAmountToBePaid, invoice.BillsTotalAmountToCollect);
         }
 
         [Then(@"An amending invoice is created for the negative value of the original invoice: (.*)")]

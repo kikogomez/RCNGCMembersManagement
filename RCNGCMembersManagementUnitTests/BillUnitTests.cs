@@ -52,6 +52,12 @@ namespace RCNGCMembersManagementUnitTests.Billing
             };
         }
 
+        [TestMethod]
+        public void ABillIsCorrectlyCreated()
+        {
+            Bill bill = new Bill("MMM201300015/001", "An easy to pay bill", 1, DateTime.Now, DateTime.Now.AddYears(10));
+            Assert.AreEqual("MMM201300015/001", bill.BillID);
+        }
 
         [TestMethod]
         public void ABillShouldHaveABillID()
@@ -208,19 +214,52 @@ namespace RCNGCMembersManagementUnitTests.Billing
         }
 
         [TestMethod]
+        public void APaymentIsCorrectlyCreated()
+        {
+            CashPayment cashPayment = new CashPayment();
+            DateTime paymentDate = new DateTime(2013,11,11);
+            Payment payment= new Payment((decimal)100, paymentDate , cashPayment);
+            Assert.AreEqual((decimal)100, payment.PaymentAmount);
+            Assert.AreEqual(paymentDate, payment.PaymentDate);
+            Assert.AreEqual(cashPayment, payment.PaymentMethod);        
+        }
+
+        [TestMethod]
         public void WhenPayingABillTheBillIsSetAsPaid()
         {
-            Assert.Inconclusive();
+            Bill bill = new Bill("MMM201300015/001", "An easy to pay bill", 1, DateTime.Now, DateTime.Now.AddYears(10));
+            CashPayment cashPayment = new CashPayment();
+            DateTime paymentDate = new DateTime(2013, 11, 11);
+            Payment payment = new Payment(bill.Amount, paymentDate, cashPayment);
+            bill.PayBill(payment);
+            Assert.AreEqual(Bill.BillPaymentResult.Paid, bill.PaymentResult);
         }
 
         [TestMethod]
         public void WhenPayingABillTheBillAPaymentIsAssignedToTheBill()
         {
+            Bill bill = new Bill("MMM201300015/001", "An easy to pay bill", 1, DateTime.Now, DateTime.Now.AddYears(10));
+            CashPayment cashPayment = new CashPayment();
+            DateTime paymentDate = new DateTime(2013, 11, 11);
+            Payment payment = new Payment(bill.Amount, paymentDate, cashPayment);
+            bill.PayBill(payment);
             Assert.Inconclusive();
         }
 
         [TestMethod]
         public void WhenPayingABillTheBillPaymentDateIsStored()
+        {
+            Assert.Inconclusive();
+        }
+
+        [TestMethod]
+        public void WhenPayingABillTheInvoiceTotalAmountToCollectIsCorrectlyUpdates()
+        {
+            Assert.Inconclusive();
+        }
+
+        [TestMethod]
+        public void WhenPayingABillIfThereAreNoMoreBillsToCollectTheInvoiceIsMarkedAsPaid()
         {
             Assert.Inconclusive();
         }
@@ -248,10 +287,5 @@ namespace RCNGCMembersManagementUnitTests.Billing
         {
             Assert.Inconclusive();
         }
-
-
-
-
-
     }
 }

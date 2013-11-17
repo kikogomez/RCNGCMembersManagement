@@ -178,11 +178,13 @@ this.FeatureBackground();
 #line 41
  testRunner.And("All the pending bills are marked as Cancelled", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 42
+ testRunner.And("The bill total amount to be paid is 0", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line 43
  testRunner.And("An amending invoice is created for the negative value of the original invoice: -5" +
                     "3.50", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
-#line 43
- testRunner.And("The taxes devolution (-3.50) is separated from the base cost devolution (-50)", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 44
+ testRunner.And("The taxes devolution (-3.50) is separated from the base cost devolution (-50)", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line 45
  testRunner.And("The amending invoice ID is the same than the original invoice with different pref" +
                     "ix: \"AMN2013000023\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
