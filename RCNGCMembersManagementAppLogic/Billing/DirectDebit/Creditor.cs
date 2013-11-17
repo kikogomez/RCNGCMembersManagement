@@ -41,9 +41,15 @@ namespace RCNGCMembersManagementAppLogic.Billing.DirectDebit
                 creditorAgentDirectDebitInitiationContract);
         }
 
-/*        public void AddCreditorAgent(CreditorAgent creditorAgent)
+        public void RemoveDirectDebitInitiacionContract(string creditorBussinesCode)
         {
-            //creditorAgents.Add(creditorAgent.
-        }*/
+            directDebitInitiationContracts.Remove(creditorBussinesCode);
+        }
+
+        public void ChangeDirectDebitContractAccount(string creditorBussinessCode, BankAccount bankAccount)
+        {
+            DirectDebitInitiationContract contractToChange = directDebitInitiationContracts[creditorBussinessCode];
+            contractToChange.ChangeCreditorBank(bankAccount);
+        }
     }
 }

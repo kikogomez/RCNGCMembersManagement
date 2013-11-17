@@ -41,6 +41,13 @@ namespace RCNGCMembersManagementAppLogic.Billing.DirectDebit
             get { return creditorID; }
         }
 
+        public void ChangeCreditorBank(BankAccount creditorAccount)
+        {
+            if (creditorAccount.BankAccountFieldCodes.BankCode != this.creditorAgent.LocalBankCode) 
+                throw new System.ArgumentException("The new account must be from the same Creditor Agent", "creditorAccount");  
+            this.creditorAccount = creditorAccount;
+        }
+
         private void GenerateCreditID(string nIF, string creditorBusinessCode)
         {
             SEPAAttributes sEPAAttributes = new SEPAAttributes();

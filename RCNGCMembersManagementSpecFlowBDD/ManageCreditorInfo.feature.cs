@@ -165,11 +165,11 @@ this.FeatureBackground();
         }
         
         [Microsoft.VisualStudio.TestTools.UnitTesting.TestMethodAttribute()]
-        [Microsoft.VisualStudio.TestTools.UnitTesting.DescriptionAttribute("I change the creditor bussines code for my contract")]
+        [Microsoft.VisualStudio.TestTools.UnitTesting.DescriptionAttribute("I change remove a direct debit initiation contract")]
         [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("FeatureTitle", "Manage Creditor Info")]
-        public virtual void IChangeTheCreditorBussinesCodeForMyContract()
+        public virtual void IChangeRemoveADirectDebitInitiationContract()
         {
-            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("I change the creditor bussines code for my contract", ((string[])(null)));
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("I change remove a direct debit initiation contract", ((string[])(null)));
 #line 32
 this.ScenarioSetup(scenarioInfo);
 #line 6
@@ -177,9 +177,9 @@ this.FeatureBackground();
 #line 33
  testRunner.Given("I have a direct debit initiation contract", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line 34
- testRunner.When("I change the creditor bussines code", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+ testRunner.When("I remove the contract", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line 35
- testRunner.Then("The contract is correctly updated", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+ testRunner.Then("The contract is correctly removed", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
             this.ScenarioCleanup();
         }

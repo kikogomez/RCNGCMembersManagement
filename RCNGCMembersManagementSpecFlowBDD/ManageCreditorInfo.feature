@@ -29,7 +29,7 @@ Scenario: I change the bank account for my contract
 	When I change the creditor account
 	Then The contract is correctly updated
 
-Scenario: I change the creditor bussines code for my contract
+Scenario: I change remove a direct debit initiation contract
 	Given I have a direct debit initiation contract
-	When I change the creditor bussines code
-	Then The contract is correctly updated
+	When I remove the contract
+	Then The contract is correctly removed

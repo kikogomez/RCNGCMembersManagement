@@ -85,13 +85,7 @@ namespace RCNGCMembersManagementSpecFlowBDD
         {
             ScenarioContext.Current.Pending();
         }
-        
-        [When(@"I change the creditor bussines code")]
-        public void WhenIChangeTheCreditorBussinesCode()
-        {
-            ScenarioContext.Current.Pending();
-        }
-        
+               
         [Then(@"The creditor agent is correctly created")]
         public void ThenTheCreditorAgentIsCorrectlyRegistered()
         {
@@ -117,5 +111,18 @@ namespace RCNGCMembersManagementSpecFlowBDD
         {
             ScenarioContext.Current.Pending();
         }
+
+        [When(@"I remove the contract")]
+        public void WhenIRemoveTheContract()
+        {
+            ScenarioContext.Current.Pending();
+        }
+
+        [Then(@"The contract is correctly removed")]
+        public void ThenTheContractIsCorrectlyRemoved()
+        {
+            ScenarioContext.Current.Pending();
+        }
+
     }
 }
