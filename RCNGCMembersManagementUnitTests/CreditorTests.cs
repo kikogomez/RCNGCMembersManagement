@@ -57,33 +57,33 @@ namespace RCNGCMembersManagementUnitTests
         }
 
         [TestMethod]
-        public void ICanAssignANewDirectDebitContractForTheCreditor()
+        public void ICanRegisterMoreThanOneDirectDebitInitiationContract()
         {
-            /*
             Creditor creditor = new Creditor("G35008770", "Real Club Náutico de Gran Canaria");
+
             BankCode bankCode = new BankCode("2038", "Bankia, S.A.", "CAHMESMMXXX");
-            CreditorAgent creditAgent = new CreditorAgent(bankCode);*/
-
-
-            Assert.Inconclusive();
-        }
-
-        [TestMethod]
-        public void ICanAssignMoreThanOneCreditorAgentToACreditor()
-        {
-            Assert.Inconclusive();
-        }
-
-        [TestMethod]
-        public void ICanRegisterANewContractForMyCreditAgentDirectDebitInitiations()
-        {
-/*            BankCode bankCode = new BankCode("2038", "Bankia, S.A.", "CAHMESMMXXX");
             CreditorAgent creditorAgent = new CreditorAgent(bankCode);
-            BankAccount creditorAgentAccount = new BankAccount(new InternationalAccountBankNumberIBAN("ES6812345678061234567890"));
-            CreditorAgentDirectDebitInitiationContract directDebitContract = new CreditorAgentDirectDebitInitiationContract(creditorAgentAccount, "011");
-            creditorAgent.AddDirectDebitInitiacionContract(directDebitContract);
-            Assert.AreEqual("011", creditorAgent.DirectDebitInitiationContracts["011"].CreditorBussinessCode);
-            Assert.AreEqual("ES6812345678061234567890", creditorAgent.DirectDebitInitiationContracts["011"].CreditorAcount.IBAN.IBAN);*/
+            BankAccount creditorAccount = new BankAccount(new ClientAccountCodeCCC("20381111401111111111"));
+            DirectDebitInitiationContract directDebitInitiationContract = new DirectDebitInitiationContract(
+                creditorAccount, creditor.NIF, "777", creditorAgent);
+            creditor.AddDirectDebitInitiacionContract(directDebitInitiationContract);
+
+            BankCode bankCode2 = new BankCode("2100", "CaixaBank, S.A.", "CAIXESBBXXX");
+            CreditorAgent creditorAgent2 = new CreditorAgent(bankCode2);
+            BankAccount creditorAccount2 = new BankAccount(new ClientAccountCodeCCC("21001111301111111111"));
+            DirectDebitInitiationContract directDebitInitiationContract2 = new DirectDebitInitiationContract(
+                creditorAccount2, creditor.NIF, "333", creditorAgent2);
+            creditor.AddDirectDebitInitiacionContract(directDebitInitiationContract2);
+
+            Assert.AreEqual("20381111401111111111", creditor.DirectDebitInitiationContracts["777"].CreditorAcount.CCC.CCC);
+            Assert.AreEqual("CAHMESMMXXX", creditor.DirectDebitInitiationContracts["777"].CreditorAgent.BankBIC);
+            Assert.AreEqual("777", creditor.DirectDebitInitiationContracts["777"].CreditorBussinessCode);
+            Assert.AreEqual("ES90777G35008770", creditor.DirectDebitInitiationContracts["777"].CreditorID);
+
+            Assert.AreEqual("21001111301111111111", creditor.DirectDebitInitiationContracts["333"].CreditorAcount.CCC.CCC);
+            Assert.AreEqual("CAIXESBBXXX", creditor.DirectDebitInitiationContracts["333"].CreditorAgent.BankBIC);
+            Assert.AreEqual("333", creditor.DirectDebitInitiationContracts["333"].CreditorBussinessCode);
+            Assert.AreEqual("ES90333G35008770", creditor.DirectDebitInitiationContracts["333"].CreditorID);
         }
     }
 }

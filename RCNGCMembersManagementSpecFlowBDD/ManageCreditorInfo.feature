@@ -21,7 +21,7 @@ Scenario: Register a direct debit initiation contract
 
 Scenario: Register more than one direct debit initiation contract
 	Given I have a direct debit initiation contract registered
-	When I register a contract data
+	When I register a second contract data
 	Then The contract is correctly registered
 
 Scenario: I change the bank account for my contract
