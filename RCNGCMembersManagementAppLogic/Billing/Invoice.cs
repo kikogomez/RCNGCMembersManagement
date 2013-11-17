@@ -72,8 +72,6 @@ namespace RCNGCMembersManagementAppLogic.Billing
         public void RenegotiateBillsIntoInstalments (PaymentAgreement paymentAgreement, List<Bill> billsToRenegotiate, List<Bill> billsToAdd)
         {
             this.paymentAgreements.Add(paymentAgreement.AgreementDate.Date, paymentAgreement);
-            //AssignPaymentAgreementToBills(paymentAgreement, billsToAdd);
-            //AssignPaymentAgreementToBills(paymentAgreement, billsToRenegotiate);
             ReplaceNegotiatedBills(billsToRenegotiate, billsToAdd, paymentAgreement);
         }
 

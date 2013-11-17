@@ -5,6 +5,7 @@ using RCNGCMembersManagementAppLogic.XML;
 using RCNGCMembersManagementAppLogic.Billing.DirectDebit;
 using RCNGCMembersManagementAppLogic.Billing.DirectDebit.ISO20022Elements.CustomerDirectDebitInitiationV02;
 using RCNGCMembersManagementUnitTests.DirectDebitPOCOClasses;
+using ExtensionMethods;
 
 namespace RCNGCMembersManagementUnitTests
 {
@@ -155,6 +156,58 @@ namespace RCNGCMembersManagementUnitTests
             string validatingErrors = XMLValidator.ValidateXMLNodeThroughModifiedXSD(
                 "InitgPty", "PartyIdentification32", xMLNamespace, xmlString, xSDFilePath);
             Assert.AreEqual("", validatingErrors);
+        }
+
+        [TestMethod]
+        public void InitiationPartyElement_InitPty_IsCorrectlyDeserialized()
+        {
+            PartyIdentification32 initiatingParty = XMLSerializer.XMLDeserializeFromFile<PartyIdentification32>(@"XML Test Files\InitiatingParty.xml", "InitgPty", xMLNamespace);
+            Assert.AreEqual("Real Club Náutico de Gran Canaria", initiatingParty.Nm);
+            OrganisationIdentification4 orgId = (OrganisationIdentification4)initiatingParty.Id.Item;
+            string genericOrganisationInformationId = orgId.Othr[0].Id;
+            Assert.AreEqual("ES90777G35008770", genericOrganisationInformationId);
+        }
+
+        [TestMethod]
+        public void GroupHeader_GrpHdr_IsCorrectlyCreated()
+        {
+            PartyIdentification32 initiationParty_initgPty = XMLSerializer.XMLDeserializeFromFile<PartyIdentification32>(@"XML Test Files\InitiatingParty.xml", "InitgPty", xMLNamespace);
+
+            Authorisation1Choice[] authorisation_authstn = new Authorisation1Choice[] { null };
+
+            DateTime creatingdDateTime =
+                DateTime.SpecifyKind(DateTime.Now, DateTimeKind.Unspecified).Truncate(TimeSpan.FromSeconds(1));
+
+            GroupHeader39 groupHeader_grpHdr = new GroupHeader39(
+                "TestSEPARemitance0001",    //<MsgID>
+                creatingdDateTime,          //<CreDtTm>
+                authorisation_authstn,      //<Authstn> - Not used in SEPA. Array of null instead of null to avoid null reference exception
+                "2",                        //<NbOfTxs>
+                (decimal)100.50,            //<CtrlSum>
+                true,                       //Control sum is specified
+                initiationParty_initgPty,   //<InitgPty>
+                null);                      //<FwdgAgt> - Not used by creditor in SEPA COR
+
+            string xmlString = XMLSerializer.XMLSerializeToString<GroupHeader39>(groupHeader_grpHdr, "GrpHdr", xMLNamespace);
+            string validatingErrors = XMLValidator.ValidateXMLNodeThroughModifiedXSD(
+                "GrpHdr", "GroupHeader39", xMLNamespace, xmlString, xSDFilePath);
+            Assert.AreEqual("", validatingErrors);
+        }
+
+        [TestMethod]
+        public void GroupHeader_GrpHdr_IsCorrectlyDeserialized()
+        {
+            GroupHeader39 groupHeader = XMLSerializer.XMLDeserializeFromFile<GroupHeader39>(@"XML Test Files\GroupHeader.xml", "GrpHdr", xMLNamespace);
+            Assert.AreEqual("TestSEPARemitance0001", groupHeader.MsgId);
+            string deserializedDateToISO0861DateString = groupHeader.CreDtTm.ToString("s", System.Globalization.CultureInfo.InvariantCulture);
+            Assert.AreEqual("2013-10-28T11:45:54", deserializedDateToISO0861DateString);
+            Assert.AreEqual(Convert.ToDecimal("237"), groupHeader.CtrlSum);
+            Assert.AreEqual("2", groupHeader.NbOfTxs);
+            PartyIdentification32 initiatingParty = groupHeader.InitgPty;
+            Assert.AreEqual("Real Club Náutico de Gran Canaria", initiatingParty.Nm);
+            OrganisationIdentification4 orgId = (OrganisationIdentification4)initiatingParty.Id.Item;
+            string genericOrganisationInformationId = orgId.Othr[0].Id;
+            Assert.AreEqual("ES90777G35008770", genericOrganisationInformationId);
         }
     }
 }

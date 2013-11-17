@@ -69,10 +69,56 @@ namespace RCNGCMembersManagementSpecFlowBDD
             ScenarioContext.Current.Pending();
         }
         
-        [Then(@"The new direct debit mandate is correctly")]
+        /*[Then(@"The new direct debit mandate is correctly")]
         public void ThenTheNewDirectDebitMandateIsCorrectly()
         {
             ScenarioContext.Current.Pending();
+        }*/
+
+        [Given(@"The direct debit reference sequence number is (.*)")]
+        public void GivenTheDirectDebitReferenceSequenceNumberIs(int p0)
+        {
+            ScenarioContext.Current.Pending();
         }
+
+        [Then(@"The new direct debit mandate is correctly assigned")]
+        public void ThenTheNewDirectDebitMandateIsCorrectlyAssigned()
+        {
+            ScenarioContext.Current.Pending();
+        }
+
+        [Then(@"The new direct debit reference sequence number is (.*)")]
+        public void ThenTheNewDirectDebitReferenceSequenceNumberIs(int p0)
+        {
+            ScenarioContext.Current.Pending();
+        }
+
+        [Given(@"I have a direct debit associated to the member")]
+        public void GivenIHaveADirectDebitAssociatedToTheMember()
+        {
+            ScenarioContext.Current.Pending();
+        }
+
+        [When(@"I change the account number of the direct debit")]
+        public void WhenIChangeTheAccountNumberOfTheDirectDebit()
+        {
+            ScenarioContext.Current.Pending();
+        }
+
+        [Then(@"The account number is correctly changed")]
+        public void ThenTheAccountNumberIsCorrectlyChanged()
+        {
+            ScenarioContext.Current.Pending();
+        }
+
+        [Then(@"The old account number is stored in the account numbers history")]
+        public void ThenTheOldAccountNumberIsStoredInTheAccountNumbersHistory()
+        {
+            ScenarioContext.Current.Pending();
+        }
+
+
+
+
     }
 }

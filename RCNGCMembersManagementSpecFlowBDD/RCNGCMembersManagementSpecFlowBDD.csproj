@@ -54,6 +54,12 @@
   </Choose>
   <ItemGroup>
     <Compile Include="ContextPOCOClasses.cs" />
+    <Compile Include="GeneratingDirectDebitRemmitances.feature.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>GeneratingDirectDebitRemmitances.feature</DependentUpon>
+    </Compile>
+    <Compile Include="GeneratingDirectDebitRemmitancesFeatureSteps.cs" />
     <Compile Include="GeneratingProFormaInvoicesFeatureSteps.cs" />
     <Compile Include="ManageAccountNumbers.feature.cs">
       <AutoGen>True</AutoGen>
@@ -67,6 +73,12 @@
       <DependentUpon>AddMembers.feature</DependentUpon>
     </Compile>
     <Compile Include="AddMembersFeatureSteps.cs" />
+    <Compile Include="ManageCreditorInfo.feature.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ManageCreditorInfo.feature</DependentUpon>
+    </Compile>
+    <Compile Include="ManageCreditorInfoFeatureSteps.cs" />
     <Compile Include="ManageInvoicesFeatureSteps.cs" />
     <Compile Include="ManageBillsFeatureSteps.cs" />
     <Compile Include="GeneratingInvoices.feature.cs">
@@ -101,6 +113,14 @@
   <ItemGroup>
     <None Include="App.config">
       <SubType>Designer</SubType>
+    </None>
+    <None Include="GeneratingDirectDebitRemmitances.feature">
+      <Generator>SpecFlowSingleFileGenerator</Generator>
+      <LastGenOutput>GeneratingDirectDebitRemmitances.feature.cs</LastGenOutput>
+    </None>
+    <None Include="ManageCreditorInfo.feature">
+      <Generator>SpecFlowSingleFileGenerator</Generator>
+      <LastGenOutput>ManageCreditorInfo.feature.cs</LastGenOutput>
     </None>
     <None Include="ManageMembersBillingInformation.feature">
       <Generator>SpecFlowSingleFileGenerator</Generator>

@@ -31,6 +31,26 @@ namespace RCNGCMembersManagementAppLogic.Billing.DirectDebit.ISO20022Elements.Cu
         DLVY,
     }
 
+    /// Authorisation Code
+    /// Specifies the authorisation, in a coded form
+    [System.SerializableAttribute()]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace = "urn:iso:std:iso:20022:tech:xsd:pain.008.001.02")]
+    public enum Authorisation1Code
+    {
+
+        /// PreAuthorisedFile
+        AUTH,
+
+        /// FileLevelAuthorisationDetails
+        FDET,
+
+        /// FileLevelAuthorisationSummary
+        FSUM,
+
+        /// InstructionLevelAuthorisation
+        ILEV,
+    }
+
     /// Choice option: Coded ("Cd") or Propietary("Prtry")
     [System.SerializableAttribute()]
     [System.Xml.Serialization.XmlTypeAttribute(Namespace = "urn:iso:std:iso:20022:tech:xsd:pain.008.001.02", IncludeInSchema = false)]

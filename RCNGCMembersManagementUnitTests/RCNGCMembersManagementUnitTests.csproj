@@ -56,7 +56,7 @@
     <Compile Include="BankAccountUnitTests.cs" />
     <Compile Include="BankCodesUnitTests.cs" />
     <Compile Include="ClubMemberUnitTests.cs" />
-    <Compile Include="CreditAgentTests.cs" />
+    <Compile Include="CreditorTests.cs" />
     <Compile Include="CustomerDirectDebitInitiationTests.cs" />
     <Compile Include="Direct Debit POCO Classes\Creditor_POCOTestClass.cs" />
     <Compile Include="Direct Debit POCO Classes\CreditorAgent_POCOTestClass.cs" />

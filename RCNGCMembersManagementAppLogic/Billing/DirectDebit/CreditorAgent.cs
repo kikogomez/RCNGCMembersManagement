@@ -9,12 +9,12 @@ namespace RCNGCMembersManagementAppLogic.Billing.DirectDebit
     public class CreditorAgent
     {
         BankCode bankCode;
-        Dictionary<string, CreditorAgentDirectDebitInitiationContract> directDebitInitiationContracts;
+        //Dictionary<string, DirectDebitInitiationContract> directDebitInitiationContracts;
 
         public CreditorAgent(BankCode bankCode)
         {
             this.bankCode = bankCode;
-            directDebitInitiationContracts = new Dictionary<string, CreditorAgentDirectDebitInitiationContract>();
+            //directDebitInitiationContracts = new Dictionary<string, DirectDebitInitiationContract>();
         }
 
         public string LocalBankCode
@@ -31,17 +31,17 @@ namespace RCNGCMembersManagementAppLogic.Billing.DirectDebit
         {
             get { return bankCode.BankBIC; }
         }
-
-        public Dictionary<string, CreditorAgentDirectDebitInitiationContract> DirectDebitInitiationContracts
+/*
+        public Dictionary<string, DirectDebitInitiationContract> DirectDebitInitiationContracts
         {
             get { return directDebitInitiationContracts; }
         }
 
-        public void AddDirectDebitInitiacionContract(CreditorAgentDirectDebitInitiationContract creditorAgentDirectDebitInitiationContract)
+        public void AddDirectDebitInitiacionContract(DirectDebitInitiationContract creditorAgentDirectDebitInitiationContract)
         {
             directDebitInitiationContracts.Add(
                 creditorAgentDirectDebitInitiationContract.CreditorBussinessCode,
                 creditorAgentDirectDebitInitiationContract);
-        }
+        }*/
     }
 }

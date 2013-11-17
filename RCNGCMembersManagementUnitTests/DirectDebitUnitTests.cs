@@ -28,7 +28,7 @@ namespace RCNGCMembersManagementUnitTests
             ClientAccountCodeCCC ccc = new ClientAccountCodeCCC("12345678061234567890");
             BankAccount bankAccount = new BankAccount(ccc);
             DirectDebitMandate directDebitMandate = new DirectDebitMandate(DateTime.Now.Date, bankAccount, referenceNumber);
-            Assert.AreEqual(referenceNumber, directDebitMandate.ReferenceNumber);
+            Assert.AreEqual(referenceNumber, directDebitMandate.InternalReferenceNumber);
         }
 
         [TestMethod]

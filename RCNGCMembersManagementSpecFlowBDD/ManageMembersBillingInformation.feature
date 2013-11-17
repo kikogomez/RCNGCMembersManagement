@@ -27,10 +27,14 @@ Scenario: I can change the member default payment method
 
 Scenario: I can assign a new direct debit to a member
 	Given I have a member
+	And The direct debit reference sequence number is 5000
 	When I add a new direct debit mandate to the member
-	Then The new direct debit mandate is correctly 
+	Then The new direct debit mandate is correctly assigned
+	And The new direct debit reference sequence number is 5001
 
 Scenario: I can change the account number associated to a direct debit
 	Given I have a member
-	When I add a new direct debit mandate to the member
-	Then The new direct debit mandate is correctly 
+	And I have a direct debit associated to the member
+	When I change the account number of the direct debit
+	Then The account number is correctly changed
+	And The old account number is stored in the account numbers history
