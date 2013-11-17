@@ -9,8 +9,10 @@ namespace RCNGCMembersManagementAppLogic
 {
     public class BillsManager
     {
-        public void PayBill(Bill billToPay, PaymentMethod paymentMethod, DateTime paymentDate)
+        public void PayBill(Invoice invoiceContainingTheBill, Bill billToPay, Payment payment)
         {
+            billToPay.PayBill(payment);
+            invoiceContainingTheBill.CheckIfInvoiceIsFullPaid();
         }
     }
 }

@@ -6,6 +6,7 @@ using RCNGCMembersManagementAppLogic.Billing;
 using RCNGCMembersManagementAppLogic.Billing.DirectDebit;
 using RCNGCMembersManagementAppLogic.MembersManaging;
 using RCNGCMembersManagementMocks;
+using ExtensionMethods;
 
 namespace RCNGCMembersManagementUnitTests.Billing
 {
@@ -55,8 +56,14 @@ namespace RCNGCMembersManagementUnitTests.Billing
         [TestMethod]
         public void ABillIsCorrectlyCreated()
         {
-            Bill bill = new Bill("MMM201300015/001", "An easy to pay bill", 1, DateTime.Now, DateTime.Now.AddYears(10));
+            DateTime issueDate = new DateTime(2013, 11, 11);
+            DateTime dueDate = issueDate.AddYears(10);
+            Bill bill = new Bill("MMM201300015/001", "An easy to pay bill", 1, issueDate, dueDate);
             Assert.AreEqual("MMM201300015/001", bill.BillID);
+            Assert.AreEqual("An easy to pay bill", bill.Description);
+            Assert.AreEqual((decimal)1, bill.Amount);
+            Assert.AreEqual(issueDate, bill.IssueDate);
+            Assert.AreEqual(dueDate, bill.DueDate);
         }
 
         [TestMethod]
@@ -243,25 +250,54 @@ namespace RCNGCMembersManagementUnitTests.Billing
             DateTime paymentDate = new DateTime(2013, 11, 11);
             Payment payment = new Payment(bill.Amount, paymentDate, cashPayment);
             bill.PayBill(payment);
-            Assert.Inconclusive();
+            Assert.AreEqual(payment, bill.Payment);
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(System.ArgumentException))]
+        public void OnlyPaymentsForTheTotalBillAmoutAreAccepted()
+        {
+            Bill bill = new Bill("MMM201300015/001", "An easy to pay bill", 1, DateTime.Now, DateTime.Now.AddYears(10));
+            CashPayment cashPaymentMethod = new CashPayment();
+            DateTime paymentDate = new DateTime(2013, 11, 11);
+            Payment payment = new Payment((decimal)2, paymentDate, cashPaymentMethod);
+            try
+            {
+                bill.PayBill(payment);
+            }
+            catch (ArgumentException exception)
+            {
+                Assert.AreEqual("Only payments for the bill total amount are accepted", exception.GetMessageWithoutParamName());
+                throw exception;
+            }
         }
 
         [TestMethod]
         public void WhenPayingABillTheBillPaymentDateIsStored()
         {
-            Assert.Inconclusive();
+            Bill bill = new Bill("MMM201300015/001", "An easy to pay bill", 1, DateTime.Now, DateTime.Now.AddYears(10));
+            CashPayment cashPayment = new CashPayment();
+            DateTime paymentDate = new DateTime(2013, 11, 11);
+            Payment payment = new Payment(bill.Amount, paymentDate, cashPayment);
+            bill.PayBill(payment);
+            Assert.AreEqual(paymentDate, bill.Payment.PaymentDate);
         }
 
         [TestMethod]
         public void WhenPayingABillTheInvoiceTotalAmountToCollectIsCorrectlyUpdates()
         {
-            Assert.Inconclusive();
-        }
-
-        [TestMethod]
-        public void WhenPayingABillIfThereAreNoMoreBillsToCollectTheInvoiceIsMarkedAsPaid()
-        {
-            Assert.Inconclusive();
+            string invoiceID = "MMM2013005001";
+            List<Bill> assignedBillsList = new List<Bill>(unassignedBillsList);
+            assignedBillsList[0].BillID = "MMM2013005001/001";
+            assignedBillsList[1].BillID = "MMM2013005001/002";
+            assignedBillsList[2].BillID = "MMM2013005001/003";
+            Invoice invoice = new Invoice(invoiceID, invoiceCustomerData, transactionList, assignedBillsList, DateTime.Now);
+            Assert.AreEqual((decimal)650, invoice.BillsTotalAmountToCollect);
+            CashPayment cashPayment = new CashPayment();
+            DateTime paymentDate = new DateTime(2013, 11, 11);
+            Payment payment = new Payment((decimal)200, paymentDate, cashPayment);
+            invoice.Bills["MMM2013005001/001"].PayBill(payment);
+            Assert.AreEqual((decimal)450, invoice.BillsTotalAmountToCollect);            
         }
 
         [TestMethod]

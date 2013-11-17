@@ -85,15 +85,22 @@ namespace RCNGCMembersManagementAppLogic.Billing
             get { return renegotiationAgreement; }
         }
 
-        public void PayBill(Payment payment)
+        public Payment Payment
         {
-            this.payment = payment;
-            paymentResult = BillPaymentResult.Paid;
+            get { return payment; }
         }
 
         public BillPaymentResult PaymentResult
         {
             get { return paymentResult; }
+        }
+
+        public void PayBill(Payment payment)
+        {
+            if (this.amount != payment.PaymentAmount)
+                throw new System.ArgumentException("Only payments for the bill total amount are accepted", "payment");
+            this.payment = payment;
+            paymentResult = BillPaymentResult.Paid;
         }
 
         public void CancelBill()

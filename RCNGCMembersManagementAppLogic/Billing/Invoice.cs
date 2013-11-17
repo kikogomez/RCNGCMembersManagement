@@ -88,6 +88,11 @@ namespace RCNGCMembersManagementAppLogic.Billing
             CancelAllPendingBills();
         }
 
+        public void CheckIfInvoiceIsFullPaid()
+        {
+            if (BillsTotalAmountToCollect == 0) invoiceState = InvoicePaymentState.Paid;
+        }
+
         protected override string GetNewInvoiceID()
         {
             string invoicePrefix = billingDataManager.InvoicePrefix;

@@ -487,6 +487,31 @@ namespace RCNGCMembersManagementUnitTests.Billing
             foreach (Bill bill in pendingBills) Assert.AreEqual(Bill.BillPaymentResult.CancelledOut, bill.PaymentResult);
         }
 
+        [TestMethod]
+        public void WhenPayingABillIfThereAreNoMoreBillsToCollectTheInvoiceIsMarkedAsPaid()
+        {
+            BillsManager billsManager = new BillsManager();
+            string invoiceID = "MMM2013005001";
+            List<Bill> billsList = new List<Bill>()
+            {
+                {new Bill("MMM2013005001/001", "First Instalment", 200, DateTime.Now, DateTime.Now.AddDays(30))},
+                {new Bill("MMM2013005001/002", "Second Instalment", 200, DateTime.Now, DateTime.Now.AddDays(60))},
+                {new Bill("MMM2013005001/003", "Third Instalment", 250, DateTime.Now, DateTime.Now.AddDays(90))}
+            };
+            Invoice invoice = new Invoice(invoiceID, invoiceCustomerData, transactionsList, billsList, DateTime.Now);
+            Assert.AreEqual(Invoice.InvoicePaymentState.ToBePaid, invoice.InvoiceState);
+            CashPayment cashPayment = new CashPayment();
+            DateTime paymentDate = new DateTime(2013, 11, 11);
+            Payment payment200 = new Payment((decimal)200, paymentDate, cashPayment);
+            Payment payment250 = new Payment((decimal)250, paymentDate, cashPayment);
+            billsManager.PayBill(invoice, invoice.Bills["MMM2013005001/001"], payment200);
+            Assert.AreEqual(Invoice.InvoicePaymentState.ToBePaid, invoice.InvoiceState);
+            billsManager.PayBill(invoice, invoice.Bills["MMM2013005001/002"], payment200);
+            Assert.AreEqual(Invoice.InvoicePaymentState.ToBePaid, invoice.InvoiceState);
+            billsManager.PayBill(invoice, invoice.Bills["MMM2013005001/003"], payment250);
+            Assert.AreEqual(Invoice.InvoicePaymentState.Paid, invoice.InvoiceState);
+        }
+
 
 
     }
