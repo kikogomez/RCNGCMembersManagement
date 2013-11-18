@@ -106,6 +106,98 @@ namespace RCNGCMembersManagementAppLogic.Billing.DirectDebit.ISO20022Elements.Cu
         ODFT,
     }
 
+    /// Credit or Debit code
+    /// Specifies whether the adjustment must be substracted or added to the total amount
+    [System.SerializableAttribute()]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace = "urn:iso:std:iso:20022:tech:xsd:pain.008.001.02")]
+    public enum CreditDebitCode
+    {
+
+        /// Credit
+        CRDT,
+
+        /// Debit
+        DBIT,
+    }
+
+    /// Document Type
+    /// Type of creditor reference, in a coded form.
+    [System.SerializableAttribute()]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace = "urn:iso:std:iso:20022:tech:xsd:pain.008.001.02")]
+    public enum DocumentType3Code
+    {
+
+        /// RemittanceAdviceMessage
+        RADM,
+
+        /// RelatedPaymentInstruction
+        RPIN,
+
+        /// ForeignExchangeDealReference
+        FXDR,
+
+        /// DispatchAdvice
+        DISP,
+
+        /// PurchaseOrder
+        PUOR,
+
+        /// StructuredCommunicationReference
+        SCOR,
+    }
+
+    /// Document Type
+    [System.SerializableAttribute()]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace = "urn:iso:std:iso:20022:tech:xsd:pain.008.001.02")]
+    public enum DocumentType5Code
+    {
+
+        /// MeteredServiceInvoice
+        MSIN,
+
+        /// CreditNoteRelatedToFinancialAdjustment
+        CNFA,
+
+        /// DebitNoteRelatedToFinancialAdjustment
+        DNFA,
+
+        /// CommercialInvoice
+        CINV,
+
+        /// CreditNote
+        CREN,
+
+        /// DebitNote>
+        DEBN,
+
+        /// HireInvoice
+        HIRI,
+
+        /// SelfBilledInvoice
+        SBIN,
+
+        /// CommercialContract
+        CMCN,
+
+        /// StatementOfAccount
+        SOAC,
+
+        /// DispatchAdvice
+        DISP,
+
+        /// BillOfLading
+        BOLD,
+
+        /// Voucher
+        VCHR,
+
+        /// AccountReceivableOpenItem
+        AROI,
+
+        /// TradeServicesUtilityTransaction
+        TSUT,
+    }
+
     /// Regularity with which direct debit instructions are to be created and processed
     [System.SerializableAttribute()]
     [System.Xml.Serialization.XmlTypeAttribute(Namespace = "urn:iso:std:iso:20022:tech:xsd:pain.008.001.02")]

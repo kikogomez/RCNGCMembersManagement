@@ -70,8 +70,12 @@
     <Compile Include="Billing\DirectDebit\ISO20022Elements\CustomerDirectDebitInitiationV02\ClearingSystemIdentification2Choice.cs" />
     <Compile Include="Billing\DirectDebit\ISO20022Elements\CustomerDirectDebitInitiationV02\ClearingSystemMemberIdentification2.cs" />
     <Compile Include="Billing\DirectDebit\ISO20022Elements\CustomerDirectDebitInitiationV02\ContactDetails2.cs" />
+    <Compile Include="Billing\DirectDebit\ISO20022Elements\CustomerDirectDebitInitiationV02\CreditorReferenceInformation2.cs" />
+    <Compile Include="Billing\DirectDebit\ISO20022Elements\CustomerDirectDebitInitiationV02\CreditorReferenceType1Choice.cs" />
+    <Compile Include="Billing\DirectDebit\ISO20022Elements\CustomerDirectDebitInitiationV02\CreditorReferenceType2.cs" />
     <Compile Include="Billing\DirectDebit\ISO20022Elements\CustomerDirectDebitInitiationV02\DateAndPlaceOfBirth.cs" />
     <Compile Include="Billing\DirectDebit\ISO20022Elements\CustomerDirectDebitInitiationV02\DirectDebitTransaction6.cs" />
+    <Compile Include="Billing\DirectDebit\ISO20022Elements\CustomerDirectDebitInitiationV02\DocumentAdjustment1.cs" />
     <Compile Include="Billing\DirectDebit\ISO20022Elements\CustomerDirectDebitInitiationV02\Enums.cs" />
     <Compile Include="Billing\DirectDebit\ISO20022Elements\CustomerDirectDebitInitiationV02\FinancialIdentificationSchemeName1Choice.cs" />
     <Compile Include="Billing\DirectDebit\ISO20022Elements\CustomerDirectDebitInitiationV02\FinancialInstitutionIdentification7.cs" />
@@ -89,6 +93,12 @@
     <Compile Include="Billing\DirectDebit\ISO20022Elements\CustomerDirectDebitInitiationV02\PersonIdentification5.cs" />
     <Compile Include="Billing\DirectDebit\ISO20022Elements\CustomerDirectDebitInitiationV02\PersonIdentificationSchemeName1Choice.cs" />
     <Compile Include="Billing\DirectDebit\ISO20022Elements\CustomerDirectDebitInitiationV02\PostalAddress6.cs" />
+    <Compile Include="Billing\DirectDebit\ISO20022Elements\CustomerDirectDebitInitiationV02\ReferredDocumentInformation3.cs" />
+    <Compile Include="Billing\DirectDebit\ISO20022Elements\CustomerDirectDebitInitiationV02\ReferredDocumentType1Choice.cs" />
+    <Compile Include="Billing\DirectDebit\ISO20022Elements\CustomerDirectDebitInitiationV02\ReferredDocumentType2.cs" />
+    <Compile Include="Billing\DirectDebit\ISO20022Elements\CustomerDirectDebitInitiationV02\RemittanceAmount1.cs" />
+    <Compile Include="Billing\DirectDebit\ISO20022Elements\CustomerDirectDebitInitiationV02\RemittanceInformation5.cs" />
+    <Compile Include="Billing\DirectDebit\ISO20022Elements\CustomerDirectDebitInitiationV02\StructuredRemittanceInformation7.cs" />
     <Compile Include="Billing\DirectDebit\SEPAAttributes.cs" />
     <Compile Include="Billing\Payment.cs" />
     <Compile Include="Billing\PaymentAgreement.cs" />

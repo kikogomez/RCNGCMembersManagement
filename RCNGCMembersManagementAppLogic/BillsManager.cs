@@ -40,6 +40,7 @@ namespace RCNGCMembersManagementAppLogic
 
         private PaymentAgreement GetActiveAgreementFromBill(Bill bill)
         {
+            if (bill.PaymentAgreements.Count == 0) return null;
             PaymentAgreement activePaymentAgreement = 
                 bill.PaymentAgreements.First(keyValuePair => keyValuePair.Value.PaymentAgreementActualStatus == PaymentAgreement.PaymentAgreementStatus.Active).Value;
             return activePaymentAgreement;

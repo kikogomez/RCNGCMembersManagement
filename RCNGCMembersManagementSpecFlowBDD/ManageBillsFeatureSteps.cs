@@ -266,9 +266,9 @@ namespace RCNGCMembersManagementSpecFlowBDD
                 {new Transaction("Big Payment",1,650,new Tax("NOIGIC",0),0)};
             List<Bill> unassignedBillsList = new List<Bill>()
             {
-                {new Bill("MMM2013005001/001", "First Instalment", 200, DateTime.Now, DateTime.Now.AddDays(30))},
-                {new Bill("MMM2013005001/002", "Second Instalment", 200, DateTime.Now, DateTime.Now.AddDays(60))},
-                {new Bill("MMM2013005001/003", "Third Instalment", 250, DateTime.Now, DateTime.Now.AddDays(90))}
+                {new Bill("MMM2013005001/001", "First Instalment", 200, new DateTime(2013,11,01), new DateTime(2013,12,01))},
+                {new Bill("MMM2013005001/002", "Second Instalment", 200, new DateTime(2013,11,01), new DateTime(2014,01,01))},
+                {new Bill("MMM2013005001/003", "Third Instalment", 250, new DateTime(2013,11,01), new DateTime(2014,02,01))}
             };
             Invoice invoice = new Invoice(
                 invoiceID,
@@ -385,7 +385,7 @@ namespace RCNGCMembersManagementSpecFlowBDD
         public void ThenTheDirectDebitInitiationIDIsStored()
         {
             Bill bill = (Bill)ScenarioContext.Current["Bill"];
-            Assert.Inconclusive();
+            Assert.AreEqual("201311110000123456", ((DirectDebitPaymentMethod)bill.Payment.PaymentMethod).DDTXPaymentIdentification);
         }
 
         [When(@"All the bills are paid")]
@@ -411,20 +411,46 @@ namespace RCNGCMembersManagementSpecFlowBDD
         [When(@"The bill is past due date")]
         public void WhenTheBillIsPastDueDate()
         {
-            ScenarioContext.Current.Pending();
+            Invoice invoice = (Invoice)ScenarioContext.Current["Invoice"];
+            Bill bill = (Bill)ScenarioContext.Current["Bill"];
+            billsManager.CheckDueDate(invoice, bill, new DateTime(2013, 12, 31));
         }
 
         [Then(@"The bill is marked as ""(.*)""")]
-        public void ThenTheBillIsMarkedAs(string p0)
+        public void ThenTheBillIsMarkedAs(string billStatus)
         {
-            ScenarioContext.Current.Pending();
+            Bill bill = (Bill)ScenarioContext.Current["Bill"];
+            Assert.AreEqual(billStatus, bill.PaymentResult.ToString());
         }
 
         [Then(@"The invoice containig the bill is marked as ""(.*)""")]
-        public void ThenTheInvoiceContainigTheBillIsMarkedAs(string p0)
+        public void ThenTheInvoiceContainigTheBillIsMarkedAs(string invoiceStatus)
         {
+            Invoice invoice = (Invoice)ScenarioContext.Current["Invoice"];
+            Assert.AreEqual(invoiceStatus, invoice.InvoiceState.ToString());
+        }
+
+        [Given(@"I have an invoice with some bills with agreements")]
+        public void GivenIHaveAnInvoiceWithSomeBillsWithAgreements()
+        {
+            /*string invoiceID = "MMM2013005001";
+            List<Transaction> transactionList = new List<Transaction>() { new Transaction("Big Payment", 1, 650, new Tax("NOIGIC", 0), 0) };
+            string authorizingPerson = "Club President";
+            string agreementTerms = "New Payment Agreement";
+            DateTime agreementDate = new DateTime(2013, 10, 1);
+            PaymentAgreement paymentAgreement = new PaymentAgreement(authorizingPerson, agreementTerms, agreementDate);
+            List<Bill> billsToRenegotiate = new List<Bill>() { invoice.Bills["INV2013005000/001"] };
+            List<Bill> billsToAdd = new List<Bill>()
+            {
+                {new Bill("MMM2013005001/002", "First Instalment", 200, new DateTime(2013,10,1), new DateTime(2013,11,1))},
+                {new Bill("MMM2013005001/003", "Second Instalment", 200, new DateTime(2013,10,1), new DateTime(2013,12,1))},
+                {new Bill("MMM2013005001/004", "Third Instalment", 250, new DateTime(2013,10,1), new DateTime(2014,1,1))}
+            };
+            invoice.RenegotiateBillsIntoInstalments(paymentAgreement, billsToRenegotiate, billsToAdd);*/
+
             ScenarioContext.Current.Pending();
         }
+
 
         [Given(@"The bill has associated a payment agreement")]
         public void GivenTheBillHasAssociatedAPaymentAgreement()

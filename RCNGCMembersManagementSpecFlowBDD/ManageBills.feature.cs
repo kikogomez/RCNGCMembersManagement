@@ -420,7 +420,7 @@ this.ScenarioSetup(scenarioInfo);
 #line 6
 this.FeatureBackground();
 #line 110
- testRunner.Given("I have an invoice with some bills", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+ testRunner.Given("I have an invoice with some bills with agreements", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line 111
  testRunner.And("I have a bill to collect in the invoice", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 112

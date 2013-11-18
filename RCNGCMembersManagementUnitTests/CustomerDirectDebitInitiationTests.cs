@@ -332,5 +332,96 @@ namespace RCNGCMembersManagementUnitTests
                 "DrctDbtTx", "DirectDebitTransaction6", xMLNamespace, xmlString, xSDFilePath);
             Assert.AreEqual("", validatingErrors);
         }
+
+        [TestMethod]
+        public void FinancialInstitutuinIdentification_FinInstnID_IsCorrectlyCreated()
+        {
+            FinancialInstitutionIdentification7 financialInstitutuinIdentification_FinInstnID = new FinancialInstitutionIdentification7(
+                creditorAgent.BIC,  //<BIC>
+                null,               //<ClrYsMmbId> - Not used by creditor in SEPA COR
+                null,               //<Nm> Not used by creditor in SEPA COR
+                null,               //<PstlAdr> - Not used by creditor in SEPA COR
+                null);              //<Othr> - Not used by creditor in SEPA COR
+
+            string xmlString = XMLSerializer.XMLSerializeToString<FinancialInstitutionIdentification7>(financialInstitutuinIdentification_FinInstnID, "FinInstnID", xMLNamespace);
+            string validatingErrors = XMLValidator.ValidateXMLNodeThroughModifiedXSD(
+                "FinInstnID", "FinancialInstitutionIdentification7", xMLNamespace, xmlString, xSDFilePath);
+            Assert.AreEqual("", validatingErrors);
+        }
+
+        [TestMethod]
+        public void DebtorAgent_DbtrAgt_IsCorrectlyCreated()
+        {
+            FinancialInstitutionIdentification7 financialInstitutuinIdentification_FinInstnID = new FinancialInstitutionIdentification7(
+                creditorAgent.BIC, null, null, null, null);
+
+            BranchAndFinancialInstitutionIdentification4 debtorAgent_DbtrAgt = new BranchAndFinancialInstitutionIdentification4(
+                financialInstitutuinIdentification_FinInstnID,  //<FinInstnId>
+                null);                                          //<BrcnhID> - Not used by creditor in SEPA COR
+
+            string xmlString = XMLSerializer.XMLSerializeToString<BranchAndFinancialInstitutionIdentification4>(debtorAgent_DbtrAgt, "DbtrAgt", xMLNamespace);
+            string validatingErrors = XMLValidator.ValidateXMLNodeThroughModifiedXSD(
+                "DbtrAgt", "BranchAndFinancialInstitutionIdentification4", xMLNamespace, xmlString, xSDFilePath);
+            Assert.AreEqual("", validatingErrors);
+        }
+
+        [TestMethod]
+        public void Debtor_Dbtr_IsCorrectlyCreated()
+        {
+            PartyIdentification32 debtor_Dbtr = new PartyIdentification32(
+                directDebitMandateInfo1.DebtorName,     //<Nm>
+                null,                                   //<PstlAdr> - No postal address needed
+                null,                                   //<Id> - No extra ID needed
+                null,                                   //<CtryOfRes> - Not used by creditor in SEPA COR
+                null);                                  //<CtctDtls> - Not used by creditor in SEPA COR
+
+            string xmlString = XMLSerializer.XMLSerializeToString<PartyIdentification32>(debtor_Dbtr, "Dbtr", xMLNamespace);
+            string validatingErrors = XMLValidator.ValidateXMLNodeThroughModifiedXSD(
+                "Dbtr", "PartyIdentification32", xMLNamespace, xmlString, xSDFilePath);
+            Assert.AreEqual("", validatingErrors);
+        }
+
+        [TestMethod]
+        public void AccountID_Id_IsCorrectlyCreated()
+        {
+            AccountIdentification4Choice accountID_Id = new AccountIdentification4Choice(
+                directDebitMandateInfo1.IBAN);   //<IBAN>
+
+            string xmlString = XMLSerializer.XMLSerializeToString<AccountIdentification4Choice>(accountID_Id, "Id", xMLNamespace);
+            string validatingErrors = XMLValidator.ValidateXMLNodeThroughModifiedXSD(
+                "Id", "AccountIdentification4Choice", xMLNamespace, xmlString, xSDFilePath);
+            Assert.AreEqual("", validatingErrors);
+        }
+
+        [TestMethod]
+        public void DebtorAccount_DbtrAcct_IsCorrectlyCreated()
+        {
+            AccountIdentification4Choice accountID_Id = new AccountIdentification4Choice(
+                directDebitMandateInfo1.IBAN);
+
+            CashAccount16 debtorAccount_DbtrAcct = new CashAccount16(
+                accountID_Id,   //<Id>
+                null,           //<Tp> - Not used by creditor in SEPA COR
+                null,           //<Ccy> - Not used by creditor in SEPA COR
+                null);          //<Nm> - Not used by creditor in SEPA COR
+
+            string xmlString = XMLSerializer.XMLSerializeToString<CashAccount16>(debtorAccount_DbtrAcct, "DbtrAcct", xMLNamespace);
+            string validatingErrors = XMLValidator.ValidateXMLNodeThroughModifiedXSD(
+                "DbtrAcct", "CashAccount16", xMLNamespace, xmlString, xSDFilePath);
+            Assert.AreEqual("", validatingErrors);
+        }
+
+        [TestMethod]
+        public void RemitanceInformation_RmtInf_IsCorrectlyCreated()
+        {
+            RemittanceInformation5 remitanceInformation_RmtInf = new RemittanceInformation5(
+                directDebitMandateInfo1.RemitanceInformation,       //<Ustrd>
+                new StructuredRemittanceInformation7[] { null });   //<Strd> - Only <Ustrd> or <Strd>
+
+            string xmlString = XMLSerializer.XMLSerializeToString<RemittanceInformation5>(remitanceInformation_RmtInf, "RmtInf", xMLNamespace);
+            string validatingErrors = XMLValidator.ValidateXMLNodeThroughModifiedXSD(
+                "RmtInf", "RemittanceInformation5", xMLNamespace, xmlString, xSDFilePath);
+            Assert.AreEqual("", validatingErrors);
+        }
     }
 }
