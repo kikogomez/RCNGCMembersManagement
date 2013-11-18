@@ -93,6 +93,11 @@ namespace RCNGCMembersManagementAppLogic.Billing
             if (BillsTotalAmountToCollect == 0) invoiceState = InvoicePaymentState.Paid;
         }
 
+        public void SetInvoiceAsUnpaid()
+        {
+            this.invoiceState = InvoicePaymentState.Unpaid;
+        }
+
         protected override string GetNewInvoiceID()
         {
             string invoicePrefix = billingDataManager.InvoicePrefix;

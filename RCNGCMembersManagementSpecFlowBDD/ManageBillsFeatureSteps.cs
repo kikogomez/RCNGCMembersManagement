@@ -49,7 +49,7 @@ namespace RCNGCMembersManagementSpecFlowBDD
             InternationalAccountBankNumberIBAN iban = new InternationalAccountBankNumberIBAN(electronicIBANString);
             BankAccount bankAccount = new BankAccount(iban);
             DirectDebitMandate directDebitmandate = new DirectDebitMandate("12345", DateTime.Now.Date, bankAccount);
-            PaymentMethod paymentMethod = new DirectDebitPaymentMethod(directDebitmandate);
+            PaymentMethod paymentMethod = new DirectDebitPaymentMethod(directDebitmandate, null);
             membersManagementContextData.clubMember.AddDirectDebitMandate(directDebitmandate);
             membersManagementContextData.clubMember.SetDefaultPaymentMethod(paymentMethod);
         }
@@ -240,7 +240,7 @@ namespace RCNGCMembersManagementSpecFlowBDD
             BankAccount bankAccount = new BankAccount(new ClientAccountCodeCCC("12345678061234567890"));
             DateTime directDebitMandateCreationDate = new DateTime(2013, 11, 11);
             DirectDebitMandate directDebitMandate = new DirectDebitMandate(internalReferenceNumber, directDebitMandateCreationDate, bankAccount);
-            DirectDebitPaymentMethod directDebitPaymentMethod = new DirectDebitPaymentMethod(directDebitMandate);
+            DirectDebitPaymentMethod directDebitPaymentMethod = new DirectDebitPaymentMethod(directDebitMandate, null);
             ScenarioContext.Current.Add("DirectDebitpaymentMethod", directDebitPaymentMethod);
             Invoice invoice = (Invoice)ScenarioContext.Current["Invoice"];
             string billID= (string)ScenarioContext.Current["BillID"];
@@ -368,13 +368,24 @@ namespace RCNGCMembersManagementSpecFlowBDD
         [When(@"The bill is paid by direct debit")]
         public void WhenTheBillIsPaidByDirectDebit()
         {
-            ScenarioContext.Current.Pending();
+            Invoice invoice = (Invoice)ScenarioContext.Current["Invoice"];
+            Bill bill = (Bill)ScenarioContext.Current["Bill"];
+            string internalReferenceNumber = "02645";
+            BankAccount bankAccount = new BankAccount(new ClientAccountCodeCCC("12345678061234567890"));
+            DateTime directDebitMandateCreationDate = new DateTime(2013, 11, 11);
+            DirectDebitMandate directDebitMandate = new DirectDebitMandate(internalReferenceNumber, directDebitMandateCreationDate, bankAccount);
+            string directDebitTransactionPaymentIdentification = "201311110000123456";
+            DirectDebitPaymentMethod directDebitPaymentMethod = new DirectDebitPaymentMethod(directDebitMandate, directDebitTransactionPaymentIdentification);
+            DateTime paymentDate = new DateTime(2013, 11, 11);
+            Payment payment = new Payment(bill.Amount, paymentDate, directDebitPaymentMethod);
+            billsManager.PayBill(invoice, bill, payment);
         }
 
         [Then(@"The direct debit initiation ID is stored")]
         public void ThenTheDirectDebitInitiationIDIsStored()
         {
-            ScenarioContext.Current.Pending();
+            Bill bill = (Bill)ScenarioContext.Current["Bill"];
+            Assert.Inconclusive();
         }
 
         [When(@"All the bills are paid")]

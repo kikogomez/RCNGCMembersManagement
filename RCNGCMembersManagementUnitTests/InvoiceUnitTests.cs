@@ -512,7 +512,46 @@ namespace RCNGCMembersManagementUnitTests.Billing
             Assert.AreEqual(Invoice.InvoicePaymentState.Paid, invoice.InvoiceState);
         }
 
+        [TestMethod]
+        public void WhenABillIsUnpaidTheInvoiceIsSetAsUnpaid()
+        {
+            BillsManager billsManager = new BillsManager();
+            string invoiceID = "MMM2013005001";
+            List<Bill> billsList = new List<Bill>()
+            {
+                {new Bill("MMM2013005001/001", "First Instalment", 200, new DateTime(2013,10,1), new DateTime(2013,11,1))},
+                {new Bill("MMM2013005001/002", "Second Instalment", 200, new DateTime(2013,10,1), new DateTime(2013,12,1))},
+                {new Bill("MMM2013005001/003", "Third Instalment", 250, new DateTime(2013,10,1), new DateTime(2014,1,1))}
+            };
+            Invoice invoice = new Invoice(invoiceID, invoiceCustomerData, transactionsList, billsList, DateTime.Now);
+            Bill billtoCheck = invoice.Bills["MMM2013005001/001"];
+            Assert.AreEqual(Invoice.InvoicePaymentState.ToBePaid, invoice.InvoiceState);
+            Assert.AreEqual(Bill.BillPaymentResult.ToCollect, billtoCheck.PaymentResult);
+            billsManager.CheckDueDate(invoice, billtoCheck, new DateTime(2013, 11, 11));
+            Assert.AreEqual(Invoice.InvoicePaymentState.Unpaid, invoice.InvoiceState);
+            Assert.AreEqual(Bill.BillPaymentResult.Unpaid, billtoCheck.PaymentResult);
+        }
 
-
+        [TestMethod]
+        public void WhenABillIsUnpaidTheInvoiceIsSetAsUnpaidButTheRestOfTheBillsRemailToCollect()
+        {
+            BillsManager billsManager = new BillsManager();
+            string invoiceID = "MMM2013005001";
+            List<Bill> billsList = new List<Bill>()
+            {
+                {new Bill("MMM2013005001/001", "First Instalment", 200, new DateTime(2013,10,1), new DateTime(2013,11,1))},
+                {new Bill("MMM2013005001/002", "Second Instalment", 200, new DateTime(2013,10,1), new DateTime(2013,12,1))},
+                {new Bill("MMM2013005001/003", "Third Instalment", 250, new DateTime(2013,10,1), new DateTime(2014,1,1))}
+            };
+            Invoice invoice = new Invoice(invoiceID, invoiceCustomerData, transactionsList, billsList, DateTime.Now);
+            foreach (Bill bill in invoice.Bills.Values)
+            {
+                billsManager.CheckDueDate(invoice, bill, new DateTime(2013, 11, 11));
+            }
+            Assert.AreEqual(Invoice.InvoicePaymentState.Unpaid, invoice.InvoiceState);
+            Assert.AreEqual(Bill.BillPaymentResult.Unpaid, invoice.Bills["MMM2013005001/001"].PaymentResult);
+            Assert.AreEqual(Bill.BillPaymentResult.ToCollect, invoice.Bills["MMM2013005001/002"].PaymentResult);
+            Assert.AreEqual(Bill.BillPaymentResult.ToCollect, invoice.Bills["MMM2013005001/003"].PaymentResult);
+        }
     }
 }

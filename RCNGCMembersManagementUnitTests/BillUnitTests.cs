@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Collections.Generic;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using RCNGCMembersManagementAppLogic;
 using RCNGCMembersManagementAppLogic.Billing;
 using RCNGCMembersManagementAppLogic.Billing.DirectDebit;
 using RCNGCMembersManagementAppLogic.MembersManaging;
@@ -355,8 +356,10 @@ namespace RCNGCMembersManagementUnitTests.Billing
             BankAccount bankAccount = new BankAccount(new ClientAccountCodeCCC("12345678061234567890"));
             DateTime directDebitMandateCreationDate = new DateTime(2013, 11, 11);
             DirectDebitMandate directDebitMandate = new DirectDebitMandate(internalReferenceNumber, directDebitMandateCreationDate, bankAccount);
-            DirectDebitPaymentMethod directDebitTransfermethod = new DirectDebitPaymentMethod(directDebitMandate);
-            Assert.AreEqual(directDebitMandate, directDebitTransfermethod.DirectDebitMandate);
+            string directDebitTransactionPaymentIdentification = "201311110000123456";
+            DirectDebitPaymentMethod directDebitPaymentMethod = new DirectDebitPaymentMethod(directDebitMandate, directDebitTransactionPaymentIdentification);
+            Assert.AreEqual(directDebitMandate, directDebitPaymentMethod.DirectDebitMandate);
+            Assert.AreEqual("201311110000123456", directDebitPaymentMethod.DDTXPaymentIdentification);
         }
 
         [TestMethod]
@@ -367,26 +370,100 @@ namespace RCNGCMembersManagementUnitTests.Billing
             BankAccount bankAccount = new BankAccount(new ClientAccountCodeCCC("12345678061234567890"));
             DateTime directDebitMandateCreationDate = new DateTime(2013, 11, 11);
             DirectDebitMandate directDebitMandate = new DirectDebitMandate(internalReferenceNumber, directDebitMandateCreationDate, bankAccount);
-            DirectDebitPaymentMethod directDebitTransfermethod = new DirectDebitPaymentMethod(directDebitMandate);
+            string directDebitTransactionPaymentIdentification = "201311110000123456";
+            DirectDebitPaymentMethod directDebitPaymentMethod = new DirectDebitPaymentMethod(directDebitMandate, directDebitTransactionPaymentIdentification);
             DateTime paymentDate = new DateTime(2013, 11, 11);
-            Payment payment = new Payment(bill.Amount, paymentDate, directDebitTransfermethod);
+            Payment payment = new Payment(bill.Amount, paymentDate, directDebitPaymentMethod);
             bill.PayBill(payment);
-            Assert.AreEqual(directDebitTransfermethod, bill.Payment.PaymentMethod);
+            Assert.AreEqual(directDebitPaymentMethod, bill.Payment.PaymentMethod);
         }
 
         [TestMethod]
-        public void WhenABillIsPaidByDirectDebitTheDebtorAccountIsStored()
+        public void WhenABillIsPaidByDirectDebitTheDebtorAccountAndTheDirectDebitTransactionPaymentIdentificartionAreStored()
         {
             Bill bill = new Bill("MMM201300015/001", "An easy to pay bill", 1, DateTime.Now, DateTime.Now.AddYears(10));
             string internalReferenceNumber = "02645";
             BankAccount bankAccount = new BankAccount(new ClientAccountCodeCCC("12345678061234567890"));
             DateTime directDebitMandateCreationDate = new DateTime(2013, 11, 11);
             DirectDebitMandate directDebitMandate = new DirectDebitMandate(internalReferenceNumber, directDebitMandateCreationDate, bankAccount);
-            DirectDebitPaymentMethod directDebitTransfermethod = new DirectDebitPaymentMethod(directDebitMandate);
+            string directDebitTransactionPaymentIdentification = "201311110000123456";
+            DirectDebitPaymentMethod directDebitTransfermethod = new DirectDebitPaymentMethod(directDebitMandate, directDebitTransactionPaymentIdentification);
             DateTime paymentDate = new DateTime(2013, 11, 11);
             Payment payment = new Payment(bill.Amount, paymentDate, directDebitTransfermethod);
             bill.PayBill(payment);
             Assert.AreEqual("12345678061234567890", ((DirectDebitPaymentMethod)bill.Payment.PaymentMethod).DirectDebitMandate.BankAccount.CCC.CCC);
+            Assert.AreEqual("201311110000123456", ((DirectDebitPaymentMethod)bill.Payment.PaymentMethod).DDTXPaymentIdentification);
+        }
+
+        [TestMethod]
+        public void ABillPastDueDateIsMarkedAsUnpaid()
+        {
+            Bill bill = new Bill("MMM201300015/001", "This bill is past due date", 1, new DateTime(2013, 11, 11), new DateTime(2013, 11, 15));
+            Assert.AreEqual(Bill.BillPaymentResult.ToCollect, bill.PaymentResult);
+            bill.CheckDueDate(new DateTime(2013,11,30));
+            Assert.AreEqual(Bill.BillPaymentResult.Unpaid, bill.PaymentResult);
+        }
+
+        [TestMethod]
+        public void IfTheBillIsNotPastDueDateItKeepsToCollect()
+        {
+            Bill bill = new Bill("MMM201300015/001", "This bill is not past due date", 1, new DateTime(2013, 11, 01), new DateTime(2013, 12, 01));
+            Assert.AreEqual(Bill.BillPaymentResult.ToCollect, bill.PaymentResult);
+            bill.CheckDueDate(new DateTime(2013, 11, 30));
+            Assert.AreEqual(Bill.BillPaymentResult.ToCollect, bill.PaymentResult);
+        }
+
+        [TestMethod]
+        public void WhenABillIsUnpaidIfThereIsAnAgreementAssociatedToItTheAgreementIsCancelled()
+        {
+            Invoice invoice = new Invoice(invoiceCustomerData, transactionList, DateTime.Now);
+            string authorizingPerson = "Club President";
+            string agreementTerms = "New Payment Agreement";
+            DateTime agreementDate = new DateTime(2013,10,1);
+            PaymentAgreement paymentAgreement = new PaymentAgreement(authorizingPerson, agreementTerms, agreementDate);
+            List<Bill> billsToRenegotiate = new List<Bill>() { invoice.Bills["INV2013005000/001"] };
+            List<Bill> billsToAdd = new List<Bill>()
+            {
+                {new Bill("MMM2013005001/002", "First Instalment", 200, new DateTime(2013,10,1), new DateTime(2013,11,1))},
+                {new Bill("MMM2013005001/003", "Second Instalment", 200, new DateTime(2013,10,1), new DateTime(2013,12,1))},
+                {new Bill("MMM2013005001/004", "Third Instalment", 250, new DateTime(2013,10,1), new DateTime(2014,1,1))}
+            };
+            invoice.RenegotiateBillsIntoInstalments(paymentAgreement, billsToRenegotiate, billsToAdd);
+            Bill bill = invoice.Bills["MMM2013005001/002"];
+            Assert.AreEqual(PaymentAgreement.PaymentAgreementStatus.Active, bill.PaymentAgreements[new DateTime(2013, 10, 1)].PaymentAgreementActualStatus);
+            bill.CheckDueDate(new DateTime(2013, 11, 30));
+            Assert.AreEqual(PaymentAgreement.PaymentAgreementStatus.NotAcomplished, bill.PaymentAgreements[new DateTime(2013, 10, 1)].PaymentAgreementActualStatus);
+        }
+
+        [TestMethod]
+        public void IfTheLastBillOfAnAgreementIsPaidTheAgreementIsConsideredAccompllished()
+        {
+            Invoice invoice = new Invoice(invoiceCustomerData, transactionList, DateTime.Now);
+            string authorizingPerson = "Club President";
+            string agreementTerms = "New Payment Agreement";
+            DateTime agreementDate = new DateTime(2013, 10, 1);
+            PaymentAgreement paymentAgreement = new PaymentAgreement(authorizingPerson, agreementTerms, agreementDate);
+            List<Bill> billsToRenegotiate = new List<Bill>() { invoice.Bills["INV2013005000/001"] };
+            List<Bill> billsToAdd = new List<Bill>()
+            {
+                {new Bill("MMM2013005001/002", "First Instalment", 200, new DateTime(2013,10,1), new DateTime(2013,11,1))},
+                {new Bill("MMM2013005001/003", "Second Instalment", 200, new DateTime(2013,10,1), new DateTime(2013,12,1))},
+                {new Bill("MMM2013005001/004", "Third Instalment", 250, new DateTime(2013,10,1), new DateTime(2014,1,1))}
+            };
+            invoice.RenegotiateBillsIntoInstalments(paymentAgreement, billsToRenegotiate, billsToAdd);
+            BillsManager billsManager = new BillsManager();
+            CashPaymentMethod cashPayment = new CashPaymentMethod();
+            DateTime paymentDate = new DateTime(2013, 11, 11);
+            Payment payment200 = new Payment((decimal)200, paymentDate, cashPayment);
+            Payment payment250 = new Payment((decimal)250, paymentDate, cashPayment);
+            billsManager.PayBill(invoice, invoice.Bills["MMM2013005001/002"], payment200);
+            Assert.AreEqual(PaymentAgreement.PaymentAgreementStatus.Active, invoice.Bills["MMM2013005001/002"].PaymentAgreements[agreementDate].PaymentAgreementActualStatus);
+            billsManager.PayBill(invoice, invoice.Bills["MMM2013005001/003"], payment200);
+            Assert.AreEqual(PaymentAgreement.PaymentAgreementStatus.Active, invoice.Bills["MMM2013005001/003"].PaymentAgreements[agreementDate].PaymentAgreementActualStatus);
+            billsManager.PayBill(invoice, invoice.Bills["MMM2013005001/004"], payment250);
+            Assert.AreEqual(PaymentAgreement.PaymentAgreementStatus.Accomplished, invoice.Bills["MMM2013005001/004"].PaymentAgreements[agreementDate].PaymentAgreementActualStatus);
+            Assert.AreEqual(PaymentAgreement.PaymentAgreementStatus.Accomplished, invoice.Bills["MMM2013005001/002"].PaymentAgreements[agreementDate].PaymentAgreementActualStatus);
+            Assert.AreEqual(PaymentAgreement.PaymentAgreementStatus.Accomplished, invoice.Bills["MMM2013005001/003"].PaymentAgreements[agreementDate].PaymentAgreementActualStatus);
         }
     }
 }

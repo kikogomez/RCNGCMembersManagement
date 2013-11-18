@@ -123,5 +123,25 @@ namespace RCNGCMembersManagementAppLogic.Billing
         {
             this.AssignedPaymentMethod = paymentMethod;
         }
+
+        public void CheckDueDate(DateTime today)
+        {
+            if (today > dueDate && paymentResult == BillPaymentResult.ToCollect) SetBillAsUnpaid();
+        }
+
+        private void SetBillAsUnpaid()
+        {
+            paymentResult = BillPaymentResult.Unpaid;
+            CancellAnyAgreementsActiveForBill();
+        }
+
+        private void CancellAnyAgreementsActiveForBill()
+        {
+            foreach (PaymentAgreement paymentAgreement in paymentAgreements.Values)
+            {
+                if (paymentAgreement.PaymentAgreementActualStatus == PaymentAgreement.PaymentAgreementStatus.Active)
+                    paymentAgreement.PaymentAgreementActualStatus = PaymentAgreement.PaymentAgreementStatus.NotAcomplished;
+            }
+        }
     }
 }

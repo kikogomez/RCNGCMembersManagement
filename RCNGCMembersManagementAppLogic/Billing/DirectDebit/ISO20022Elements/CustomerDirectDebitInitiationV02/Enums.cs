@@ -51,6 +51,92 @@ namespace RCNGCMembersManagementAppLogic.Billing.DirectDebit.ISO20022Elements.Cu
         ILEV,
     }
 
+    /// Account type, in a coded form
+    [System.SerializableAttribute()]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace = "urn:iso:std:iso:20022:tech:xsd:pain.008.001.02")]
+    public enum CashAccountType4Code
+    {
+
+        /// CashPayment
+        CASH,
+
+        /// Charges
+        CHAR,
+
+        /// Commission
+        COMM,
+
+        /// Tax
+        TAXE,
+
+        /// CashIncome
+        CISH,
+
+        /// CashTrading
+        TRAS,
+
+        /// Settlement
+        SACC,
+
+        /// Current
+        CACC,
+
+        /// Savings
+        SVGS,
+
+        /// OverNightDeposit
+        ONDP,
+
+        /// MarginalLending
+        MGLD,
+
+        /// NonResidentExternal
+        NREX,
+
+        /// MoneyMarket
+        MOMA,
+
+        /// Loan
+        LOAN,
+
+        /// Salary
+        SLRY,
+
+        /// Overdraft
+        ODFT,
+    }
+
+    /// Regularity with which direct debit instructions are to be created and processed
+    [System.SerializableAttribute()]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace = "urn:iso:std:iso:20022:tech:xsd:pain.008.001.02")]
+    public enum Frequency1Code
+    {
+
+        /// Yearly
+        YEAR,
+
+        /// Monthly
+        MNTH,
+
+        /// Quarterly
+        QURT,
+
+        /// SemiAnnual
+        MIAN,
+
+        /// Weekly
+        WEEK,
+
+        /// Daily
+        DAIL,
+
+        /// Adhoc
+        ADHO,
+
+        /// IntraDay
+        INDA,
+    }
+
     /// Choice option: Coded ("Cd") or Propietary("Prtry")
     [System.SerializableAttribute()]
     [System.Xml.Serialization.XmlTypeAttribute(Namespace = "urn:iso:std:iso:20022:tech:xsd:pain.008.001.02", IncludeInSchema = false)]
