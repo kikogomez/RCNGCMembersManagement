@@ -48,7 +48,7 @@ namespace RCNGCMembersManagementSpecFlowBDD
             string electronicIBANString = clientsTable.Rows[0]["Spanish IBAN Bank Account"].Replace(" ","").Substring(4);
             InternationalAccountBankNumberIBAN iban = new InternationalAccountBankNumberIBAN(electronicIBANString);
             BankAccount bankAccount = new BankAccount(iban);
-            DirectDebitMandate directDebitmandate = new DirectDebitMandate("12345", DateTime.Now.Date, bankAccount);
+            DirectDebitMandate directDebitmandate = new DirectDebitMandate(2345, DateTime.Now.Date, bankAccount);
             PaymentMethod paymentMethod = new DirectDebitPaymentMethod(directDebitmandate, null);
             membersManagementContextData.clubMember.AddDirectDebitMandate(directDebitmandate);
             membersManagementContextData.clubMember.SetDefaultPaymentMethod(paymentMethod);
@@ -236,7 +236,7 @@ namespace RCNGCMembersManagementSpecFlowBDD
         [When(@"I assign to be paid with a direct debit")]
         public void WhenIAssignToBePaidWithADirectDebit()
         {
-            string internalReferenceNumber = "02645";
+            int internalReferenceNumber = 2645;
             BankAccount bankAccount = new BankAccount(new ClientAccountCodeCCC("12345678061234567890"));
             DateTime directDebitMandateCreationDate = new DateTime(2013, 11, 11);
             DirectDebitMandate directDebitMandate = new DirectDebitMandate(internalReferenceNumber, directDebitMandateCreationDate, bankAccount);
@@ -372,7 +372,7 @@ namespace RCNGCMembersManagementSpecFlowBDD
         {
             Invoice invoice = (Invoice)ScenarioContext.Current["Invoice"];
             Bill bill = (Bill)ScenarioContext.Current["Bill"];
-            string internalReferenceNumber = "02645";
+            int internalReferenceNumber = 2645;
             BankAccount bankAccount = new BankAccount(new ClientAccountCodeCCC("12345678061234567890"));
             DateTime directDebitMandateCreationDate = new DateTime(2013, 11, 11);
             DirectDebitMandate directDebitMandate = new DirectDebitMandate(internalReferenceNumber, directDebitMandateCreationDate, bankAccount);

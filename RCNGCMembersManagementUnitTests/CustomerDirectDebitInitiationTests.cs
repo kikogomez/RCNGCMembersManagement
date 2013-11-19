@@ -498,6 +498,43 @@ namespace RCNGCMembersManagementUnitTests
             Assert.AreEqual("", validatingErrors);
         }
 
+        [TestMethod]
+        public void DirectDebitTransactionInfo_DrctDbtTxInf_IsCorrectlyDeserialized()
+        {
+            DirectDebitTransactionInformation9 deserializedDirectDebitTransactionInfo = XMLSerializer.XMLDeserializeFromFile<DirectDebitTransactionInformation9>(@"XML Test Files\DirectDebitTransactionInfo.xml", "DrctDbtTxInf", xMLNamespace);
+            Assert.AreEqual("InternalID2510201300099", deserializedDirectDebitTransactionInfo.PmtId.InstrId);
+            Assert.AreEqual("InternalID2510201300099", deserializedDirectDebitTransactionInfo.PmtId.EndToEndId);
+            Assert.AreEqual("EUR", deserializedDirectDebitTransactionInfo.InstdAmt.Ccy);
+            Assert.AreEqual((decimal)158, deserializedDirectDebitTransactionInfo.InstdAmt.Value);
+            Assert.AreEqual("000001102345".PadRight(35, ' '), deserializedDirectDebitTransactionInfo.DrctDbtTx.MndtRltdInf.MndtId);
+            Assert.AreEqual("2009-10-31", deserializedDirectDebitTransactionInfo.DrctDbtTx.MndtRltdInf.DtOfSgntr.ToString("yyyy-MM-dd"));
+            Assert.AreEqual("000001101111".PadRight(35, ' '), deserializedDirectDebitTransactionInfo.DrctDbtTx.MndtRltdInf.AmdmntInfDtls.OrgnlMndtId);
+            AccountIdentification4Choice originalAccountIdentificationChoice = (AccountIdentification4Choice)deserializedDirectDebitTransactionInfo.DrctDbtTx.MndtRltdInf.AmdmntInfDtls.OrgnlDbtrAcct.Id;
+            Assert.AreEqual("ES1801000100761234567890", originalAccountIdentificationChoice.Item.ToString());
+            Assert.AreEqual("CASDESBBXXX", deserializedDirectDebitTransactionInfo.DbtrAgt.FinInstnId.BIC);
+            Assert.AreEqual("Pedro Piqueras", deserializedDirectDebitTransactionInfo.Dbtr.Nm);
+            AccountIdentification4Choice accountIdentificationChoide = (AccountIdentification4Choice)deserializedDirectDebitTransactionInfo.DbtrAcct.Id;
+            Assert.AreEqual("ES2101000100709999999999", accountIdentificationChoide.Item.ToString());
+            Assert.AreEqual("Cuota Mensual Numerario Septiembre 2013", deserializedDirectDebitTransactionInfo.RmtInf.Ustrd[0]);
+            Assert.AreEqual("Cuota Mensual Numerario Octubre 2013", deserializedDirectDebitTransactionInfo.RmtInf.Ustrd[1]);
+        }
+
+        [TestMethod]
+        public void DirectDebitTransactionInfo2_DrctDbtTxInf_IsCorrectlyDeserialized()
+        {
+            DirectDebitTransactionInformation9 deserializedDirectDebitTransactionInfo = XMLSerializer.XMLDeserializeFromFile<DirectDebitTransactionInformation9>(@"XML Test Files\DirectDebitTransactionInfo2.xml", "DrctDbtTxInf", xMLNamespace);
+            Assert.AreEqual("InternalID2510201300100", deserializedDirectDebitTransactionInfo.PmtId.InstrId);
+            Assert.AreEqual("InternalID2510201300100", deserializedDirectDebitTransactionInfo.PmtId.EndToEndId);
+            Assert.AreEqual("EUR", deserializedDirectDebitTransactionInfo.InstdAmt.Ccy);
+            Assert.AreEqual((decimal)79, deserializedDirectDebitTransactionInfo.InstdAmt.Value);
+            Assert.AreEqual("000001102346".PadRight(35, ' '), deserializedDirectDebitTransactionInfo.DrctDbtTx.MndtRltdInf.MndtId);
+            Assert.AreEqual("2009-10-31", deserializedDirectDebitTransactionInfo.DrctDbtTx.MndtRltdInf.DtOfSgntr.ToString("yyyy-MM-dd"));
+            Assert.AreEqual("BBVAESMMXXX", deserializedDirectDebitTransactionInfo.DbtrAgt.FinInstnId.BIC);
+            Assert.AreEqual("Manuel Moreno", deserializedDirectDebitTransactionInfo.Dbtr.Nm);
+            AccountIdentification4Choice accountIdentificationChoide = (AccountIdentification4Choice)deserializedDirectDebitTransactionInfo.DbtrAcct.Id;
+            Assert.AreEqual("ES1801821234861234567890", accountIdentificationChoide.Item.ToString());
+            Assert.AreEqual("Cuota Mensual Numerario Octubre 2013", deserializedDirectDebitTransactionInfo.RmtInf.Ustrd[0]);
+        }
 
     }
 }

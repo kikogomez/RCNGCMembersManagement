@@ -352,7 +352,7 @@ namespace RCNGCMembersManagementUnitTests.Billing
         [TestMethod]
         public void ADirectDebitPaymentMethodIsCorrectlyCreated()
         {
-            string internalReferenceNumber = "02645";
+            int internalReferenceNumber = 2645;
             BankAccount bankAccount = new BankAccount(new ClientAccountCodeCCC("12345678061234567890"));
             DateTime directDebitMandateCreationDate = new DateTime(2013, 11, 11);
             DirectDebitMandate directDebitMandate = new DirectDebitMandate(internalReferenceNumber, directDebitMandateCreationDate, bankAccount);
@@ -366,7 +366,7 @@ namespace RCNGCMembersManagementUnitTests.Billing
         public void WhenABillIsPaidByDirectDebitTheBillPaymentMethodIsSetAsPaidByDirectDebit()
         {
             Bill bill = new Bill("MMM201300015/001", "An easy to pay bill", 1, DateTime.Now, DateTime.Now.AddYears(10));
-            string internalReferenceNumber = "02645";
+            int internalReferenceNumber = 2645;
             BankAccount bankAccount = new BankAccount(new ClientAccountCodeCCC("12345678061234567890"));
             DateTime directDebitMandateCreationDate = new DateTime(2013, 11, 11);
             DirectDebitMandate directDebitMandate = new DirectDebitMandate(internalReferenceNumber, directDebitMandateCreationDate, bankAccount);
@@ -382,7 +382,7 @@ namespace RCNGCMembersManagementUnitTests.Billing
         public void WhenABillIsPaidByDirectDebitTheDebtorAccountAndTheDirectDebitTransactionPaymentIdentificartionAreStored()
         {
             Bill bill = new Bill("MMM201300015/001", "An easy to pay bill", 1, DateTime.Now, DateTime.Now.AddYears(10));
-            string internalReferenceNumber = "02645";
+            int internalReferenceNumber = 2645;
             BankAccount bankAccount = new BankAccount(new ClientAccountCodeCCC("12345678061234567890"));
             DateTime directDebitMandateCreationDate = new DateTime(2013, 11, 11);
             DirectDebitMandate directDebitMandate = new DirectDebitMandate(internalReferenceNumber, directDebitMandateCreationDate, bankAccount);

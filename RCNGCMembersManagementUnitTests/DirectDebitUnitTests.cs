@@ -24,7 +24,7 @@ namespace RCNGCMembersManagementUnitTests
         [TestMethod]
         public void GivenAReferenceNumberADirectDebitMandateIsCorrectlyCreated()
         {
-            string internalReferenceNumber = "02645";
+            int internalReferenceNumber = 2645;
             BankAccount bankAccount = new BankAccount(new ClientAccountCodeCCC("12345678061234567890"));
             DateTime directDebitMandateCreationDate = new DateTime(2013, 11, 11);
             DirectDebitMandate directDebitMandate = new DirectDebitMandate(internalReferenceNumber, directDebitMandateCreationDate, bankAccount);
@@ -38,85 +38,133 @@ namespace RCNGCMembersManagementUnitTests
         [TestMethod]
         public void IfNoReferenceNumberIsProvidedASequenceNumberIsAssigned()
         {
+            billDataManager.DirectDebitSequenceNumber = 5000;
             BankAccount bankAccount = new BankAccount(new ClientAccountCodeCCC("12345678061234567890"));
             DateTime directDebitMandateCreationDate = new DateTime(2013, 11, 11);
             DirectDebitMandate directDebitMandate = new DirectDebitMandate(directDebitMandateCreationDate, bankAccount);
-            Assert.IsNotNull(directDebitMandate.InternalReferenceNumber);
+            Assert.AreEqual(5000, directDebitMandate.InternalReferenceNumber);
         }
 
         [TestMethod]
         public void WeCanSetTheDirectDebitSequenceNumberValue()
         {
-            billDataManager.DirectDebitSequenceNumber = 5000;
             BankAccount bankAccount = new BankAccount(new ClientAccountCodeCCC("12345678061234567890"));
             DateTime directDebitMandateCreationDate = new DateTime(2013, 11, 11);
-            DirectDebitMandate directDebitMandate = new DirectDebitMandate(directDebitMandateCreationDate, bankAccount);
-            Assert.AreEqual("05000", directDebitMandate.InternalReferenceNumber);
+            DirectDebitMandate directDebitMandate = new DirectDebitMandate(2345,directDebitMandateCreationDate, bankAccount);
+            Assert.AreEqual(2345, directDebitMandate.InternalReferenceNumber);
         }
 
         [TestMethod]
         [ExpectedException(typeof(System.ArgumentOutOfRangeException))]
-        public void CantSetInvoiceSequenceNumberOver999999()
+        public void CantSetDirectDebitSequenceNumberOver99999()
         {
-/*            try
+            try
             {
-                billDataManager.InvoiceSequenceNumber = 1000000;
+                billDataManager.DirectDebitSequenceNumber = 100000;
             }
             catch (ArgumentOutOfRangeException exception)
             {
-                Assert.AreEqual("Invoice ID out of range (1-999999)", exception.GetMessageWithoutParamName());
+                Assert.AreEqual("Direct Debit Sequence Number out of range (1-99999)", exception.GetMessageWithoutParamName());
                 throw exception;
-            }*/
-            Assert.Inconclusive();
+            }
         }
 
         [TestMethod]
         [ExpectedException(typeof(System.ArgumentOutOfRangeException))]
-        public void CantSetInvoiceSequenceNumberTo0()
+        public void CantSetDirectDebitSequenceNumberTo0()
         {
-/*            try
+            try
             {
-                billDataManager.InvoiceSequenceNumber = 0;
+                billDataManager.DirectDebitSequenceNumber = 0;
             }
             catch (ArgumentOutOfRangeException exception)
             {
-                Assert.AreEqual("Invoice ID out of range (1-999999)", exception.GetMessageWithoutParamName());
+                Assert.AreEqual("Direct Debit Sequence Number out of range (1-99999)", exception.GetMessageWithoutParamName());
                 throw exception;
-            }*/
-            Assert.Inconclusive();
+            }
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(System.ArgumentOutOfRangeException))]
+        public void CantInitializeADirectDebitWithAnOutOfRangeSequenceNumber()
+        {
+            BankAccount bankAccount = new BankAccount(new ClientAccountCodeCCC("12345678061234567890"));
+            DateTime directDebitMandateCreationDate = new DateTime(2013, 11, 11);
+            try
+            {
+                DirectDebitMandate directDebitMandate = new DirectDebitMandate(100000, directDebitMandateCreationDate, bankAccount);
+            }
+            catch (ArgumentOutOfRangeException exception)
+            {
+                Assert.AreEqual("Direct Debit Sequence Number out of range (1-99999)", exception.GetMessageWithoutParamName());
+                throw exception;
+            }
         }
 
         [TestMethod]
         public void ProvidingTheLastDirectDebitReferenceNumberWas100TheNextAssignedMustBe101()
         {
-            Assert.Inconclusive();
+            billDataManager.DirectDebitSequenceNumber = 100;
+            ClientAccountCodeCCC ccc = new ClientAccountCodeCCC("12345678061234567890");
+            BankAccount bankAccount = new BankAccount(ccc);
+            DirectDebitMandate directDebitMandate = new DirectDebitMandate(DateTime.Now.Date, bankAccount);
+            Assert.AreEqual((uint)101, billDataManager.DirectDebitSequenceNumber);
         }
 
         [TestMethod]
-        public void TheReferenceNumberOfADirectDebitOrderCanBeChanged()
+        public void ADirectDebitMandateCanBeDeactivated()
         {
-            /*string referenceNumber = "002645";
             ClientAccountCodeCCC ccc = new ClientAccountCodeCCC("12345678061234567890");
             BankAccount bankAccount = new BankAccount(ccc);
-            DirectDebitMandate directDebitMandate = new DirectDebitMandate(DateTime.Now.Date, bankAccount, referenceNumber);
-            directDebitMandate.ReferenceNumber = "111111111111";
-            Assert.AreEqual("111111111111", directDebitMandate.ReferenceNumber);*/
+            DirectDebitMandate directDebitMandate = new DirectDebitMandate(1,DateTime.Now.Date, bankAccount);
+            Assert.AreEqual(DirectDebitMandate.DirectDebitmandateStatus.Active, directDebitMandate.Status);
+            directDebitMandate.DeactivateMandate();
+            Assert.AreEqual(DirectDebitMandate.DirectDebitmandateStatus.Inactive, directDebitMandate.Status);
+        }
 
-            Assert.Inconclusive(); //No se puede cambiar. Se puede desactivar y crear otra
+        [TestMethod]
+        public void ADirectDebitMandateCanBeReactivated()
+        {
+            ClientAccountCodeCCC ccc = new ClientAccountCodeCCC("12345678061234567890");
+            BankAccount bankAccount = new BankAccount(ccc);
+            DirectDebitMandate directDebitMandate = new DirectDebitMandate(1, DateTime.Now.Date, bankAccount);
+            Assert.AreEqual(DirectDebitMandate.DirectDebitmandateStatus.Active, directDebitMandate.Status);
+            directDebitMandate.DeactivateMandate();
+            Assert.AreEqual(DirectDebitMandate.DirectDebitmandateStatus.Inactive, directDebitMandate.Status);
+            directDebitMandate.ActivateMandate();
+            Assert.AreEqual(DirectDebitMandate.DirectDebitmandateStatus.Active, directDebitMandate.Status);
+        }
+
+        [TestMethod]
+        public void ABankAccountHistoricalDataIsCorrectlyCreated()
+        {
+            ClientAccountCodeCCC ccc = new ClientAccountCodeCCC("12345678061234567890");
+            BankAccount bankAccount = new BankAccount(ccc);
+            DateTime activationDate = new DateTime(2013, 11, 11);
+            DateTime deactivationDate = new DateTime(2013, 11, 30);
+            BankAccountHistoricalData ephemeralBankAcount = new BankAccountHistoricalData(bankAccount, activationDate, deactivationDate);
+            Assert.AreEqual(bankAccount, ephemeralBankAcount.BankAccount);
+            Assert.AreEqual(activationDate, ephemeralBankAcount.AccountActivationDate);
+            Assert.AreEqual(deactivationDate, ephemeralBankAcount.AccountDeactivationDate);
         }
 
         [TestMethod]
         public void TheBankAccountOfADirectDebitOrderCanBeChanged()
         {
-            /*string referenceNumber = "002645";
             ClientAccountCodeCCC ccc = new ClientAccountCodeCCC("12345678061234567890");
-            BankAccount bankAccount = new BankAccount(ccc);
-            DirectDebitMandate directDebitMandate = new DirectDebitMandate(DateTime.Now.Date, bankAccount, referenceNumber);
-            BankAccountFields bankAccountFields = new BankAccountFields("0128", "0035", "69", "0987654321");
-            BankAccount newBankAccount= new BankAccount(bankAccountFields);
-            directDebitMandate.BankAccount = newBankAccount;
-            Assert.AreEqual("01280035690987654321", directDebitMandate.BankAccount.CCC.CCC);*/
-            Assert.Inconclusive(); //Se debe añadir el manejo del histórico
+            BankAccount ephemeralBankAcount = new BankAccount(ccc);
+            DateTime ephemeralBankAcountActivationDate = new DateTime(2013, 11, 11);
+            DirectDebitMandate directDebitMandate = new DirectDebitMandate(1, ephemeralBankAcountActivationDate, ephemeralBankAcount);
+            Assert.AreEqual(ephemeralBankAcount, directDebitMandate.BankAccount);
+            InternationalAccountBankNumberIBAN iBAN = new InternationalAccountBankNumberIBAN("ES3011112222003333333333");
+            BankAccount newBankAccount = new BankAccount(iBAN);
+            DateTime dateOfChange = new DateTime(2013, 11, 30);
+            directDebitMandate.ChangeBankAccount(newBankAccount, dateOfChange);
+            Assert.AreEqual(newBankAccount, directDebitMandate.BankAccount);
+            Assert.AreEqual(dateOfChange, directDebitMandate.BankAccountActivationDate);
+            Assert.AreEqual(ephemeralBankAcount, directDebitMandate.BankAccountHistory[dateOfChange].BankAccount);
+            Assert.AreEqual(ephemeralBankAcountActivationDate, directDebitMandate.BankAccountHistory[dateOfChange].AccountActivationDate);
+            Assert.AreEqual(dateOfChange, directDebitMandate.BankAccountHistory[dateOfChange].AccountDeactivationDate);
         }
     }
 }

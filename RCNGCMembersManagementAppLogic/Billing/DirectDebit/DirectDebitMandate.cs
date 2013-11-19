@@ -11,13 +11,13 @@ namespace RCNGCMembersManagementAppLogic.Billing.DirectDebit
         BillingDataManager billingDataManager;
 
         DirectDebitmandateStatus status;
-        string internalReferenceNumber;
+        int internalReferenceNumber;
         DateTime directDebitMandateCreationDate;
         BankAccount bankAccount;
         DateTime bankAccountActivationDate;
-        Dictionary<DateTime, BankAccountHistoricData> bankAccountHistory;
+        Dictionary<DateTime, BankAccountHistoricalData> bankAccountHistory;
 
-        public DirectDebitMandate(string mandateID, DateTime directDebitMandateCreationDate, BankAccount bankAccount)
+        public DirectDebitMandate(int internalReferenceNumber, DateTime directDebitMandateCreationDate, BankAccount bankAccount)
         {
             this.billingDataManager = BillingDataManager.Instance;
 
@@ -25,11 +25,12 @@ namespace RCNGCMembersManagementAppLogic.Billing.DirectDebit
             this.directDebitMandateCreationDate = directDebitMandateCreationDate;
             this.bankAccount = bankAccount;
             this.bankAccountActivationDate = directDebitMandateCreationDate;
-            this.internalReferenceNumber = mandateID;
+            bankAccountHistory = new Dictionary<DateTime, BankAccountHistoricalData>();
+            SetInternalReferenceNumber(internalReferenceNumber);
         }
 
         public DirectDebitMandate(DateTime directDebitMandateCreationDate, BankAccount bankAccount)
-            : this(String.Empty, directDebitMandateCreationDate, bankAccount)
+            : this(1, directDebitMandateCreationDate, bankAccount)
         {
             GetInternalReferenceSequenceNumber();
         }
@@ -41,7 +42,7 @@ namespace RCNGCMembersManagementAppLogic.Billing.DirectDebit
             get { return status; }
         }
 
-        public string InternalReferenceNumber
+        public int InternalReferenceNumber
         {
             get { return internalReferenceNumber; }
         }
@@ -61,18 +62,44 @@ namespace RCNGCMembersManagementAppLogic.Billing.DirectDebit
             get { return bankAccountActivationDate; }
         }
 
+        public Dictionary<DateTime, BankAccountHistoricalData> BankAccountHistory
+        {
+            get { return bankAccountHistory; }
+        }
+
+        public void ChangeBankAccount(BankAccount bankAccount, DateTime changingDate)
+        {
+            AddCurrentAccountToHistorical(changingDate);
+            this.bankAccount = bankAccount;
+            this.bankAccountActivationDate = changingDate;
+        }
+
+        private void AddCurrentAccountToHistorical(DateTime changingDate)
+        {
+            BankAccountHistoricalData oldBankAccount = new BankAccountHistoricalData(this.bankAccount, this.bankAccountActivationDate, changingDate);
+            bankAccountHistory.Add(changingDate, oldBankAccount);
+        }
+
+        public void DeactivateMandate()
+        {
+            this.status = DirectDebitmandateStatus.Inactive;
+        }
+
+        public void ActivateMandate()
+        {
+            this.status = DirectDebitmandateStatus.Active;
+        }
+
         private void GetInternalReferenceSequenceNumber()
         {
-            internalReferenceNumber = billingDataManager.InvoiceSequenceNumber.ToString("00000");
-            billingDataManager.InvoiceSequenceNumber++;
+            internalReferenceNumber = (int)billingDataManager.DirectDebitSequenceNumber;
+            billingDataManager.DirectDebitSequenceNumber++;
         }
 
-        class BankAccountHistoricData
+        private void SetInternalReferenceNumber(int internalReferenceNumber)
         {
-            DateTime accountActivationDate;
-            DateTime accountDeactivationDate;
-            BankAccount bankAccount;
+            billingDataManager.CheckIfDirectDebitSequenceNumberIsInRange((uint)internalReferenceNumber);
+            this.internalReferenceNumber = internalReferenceNumber;
         }
-
     }
 }

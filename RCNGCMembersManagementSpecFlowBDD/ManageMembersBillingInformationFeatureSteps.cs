@@ -68,12 +68,6 @@ namespace RCNGCMembersManagementSpecFlowBDD
         {
             ScenarioContext.Current.Pending();
         }
-        
-        /*[Then(@"The new direct debit mandate is correctly")]
-        public void ThenTheNewDirectDebitMandateIsCorrectly()
-        {
-            ScenarioContext.Current.Pending();
-        }*/
 
         [Given(@"The direct debit reference sequence number is (.*)")]
         public void GivenTheDirectDebitReferenceSequenceNumberIs(int p0)

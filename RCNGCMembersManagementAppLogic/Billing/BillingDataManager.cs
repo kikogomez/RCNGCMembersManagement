@@ -64,6 +64,12 @@ namespace RCNGCMembersManagementAppLogic.Billing
             BillingDataManager.billingSequenceNumbersManager = billingSequenceNumbersManager;
         }
 
+        public void CheckIfDirectDebitSequenceNumberIsInRange(uint directDebitSequenceNumber)
+        {
+            if (!DirectDebitSequenceNumberIsInRange(directDebitSequenceNumber))
+                throw new ArgumentOutOfRangeException("directDebitSequenceNumber", "Direct Debit Sequence Number out of range (1-99999)");
+        }
+
         private uint GetInvoiceSequenceNumber()
         {
             uint invoiceSequenceNumber=billingSequenceNumbersManager.GetInvoiceSequenceNumber();
@@ -97,16 +103,14 @@ namespace RCNGCMembersManagementAppLogic.Billing
         private uint GetDirectDebitSequenceNumber()
         {
             uint directDebitSequenceNumber = billingSequenceNumbersManager.GetDirectDebitReferenceSequenceNumber();
-            if (directDebitSequenceNumber >= 100000)
-                throw new ArgumentOutOfRangeException("directDebitSequenceNumber", "Max 99999 direct debit references");
+            CheckIfDirectDebitSequenceNumberIsInRange(directDebitSequenceNumber);
             return directDebitSequenceNumber;
         }
 
         private void SetDirectDebitSequenceNumber(uint directDebitSequenceNumber)
         {
-            if (!DirectDebitSequenceNumberIsInRange(directDebitSequenceNumber))
-                throw new ArgumentOutOfRangeException("invoiceSequenceNumber", "Invoice ID out of range (1-99999)");
-            billingSequenceNumbersManager.SetInvoiceSequenceNumber(directDebitSequenceNumber);
+            CheckIfDirectDebitSequenceNumberIsInRange(directDebitSequenceNumber);
+            billingSequenceNumbersManager.SetDirectDebitReferenceSequenceNumber(directDebitSequenceNumber);
         }
 
         private bool InvoiceSequenceNuberIsInRange(uint invoiceNumber)

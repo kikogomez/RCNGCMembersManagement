@@ -42,7 +42,6 @@
   <ItemGroup>
     <Compile Include="Billing\AmendingInvoice.cs" />
     <Compile Include="Billing\BankTransferPaymentMethod.cs" />
-    <Compile Include="Billing\BillPaymentAgreement.cs" />
     <Compile Include="Billing\CashPaymentMethod.cs" />
     <Compile Include="Billing\DirectDebit\BankAccount.cs" />
     <Compile Include="Billing\DirectDebit\BankAccountCheckNumbersCalculator.cs" />
@@ -50,6 +49,7 @@
     <Compile Include="Billing\Bill.cs" />
     <Compile Include="Billing\BillingDataManager.cs" />
     <Compile Include="Billing\DirectDebit\BankAccountFields.cs" />
+    <Compile Include="Billing\DirectDebit\BankAccountHistoricalData.cs" />
     <Compile Include="Billing\DirectDebit\BankCode.cs" />
     <Compile Include="Billing\DirectDebit\BankCodes.cs" />
     <Compile Include="Billing\DirectDebit\ClientAccountCodeCCC.cs" />
