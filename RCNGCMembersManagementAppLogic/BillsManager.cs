@@ -24,6 +24,12 @@ namespace RCNGCMembersManagementAppLogic
             if (itWasToCollect && itIsUnpaid) invoiceContainingTheBill.SetInvoiceAsUnpaid();
         }
 
+        public void RenewBillDueDate(Invoice invoiceContainingTheBill, Bill billToRenew, DateTime newDueDate, DateTime todayDate)
+        {
+            billToRenew.RenewDueDate(newDueDate, todayDate);
+            invoiceContainingTheBill.CheckIfInvoiceHasNotAnyUnpaidBills();
+        }
+
         private void CheckIfAgreementIsAccomplished(Invoice invoiceContainingTheBill, Bill paidBill)
         {
             PaymentAgreement activeAgreement = GetActiveAgreementFromBill(paidBill);
@@ -33,8 +39,11 @@ namespace RCNGCMembersManagementAppLogic
                 var billsIncludedInTheAgreement = invoiceContainingTheBill.Bills.Values.Where(bill => bill.PaymentAgreements.ContainsKey(agreementDate));
                 var unpaidBillsFromAgreement = billsIncludedInTheAgreement.Where(bill => bill.PaymentResult == Bill.BillPaymentResult.ToCollect);
                 if (unpaidBillsFromAgreement.Count() == 0)
+                {
                     foreach (Bill bill in billsIncludedInTheAgreement)
                         bill.PaymentAgreements[agreementDate].PaymentAgreementActualStatus = PaymentAgreement.PaymentAgreementStatus.Accomplished;
+                    invoiceContainingTheBill.PaymentAgreements[agreementDate].PaymentAgreementActualStatus = PaymentAgreement.PaymentAgreementStatus.Accomplished;
+                }
             }
         }
 

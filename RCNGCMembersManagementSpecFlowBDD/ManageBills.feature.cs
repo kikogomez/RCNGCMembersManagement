@@ -422,19 +422,17 @@ this.FeatureBackground();
 #line 110
  testRunner.Given("I have an invoice with some bills with agreements", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line 111
- testRunner.And("I have a bill to collect in the invoice", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+ testRunner.And("I have a bill to collect in the invoice with a payment agreement", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 112
- testRunner.And("The bill has associated a payment agreement", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
-#line 113
  testRunner.When("The bill is past due date", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
-#line 114
+#line 113
  testRunner.Then("The bill is marked as \"Unpaid\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
-#line 115
+#line 114
  testRunner.And("The invoice containig the bill is marked as \"Unpaid\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
-#line 116
+#line 115
  testRunner.And("The associated payment agreement is set to \"NotAcomplished\" for all bills involve" +
                     "d on the agreement", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
-#line 117
+#line 116
  testRunner.And("The associated payment agreement is set to \"NotAcomplished\" for the invoice", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
             this.ScenarioCleanup();
@@ -446,17 +444,17 @@ this.FeatureBackground();
         public virtual void ABillDueDateCanBeExtended()
         {
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("A bill due date can be extended", ((string[])(null)));
-#line 119
+#line 118
 this.ScenarioSetup(scenarioInfo);
 #line 6
 this.FeatureBackground();
-#line 120
+#line 119
  testRunner.Given("I have an invoice with some bills", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
-#line 121
+#line 120
  testRunner.And("I have a bill to collect in the invoice", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
-#line 122
+#line 121
  testRunner.When("I renew the due date", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
-#line 123
+#line 122
  testRunner.Then("The new due date is assigned to the bill", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
             this.ScenarioCleanup();
@@ -468,23 +466,23 @@ this.FeatureBackground();
         public virtual void APastDueBillDueDateCanBeRenewed()
         {
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("A past due bill due date can be renewed", ((string[])(null)));
-#line 125
+#line 124
 this.ScenarioSetup(scenarioInfo);
 #line 6
 this.FeatureBackground();
-#line 126
+#line 125
  testRunner.Given("I have an invoice with some bills", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
-#line 127
+#line 126
  testRunner.And("I have a bill to collect in the invoice", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
-#line 128
+#line 127
  testRunner.And("The bill is past due date", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
-#line 129
+#line 128
  testRunner.When("I renew the due date", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
-#line 130
+#line 129
  testRunner.Then("The new due date is assigned to the bill", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
-#line 131
+#line 130
  testRunner.And("The bill is marked as \"ToCollect\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
-#line 132
+#line 131
  testRunner.And("If there are no other bills marked as \"Unpaid\" the invoice is marked \"ToBePaid\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
             this.ScenarioCleanup();

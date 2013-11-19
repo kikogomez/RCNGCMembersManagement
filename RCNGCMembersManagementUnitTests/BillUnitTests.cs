@@ -465,5 +465,27 @@ namespace RCNGCMembersManagementUnitTests.Billing
             Assert.AreEqual(PaymentAgreement.PaymentAgreementStatus.Accomplished, invoice.Bills["MMM2013005001/002"].PaymentAgreements[agreementDate].PaymentAgreementActualStatus);
             Assert.AreEqual(PaymentAgreement.PaymentAgreementStatus.Accomplished, invoice.Bills["MMM2013005001/003"].PaymentAgreements[agreementDate].PaymentAgreementActualStatus);
         }
+
+        [TestMethod]
+        public void WhenIRenewTheDueDateOfABillItIsCorrectlyUpdated()
+        {
+            Bill bill = new Bill("MMM201300015/001", "This bill is past due date", 1, new DateTime(2013, 11, 11), new DateTime(2013, 11, 15));
+            DateTime newDueDate = new DateTime(2013, 11, 30);
+            DateTime todayDate = new DateTime(2013, 11, 20);
+            bill.RenewDueDate(newDueDate, todayDate);
+            Assert.AreEqual(newDueDate, bill.DueDate);
+        }
+
+        [TestMethod]
+        public void WhenIRenewTheDueDateOfAPastDueDateBillTheBillIsSetAgainToToCollect()
+        {
+            Bill bill = new Bill("MMM201300015/001", "This bill is past due date", 1, new DateTime(2013, 11, 11), new DateTime(2013, 11, 15));
+            DateTime newDueDate = new DateTime(2013, 11, 30);
+            DateTime todayDate = new DateTime(2013, 11, 20);
+            bill.CheckDueDate(todayDate);
+            Assert.AreEqual(Bill.BillPaymentResult.Unpaid, bill.PaymentResult);
+            bill.RenewDueDate(newDueDate, todayDate);
+            Assert.AreEqual(Bill.BillPaymentResult.ToCollect, bill.PaymentResult);
+        }
     }
 }

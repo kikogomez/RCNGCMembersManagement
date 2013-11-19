@@ -283,7 +283,9 @@ namespace RCNGCMembersManagementSpecFlowBDD
         public void GivenIHaveABillToCollectInTheInvoice()
         {
             Invoice invoice = (Invoice)ScenarioContext.Current["Invoice"];
-            ScenarioContext.Current.Add("Bill", invoice.Bills["MMM2013005001/001"]);
+            Bill bill = invoice.Bills["MMM2013005001/001"];
+            Assert.AreEqual(Bill.BillPaymentResult.ToCollect, bill.PaymentResult);
+            ScenarioContext.Current.Add("Bill", bill);
         }
 
         [When(@"The bill is paid in cash")]
@@ -433,75 +435,90 @@ namespace RCNGCMembersManagementSpecFlowBDD
         [Given(@"I have an invoice with some bills with agreements")]
         public void GivenIHaveAnInvoiceWithSomeBillsWithAgreements()
         {
-            /*string invoiceID = "MMM2013005001";
+            string invoiceID = "MMM2013005001";
             List<Transaction> transactionList = new List<Transaction>() { new Transaction("Big Payment", 1, 650, new Tax("NOIGIC", 0), 0) };
+            DateTime issueDate = new DateTime(2013,10,1);
+            Invoice invoice = new Invoice(invoiceID, new InvoiceCustomerData(membersManagementContextData.clubMember), transactionList, issueDate);
             string authorizingPerson = "Club President";
             string agreementTerms = "New Payment Agreement";
             DateTime agreementDate = new DateTime(2013, 10, 1);
             PaymentAgreement paymentAgreement = new PaymentAgreement(authorizingPerson, agreementTerms, agreementDate);
-            List<Bill> billsToRenegotiate = new List<Bill>() { invoice.Bills["INV2013005000/001"] };
+            List<Bill> billsToRenegotiate = new List<Bill>() { invoice.Bills["MMM2013005001/001"] };
             List<Bill> billsToAdd = new List<Bill>()
             {
                 {new Bill("MMM2013005001/002", "First Instalment", 200, new DateTime(2013,10,1), new DateTime(2013,11,1))},
                 {new Bill("MMM2013005001/003", "Second Instalment", 200, new DateTime(2013,10,1), new DateTime(2013,12,1))},
                 {new Bill("MMM2013005001/004", "Third Instalment", 250, new DateTime(2013,10,1), new DateTime(2014,1,1))}
             };
-            invoice.RenegotiateBillsIntoInstalments(paymentAgreement, billsToRenegotiate, billsToAdd);*/
-
-            ScenarioContext.Current.Pending();
+            invoice.RenegotiateBillsIntoInstalments(paymentAgreement, billsToRenegotiate, billsToAdd);
+            ScenarioContext.Current.Add("Invoice", invoice);
+            ScenarioContext.Current.Add("AgreementDate", agreementDate);
+            ScenarioContext.Current.Add("Bill", invoice.Bills["MMM2013005001/002"]);
         }
 
-
-        [Given(@"The bill has associated a payment agreement")]
-        public void GivenTheBillHasAssociatedAPaymentAgreement()
+        [Given(@"I have a bill to collect in the invoice with a payment agreement")]
+        public void GivenIHaveABillToCollectInTheInvoiceWithAPaymentAgreement()
         {
-            ScenarioContext.Current.Pending();
+            Bill bill = (Bill)ScenarioContext.Current["Bill"];
+            DateTime agreementDate = (DateTime)ScenarioContext.Current["AgreementDate"];
+            Assert.AreEqual(Bill.BillPaymentResult.ToCollect, bill.PaymentResult);
+            Assert.IsTrue(bill.PaymentAgreements.ContainsKey(agreementDate));
         }
 
         [Then(@"The associated payment agreement is set to ""(.*)"" for all bills involved on the agreement")]
-        public void ThenTheAssociatedPaymentAgreementIsSetToForAllBillsInvolvedOnTheAgreement(string p0)
+        public void ThenTheAssociatedPaymentAgreementIsSetToForAllBillsInvolvedOnTheAgreement(string paymentAgreementStatus)
         {
-            ScenarioContext.Current.Pending();
+            Invoice invoice = (Invoice)ScenarioContext.Current["Invoice"];
+            DateTime agreementDate = (DateTime)ScenarioContext.Current["AgreementDate"];
+            var billsIncludedInTheAgreement = invoice.Bills.Values.Where(bill => bill.PaymentAgreements.ContainsKey(agreementDate));
+            foreach (Bill bill in billsIncludedInTheAgreement)
+                Assert.AreEqual(paymentAgreementStatus, bill.PaymentAgreements[agreementDate].PaymentAgreementActualStatus.ToString());
         }
 
         [Then(@"The associated payment agreement is set to ""(.*)"" for the invoice")]
-        public void ThenTheAssociatedPaymentAgreementIsSetToForTheInvoice(string p0)
+        public void ThenTheAssociatedPaymentAgreementIsSetToForTheInvoice(string invoiceAgreementState)
         {
-            ScenarioContext.Current.Pending();
+            Invoice invoice = (Invoice)ScenarioContext.Current["Invoice"];
+            DateTime agreementDate = (DateTime)ScenarioContext.Current["AgreementDate"];
+            Assert.AreEqual(invoiceAgreementState, invoice.PaymentAgreements[agreementDate].PaymentAgreementActualStatus.ToString());
         }
 
         [When(@"I renew the due date")]
         public void WhenIRenewTheDueDate()
         {
-            ScenarioContext.Current.Pending();
+            Invoice invoice = (Invoice)ScenarioContext.Current["Invoice"];
+            Bill bill = (Bill)ScenarioContext.Current["Bill"];
+            DateTime newDueDate = new DateTime(2013, 12, 15);
+            DateTime todayDate = new DateTime(2013, 11, 11);
+            billsManager.RenewBillDueDate(invoice, bill, newDueDate, todayDate);
+            ScenarioContext.Current.Add("RenewDueDate", newDueDate);
         }
 
         [Then(@"The new due date is assigned to the bill")]
         public void ThenTheNewDueDateIsAssignedToTheBill()
         {
-            ScenarioContext.Current.Pending();
+            Bill bill = (Bill)ScenarioContext.Current["Bill"];
+            DateTime renewedDueDate = (DateTime)ScenarioContext.Current["RenewDueDate"];
+            Assert.AreEqual(renewedDueDate, bill.DueDate);
         }
 
         [Given(@"The bill is past due date")]
         public void GivenTheBillIsPastDueDate()
         {
-            ScenarioContext.Current.Pending();
+            Invoice invoice = (Invoice)ScenarioContext.Current["Invoice"];
+            Bill bill = (Bill)ScenarioContext.Current["Bill"];
+            DateTime todayDate = new DateTime(2013, 12, 15);
+            billsManager.CheckDueDate(invoice, bill, todayDate);
+            Assert.AreEqual(Bill.BillPaymentResult.Unpaid, bill.PaymentResult);
         }
 
         [Then(@"If there are no other bills marked as ""(.*)"" the invoice is marked ""(.*)""")]
-        public void ThenIfThereAreNoOtherBillsMarkedAsTheInvoiceIsMarked(string p0, string p1)
+        public void ThenIfThereAreNoOtherBillsMarkedAsTheInvoiceIsMarked(string billState, string invoiceState)
         {
-            ScenarioContext.Current.Pending();
+            Invoice invoice = (Invoice)ScenarioContext.Current["Invoice"];
+            var billsMarkedAsUnpaid = invoice.Bills.Values.Where(bill => bill.PaymentResult.ToString() == billState);
+            Assert.AreEqual(0, billsMarkedAsUnpaid.Count());
+            Assert.AreEqual(invoiceState, invoice.InvoiceState.ToString());
         }
-
-
-
-
-
-
-
-
-
-
     }
 }

@@ -69,6 +69,11 @@ namespace RCNGCMembersManagementAppLogic.Billing
             get { return invoiceState; }
         }
 
+        public Dictionary<DateTime, PaymentAgreement> PaymentAgreements
+        {
+            get { return paymentAgreements; }
+        }
+
         public void RenegotiateBillsIntoInstalments (PaymentAgreement paymentAgreement, List<Bill> billsToRenegotiate, List<Bill> billsToAdd)
         {
             this.paymentAgreements.Add(paymentAgreement.AgreementDate.Date, paymentAgreement);
@@ -96,6 +101,13 @@ namespace RCNGCMembersManagementAppLogic.Billing
         public void SetInvoiceAsUnpaid()
         {
             this.invoiceState = InvoicePaymentState.Unpaid;
+        }
+
+        public void CheckIfInvoiceHasNotAnyUnpaidBills()
+        {
+            var unpaidBills = invoiceBills.Where(bill=> bill.Value.PaymentResult== Bill.BillPaymentResult.Unpaid);
+            var toCollectBills = invoiceBills.Where(bill=> bill.Value.PaymentResult== Bill.BillPaymentResult.ToCollect);
+            if (unpaidBills.Count()==0 && toCollectBills.Count()!=0) this.invoiceState=InvoicePaymentState.ToBePaid;
         }
 
         protected override string GetNewInvoiceID()

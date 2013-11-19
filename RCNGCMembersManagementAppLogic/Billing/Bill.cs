@@ -129,10 +129,21 @@ namespace RCNGCMembersManagementAppLogic.Billing
             if (today > dueDate && paymentResult == BillPaymentResult.ToCollect) SetBillAsUnpaid();
         }
 
+        public void RenewDueDate(DateTime newDueDate, DateTime todayDate)
+        {
+            this.dueDate = newDueDate;
+            if (todayDate < newDueDate && paymentResult == Bill.BillPaymentResult.Unpaid) SetBillAsToCollect();
+        }
+
         private void SetBillAsUnpaid()
         {
             paymentResult = BillPaymentResult.Unpaid;
             CancellAnyAgreementsActiveForBill();
+        }
+
+        private void SetBillAsToCollect()
+        {
+            paymentResult = BillPaymentResult.ToCollect;
         }
 
         private void CancellAnyAgreementsActiveForBill()

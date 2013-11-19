@@ -108,8 +108,7 @@ Scenario: A bill is past due date
 
 Scenario: A bill with an associated agreement is past due date
 	Given I have an invoice with some bills with agreements
-	And I have a bill to collect in the invoice
-	And The bill has associated a payment agreement
+	And I have a bill to collect in the invoice with a payment agreement
 	When The bill is past due date
 	Then The bill is marked as "Unpaid"
 	And The invoice containig the bill is marked as "Unpaid"
