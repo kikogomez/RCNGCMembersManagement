@@ -67,6 +67,7 @@
     <Compile Include="Billing\DirectDebit\ISO20022Elements\CustomerDirectDebitInitiationV02\BranchData2.cs" />
     <Compile Include="Billing\DirectDebit\ISO20022Elements\CustomerDirectDebitInitiationV02\CashAccount16.cs" />
     <Compile Include="Billing\DirectDebit\ISO20022Elements\CustomerDirectDebitInitiationV02\CashAccountType2.cs" />
+    <Compile Include="Billing\DirectDebit\ISO20022Elements\CustomerDirectDebitInitiationV02\CategoryPurpose1Choice.cs" />
     <Compile Include="Billing\DirectDebit\ISO20022Elements\CustomerDirectDebitInitiationV02\ClearingSystemIdentification2Choice.cs" />
     <Compile Include="Billing\DirectDebit\ISO20022Elements\CustomerDirectDebitInitiationV02\ClearingSystemMemberIdentification2.cs" />
     <Compile Include="Billing\DirectDebit\ISO20022Elements\CustomerDirectDebitInitiationV02\ContactDetails2.cs" />
@@ -86,6 +87,7 @@
     <Compile Include="Billing\DirectDebit\ISO20022Elements\CustomerDirectDebitInitiationV02\GenericOrganisationIdentification1.cs" />
     <Compile Include="Billing\DirectDebit\ISO20022Elements\CustomerDirectDebitInitiationV02\GenericPersonIdentification1.cs" />
     <Compile Include="Billing\DirectDebit\ISO20022Elements\CustomerDirectDebitInitiationV02\GroupHeader39.cs" />
+    <Compile Include="Billing\DirectDebit\ISO20022Elements\CustomerDirectDebitInitiationV02\LocalInstrument2Choice.cs" />
     <Compile Include="Billing\DirectDebit\ISO20022Elements\CustomerDirectDebitInitiationV02\MandateRelatedInformation6.cs" />
     <Compile Include="Billing\DirectDebit\ISO20022Elements\CustomerDirectDebitInitiationV02\NameAndAddress10.cs" />
     <Compile Include="Billing\DirectDebit\ISO20022Elements\CustomerDirectDebitInitiationV02\OrganisationIdentification4.cs" />
@@ -106,6 +108,7 @@
     <Compile Include="Billing\DirectDebit\ISO20022Elements\CustomerDirectDebitInitiationV02\RemittanceAmount1.cs" />
     <Compile Include="Billing\DirectDebit\ISO20022Elements\CustomerDirectDebitInitiationV02\RemittanceInformation5.cs" />
     <Compile Include="Billing\DirectDebit\ISO20022Elements\CustomerDirectDebitInitiationV02\RemittanceLocation2.cs" />
+    <Compile Include="Billing\DirectDebit\ISO20022Elements\CustomerDirectDebitInitiationV02\ServiceLevel8Choice.cs" />
     <Compile Include="Billing\DirectDebit\ISO20022Elements\CustomerDirectDebitInitiationV02\StructuredRegulatoryReporting3.cs" />
     <Compile Include="Billing\DirectDebit\ISO20022Elements\CustomerDirectDebitInitiationV02\StructuredRemittanceInformation7.cs" />
     <Compile Include="Billing\DirectDebit\ISO20022Elements\CustomerDirectDebitInitiationV02\TaxAmount1.cs" />

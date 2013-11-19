@@ -280,6 +280,19 @@ namespace RCNGCMembersManagementAppLogic.Billing.DirectDebit.ISO20022Elements.Cu
         MADM,
     }
 
+    /// Indicator of the urgency or order of importance that the instructing party would like the instructed party to apply to the processing of the instruction.
+    [System.SerializableAttribute()]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace = "urn:iso:std:iso:20022:tech:xsd:pain.008.001.02")]
+    public enum Priority2Code
+    {
+
+        /// High
+        HIGH,
+
+        /// Normal
+        NORM,
+    }
+
     /// <comentarios/>
     [System.CodeDom.Compiler.GeneratedCodeAttribute("xsd", "4.0.30319.17929")]
     [System.SerializableAttribute()]
