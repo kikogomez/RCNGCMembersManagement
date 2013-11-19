@@ -120,6 +120,25 @@ namespace RCNGCMembersManagementAppLogic.Billing.DirectDebit.ISO20022Elements.Cu
         DBIT,
     }
 
+    /// Specifies which party/parties will bear the charges associated with the processing of the payment transaction
+    [System.SerializableAttribute()]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace = "urn:iso:std:iso:20022:tech:xsd:pain.008.001.02")]
+    public enum ChargeBearerType1Code
+    {
+
+        /// BorneByDebtor
+        DEBT,
+
+        /// BorneByCreditor
+        CRED,
+
+        /// Shared
+        SHAR,
+
+        /// FollowingServiceLevel
+        SLEV,
+    }
+
     /// Document Type
     /// Type of creditor reference, in a coded form.
     [System.SerializableAttribute()]

@@ -423,5 +423,81 @@ namespace RCNGCMembersManagementUnitTests
                 "RmtInf", "RemittanceInformation5", xMLNamespace, xmlString, xSDFilePath);
             Assert.AreEqual("", validatingErrors);
         }
+
+        [TestMethod]
+        public void DirectDebitTransactionInfo_DrctDbtTxInf_IsCorrectlyCreated()
+        {
+            PaymentIdentification1 paymentIdentification_PmtID = new PaymentIdentification1(
+                directDebitMandateInfo1.TxInternalId,    //<InstrID>
+                directDebitMandateInfo1.TxInternalId);   //<EndToEndID>
+
+            ActiveOrHistoricCurrencyAndAmount instructedAmount_InstdAmt = new ActiveOrHistoricCurrencyAndAmount(
+                "EUR",                                      //<InstdAmt> ""CCY" atribute value
+                (decimal)directDebitMandateInfo1.Amount);   //<InstdAmt>
+
+            AccountIdentification4Choice originalDebtorAccount_ID = new AccountIdentification4Choice(
+                directDebitMandateInfo1.PreviuosIBAN);
+
+            CashAccount16 originalDebtorAccount_OrgnlDbtrAcct = new CashAccount16(
+                originalDebtorAccount_ID, null, null, null);
+
+            AmendmentInformationDetails6 ammendmentInformationDetails_AmdmntInfDtls = new AmendmentInformationDetails6(
+                directDebitMandateInfo1.PreviousMandateID, null, null, null, null, originalDebtorAccount_OrgnlDbtrAcct,
+                null, null, DateTime.MaxValue, false, Frequency1Code.MNTH, false);
+
+            MandateRelatedInformation6 mandateRelatedInformation_MndtRltdInf = new MandateRelatedInformation6(
+                directDebitMandateInfo1.MandateID, directDebitMandateInfo1.MandateSignatureDate, true, true, true,
+                ammendmentInformationDetails_AmdmntInfDtls, null, DateTime.MinValue, false,
+                DateTime.MaxValue, false, Frequency1Code.MNTH, false);
+
+            DirectDebitTransaction6 directDebitTransaction_DrctDbtTx = new DirectDebitTransaction6(
+                mandateRelatedInformation_MndtRltdInf, null, null, DateTime.MinValue, false);
+
+            FinancialInstitutionIdentification7 financialInstitutuinIdentification_FinInstnID = new FinancialInstitutionIdentification7(
+                creditorAgent.BIC, null, null, null, null);
+
+            BranchAndFinancialInstitutionIdentification4 debtorAgent_DbtrAgt = new BranchAndFinancialInstitutionIdentification4(
+                financialInstitutuinIdentification_FinInstnID, null);
+
+            PartyIdentification32 debtor_Dbtr = new PartyIdentification32(
+                directDebitMandateInfo1.DebtorName, null, null, null, null);
+
+            AccountIdentification4Choice accountID_Id = new AccountIdentification4Choice(
+                directDebitMandateInfo1.IBAN);
+
+            CashAccount16 debtorAccount_DbtrAcct = new CashAccount16(
+                accountID_Id, null, null, null);
+
+            RemittanceInformation5 remitanceInformation_RmtInf = new RemittanceInformation5(
+                directDebitMandateInfo1.RemitanceInformation,
+                new StructuredRemittanceInformation7[] { null });
+
+            DirectDebitTransactionInformation9 directDebitTransactionInfo_DrctDbtTxInf = new DirectDebitTransactionInformation9(
+                paymentIdentification_PmtID,        //<PmtID>
+                null,                               //<PmtTpInf> - Not used by creditor in SEPA COR 
+                instructedAmount_InstdAmt,          //<InstdAmt>
+                ChargeBearerType1Code.SLEV,         //<ChrgBr> - No. Only one Charge Bearer per payment information <PmtInf> group
+                false,                              //<ChrgBr> will not be serialized    
+                directDebitTransaction_DrctDbtTx,   //<DrctDbtTx>
+                null,                               //<UltmtCdtr> - Not necessary. If son, only one Ultimate Creditor per payment information <PmtInf> group
+                debtorAgent_DbtrAgt,                //<DbtrAgt>
+                null,                               //<DbtrAgtAcct> - Not used by creditor in SEPA COR
+                debtor_Dbtr,                        //<Dbtr>
+                debtorAccount_DbtrAcct,             //<DbtrAcct>
+                null,                               //<UltmtDbtr> - Only if Ultimate Debtor is different from debtor.
+                null,                               //<InstrForCdtrAgt> - Not used by creditor in SEPA COR
+                null,                               //<Purp> - Not mandatory. Only use to inform debtor. Is meaningless for agents.
+                new RegulatoryReporting3[] { null },//<RgltryRptg> - Only needed for big payments from non residents
+                null,                               //<Tax> - Not used by creditor in SEPA COR
+                new RemittanceLocation2[] { null }, //<RltdRmtInf> - Not used by creditor in SEPA COR
+                remitanceInformation_RmtInf);       //<RmtInf>
+
+            string xmlString = XMLSerializer.XMLSerializeToString<DirectDebitTransactionInformation9>(directDebitTransactionInfo_DrctDbtTxInf, "DrctDbtTxInf", xMLNamespace);
+            string validatingErrors = XMLValidator.ValidateXMLNodeThroughModifiedXSD(
+                "DrctDbtTxInf", "DirectDebitTransactionInformation9", xMLNamespace, xmlString, xSDFilePath);
+            Assert.AreEqual("", validatingErrors);
+        }
+
+
     }
 }
