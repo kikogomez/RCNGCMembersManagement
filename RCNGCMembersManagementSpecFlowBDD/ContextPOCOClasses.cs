@@ -5,6 +5,7 @@ using RCNGCMembersManagementAppLogic.MembersManaging;
 using RCNGCMembersManagementAppLogic.ClubServices;
 using RCNGCMembersManagementAppLogic.ClubStore;
 using RCNGCMembersManagementAppLogic.Billing;
+using RCNGCMembersManagementAppLogic.Billing.DirectDebit;
 
 namespace RCNGCMembersManagementSpecFlowBDD
 {
@@ -36,5 +37,12 @@ namespace RCNGCMembersManagementSpecFlowBDD
         public string accountNumber;
         public string ccc;
         public string iban;
+    }
+
+    public class DirectDebitContextData
+    {
+        public Dictionary<string, DirectDebitMandate> directDebitMandates;
+        public Dictionary<string, BankAccount> bankAccounts;
+        public BillingDataManager billDataManager;
     }
 }

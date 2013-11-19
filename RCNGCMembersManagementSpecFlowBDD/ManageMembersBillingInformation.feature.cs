@@ -87,16 +87,16 @@ namespace RCNGCMembersManagementSpecFlowBDD
  testRunner.Given("A Club Member", ((string)(null)), table1, "Given ");
 #line hidden
             TechTalk.SpecFlow.Table table2 = new TechTalk.SpecFlow.Table(new string[] {
-                        "DirectDebitMandateID",
+                        "DirectDebitInternalReferenceNumber",
                         "RegisterDate",
                         "IBAN"});
             table2.AddRow(new string[] {
-                        "0000001102345",
-                        "30-10-2013",
+                        "2345",
+                        "2013/11/20",
                         "ES6812345678061234567890"});
             table2.AddRow(new string[] {
-                        "0000001102346",
-                        "30-11-2013",
+                        "2346",
+                        "2013/11/30",
                         "ES3011112222003333333333"});
 #line 12
  testRunner.Given("These Direct Debit Mandates", ((string)(null)), table2, "Given ");
@@ -125,9 +125,9 @@ this.FeatureBackground();
 #line 23
  testRunner.Given("I have a member", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line 24
- testRunner.And("The member has associated \"Cash\" as payment method", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+ testRunner.And("The member has associated cash as payment method", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 25
- testRunner.When("I set \"Direct Debit\" as new payment method", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+ testRunner.When("I set direct debit as new payment method", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line 26
  testRunner.Then("The new payment method is correctly updated", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden

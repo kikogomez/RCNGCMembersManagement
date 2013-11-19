@@ -1,6 +1,11 @@
 ﻿using System;
+using System.Collections.Generic;
 using TechTalk.SpecFlow;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using RCNGCMembersManagementAppLogic.MembersManaging;
+using RCNGCMembersManagementAppLogic.Billing;
+using RCNGCMembersManagementAppLogic.Billing.DirectDebit;
+using RCNGCMembersManagementMocks;
 
 namespace RCNGCMembersManagementSpecFlowBDD
 {
@@ -8,15 +13,22 @@ namespace RCNGCMembersManagementSpecFlowBDD
     public class ManageMembersBillingInformationFeatureSteps
     {
         private readonly MembersManagementContextData membersManagementContextData;
+        private readonly DirectDebitContextData directDebitContextData;
 
-        public ManageMembersBillingInformationFeatureSteps(MembersManagementContextData membersManagementContextData)
+        public ManageMembersBillingInformationFeatureSteps(
+            MembersManagementContextData membersManagementContextData, 
+            DirectDebitContextData directDebitContextData)
         {
             this.membersManagementContextData = membersManagementContextData;
+            this.directDebitContextData = directDebitContextData;
         }
 
         [BeforeScenario]
         public void InitializeScenario()
         {
+            directDebitContextData.billDataManager = BillingDataManager.Instance;
+            BillingSequenceNumbersMock billingSequenceNumbersMock = new BillingSequenceNumbersMock();
+            directDebitContextData.billDataManager.SetBillingSequenceNumberCollaborator(billingSequenceNumbersMock);
 
         }
 
@@ -27,50 +39,83 @@ namespace RCNGCMembersManagementSpecFlowBDD
         }
         
         [Given(@"These Direct Debit Mandates")]
-        public void GivenTheseDirectDebitMandates(Table table)
+        public void GivenTheseDirectDebitMandates(Table directDebits)
         {
-            ScenarioContext.Current.Pending();
+            directDebitContextData.directDebitMandates = new Dictionary<string, DirectDebitMandate>();
+            foreach (var row in directDebits.Rows)
+            {
+                string internalReferenceNumber = row["DirectDebitInternalReferenceNumber"];
+                string iBAN = (string)row["IBAN"];
+                DateTime creationDate = DateTime.Parse((string)row["RegisterDate"]).Date;
+                BankAccount bankAccount = new BankAccount(new InternationalAccountBankNumberIBAN(iBAN));
+                DirectDebitMandate directDebitmandate = new DirectDebitMandate(int.Parse(internalReferenceNumber),creationDate, bankAccount);
+                directDebitContextData.directDebitMandates.Add(internalReferenceNumber, directDebitmandate);
+            }
         }
 
         [Given(@"These Account Numbers")]
-        public void GivenTheseAccountNumbers(Table table)
+        public void GivenTheseAccountNumbers(Table accountNumbers)
         {
-            ScenarioContext.Current.Pending();
+            directDebitContextData.bankAccounts = new Dictionary<string, BankAccount>();
+            foreach (var row in accountNumbers.Rows)
+            {;
+                string iBAN = (string)row["IBAN"];
+                BankAccount bankAccount = new BankAccount(new InternationalAccountBankNumberIBAN(iBAN));
+                directDebitContextData.bankAccounts.Add(iBAN, bankAccount);
+            }
         }
 
         
         [Given(@"I have a member")]
         public void GivenIHaveAMember()
         {
-            ScenarioContext.Current.Pending();
+            ScenarioContext.Current.Add("Member1", membersManagementContextData.clubMember);
         }
-        
-        [Given(@"The member has associated ""(.*)"" as payment method")]
-        public void GivenTheMemberHasAssociatedAsPaymentMethod(string p0)
+
+        [Given(@"The member has associated cash as payment method")]
+        public void GivenTheMemberHasAssociatedCashAsPaymentMethod()
         {
-            ScenarioContext.Current.Pending();
+            ClubMember clubMember = (ClubMember)ScenarioContext.Current["Member1"];
+            CashPaymentMethod cashPaymnentMethod = new CashPaymentMethod();
+            clubMember.SetDefaultPaymentMethod(cashPaymnentMethod);
         }
-        
-        [When(@"I set ""(.*)"" as new payment method")]
-        public void WhenISetAsNewPaymentMethod(string p0)
+
+        [When(@"I set direct debit as new payment method")]
+        public void WhenISetDirectDebitAsNewPaymentMethod()
         {
-            ScenarioContext.Current.Pending();
+            ClubMember clubMember = (ClubMember)ScenarioContext.Current["Member1"];
+            DirectDebitMandate directDebitMandate = directDebitContextData.directDebitMandates["2345"];
+            DirectDebitPaymentMethod directDebitPaymentMethod = new DirectDebitPaymentMethod(directDebitMandate, null);
+            ScenarioContext.Current.Add("DirectDebitPaymentMethod", directDebitPaymentMethod);
+            clubMember.SetDefaultPaymentMethod(directDebitPaymentMethod);
+        }
+
+        [Then(@"The new payment method is correctly updated")]
+        public void ThenTheNewPaymentMethodIsCorrectlyUpdated()
+        {
+            ClubMember clubMember = (ClubMember)ScenarioContext.Current["Member1"];
+            DirectDebitPaymentMethod directDebitPaymentMethod = (DirectDebitPaymentMethod)ScenarioContext.Current["DirectDebitPaymentMethod"];
+            Assert.AreEqual(directDebitPaymentMethod, (DirectDebitPaymentMethod)clubMember.DefaultPaymentMethod);
+        }
+
+        [Then(@"The new direct debit reference sequence number is (.*)")]
+        public void ThenTheNewDirectDebitReferenceSequenceNumberIs(int directDebitInternalSequenceNumber)
+        {
+            directDebitContextData.billDataManager.DirectDebitSequenceNumber = (uint)directDebitInternalSequenceNumber;
         }
         
         [When(@"I add a new direct debit mandate to the member")]
         public void WhenIAddANewDirectDebitMandateToTheMember()
         {
-            ScenarioContext.Current.Pending();
+            ClubMember clubMember = (ClubMember)ScenarioContext.Current["Member1"];
+            DirectDebitMandate directDebitMandate = directDebitContextData.directDebitMandates["2345"];
+            clubMember.AddDirectDebitMandate(directDebitMandate);
         }
         
-        [Then(@"The new payment method is correctly updated")]
-        public void ThenTheNewPaymentMethodIsCorrectlyUpdated()
-        {
-            ScenarioContext.Current.Pending();
-        }
+
 
         [Given(@"The direct debit reference sequence number is (.*)")]
-        public void GivenTheDirectDebitReferenceSequenceNumberIs(int p0)
+        public void GivenTheDirectDebitReferenceSequenceNumberIs(int directDebitSequenceNumber)
         {
             ScenarioContext.Current.Pending();
         }
@@ -81,11 +126,7 @@ namespace RCNGCMembersManagementSpecFlowBDD
             ScenarioContext.Current.Pending();
         }
 
-        [Then(@"The new direct debit reference sequence number is (.*)")]
-        public void ThenTheNewDirectDebitReferenceSequenceNumberIs(int p0)
-        {
-            ScenarioContext.Current.Pending();
-        }
+
 
         [Given(@"I have a direct debit associated to the member")]
         public void GivenIHaveADirectDebitAssociatedToTheMember()
