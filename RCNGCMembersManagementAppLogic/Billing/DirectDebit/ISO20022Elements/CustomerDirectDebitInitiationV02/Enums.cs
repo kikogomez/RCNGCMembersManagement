@@ -280,6 +280,49 @@ namespace RCNGCMembersManagementAppLogic.Billing.DirectDebit.ISO20022Elements.Cu
         MADM,
     }
 
+    /// <comentarios/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("xsd", "4.0.30319.17929")]
+    [System.SerializableAttribute()]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace = "urn:iso:std:iso:20022:tech:xsd:pain.008.001.02")]
+    public enum RegulatoryReportingType1Code
+    {
+
+        /// Credit
+        CRED,
+
+        /// Debit
+        DEBT,
+
+        /// Both
+        BOTH,
+    }
+
+    /// <comentarios/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("xsd", "4.0.30319.17929")]
+    [System.SerializableAttribute()]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace = "urn:iso:std:iso:20022:tech:xsd:pain.008.001.02")]
+    public enum RemittanceLocationMethod2Code
+    {
+
+        /// Fax
+        FAXI,
+
+        /// ElectronicDataInterchange
+        EDIC,
+
+        /// UniformResourceIdentifier
+        URID,
+
+        /// EMail
+        EMAL,
+
+        /// Post
+        POST,
+
+        /// SMS
+        SMSM,
+    }
+
     /// Identifies the direct debit sequence, such as first, recurrent, final or one-off.
     [System.SerializableAttribute()]
     [System.Xml.Serialization.XmlTypeAttribute(Namespace = "urn:iso:std:iso:20022:tech:xsd:pain.008.001.02")]
@@ -296,6 +339,68 @@ namespace RCNGCMembersManagementAppLogic.Billing.DirectDebit.ISO20022Elements.Cu
 
         /// OneOff
         OOFF,
+    }
+
+    /// <comentarios/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("xsd", "4.0.30319.17929")]
+    [System.SerializableAttribute()]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace = "urn:iso:std:iso:20022:tech:xsd:pain.008.001.02")]
+    public enum TaxRecordPeriod1Code
+    {
+
+        /// FirstMonth
+        MM01,
+
+        /// SecondMonth
+        MM02,
+
+        /// ThirdMonth
+        MM03,
+
+        /// FourthMont
+        MM04,
+
+        /// FifthMonth
+        MM05,
+
+        /// SixthMonth
+        MM06,
+
+        /// SeventhMonth
+        MM07,
+
+        /// EigthMonth
+        MM08,
+
+        /// NinethMonth
+        MM09,
+
+        /// TenthMonth
+        MM10,
+
+        /// EleventhMonth
+        MM11,
+
+        /// TwelvethMonth
+        MM12,
+
+        /// FirsQuarter
+        QTR1,
+
+        /// SecondQuarter
+        QTR2,
+
+        /// ThirdQuarter
+        QTR3,
+
+        /// FourthQuarter
+        QTR4,
+
+        /// FirstHalf
+        HLF1,
+
+        /// SecondHalf
+        HLF2,
     }
 
 
