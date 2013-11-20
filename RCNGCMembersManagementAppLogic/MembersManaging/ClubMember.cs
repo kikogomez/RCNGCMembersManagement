@@ -17,7 +17,7 @@ namespace RCNGCMembersManagementAppLogic.MembersManaging
         string firstSurname;
         string secondSurname;
         PaymentMethod defaultPaymentMethod;
-        Dictionary<int, DirectDebitMandate> directDebitmandatesList;
+        Dictionary<int, DirectDebitMandate> directDebitmandates;
         Dictionary<string, Invoice> invoicesList;
         Dictionary<string, ProFormaInvoice> proFormaInvoicesList;
         Dictionary<string, AmendingInvoice> amendingInvoicesList;
@@ -64,9 +64,9 @@ namespace RCNGCMembersManagementAppLogic.MembersManaging
             get { return defaultPaymentMethod; }
         }
 
-        public Dictionary<int, DirectDebitMandate> DirectDebitmandatesList
+        public Dictionary<int, DirectDebitMandate> DirectDebitmandates
         {
-            get { return directDebitmandatesList; }
+            get { return directDebitmandates; }
         }
 
         public Dictionary<string, Invoice> InvoicesList
@@ -101,7 +101,7 @@ namespace RCNGCMembersManagementAppLogic.MembersManaging
 
         public void AddDirectDebitMandate(DirectDebitMandate directDebitMandate)
         {
-            directDebitmandatesList.Add(directDebitMandate.InternalReferenceNumber, directDebitMandate);
+            directDebitmandates.Add(directDebitMandate.InternalReferenceNumber, directDebitMandate);
         }
 
         private string GetFullname()
@@ -127,7 +127,7 @@ namespace RCNGCMembersManagementAppLogic.MembersManaging
         private void InitializeBillingData()
         {
             this.defaultPaymentMethod = new CashPaymentMethod();
-            directDebitmandatesList = new Dictionary<int, DirectDebitMandate>();
+            directDebitmandates = new Dictionary<int, DirectDebitMandate>();
             invoicesList = new Dictionary<string, Invoice>();
             proFormaInvoicesList = new Dictionary<string, ProFormaInvoice>();
             amendingInvoicesList = new Dictionary<string, AmendingInvoice>();

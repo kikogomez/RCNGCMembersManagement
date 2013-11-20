@@ -41,14 +41,14 @@ namespace RCNGCMembersManagementSpecFlowBDD
         [Given(@"These Direct Debit Mandates")]
         public void GivenTheseDirectDebitMandates(Table directDebits)
         {
-            directDebitContextData.directDebitMandates = new Dictionary<string, DirectDebitMandate>();
+            directDebitContextData.directDebitMandates = new Dictionary<int, DirectDebitMandate>();
             foreach (var row in directDebits.Rows)
             {
-                string internalReferenceNumber = row["DirectDebitInternalReferenceNumber"];
+                int internalReferenceNumber = int.Parse(row["DirectDebitInternalReferenceNumber"]);
                 string iBAN = (string)row["IBAN"];
                 DateTime creationDate = DateTime.Parse((string)row["RegisterDate"]).Date;
                 BankAccount bankAccount = new BankAccount(new InternationalAccountBankNumberIBAN(iBAN));
-                DirectDebitMandate directDebitmandate = new DirectDebitMandate(int.Parse(internalReferenceNumber),creationDate, bankAccount);
+                DirectDebitMandate directDebitmandate = new DirectDebitMandate(internalReferenceNumber,creationDate, bankAccount);
                 directDebitContextData.directDebitMandates.Add(internalReferenceNumber, directDebitmandate);
             }
         }
@@ -64,7 +64,6 @@ namespace RCNGCMembersManagementSpecFlowBDD
                 directDebitContextData.bankAccounts.Add(iBAN, bankAccount);
             }
         }
-
         
         [Given(@"I have a member")]
         public void GivenIHaveAMember()
@@ -84,7 +83,7 @@ namespace RCNGCMembersManagementSpecFlowBDD
         public void WhenISetDirectDebitAsNewPaymentMethod()
         {
             ClubMember clubMember = (ClubMember)ScenarioContext.Current["Member1"];
-            DirectDebitMandate directDebitMandate = directDebitContextData.directDebitMandates["2345"];
+            DirectDebitMandate directDebitMandate = directDebitContextData.directDebitMandates[2345];
             DirectDebitPaymentMethod directDebitPaymentMethod = new DirectDebitPaymentMethod(directDebitMandate, null);
             ScenarioContext.Current.Add("DirectDebitPaymentMethod", directDebitPaymentMethod);
             clubMember.SetDefaultPaymentMethod(directDebitPaymentMethod);
@@ -98,62 +97,73 @@ namespace RCNGCMembersManagementSpecFlowBDD
             Assert.AreEqual(directDebitPaymentMethod, (DirectDebitPaymentMethod)clubMember.DefaultPaymentMethod);
         }
 
-        [Then(@"The new direct debit reference sequence number is (.*)")]
-        public void ThenTheNewDirectDebitReferenceSequenceNumberIs(int directDebitInternalSequenceNumber)
+        [Given(@"The direct debit reference sequence number is (.*)")]
+        public void GivenTheDirectDebitReferenceSequenceNumberIs(int directDebitSequenceNumber)
         {
-            directDebitContextData.billDataManager.DirectDebitSequenceNumber = (uint)directDebitInternalSequenceNumber;
+            directDebitContextData.billDataManager.DirectDebitSequenceNumber = (uint)directDebitSequenceNumber;
+            
         }
-        
+       
         [When(@"I add a new direct debit mandate to the member")]
         public void WhenIAddANewDirectDebitMandateToTheMember()
         {
             ClubMember clubMember = (ClubMember)ScenarioContext.Current["Member1"];
-            DirectDebitMandate directDebitMandate = directDebitContextData.directDebitMandates["2345"];
+            DateTime creationDate = new DateTime(2013, 11, 11);
+            BankAccount bankAccount = directDebitContextData.bankAccounts["ES6812345678061234567890"];
+            DirectDebitMandate directDebitMandate = new DirectDebitMandate(creationDate, bankAccount);
+            ScenarioContext.Current.Add("DirectDebitMandate", directDebitMandate);
             clubMember.AddDirectDebitMandate(directDebitMandate);
-        }
-        
-
-
-        [Given(@"The direct debit reference sequence number is (.*)")]
-        public void GivenTheDirectDebitReferenceSequenceNumberIs(int directDebitSequenceNumber)
-        {
-            ScenarioContext.Current.Pending();
         }
 
         [Then(@"The new direct debit mandate is correctly assigned")]
         public void ThenTheNewDirectDebitMandateIsCorrectlyAssigned()
         {
-            ScenarioContext.Current.Pending();
+            ClubMember clubMember = (ClubMember)ScenarioContext.Current["Member1"];
+            DirectDebitMandate directDebitMandate = (DirectDebitMandate)ScenarioContext.Current["DirectDebitMandate"];
+            Assert.AreEqual(directDebitMandate, clubMember.DirectDebitmandates[5000]);
         }
 
-
+        [Then(@"The new direct debit reference sequence number is (.*)")]
+        public void ThenTheNewDirectDebitReferenceSequenceNumberIs(int directDebitInternalSequenceNumber)
+        {
+            Assert.AreEqual((uint)directDebitInternalSequenceNumber, directDebitContextData.billDataManager.DirectDebitSequenceNumber);
+        }
 
         [Given(@"I have a direct debit associated to the member")]
         public void GivenIHaveADirectDebitAssociatedToTheMember()
         {
-            ScenarioContext.Current.Pending();
+            ClubMember clubMember = (ClubMember)ScenarioContext.Current["Member1"];
+            DirectDebitMandate directDebitMandate = directDebitContextData.directDebitMandates[2345];
+            clubMember.AddDirectDebitMandate(directDebitMandate);
         }
 
         [When(@"I change the account number of the direct debit")]
         public void WhenIChangeTheAccountNumberOfTheDirectDebit()
         {
-            ScenarioContext.Current.Pending();
+            ClubMember clubMember = (ClubMember)ScenarioContext.Current["Member1"];
+            DateTime changingDate = new DateTime(2013, 12, 01);
+            BankAccount originalBankAccount = clubMember.DirectDebitmandates[2345].BankAccount;
+            ScenarioContext.Current.Add("ChangingBankDate", changingDate);
+            ScenarioContext.Current.Add("OriginalBankAccount", originalBankAccount);
+            BankAccount bankAccount = directDebitContextData.bankAccounts["ES3011112222003333333333"];
+            clubMember.DirectDebitmandates[2345].ChangeBankAccount(bankAccount, changingDate);
         }
 
         [Then(@"The account number is correctly changed")]
         public void ThenTheAccountNumberIsCorrectlyChanged()
         {
-            ScenarioContext.Current.Pending();
+            ClubMember clubMember = (ClubMember)ScenarioContext.Current["Member1"];
+            BankAccount bankAccount = directDebitContextData.bankAccounts["ES3011112222003333333333"];
+            Assert.AreEqual(bankAccount, clubMember.DirectDebitmandates[2345].BankAccount);
         }
 
         [Then(@"The old account number is stored in the account numbers history")]
         public void ThenTheOldAccountNumberIsStoredInTheAccountNumbersHistory()
         {
-            ScenarioContext.Current.Pending();
+            ClubMember clubMember = (ClubMember)ScenarioContext.Current["Member1"];
+            BankAccount originalBankAccount = (BankAccount)ScenarioContext.Current["OriginalBankAccount"];
+            DateTime changingBankDate = (DateTime)ScenarioContext.Current["ChangingBankDate"];
+            Assert.AreEqual(originalBankAccount, clubMember.DirectDebitmandates[2345].BankAccountHistory[changingBankDate].BankAccount);
         }
-
-
-
-
     }
 }

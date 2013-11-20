@@ -41,7 +41,7 @@ namespace RCNGCMembersManagementSpecFlowBDD
 
     public class DirectDebitContextData
     {
-        public Dictionary<string, DirectDebitMandate> directDebitMandates;
+        public Dictionary<int, DirectDebitMandate> directDebitMandates;
         public Dictionary<string, BankAccount> bankAccounts;
         public BillingDataManager billDataManager;
     }
