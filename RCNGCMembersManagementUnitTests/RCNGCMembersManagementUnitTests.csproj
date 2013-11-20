@@ -62,6 +62,7 @@
     <Compile Include="Direct Debit POCO Classes\CreditorAgent_POCOTestClass.cs" />
     <Compile Include="Direct Debit POCO Classes\DirectDebitTransactionInfo_POCOTestClass.cs" />
     <Compile Include="Direct Debit POCO Classes\PaymentInfo_POCOTestClass.cs" />
+    <Compile Include="DirectDebitRemmitanceUnitTest.cs" />
     <Compile Include="DirectDebitUnitTests.cs" />
     <Compile Include="InvoicesManagerUnitTests.cs" />
     <Compile Include="ISO7064UnitTests.cs" />
