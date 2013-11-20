@@ -536,5 +536,150 @@ namespace RCNGCMembersManagementUnitTests
             Assert.AreEqual("Cuota Mensual Numerario Octubre 2013", deserializedDirectDebitTransactionInfo.RmtInf.Ustrd[0]);
         }
 
+        [TestMethod]
+        public void PaymentInformation_PmtInf_IsCorrectlyCreated()
+        {
+            string paymentInformationIdentificaction_PmtInfId = "201402101";  //Private unique ID for payment group
+            DateTime reqCollectionDate_ReqdColltnDt = new DateTime(2014, 2, 01);
+
+            ServiceLevel8Choice serviceLevel_SvcLvl = new ServiceLevel8Choice(
+                "SEPA", ItemChoiceType.Cd);
+
+            LocalInstrument2Choice localInstrument_LclInstrm = new LocalInstrument2Choice(
+                "COR1", ItemChoiceType.Cd);
+
+            CategoryPurpose1Choice categoryOfPurpose_CtgyPurp = new CategoryPurpose1Choice(
+                "Mensualidad", ItemChoiceType.Prtry);
+
+            PaymentTypeInformation20 paymentTypeInformation_PmtTpInf = new PaymentTypeInformation20(
+                Priority2Code.NORM,                 //<InstrPrty> Not used in SEPA COR1, but can't be null
+                false,                              //<InstrPrty> will not be serialized
+                serviceLevel_SvcLvl,                //<SvcLvl>
+                localInstrument_LclInstrm,          //<LclInstrm>
+                SequenceType1Code.RCUR,             //<SeqTp>
+                true,                               //<SeqTP> wll be serialized
+                categoryOfPurpose_CtgyPurp);        //<CtgyPurp>
+
+            PartyIdentification32 creditor_Cdtr = new PartyIdentification32(
+                creditor.Name, null, null, null, null);
+
+            AccountIdentification4Choice creditorAccount_Id = new AccountIdentification4Choice(
+                creditor.IBAN);
+
+            CashAccount16 creditorAccount_CdtrAcct = new CashAccount16(
+                creditorAccount_Id, null, null, null);
+
+            FinancialInstitutionIdentification7 financialInstitutuinIdentification_FinInstnID = new FinancialInstitutionIdentification7(
+                creditorAgent.BIC, null, null, null, null);
+
+            BranchAndFinancialInstitutionIdentification4 creditorAgent_CdtrAgt = new BranchAndFinancialInstitutionIdentification4(
+                financialInstitutuinIdentification_FinInstnID, null);
+
+
+            OrganisationIdentificationSchemeName1Choice orgIDSchemeNameChoice_schmeNm = new OrganisationIdentificationSchemeName1Choice(
+                "SEPA", ItemChoiceType.Prtry);
+
+            GenericOrganisationIdentification1 genericOrganisationIdentification_othr = new GenericOrganisationIdentification1(
+                creditor.Identification, orgIDSchemeNameChoice_schmeNm, null);
+
+            OrganisationIdentification4 organisationIdentification_orgiD = new OrganisationIdentification4(
+                null,
+                new GenericOrganisationIdentification1[] { genericOrganisationIdentification_othr });
+
+            Party6Choice organisationOrPrivateIdentification_id = new Party6Choice(organisationIdentification_orgiD);
+
+            PartyIdentification32 creditorSchemeIdentification_CdtrSchemeId = new PartyIdentification32(
+                null, null, organisationOrPrivateIdentification_id, null, null);
+
+            DirectDebitTransactionInformation9 deserializedDirectDebitTransactionInfo1 = XMLSerializer.XMLDeserializeFromFile<DirectDebitTransactionInformation9>(@"XML Test Files\DirectDebitTransactionInfo.xml", "DrctDbtTxInf", xMLNamespace);
+            DirectDebitTransactionInformation9 deserializedDirectDebitTransactionInfo2 = XMLSerializer.XMLDeserializeFromFile<DirectDebitTransactionInformation9>(@"XML Test Files\DirectDebitTransactionInfo2.xml", "DrctDbtTxInf", xMLNamespace);
+            DirectDebitTransactionInformation9[] directDebitTransactionInfoCollection =
+                new DirectDebitTransactionInformation9[] { deserializedDirectDebitTransactionInfo1, deserializedDirectDebitTransactionInfo2 };
+
+
+            PaymentInstructionInformation4 paymentInformation_PmtInf = new PaymentInstructionInformation4(
+                paymentInformationIdentificaction_PmtInfId, //<PmtInfId>
+                PaymentMethod2Code.DD,                       //<PmtMtd>
+                true,                                       //<BtchBookg> Only one account entry for all payments
+                true,                                       //<BtchBookg> Will be serialized
+                "2",                                        //<NbOfTxs>
+                (decimal)237,                               //<CtrlSum>
+                true,                                       //<CtrlSum> will be specified
+                paymentTypeInformation_PmtTpInf,            //<PmtTpInf>
+                reqCollectionDate_ReqdColltnDt,             //<ReqdColltnDt>
+                creditor_Cdtr,                              //<Cdtr>
+                creditorAccount_CdtrAcct,                   //<CdtrAcc>
+                creditorAgent_CdtrAgt,                      //<CdtrAgt>
+                null,                                       //<CdtrAgtAcct>
+                null,                                       //<UltmtCdtr> Not neccesary. Same than creditor
+                ChargeBearerType1Code.SLEV,                 //<ChrgBr>
+                true,                                       //<ChrgBr> will be serialized
+                null,                                       //<ChrgsAcct> Not used in SEPA COR1
+                null,                                       //<ChrgsAcctAgt> Not used in SEPA COR1
+                creditorSchemeIdentification_CdtrSchemeId,  //<CdtrSchemeId>
+                directDebitTransactionInfoCollection);      //<DrctDbtTxInf>
+
+            string xmlString = XMLSerializer.XMLSerializeToString<PaymentInstructionInformation4>(paymentInformation_PmtInf, "PmtInf", xMLNamespace);
+            string validatingErrors = XMLValidator.ValidateXMLNodeThroughModifiedXSD(
+                "PmtInf", "PaymentInstructionInformation4", xMLNamespace, xmlString, xSDFilePath);
+            Assert.AreEqual("", validatingErrors);
+        }
+
+        [TestMethod]
+        public void PaymentInformation_PmtInf_IsCorrectlyDeserialized()
+        {
+            PaymentInstructionInformation4 paymentInformation_PmtInf = XMLSerializer.XMLDeserializeFromFile<PaymentInstructionInformation4>(@"XML Test Files\PaymentInformation.xml", "PmtInf", xMLNamespace);
+            Assert.AreEqual("201402101", paymentInformation_PmtInf.PmtInfId);
+            Assert.AreEqual(PaymentMethod2Code.DD, paymentInformation_PmtInf.PmtMtd);
+            Assert.AreEqual(true, paymentInformation_PmtInf.BtchBookg);
+            Assert.AreEqual("2", paymentInformation_PmtInf.NbOfTxs);
+            Assert.AreEqual((decimal)237, paymentInformation_PmtInf.CtrlSum);
+            Assert.AreEqual("SEPA", paymentInformation_PmtInf.PmtTpInf.SvcLvl.Item);
+            Assert.AreEqual(ItemChoiceType.Cd, paymentInformation_PmtInf.PmtTpInf.SvcLvl.ItemElementName);
+            Assert.AreEqual("COR1", paymentInformation_PmtInf.PmtTpInf.LclInstrm.Item);
+            Assert.AreEqual(ItemChoiceType.Cd, paymentInformation_PmtInf.PmtTpInf.LclInstrm.ItemElementName);
+            Assert.AreEqual(SequenceType1Code.RCUR, paymentInformation_PmtInf.PmtTpInf.SeqTp);
+            Assert.AreEqual("Mensualidad", paymentInformation_PmtInf.PmtTpInf.CtgyPurp.Item);
+            Assert.AreEqual(ItemChoiceType.Prtry, paymentInformation_PmtInf.PmtTpInf.CtgyPurp.ItemElementName);
+            Assert.AreEqual("2014-02-01", paymentInformation_PmtInf.ReqdColltnDt.ToString("yyyy-MM-dd"));
+            Assert.AreEqual("Real Club Náutico de Gran Canaria", paymentInformation_PmtInf.Cdtr.Nm);
+            Assert.AreEqual("ES6812345678061234567890", paymentInformation_PmtInf.CdtrAcct.Id.Item.ToString());
+            Assert.AreEqual("CASDESBBXXX", paymentInformation_PmtInf.CdtrAgt.FinInstnId.BIC);
+            Assert.AreEqual(ChargeBearerType1Code.SLEV, paymentInformation_PmtInf.ChrgBr);
+            Assert.AreEqual("ES90777G35008770", ((OrganisationIdentification4)paymentInformation_PmtInf.CdtrSchmeId.Id.Item).Othr[0].Id);
+            Assert.AreEqual("SEPA", ((OrganisationIdentification4)paymentInformation_PmtInf.CdtrSchmeId.Id.Item).Othr[0].SchmeNm.Item);
+            Assert.AreEqual(ItemChoiceType.Prtry, ((OrganisationIdentification4)paymentInformation_PmtInf.CdtrSchmeId.Id.Item).Othr[0].SchmeNm.ItemElementName);
+        }
+
+        [TestMethod]
+        public void CustomerDirectDebitInitiationV02_CstmrDrctDbtInitn_IsCorrectlyCreated()
+        {
+            GroupHeader39 groupHeader = XMLSerializer.XMLDeserializeFromFile<GroupHeader39>(@"XML Test Files\GroupHeader.xml", "GrpHdr", xMLNamespace);
+            PaymentInstructionInformation4 paymentInformation_PmtInf = XMLSerializer.XMLDeserializeFromFile<PaymentInstructionInformation4>(@"XML Test Files\PaymentInformation.xml", "PmtInf", xMLNamespace);
+            CustomerDirectDebitInitiationV02 customerDebitInitiationV02_CstmrDrctDbtInitn = new CustomerDirectDebitInitiationV02(
+                groupHeader,                                                                //<GrpHdr>
+                new PaymentInstructionInformation4[] { paymentInformation_PmtInf });          //<PmtInf>
+
+            string xmlString = XMLSerializer.XMLSerializeToString<CustomerDirectDebitInitiationV02>(customerDebitInitiationV02_CstmrDrctDbtInitn, "CstmrDrctDbtInitn", xMLNamespace);
+            string validatingErrors = XMLValidator.ValidateXMLNodeThroughModifiedXSD(
+                "CstmrDrctDbtInitn", "CustomerDirectDebitInitiationV02", xMLNamespace, xmlString, xSDFilePath);
+            Assert.AreEqual("", validatingErrors);
+        }
+
+        [TestMethod]
+        public void Documet_Document_IsCorrectlyCreated()
+        {
+            GroupHeader39 groupHeader = XMLSerializer.XMLDeserializeFromFile<GroupHeader39>(@"XML Test Files\GroupHeader.xml", "GrpHdr", xMLNamespace);
+            PaymentInstructionInformation4 paymentInformation_PmtInf = XMLSerializer.XMLDeserializeFromFile<PaymentInstructionInformation4>(@"XML Test Files\PaymentInformation.xml", "PmtInf", xMLNamespace);
+            CustomerDirectDebitInitiationV02 customerDebitInitiationV02_Document = new CustomerDirectDebitInitiationV02(
+                groupHeader, new PaymentInstructionInformation4[] { paymentInformation_PmtInf });
+
+            Document document_Document = new Document(customerDebitInitiationV02_Document);
+
+            string xmlString = XMLSerializer.XMLSerializeToString<Document>(document_Document, "Document", xMLNamespace);
+            string validatingErrors = XMLValidator.ValidateXMLStringThroughXSDFile(xmlString, xSDFilePath);
+            Assert.AreEqual("", validatingErrors);
+        }
+
     }
 }

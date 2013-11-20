@@ -74,10 +74,12 @@
     <Compile Include="Billing\DirectDebit\ISO20022Elements\CustomerDirectDebitInitiationV02\CreditorReferenceInformation2.cs" />
     <Compile Include="Billing\DirectDebit\ISO20022Elements\CustomerDirectDebitInitiationV02\CreditorReferenceType1Choice.cs" />
     <Compile Include="Billing\DirectDebit\ISO20022Elements\CustomerDirectDebitInitiationV02\CreditorReferenceType2.cs" />
+    <Compile Include="Billing\DirectDebit\ISO20022Elements\CustomerDirectDebitInitiationV02\CustomerDirectDebitInitiationV02.cs" />
     <Compile Include="Billing\DirectDebit\ISO20022Elements\CustomerDirectDebitInitiationV02\DateAndPlaceOfBirth.cs" />
     <Compile Include="Billing\DirectDebit\ISO20022Elements\CustomerDirectDebitInitiationV02\DatePeriodDetails.cs" />
     <Compile Include="Billing\DirectDebit\ISO20022Elements\CustomerDirectDebitInitiationV02\DirectDebitTransaction6.cs" />
     <Compile Include="Billing\DirectDebit\ISO20022Elements\CustomerDirectDebitInitiationV02\DirectDebitTransactionInformation9.cs" />
+    <Compile Include="Billing\DirectDebit\ISO20022Elements\CustomerDirectDebitInitiationV02\Document.cs" />
     <Compile Include="Billing\DirectDebit\ISO20022Elements\CustomerDirectDebitInitiationV02\DocumentAdjustment1.cs" />
     <Compile Include="Billing\DirectDebit\ISO20022Elements\CustomerDirectDebitInitiationV02\Enums.cs" />
     <Compile Include="Billing\DirectDebit\ISO20022Elements\CustomerDirectDebitInitiationV02\FinancialIdentificationSchemeName1Choice.cs" />
@@ -95,6 +97,7 @@
     <Compile Include="Billing\DirectDebit\ISO20022Elements\CustomerDirectDebitInitiationV02\Party6Choice.cs" />
     <Compile Include="Billing\DirectDebit\ISO20022Elements\CustomerDirectDebitInitiationV02\PartyIdentification32.cs" />
     <Compile Include="Billing\DirectDebit\ISO20022Elements\CustomerDirectDebitInitiationV02\PaymentIdentification1.cs" />
+    <Compile Include="Billing\DirectDebit\ISO20022Elements\CustomerDirectDebitInitiationV02\PaymentInstructionInformation4.cs" />
     <Compile Include="Billing\DirectDebit\ISO20022Elements\CustomerDirectDebitInitiationV02\PaymentTypeInformation20.cs" />
     <Compile Include="Billing\DirectDebit\ISO20022Elements\CustomerDirectDebitInitiationV02\PersonIdentification5.cs" />
     <Compile Include="Billing\DirectDebit\ISO20022Elements\CustomerDirectDebitInitiationV02\PersonIdentificationSchemeName1Choice.cs" />
