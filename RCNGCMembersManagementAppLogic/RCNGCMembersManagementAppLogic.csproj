@@ -58,6 +58,7 @@
     <Compile Include="Billing\DirectDebit\DirectDebitInitiationContract.cs" />
     <Compile Include="Billing\DirectDebit\DirectDebitPaymentMethod.cs" />
     <Compile Include="Billing\DirectDebit\DirectDebitMandate.cs" />
+    <Compile Include="Billing\DirectDebit\DirectDebitTransactionInfo.cs" />
     <Compile Include="Billing\DirectDebit\ISO20022Elements\CustomerDirectDebitInitiationV02\AccountIdentification4Choice.cs" />
     <Compile Include="Billing\DirectDebit\ISO20022Elements\CustomerDirectDebitInitiationV02\AccountSchemeName1Choice.cs" />
     <Compile Include="Billing\DirectDebit\ISO20022Elements\CustomerDirectDebitInitiationV02\ActiveOrHistoricCurrencyAndAmount.cs" />

@@ -54,10 +54,10 @@
   </Choose>
   <ItemGroup>
     <Compile Include="ContextPOCOClasses.cs" />
-    <Compile Include="GeneratingDirectDebitRemmitances.feature.cs">
+    <Compile Include="GeneratingDirectDebitRemittances.feature.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>GeneratingDirectDebitRemmitances.feature</DependentUpon>
+      <DependentUpon>GeneratingDirectDebitRemittances.feature</DependentUpon>
     </Compile>
     <Compile Include="GeneratingDirectDebitRemmitancesFeatureSteps.cs" />
     <Compile Include="GeneratingProFormaInvoicesFeatureSteps.cs" />
@@ -114,9 +114,9 @@
     <None Include="App.config">
       <SubType>Designer</SubType>
     </None>
-    <None Include="GeneratingDirectDebitRemmitances.feature">
+    <None Include="GeneratingDirectDebitRemittances.feature">
       <Generator>SpecFlowSingleFileGenerator</Generator>
-      <LastGenOutput>GeneratingDirectDebitRemmitances.feature.cs</LastGenOutput>
+      <LastGenOutput>GeneratingDirectDebitRemittances.feature.cs</LastGenOutput>
     </None>
     <None Include="ManageCreditorInfo.feature">
       <Generator>SpecFlowSingleFileGenerator</Generator>
