@@ -97,8 +97,8 @@ namespace RCNGCMembersManagementSpecFlowBDD
                         "Name",
                         "FirstSurname",
                         "SecondSurname",
-                        "DirectDebitReferenceNumber",
-                        "IBAN",
+                        "Reference",
+                        "Account",
                         "BIC"});
             table2.AddRow(new string[] {
                         "00001",
@@ -106,7 +106,7 @@ namespace RCNGCMembersManagementSpecFlowBDD
                         "Gomez-Caldito",
                         "Viseas",
                         "1234",
-                        "ES1801821234861234567890",
+                        "01821111601111111111",
                         "BBVAESMMXXX"});
             table2.AddRow(new string[] {
                         "00002",
@@ -114,7 +114,7 @@ namespace RCNGCMembersManagementSpecFlowBDD
                         "Perez",
                         "Gomez",
                         "1235",
-                        "ES0321001234561234567890",
+                        "21001111301111111111",
                         "CAIXESBBXXX"});
 #line 12
  testRunner.Given("These Club Members", ((string)(null)), table2, "Given ");

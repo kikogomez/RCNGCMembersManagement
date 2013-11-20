@@ -10,9 +10,9 @@ Background:
 	| G35008770 | Real Club Náutico de Gran Canaria | CAIXESBBXXX | CAIXABANK         | 2100          | 777                  | ES5621001111301111111111 |
 
 	Given These Club Members
-	| MemberID | Name      | FirstSurname  | SecondSurname | DirectDebitReferenceNumber | IBAN                     | BIC         |
-	| 00001    | Francisco | Gomez-Caldito | Viseas        | 1234                       | ES1801821234861234567890 | BBVAESMMXXX |
-	| 00002    | Pedro     | Perez         | Gomez         | 1235                       | ES0321001234561234567890 | CAIXESBBXXX |
+	| MemberID | Name      | FirstSurname  | SecondSurname | Reference | Account              | BIC         |
+	| 00001    | Francisco | Gomez-Caldito | Viseas        | 1234      | 01821111601111111111 | BBVAESMMXXX |
+	| 00002    | Pedro     | Perez         | Gomez         | 1235      | 21001111301111111111 | CAIXESBBXXX |
 
 	Given These bills
 	| MemberID | TransactionConcept           | Amount |
