@@ -17,6 +17,7 @@ namespace RCNGCMembersManagementUnitTests
         static Dictionary<string, ClubMember> clubMembers;
         static Creditor creditor;
         static CreditorAgent creditorAgent;
+        static DirectDebitInitiationContract directDebitInitiationContract;
         static InvoicesManager invoicesManager;
 
         BillingDataManager billingDataManager;
@@ -38,6 +39,11 @@ namespace RCNGCMembersManagementUnitTests
             };
             creditor = new Creditor("G35008770", "Real Club Náutico de Gran Canaria");
             creditorAgent = new CreditorAgent(new BankCode("2100", "CaixaBank","CAIXESBBXXX"));
+            directDebitInitiationContract = new DirectDebitInitiationContract(
+                new BankAccount(new InternationalAccountBankNumberIBAN("ES5621001111301111111111")),
+                creditor.NIF,
+                "777",
+                creditorAgent);
 
             var billsList = new[]
             {
@@ -62,10 +68,10 @@ namespace RCNGCMembersManagementUnitTests
         [TestMethod]
         public void ADirectDebittRemmitanceInstanceIsCorrectlyCreated()
         {
-            //DateTime creationDate =
-            //DirectDebitRemmitance directDebitRemmitance = new DirectDebitRemmitance(
-
-
+            DateTime creationDate = new DateTime(2013, 11, 30, 7, 15, 0);
+            DirectDebitRemmitance directDebitRemmitance = new DirectDebitRemmitance(creationDate, directDebitInitiationContract);
+            string expectedMandateId = "MSG-ES90777G35008770-2013113007:15:00";
+            Assert.AreEqual(expectedMandateId, directDebitRemmitance.MessageID);
         }
     }
 }
