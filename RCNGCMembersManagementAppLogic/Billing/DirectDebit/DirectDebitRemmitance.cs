@@ -3,9 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using RCNGCMembersManagementAppLogic.Billing.DirectDebit;
 
-namespace RCNGCMembersManagementAppLogic
+namespace RCNGCMembersManagementAppLogic.Billing.DirectDebit
 {
     public class DirectDebitRemmitance
     {
@@ -13,7 +12,7 @@ namespace RCNGCMembersManagementAppLogic
         DateTime creationDateTime;
         int numberOfTransactions;
         double controlSum;
-        Dictionary<string, DirectDebitTransactionGroupPaymentInfo> directDebitTransactionGroupPaymentInfo;
+        Dictionary<string, DirectDebitTransactionsGroupPayment> directDebitTransactionGroupPayment;
         DirectDebitInitiationContract directDebitInitiationContract;
 
         public DirectDebitRemmitance(
@@ -28,6 +27,16 @@ namespace RCNGCMembersManagementAppLogic
         public string MessageID
         {
             get { return messageID; }
+        }
+
+        public DateTime CreationDate
+        {
+            get { return creationDateTime; }
+        }
+
+        public DirectDebitInitiationContract DirectDebitInitiationContract
+        {
+            get { return directDebitInitiationContract; }
         }
 
         private void GenerateRemmitanceID()

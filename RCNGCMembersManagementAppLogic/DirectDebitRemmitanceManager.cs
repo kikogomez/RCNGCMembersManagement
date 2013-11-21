@@ -4,9 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace RCNGCMembersManagementAppLogic.Billing.DirectDebit
+namespace RCNGCMembersManagementAppLogic
 {
-    public class DirectDebitTransactionInfo
+    public class DirectDebitRemmitanceManager
     {
+
     }
 }
