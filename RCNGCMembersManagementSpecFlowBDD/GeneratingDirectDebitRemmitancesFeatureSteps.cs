@@ -16,6 +16,7 @@ namespace RCNGCMembersManagementSpecFlowBDD
         private readonly MembersManagementContextData membersManagementContextData;
         private readonly InvoiceContextData invoiceContextData;
         private InvoicesManager invoicesManager;
+        private DirectDebitRemittanceManager directDebitRemmitancesManager;
 
         public GeneratingDirectDebitRemmitancesFeatureSteps(
             MembersManagementContextData membersManagementContextData,
@@ -113,6 +114,7 @@ namespace RCNGCMembersManagementSpecFlowBDD
         [When(@"I generate a new direct debit remmitance")]
         public void WhenIGenerateANewDirectDebitRemmitance()
         {
+
             ScenarioContext.Current.Pending();
         }
         

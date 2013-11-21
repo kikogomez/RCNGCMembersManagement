@@ -128,8 +128,8 @@
     <Compile Include="Billing\Payment.cs" />
     <Compile Include="Billing\PaymentAgreement.cs" />
     <Compile Include="BillsManager.cs" />
-    <Compile Include="Billing\DirectDebit\DirectDebitRemmitance.cs" />
-    <Compile Include="DirectDebitRemmitanceManager.cs" />
+    <Compile Include="Billing\DirectDebit\DirectDebitRemittance.cs" />
+    <Compile Include="DirectDebitRemittanceManager.cs" />
     <Compile Include="IMembersSequenceNumberManager.cs" />
     <Compile Include="InvoicesManager.cs" />
     <Compile Include="IBillingSequenceNumbersManager.cs" />

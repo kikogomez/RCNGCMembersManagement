@@ -19,6 +19,7 @@ namespace RCNGCMembersManagementUnitTests
         static Creditor creditor;
         static CreditorAgent creditorAgent;
         static DirectDebitInitiationContract directDebitInitiationContract;
+        static BankCodes spanishBankCodes;
         static InvoicesManager invoicesManager;
 
         //BillingDataManager billingDataManager;
@@ -80,13 +81,15 @@ namespace RCNGCMembersManagementUnitTests
                 Invoice invoice = new Invoice(invoiceCustomerData, transaction, new DateTime(2013, 11, 11));
                 invoicesManager.AddInvoiceToClubMember(invoice, clubMember);
             }
+
+            spanishBankCodes = new BankCodes(@"XMLFiles\SpanishBankCodes.xml", BankCodes.BankCodesFileFormat.XML);
         }
 
         [TestMethod]
         public void ADirectDebittRemmitanceInstanceIsCorrectlyCreated()
         {
             DateTime creationDate = new DateTime(2013, 11, 30, 7, 15, 0);
-            DirectDebitRemmitance directDebitRemmitance = new DirectDebitRemmitance(creationDate, directDebitInitiationContract);
+            DirectDebitRemittance directDebitRemmitance = new DirectDebitRemittance(creationDate, directDebitInitiationContract);
             string expectedMandateId = "MSG-ES90777G35008770-2013113007:15:00";
             Assert.AreEqual(expectedMandateId, directDebitRemmitance.MessageID);
             Assert.AreEqual(creationDate, directDebitRemmitance.CreationDate);
@@ -150,8 +153,27 @@ namespace RCNGCMembersManagementUnitTests
             BankAccount debtorAccount = directDebitMandate.BankAccount;
             DirectDebitTransaction directDebitTransaction = new DirectDebitTransaction(bills, internalDirectDebitReferenceNumber, debtorAccount);
             directDebitTransactionsGroupPayment.AddDirectDebitTransaction(directDebitTransaction);
-            //Assert.AreEqual(1, directDebitTransactionsGroupPayment.
+            Assert.AreEqual(1, directDebitTransactionsGroupPayment.NumberOfDirectDebitTransactions);
+            Assert.AreEqual((decimal)79, directDebitTransactionsGroupPayment.TotalAmount);
         }
+
+        [TestMethod]
+        public void APaymentGroupIsCorrectlyAddedToADirectDebitRemmitance()
+        {
+            DateTime creationDate = new DateTime(2013, 11, 30, 7, 15, 0);
+            DirectDebitRemittance directDebitRemmitance = new DirectDebitRemittance(creationDate, directDebitInitiationContract);
+            string localInstrument = "COR1";
+            DirectDebitTransactionsGroupPayment directDebitTransactionsGroupPayment = new DirectDebitTransactionsGroupPayment(localInstrument);
+            directDebitRemmitance.AddDirectDebitTransactionsGroupPayment(directDebitTransactionsGroupPayment);
+            Assert.AreEqual(1, directDebitRemmitance.DirectDebitTransactionGroupPaymentCollection.Count);
+        }
+
+        [TestMethod]
+        public void WhenGeneratingTheDirectDebitRemmitanceAllsumsAreCheckedAndAllInternalIDsAreCreated() //Actualizar los ID al generar el mensaje 
+        {
+            Assert.Inconclusive();
+        }
+
 
         [TestMethod]
         public void GeneratingTheMessageThePaymentIDAndTheDirectDebitRemmitanceIDsAreGenerated() //Actualizar los ID al generar el mensaje 
