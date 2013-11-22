@@ -17,7 +17,7 @@ namespace RCNGCMembersManagementAppLogic.Billing.DirectDebit
         {
             this.creditorAccount = creditorAccount;
             this.creditorBusinessCode = creditorBusinessCode;
-            GenerateCreditID(nIF,creditorBusinessCode);
+            GenerateCreditorID(nIF,creditorBusinessCode);
             this.creditorAgent = creditorAgent;
         }
 
@@ -48,7 +48,7 @@ namespace RCNGCMembersManagementAppLogic.Billing.DirectDebit
             this.creditorAccount = creditorAccount;
         }
 
-        private void GenerateCreditID(string nIF, string creditorBusinessCode)
+        private void GenerateCreditorID(string nIF, string creditorBusinessCode)
         {
             SEPAAttributes sEPAAttributes = new SEPAAttributes();
             creditorID = sEPAAttributes.AT02CreditorIdentifier("ES", nIF, creditorBusinessCode);

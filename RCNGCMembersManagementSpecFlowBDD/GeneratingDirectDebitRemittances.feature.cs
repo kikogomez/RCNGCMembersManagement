@@ -290,6 +290,28 @@ this.FeatureBackground();
 #line hidden
             this.ScenarioCleanup();
         }
+        
+        [Microsoft.VisualStudio.TestTools.UnitTesting.TestMethodAttribute()]
+        [Microsoft.VisualStudio.TestTools.UnitTesting.DescriptionAttribute("Generating SEPA ISO20022 XML CustomerDirectDebitInitiation Message form a Direct " +
+            "Debit Remmitance")]
+        [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("FeatureTitle", "Generating Direct Debit Remmitances")]
+        public virtual void GeneratingSEPAISO20022XMLCustomerDirectDebitInitiationMessageFormADirectDebitRemmitance()
+        {
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Generating SEPA ISO20022 XML CustomerDirectDebitInitiation Message form a Direct " +
+                    "Debit Remmitance", ((string[])(null)));
+#line 62
+this.ScenarioSetup(scenarioInfo);
+#line 6
+this.FeatureBackground();
+#line 63
+ testRunner.Given("I have a prepared Direct Debit Remmitance", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+#line 64
+ testRunner.When("I generate de SEPA ISO200022 XML CustomerDirectDebitInitiation message", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#line 65
+ testRunner.Then("The message is correctly created", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line hidden
+            this.ScenarioCleanup();
+        }
     }
 }
 #pragma warning restore

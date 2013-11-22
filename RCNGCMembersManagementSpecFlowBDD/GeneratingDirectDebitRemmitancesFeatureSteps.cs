@@ -320,6 +320,51 @@ namespace RCNGCMembersManagementSpecFlowBDD
             Assert.AreEqual(controlSum, directDebitRemmitance.ControlSum);
         }
 
+        [Given(@"I have a prepared Direct Debit Remmitance")]
+        public void GivenIHaveAPreparedDirectDebitRemmitance()
+        {
+            DateTime creationDate = new DateTime(2013, 11, 11);
+            DirectDebitInitiationContract directDebitInitiationContract = (DirectDebitInitiationContract)ScenarioContext.Current["DirectDebitInitiationContract"];
+            DirectDebitRemittance directDebitRemmitance = directDebitRemittancesManager.CreateADirectDebitRemmitance(creationDate, directDebitInitiationContract);
+            DirectDebitTransactionsGroupPayment directDebitTransactionsGroupPayment =
+                directDebitRemittancesManager.CreateANewGroupOfDirectDebitTransactions("COR1");
+            
+            List<ClubMember> clubMembers = ((Dictionary<string, ClubMember>)ScenarioContext.Current["Members"]).Values.ToList();
+            int transactionsCounter = 0;
+            foreach (ClubMember clubMember in clubMembers)
+            {
+                DirectDebitMandate directDebitmandate = clubMember.DirectDebitmandates.Values.ElementAt(0);
+                DirectDebitTransaction directDebitTransaction = directDebitRemittancesManager.CreateANewEmptyDirectDebitTransaction(directDebitmandate);
+                transactionsCounter++;
+                directDebitTransaction.GenerateDirectDebitTransactionInternalReference(transactionsCounter);
+                directDebitTransaction.GenerateMandateID(directDebitInitiationContract.CreditorBussinessCode);
+                foreach (Invoice invoice in clubMember.InvoicesList.Values)
+                {
+                    Bill bill = invoice.Bills.Values.ElementAt(0);
+                    directDebitRemittancesManager.AddBilllToExistingDirectDebitTransaction(directDebitTransaction, bill);
+                }
+                directDebitRemittancesManager.AddDirectDebitTransactionToGroupPayment(
+                    directDebitTransaction, directDebitTransactionsGroupPayment);
+            }
+            directDebitRemittancesManager.AddDirectDebitTransactionGroupPaymentToDirectDebitRemittance(
+                directDebitRemmitance, directDebitTransactionsGroupPayment);
+            directDebitTransactionsGroupPayment.GeneratePaymentInformationID(1);
+            ScenarioContext.Current.Add("DirectDebitRemittance", directDebitRemmitance);
+        }
+
+        [When(@"I generate de SEPA ISO(.*) XML CustomerDirectDebitInitiation message")]
+        public void WhenIGenerateDeSEPAISOXMLCustomerDirectDebitInitiationMessage(int p0)
+        {
+            ScenarioContext.Current.Pending();
+        }
+
+        [Then(@"The message is correctly created")]
+        public void ThenTheMessageIsCorrectlyCreated()
+        {
+            ScenarioContext.Current.Pending();
+        }
+
+
 
     }
 }

@@ -96,6 +96,20 @@ namespace RCNGCMembersManagementUnitTests
         }
 
         [TestMethod]
+        public void AnEmptyDirectDebitTransactionIsCorrectlyCreated()
+        {
+            ClubMember clubMember = clubMembers["00002"];
+            DirectDebitMandate directDebitMandate = clubMembers["00002"].DirectDebitmandates.ElementAt(0).Value;
+            int internalDirectDebitReferenceNumber = directDebitMandate.InternalReferenceNumber;
+            BankAccount debtorAccount = directDebitMandate.BankAccount;
+            DateTime mandateSignatureDate = directDebitMandate.DirectDebitMandateCreationDate;
+            DirectDebitTransaction directDebitTransaction = new DirectDebitTransaction(internalDirectDebitReferenceNumber, debtorAccount, mandateSignatureDate);
+            Assert.AreEqual(internalDirectDebitReferenceNumber, directDebitTransaction.InternalDirectDebitReferenceNumber);
+            Assert.AreEqual(debtorAccount, directDebitTransaction.DebtorAccount);
+            Assert.AreEqual(0, directDebitTransaction.NumberOfBills);
+        }
+
+        [TestMethod]
         public void ADirectDebitTransactionIsCorrectlyCreated()
         {
             ClubMember clubMember = clubMembers["00002"];
@@ -104,7 +118,8 @@ namespace RCNGCMembersManagementUnitTests
             DirectDebitMandate directDebitMandate = clubMembers["00002"].DirectDebitmandates.ElementAt(0).Value;
             int internalDirectDebitReferenceNumber = directDebitMandate.InternalReferenceNumber;
             BankAccount debtorAccount = directDebitMandate.BankAccount;
-            DirectDebitTransaction directDebitTransaction = new DirectDebitTransaction(bills, internalDirectDebitReferenceNumber, debtorAccount);
+            DateTime mandateSignatureDate = directDebitMandate.DirectDebitMandateCreationDate;
+            DirectDebitTransaction directDebitTransaction = new DirectDebitTransaction(bills, internalDirectDebitReferenceNumber, debtorAccount, mandateSignatureDate);
             Assert.AreEqual(bills, directDebitTransaction.BillsInTransaction);
             Assert.AreEqual(internalDirectDebitReferenceNumber, directDebitTransaction.InternalDirectDebitReferenceNumber);
             Assert.AreEqual(debtorAccount, directDebitTransaction.DebtorAccount);
@@ -121,7 +136,8 @@ namespace RCNGCMembersManagementUnitTests
             DirectDebitMandate directDebitMandate = clubMembers["00002"].DirectDebitmandates.ElementAt(0).Value;
             int internalDirectDebitReferenceNumber = directDebitMandate.InternalReferenceNumber;
             BankAccount debtorAccount = directDebitMandate.BankAccount;
-            DirectDebitTransaction directDebitTransaction = new DirectDebitTransaction(bills, internalDirectDebitReferenceNumber, debtorAccount);
+            DateTime mandateSignatureDate = directDebitMandate.DirectDebitMandateCreationDate;
+            DirectDebitTransaction directDebitTransaction = new DirectDebitTransaction(bills, internalDirectDebitReferenceNumber, debtorAccount, mandateSignatureDate);
             Assert.AreEqual((decimal)79, directDebitTransaction.Amount);
             Assert.AreEqual(1, directDebitTransaction.NumberOfBills);
             Invoice secondInvoice = clubMember.InvoicesList.Values.ElementAt(1);
@@ -151,7 +167,8 @@ namespace RCNGCMembersManagementUnitTests
             DirectDebitMandate directDebitMandate = clubMembers["00002"].DirectDebitmandates.ElementAt(0).Value;
             int internalDirectDebitReferenceNumber = directDebitMandate.InternalReferenceNumber;
             BankAccount debtorAccount = directDebitMandate.BankAccount;
-            DirectDebitTransaction directDebitTransaction = new DirectDebitTransaction(bills, internalDirectDebitReferenceNumber, debtorAccount);
+            DateTime mandateSignatureDate = directDebitMandate.DirectDebitMandateCreationDate;
+            DirectDebitTransaction directDebitTransaction = new DirectDebitTransaction(bills, internalDirectDebitReferenceNumber, debtorAccount, mandateSignatureDate);
             directDebitTransactionsGroupPayment.AddDirectDebitTransaction(directDebitTransaction);
             Assert.AreEqual(1, directDebitTransactionsGroupPayment.NumberOfDirectDebitTransactions);
             Assert.AreEqual((decimal)79, directDebitTransactionsGroupPayment.TotalAmount);
@@ -187,7 +204,8 @@ namespace RCNGCMembersManagementUnitTests
             DirectDebitMandate directDebitMandate = clubMembers["00002"].DirectDebitmandates.ElementAt(0).Value;
             int internalDirectDebitReferenceNumber = directDebitMandate.InternalReferenceNumber;
             BankAccount debtorAccount = directDebitMandate.BankAccount;
-            DirectDebitTransaction directDebitTransaction = new DirectDebitTransaction(bills, internalDirectDebitReferenceNumber, debtorAccount);
+            DateTime mandateSignatureDate = directDebitMandate.DirectDebitMandateCreationDate;
+            DirectDebitTransaction directDebitTransaction = new DirectDebitTransaction(bills, internalDirectDebitReferenceNumber, debtorAccount, mandateSignatureDate);
             directDebitTransaction.GenerateDirectDebitTransactionInternalReference(sequenceNumber);
             Assert.AreEqual("000001", directDebitTransaction.DirectDebitTransactionInternalReference);
         }
@@ -201,24 +219,11 @@ namespace RCNGCMembersManagementUnitTests
             DirectDebitMandate directDebitMandate = clubMembers["00002"].DirectDebitmandates.ElementAt(0).Value;
             int internalDirectDebitReferenceNumber = directDebitMandate.InternalReferenceNumber;
             BankAccount debtorAccount = directDebitMandate.BankAccount;
-            DirectDebitTransaction directDebitTransaction = new DirectDebitTransaction(bills, internalDirectDebitReferenceNumber, debtorAccount);
+            DateTime mandateSignatureDate = directDebitMandate.DirectDebitMandateCreationDate;
+            DirectDebitTransaction directDebitTransaction = new DirectDebitTransaction(bills, internalDirectDebitReferenceNumber, debtorAccount, mandateSignatureDate);
             Assert.AreEqual(1235, directDebitTransaction.InternalDirectDebitReferenceNumber);
             directDebitTransaction.GenerateMandateID("777");
             Assert.AreEqual("000077701235                       ", directDebitTransaction.MandateID);
         }
-
-        [TestMethod]
-        public void WhenGeneratingTheDirectDebitRemmitanceAllSumsAreCheckedAndAllInternalIDsAreCreated() //Actualizar los ID al generar el mensaje 
-        {
-            Assert.Inconclusive();
-        }
-
-
-        [TestMethod]
-        public void WhenGeneratingTeDirectDebitRemitanceTheMMandateIDsAreCalculatedFrominternalReferencenumbers() //Actualizar los ID al generar el mensaje 
-        {
-            Assert.Inconclusive();
-        }
-
     }
 }

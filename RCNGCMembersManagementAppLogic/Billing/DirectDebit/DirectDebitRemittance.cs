@@ -63,7 +63,8 @@ namespace RCNGCMembersManagementAppLogic.Billing.DirectDebit
 
         public void UpdateNumberOfDirectDebitTransactionsAndAmount()
         {
-            this.numberOfTransactions = directDebitTransactionGroupPaymentCollection.Count;
+            this.numberOfTransactions = 
+                directDebitTransactionGroupPaymentCollection.Select(dDTxGPC => dDTxGPC.NumberOfDirectDebitTransactions).Sum();
             this.controlSum = directDebitTransactionGroupPaymentCollection.Select(
                 directDebitTransactionGroupPayment => directDebitTransactionGroupPayment.TotalAmount).Sum();
         }

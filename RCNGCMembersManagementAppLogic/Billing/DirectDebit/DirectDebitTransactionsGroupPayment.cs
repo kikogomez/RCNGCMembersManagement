@@ -41,6 +41,11 @@ namespace RCNGCMembersManagementAppLogic.Billing.DirectDebit
             get { return totalAmount; }
         }
 
+        public List<DirectDebitTransaction> DirectDebitTransactionsCollection
+        {
+            get { return directDebitTransactionsCollection; }
+        }
+
         public void UpdateNumberOfDirectDebitTransactionsAndAmount()
         {
             this.numberOfDirectDebitTransactions = directDebitTransactionsCollection.Count;
