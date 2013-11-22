@@ -14,23 +14,25 @@ namespace RCNGCMembersManagementAppLogic.Billing.DirectDebit
         int internalReferenceNumber;
         DateTime directDebitMandateCreationDate;
         BankAccount bankAccount;
+        string accountHolderName;
         DateTime bankAccountActivationDate;
         Dictionary<DateTime, BankAccountHistoricalData> bankAccountHistory;
 
-        public DirectDebitMandate(int internalReferenceNumber, DateTime directDebitMandateCreationDate, BankAccount bankAccount, string debtorName)
+        public DirectDebitMandate(int internalReferenceNumber, DateTime directDebitMandateCreationDate, BankAccount bankAccount, string accountHolderName)
         {
             this.billingDataManager = BillingDataManager.Instance;
 
             this.status = DirectDebitmandateStatus.Active;
             this.directDebitMandateCreationDate = directDebitMandateCreationDate;
             this.bankAccount = bankAccount;
+            this.accountHolderName = accountHolderName;
             this.bankAccountActivationDate = directDebitMandateCreationDate;
             bankAccountHistory = new Dictionary<DateTime, BankAccountHistoricalData>();
             SetInternalReferenceNumber(internalReferenceNumber);
         }
 
-        public DirectDebitMandate(DateTime directDebitMandateCreationDate, BankAccount bankAccount, string debtorName)
-            : this(1, directDebitMandateCreationDate, bankAccount, debtorName)
+        public DirectDebitMandate(DateTime directDebitMandateCreationDate, BankAccount bankAccount, string accountHolderName)
+            : this(1, directDebitMandateCreationDate, bankAccount, accountHolderName)
         {
             GetInternalReferenceSequenceNumber();
         }
@@ -55,6 +57,11 @@ namespace RCNGCMembersManagementAppLogic.Billing.DirectDebit
         public BankAccount BankAccount
         {
             get { return bankAccount; }
+        }
+
+        public string AccountHolderName
+        {
+            get { return accountHolderName; }
         }
 
         public DateTime BankAccountActivationDate

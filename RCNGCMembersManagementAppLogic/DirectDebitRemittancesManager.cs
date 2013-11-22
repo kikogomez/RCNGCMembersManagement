@@ -33,6 +33,7 @@ namespace RCNGCMembersManagementAppLogic
             DirectDebitTransaction directDebitTransaction = new DirectDebitTransaction(
                 directDebitmandate.InternalReferenceNumber,
                 directDebitmandate.BankAccount,
+                directDebitmandate.AccountHolderName,
                 directDebitmandate.DirectDebitMandateCreationDate);
             return directDebitTransaction;
         }
@@ -43,6 +44,7 @@ namespace RCNGCMembersManagementAppLogic
                 billsList,
                 directDebitmandate.InternalReferenceNumber,
                 directDebitmandate.BankAccount,
+                directDebitmandate.AccountHolderName,
                 directDebitmandate.DirectDebitMandateCreationDate);
             return directDebitTransaction;
         }

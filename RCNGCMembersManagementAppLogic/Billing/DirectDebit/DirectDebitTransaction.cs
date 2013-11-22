@@ -12,26 +12,28 @@ namespace RCNGCMembersManagementAppLogic.Billing.DirectDebit
         List<Bill> billsInTransaction;
         int internalDirectDebitReferenceNumber;
         BankAccount debtorAccount;
-        string debtorName;
+        string accountHolderName;
         DateTime mandateSignatureDate;
         string mandateID;
 
         decimal totalAmount;
         int numberOfBills;
 
-        public DirectDebitTransaction(List<Bill> billsInTransaction, int internalDirectDebitReferenceNumber, BankAccount debtorAccount, DateTime mandateSignatureDate)
+        public DirectDebitTransaction(List<Bill> billsInTransaction, int internalDirectDebitReferenceNumber, BankAccount debtorAccount, string accountHolderName, DateTime mandateSignatureDate)
         {
             this.billsInTransaction = billsInTransaction;
             this.internalDirectDebitReferenceNumber = internalDirectDebitReferenceNumber;
             this.debtorAccount = debtorAccount;
+            this.accountHolderName = accountHolderName;
             this.mandateSignatureDate = mandateSignatureDate;
             UpdateAmountAndNumberOfBills();
         }
 
-        public DirectDebitTransaction(int internalDirectDebitReferenceNumber, BankAccount debtorAccount, DateTime mandateSignatureDate)
+        public DirectDebitTransaction(int internalDirectDebitReferenceNumber, BankAccount debtorAccount, string accountHolderName, DateTime mandateSignatureDate)
         {
             this.internalDirectDebitReferenceNumber = internalDirectDebitReferenceNumber;
             this.debtorAccount = debtorAccount;
+            this.accountHolderName = accountHolderName;
             this.mandateSignatureDate = mandateSignatureDate;
             billsInTransaction = new List<Bill>();
         }
