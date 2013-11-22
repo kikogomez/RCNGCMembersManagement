@@ -355,7 +355,7 @@ namespace RCNGCMembersManagementUnitTests.Billing
             int internalReferenceNumber = 2645;
             BankAccount bankAccount = new BankAccount(new ClientAccountCodeCCC("12345678061234567890"));
             DateTime directDebitMandateCreationDate = new DateTime(2013, 11, 11);
-            DirectDebitMandate directDebitMandate = new DirectDebitMandate(internalReferenceNumber, directDebitMandateCreationDate, bankAccount);
+            DirectDebitMandate directDebitMandate = new DirectDebitMandate(internalReferenceNumber, directDebitMandateCreationDate, bankAccount, "NoName");
             string directDebitTransactionPaymentIdentification = "201311110000123456";
             DirectDebitPaymentMethod directDebitPaymentMethod = new DirectDebitPaymentMethod(directDebitMandate, directDebitTransactionPaymentIdentification);
             Assert.AreEqual(directDebitMandate, directDebitPaymentMethod.DirectDebitMandate);
@@ -369,7 +369,7 @@ namespace RCNGCMembersManagementUnitTests.Billing
             int internalReferenceNumber = 2645;
             BankAccount bankAccount = new BankAccount(new ClientAccountCodeCCC("12345678061234567890"));
             DateTime directDebitMandateCreationDate = new DateTime(2013, 11, 11);
-            DirectDebitMandate directDebitMandate = new DirectDebitMandate(internalReferenceNumber, directDebitMandateCreationDate, bankAccount);
+            DirectDebitMandate directDebitMandate = new DirectDebitMandate(internalReferenceNumber, directDebitMandateCreationDate, bankAccount, "NoName");
             string directDebitTransactionPaymentIdentification = "201311110000123456";
             DirectDebitPaymentMethod directDebitPaymentMethod = new DirectDebitPaymentMethod(directDebitMandate, directDebitTransactionPaymentIdentification);
             DateTime paymentDate = new DateTime(2013, 11, 11);
@@ -385,7 +385,7 @@ namespace RCNGCMembersManagementUnitTests.Billing
             int internalReferenceNumber = 2645;
             BankAccount bankAccount = new BankAccount(new ClientAccountCodeCCC("12345678061234567890"));
             DateTime directDebitMandateCreationDate = new DateTime(2013, 11, 11);
-            DirectDebitMandate directDebitMandate = new DirectDebitMandate(internalReferenceNumber, directDebitMandateCreationDate, bankAccount);
+            DirectDebitMandate directDebitMandate = new DirectDebitMandate(internalReferenceNumber, directDebitMandateCreationDate, bankAccount, "NoName");
             string directDebitTransactionPaymentIdentification = "201311110000123456";
             DirectDebitPaymentMethod directDebitTransfermethod = new DirectDebitPaymentMethod(directDebitMandate, directDebitTransactionPaymentIdentification);
             DateTime paymentDate = new DateTime(2013, 11, 11);

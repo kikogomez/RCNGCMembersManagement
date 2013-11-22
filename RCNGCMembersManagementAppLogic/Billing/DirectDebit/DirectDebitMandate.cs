@@ -17,7 +17,7 @@ namespace RCNGCMembersManagementAppLogic.Billing.DirectDebit
         DateTime bankAccountActivationDate;
         Dictionary<DateTime, BankAccountHistoricalData> bankAccountHistory;
 
-        public DirectDebitMandate(int internalReferenceNumber, DateTime directDebitMandateCreationDate, BankAccount bankAccount)
+        public DirectDebitMandate(int internalReferenceNumber, DateTime directDebitMandateCreationDate, BankAccount bankAccount, string debtorName)
         {
             this.billingDataManager = BillingDataManager.Instance;
 
@@ -29,8 +29,8 @@ namespace RCNGCMembersManagementAppLogic.Billing.DirectDebit
             SetInternalReferenceNumber(internalReferenceNumber);
         }
 
-        public DirectDebitMandate(DateTime directDebitMandateCreationDate, BankAccount bankAccount)
-            : this(1, directDebitMandateCreationDate, bankAccount)
+        public DirectDebitMandate(DateTime directDebitMandateCreationDate, BankAccount bankAccount, string debtorName)
+            : this(1, directDebitMandateCreationDate, bankAccount, debtorName)
         {
             GetInternalReferenceSequenceNumber();
         }

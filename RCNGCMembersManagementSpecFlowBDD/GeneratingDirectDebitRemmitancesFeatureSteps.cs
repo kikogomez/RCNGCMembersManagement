@@ -76,7 +76,8 @@ namespace RCNGCMembersManagementSpecFlowBDD
                 DirectDebitMandate directDebitMandate = new DirectDebitMandate(
                     directDebitReferenceNumber,
                     mandateCreationDate,
-                    memberAccount);
+                    memberAccount,
+                    clubMember.FullName);
                 clubMember.AddDirectDebitMandate(directDebitMandate);
                 membersCollection.Add(clubMember.MemberID, clubMember);
             }

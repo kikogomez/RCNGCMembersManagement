@@ -48,7 +48,8 @@ namespace RCNGCMembersManagementSpecFlowBDD
                 string iBAN = (string)row["IBAN"];
                 DateTime creationDate = DateTime.Parse((string)row["RegisterDate"]).Date;
                 BankAccount bankAccount = new BankAccount(new InternationalAccountBankNumberIBAN(iBAN));
-                DirectDebitMandate directDebitmandate = new DirectDebitMandate(internalReferenceNumber,creationDate, bankAccount);
+                string debtorName = membersManagementContextData.clubMember.FullName;
+                DirectDebitMandate directDebitmandate = new DirectDebitMandate(internalReferenceNumber, creationDate, bankAccount, debtorName);
                 directDebitContextData.directDebitMandates.Add(internalReferenceNumber, directDebitmandate);
             }
         }
@@ -110,7 +111,7 @@ namespace RCNGCMembersManagementSpecFlowBDD
             ClubMember clubMember = (ClubMember)ScenarioContext.Current["Member1"];
             DateTime creationDate = new DateTime(2013, 11, 11);
             BankAccount bankAccount = directDebitContextData.bankAccounts["ES6812345678061234567890"];
-            DirectDebitMandate directDebitMandate = new DirectDebitMandate(creationDate, bankAccount);
+            DirectDebitMandate directDebitMandate = new DirectDebitMandate(creationDate, bankAccount, clubMember.FullName);
             ScenarioContext.Current.Add("DirectDebitMandate", directDebitMandate);
             clubMember.AddDirectDebitMandate(directDebitMandate);
         }

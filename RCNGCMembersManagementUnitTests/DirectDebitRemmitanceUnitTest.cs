@@ -59,7 +59,8 @@ namespace RCNGCMembersManagementUnitTests
                 DirectDebitMandate directDebitMandate = new DirectDebitMandate(
                     ddM.internalReference,
                     new DateTime(2013,11,11),
-                    new BankAccount(new ClientAccountCodeCCC(ddM.ccc)));
+                    new BankAccount(new ClientAccountCodeCCC(ddM.ccc)),
+                    clubMembers[ddM.clubMemberID].FullName);
                 clubMembers[ddM.clubMemberID].AddDirectDebitMandate(directDebitMandate);
             }
 

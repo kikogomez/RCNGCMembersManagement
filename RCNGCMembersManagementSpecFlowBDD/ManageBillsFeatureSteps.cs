@@ -48,7 +48,8 @@ namespace RCNGCMembersManagementSpecFlowBDD
             string electronicIBANString = clientsTable.Rows[0]["Spanish IBAN Bank Account"].Replace(" ","").Substring(4);
             InternationalAccountBankNumberIBAN iban = new InternationalAccountBankNumberIBAN(electronicIBANString);
             BankAccount bankAccount = new BankAccount(iban);
-            DirectDebitMandate directDebitmandate = new DirectDebitMandate(2345, DateTime.Now.Date, bankAccount);
+            string debtorName = membersManagementContextData.clubMember.FullName;
+            DirectDebitMandate directDebitmandate = new DirectDebitMandate(2345, DateTime.Now.Date, bankAccount, debtorName);
             PaymentMethod paymentMethod = new DirectDebitPaymentMethod(directDebitmandate, null);
             membersManagementContextData.clubMember.AddDirectDebitMandate(directDebitmandate);
             membersManagementContextData.clubMember.SetDefaultPaymentMethod(paymentMethod);
@@ -239,7 +240,8 @@ namespace RCNGCMembersManagementSpecFlowBDD
             int internalReferenceNumber = 2645;
             BankAccount bankAccount = new BankAccount(new ClientAccountCodeCCC("12345678061234567890"));
             DateTime directDebitMandateCreationDate = new DateTime(2013, 11, 11);
-            DirectDebitMandate directDebitMandate = new DirectDebitMandate(internalReferenceNumber, directDebitMandateCreationDate, bankAccount);
+            string debtorname = membersManagementContextData.clubMember.FullName;
+            DirectDebitMandate directDebitMandate = new DirectDebitMandate(internalReferenceNumber, directDebitMandateCreationDate, bankAccount, debtorname);
             DirectDebitPaymentMethod directDebitPaymentMethod = new DirectDebitPaymentMethod(directDebitMandate, null);
             ScenarioContext.Current.Add("DirectDebitpaymentMethod", directDebitPaymentMethod);
             Invoice invoice = (Invoice)ScenarioContext.Current["Invoice"];
@@ -375,7 +377,8 @@ namespace RCNGCMembersManagementSpecFlowBDD
             int internalReferenceNumber = 2645;
             BankAccount bankAccount = new BankAccount(new ClientAccountCodeCCC("12345678061234567890"));
             DateTime directDebitMandateCreationDate = new DateTime(2013, 11, 11);
-            DirectDebitMandate directDebitMandate = new DirectDebitMandate(internalReferenceNumber, directDebitMandateCreationDate, bankAccount);
+            string debtorname = membersManagementContextData.clubMember.FullName;
+            DirectDebitMandate directDebitMandate = new DirectDebitMandate(internalReferenceNumber, directDebitMandateCreationDate, bankAccount, debtorname);
             string directDebitTransactionPaymentIdentification = "201311110000123456";
             DirectDebitPaymentMethod directDebitPaymentMethod = new DirectDebitPaymentMethod(directDebitMandate, directDebitTransactionPaymentIdentification);
             DateTime paymentDate = new DateTime(2013, 11, 11);
