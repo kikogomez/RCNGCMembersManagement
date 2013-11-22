@@ -68,6 +68,11 @@ namespace RCNGCMembersManagementAppLogic.Billing.DirectDebit
             get { return debtorAccount; }
         }
 
+        public string AccountHolderName
+        {
+            get { return accountHolderName; }
+        }
+
         public decimal Amount
         {
             get { return totalAmount; }

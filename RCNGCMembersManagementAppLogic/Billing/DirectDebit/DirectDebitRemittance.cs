@@ -10,6 +10,7 @@ namespace RCNGCMembersManagementAppLogic.Billing.DirectDebit
     {
         string messageID;
         DateTime creationDateTime;
+        DateTime requestedCollectionDate;
         int numberOfTransactions;
         decimal controlSum;
         List<DirectDebitTransactionsGroupPayment> directDebitTransactionGroupPaymentCollection;
@@ -17,9 +18,11 @@ namespace RCNGCMembersManagementAppLogic.Billing.DirectDebit
 
         public DirectDebitRemittance(
             DateTime creationDateTime,
+            DateTime requestedCollectionDate, 
             DirectDebitInitiationContract directDebitInitiationContract)
         {
             this.creationDateTime = creationDateTime;
+            this.requestedCollectionDate = requestedCollectionDate;
             this.directDebitInitiationContract=directDebitInitiationContract;
             directDebitTransactionGroupPaymentCollection = new List<DirectDebitTransactionsGroupPayment>();
             GenerateRemmitanceID();
@@ -33,6 +36,11 @@ namespace RCNGCMembersManagementAppLogic.Billing.DirectDebit
         public DateTime CreationDate
         {
             get { return creationDateTime; }
+        }
+
+        public DateTime RequestedCollectionDate
+        {
+            get { return requestedCollectionDate; }
         }
 
         public DirectDebitInitiationContract DirectDebitInitiationContract

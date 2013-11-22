@@ -118,8 +118,9 @@ namespace RCNGCMembersManagementSpecFlowBDD
         public void WhenIGenerateANewDirectDebitRemmitance()
         {
             DateTime creationDate = new DateTime(2013, 11, 11);
+            DateTime requestedCollectionDate = new DateTime(2013, 11, 12);
             DirectDebitInitiationContract directDebitInitiationContract = (DirectDebitInitiationContract)ScenarioContext.Current["DirectDebitInitiationContract"];
-            DirectDebitRemittance directDebitRemmitance = directDebitRemittancesManager.CreateADirectDebitRemmitance(creationDate, directDebitInitiationContract);
+            DirectDebitRemittance directDebitRemmitance = directDebitRemittancesManager.CreateADirectDebitRemmitance(creationDate, requestedCollectionDate, directDebitInitiationContract);
             ScenarioContext.Current.Add("CreationDate", creationDate);
             ScenarioContext.Current.Add("DirectDebitRemittance", directDebitRemmitance);
         }
@@ -299,8 +300,9 @@ namespace RCNGCMembersManagementSpecFlowBDD
         public void GivenIHaveAnEmptyDirectDebitRemmitance()
         {
             DateTime creationDate = new DateTime(2013, 11, 11);
+            DateTime requestedCollectionDate = new DateTime(2013, 11, 12);
             DirectDebitInitiationContract directDebitInitiationContract = (DirectDebitInitiationContract)ScenarioContext.Current["DirectDebitInitiationContract"];
-            DirectDebitRemittance directDebitRemmitance = directDebitRemittancesManager.CreateADirectDebitRemmitance(creationDate, directDebitInitiationContract);
+            DirectDebitRemittance directDebitRemmitance = directDebitRemittancesManager.CreateADirectDebitRemmitance(creationDate, requestedCollectionDate, directDebitInitiationContract);
             ScenarioContext.Current.Add("DirectDebitRemittance", directDebitRemmitance);
         }
 
@@ -325,8 +327,9 @@ namespace RCNGCMembersManagementSpecFlowBDD
         public void GivenIHaveAPreparedDirectDebitRemmitance()
         {
             DateTime creationDate = new DateTime(2013, 11, 11);
+            DateTime requestedCollectionDate = new DateTime(2013, 11, 12);
             DirectDebitInitiationContract directDebitInitiationContract = (DirectDebitInitiationContract)ScenarioContext.Current["DirectDebitInitiationContract"];
-            DirectDebitRemittance directDebitRemmitance = directDebitRemittancesManager.CreateADirectDebitRemmitance(creationDate, directDebitInitiationContract);
+            DirectDebitRemittance directDebitRemmitance = directDebitRemittancesManager.CreateADirectDebitRemmitance(creationDate, requestedCollectionDate, directDebitInitiationContract);
             DirectDebitTransactionsGroupPayment directDebitTransactionsGroupPayment =
                 directDebitRemittancesManager.CreateANewGroupOfDirectDebitTransactions("COR1");
             

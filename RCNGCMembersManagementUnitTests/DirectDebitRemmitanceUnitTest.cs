@@ -90,7 +90,8 @@ namespace RCNGCMembersManagementUnitTests
         public void ADirectDebittRemmitanceInstanceIsCorrectlyCreated()
         {
             DateTime creationDate = new DateTime(2013, 11, 30, 7, 15, 0);
-            DirectDebitRemittance directDebitRemmitance = new DirectDebitRemittance(creationDate, directDebitInitiationContract);
+            DateTime requestedCollectionDate = new DateTime(2013, 12, 1);
+            DirectDebitRemittance directDebitRemmitance = new DirectDebitRemittance(creationDate, requestedCollectionDate, directDebitInitiationContract);
             string expectedMessageId = "ES90777G350087702013113007:15:00";
             Assert.AreEqual(expectedMessageId, directDebitRemmitance.MessageID);
             Assert.AreEqual(creationDate, directDebitRemmitance.CreationDate);
@@ -183,7 +184,8 @@ namespace RCNGCMembersManagementUnitTests
         public void APaymentGroupIsCorrectlyAddedToADirectDebitRemmitance()
         {
             DateTime creationDate = new DateTime(2013, 11, 30, 7, 15, 0);
-            DirectDebitRemittance directDebitRemmitance = new DirectDebitRemittance(creationDate, directDebitInitiationContract);
+            DateTime requestedCollectionDate = new DateTime(2013, 12,1);
+            DirectDebitRemittance directDebitRemmitance = new DirectDebitRemittance(creationDate, requestedCollectionDate, directDebitInitiationContract);
             string localInstrument = "COR1";
             DirectDebitTransactionsGroupPayment directDebitTransactionsGroupPayment = new DirectDebitTransactionsGroupPayment(localInstrument);
             directDebitRemmitance.AddDirectDebitTransactionsGroupPayment(directDebitTransactionsGroupPayment);
