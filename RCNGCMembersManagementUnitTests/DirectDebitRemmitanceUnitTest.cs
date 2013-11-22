@@ -90,8 +90,8 @@ namespace RCNGCMembersManagementUnitTests
         {
             DateTime creationDate = new DateTime(2013, 11, 30, 7, 15, 0);
             DirectDebitRemittance directDebitRemmitance = new DirectDebitRemittance(creationDate, directDebitInitiationContract);
-            string expectedMandateId = "MSG-ES90777G35008770-2013113007:15:00";
-            Assert.AreEqual(expectedMandateId, directDebitRemmitance.MessageID);
+            string expectedMessageId = "ES90777G350087702013113007:15:00";
+            Assert.AreEqual(expectedMessageId, directDebitRemmitance.MessageID);
             Assert.AreEqual(creationDate, directDebitRemmitance.CreationDate);
         }
 
@@ -169,14 +169,53 @@ namespace RCNGCMembersManagementUnitTests
         }
 
         [TestMethod]
-        public void WhenGeneratingTheDirectDebitRemmitanceAllsumsAreCheckedAndAllInternalIDsAreCreated() //Actualizar los ID al generar el mensaje 
+        public void TheDirectDebitTransactionGruopPaymentIdIsWellGenerated() //Actualizar los ID al generar el mensaje 
+        {
+            int sequenceNumber = 1;
+            DirectDebitTransactionsGroupPayment directDebitTransactionsGroupPayment = new DirectDebitTransactionsGroupPayment("COR1");
+            directDebitTransactionsGroupPayment.GeneratePaymentInformationID(sequenceNumber);
+            Assert.AreEqual("001", directDebitTransactionsGroupPayment.PaymentInformationID);
+        }
+
+        [TestMethod]
+        public void TheInstructionIDOfADirectDebitTransactionIsWellGenerated() //Actualizar los ID al generar el mensaje 
+        {
+            int sequenceNumber = 1;
+            ClubMember clubMember = clubMembers["00002"];
+            Invoice firstInvoice = clubMember.InvoicesList.Values.ElementAt(0);
+            List<Bill> bills = new List<Bill>() { firstInvoice.Bills.Values.ElementAt(0) };
+            DirectDebitMandate directDebitMandate = clubMembers["00002"].DirectDebitmandates.ElementAt(0).Value;
+            int internalDirectDebitReferenceNumber = directDebitMandate.InternalReferenceNumber;
+            BankAccount debtorAccount = directDebitMandate.BankAccount;
+            DirectDebitTransaction directDebitTransaction = new DirectDebitTransaction(bills, internalDirectDebitReferenceNumber, debtorAccount);
+            directDebitTransaction.GenerateDirectDebitTransactionInternalReference(sequenceNumber);
+            Assert.AreEqual("000001", directDebitTransaction.DirectDebitTransactionInternalReference);
+        }
+
+        [TestMethod]
+        public void TheMandateIDOfADirectDebitIsWellGenerated() //Actualizar los ID al generar el mensaje 
+        {
+            ClubMember clubMember = clubMembers["00002"];
+            Invoice firstInvoice = clubMember.InvoicesList.Values.ElementAt(0);
+            List<Bill> bills = new List<Bill>() { firstInvoice.Bills.Values.ElementAt(0) };
+            DirectDebitMandate directDebitMandate = clubMembers["00002"].DirectDebitmandates.ElementAt(0).Value;
+            int internalDirectDebitReferenceNumber = directDebitMandate.InternalReferenceNumber;
+            BankAccount debtorAccount = directDebitMandate.BankAccount;
+            DirectDebitTransaction directDebitTransaction = new DirectDebitTransaction(bills, internalDirectDebitReferenceNumber, debtorAccount);
+            Assert.AreEqual(1235, directDebitTransaction.InternalDirectDebitReferenceNumber);
+            directDebitTransaction.GenerateMandateID("777");
+            Assert.AreEqual("000077701235                       ", directDebitTransaction.MandateID);
+        }
+
+        [TestMethod]
+        public void WhenGeneratingTheDirectDebitRemmitanceAllSumsAreCheckedAndAllInternalIDsAreCreated() //Actualizar los ID al generar el mensaje 
         {
             Assert.Inconclusive();
         }
 
 
         [TestMethod]
-        public void GeneratingTheMessageThePaymentIDAndTheDirectDebitRemmitanceIDsAreGenerated() //Actualizar los ID al generar el mensaje 
+        public void WhenGeneratingTeDirectDebitRemitanceTheMMandateIDsAreCalculatedFrominternalReferencenumbers() //Actualizar los ID al generar el mensaje 
         {
             Assert.Inconclusive();
         }

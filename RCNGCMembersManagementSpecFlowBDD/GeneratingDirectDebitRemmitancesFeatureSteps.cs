@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using TechTalk.SpecFlow;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using RCNGCMembersManagementAppLogic;
@@ -16,7 +17,7 @@ namespace RCNGCMembersManagementSpecFlowBDD
         private readonly MembersManagementContextData membersManagementContextData;
         private readonly InvoiceContextData invoiceContextData;
         private InvoicesManager invoicesManager;
-        private DirectDebitRemittanceManager directDebitRemmitancesManager;
+        private DirectDebitRemittancesManager directDebitRemittancesManager;
 
         public GeneratingDirectDebitRemmitancesFeatureSteps(
             MembersManagementContextData membersManagementContextData,
@@ -25,6 +26,7 @@ namespace RCNGCMembersManagementSpecFlowBDD
             this.membersManagementContextData = membersManagementContextData;
             this.invoiceContextData = invoiceContextData;
             invoicesManager = new InvoicesManager();
+            directDebitRemittancesManager = new DirectDebitRemittancesManager();
         }
 
         [BeforeScenario]
@@ -114,14 +116,210 @@ namespace RCNGCMembersManagementSpecFlowBDD
         [When(@"I generate a new direct debit remmitance")]
         public void WhenIGenerateANewDirectDebitRemmitance()
         {
-
-            ScenarioContext.Current.Pending();
+            DateTime creationDate = new DateTime(2013, 11, 11);
+            DirectDebitInitiationContract directDebitInitiationContract = (DirectDebitInitiationContract)ScenarioContext.Current["DirectDebitInitiationContract"];
+            DirectDebitRemittance directDebitRemmitance = directDebitRemittancesManager.CreateADirectDebitRemmitance(creationDate, directDebitInitiationContract);
+            ScenarioContext.Current.Add("CreationDate", creationDate);
+            ScenarioContext.Current.Add("DirectDebitRemittance", directDebitRemmitance);
         }
         
         [Then(@"An empty direct debit remmitance is created")]
         public void ThenAnEmptyDirectDebitRemmitanceIsCreated()
         {
-            ScenarioContext.Current.Pending();
+            DateTime creationDate = (DateTime)ScenarioContext.Current["CreationDate"];
+            DirectDebitInitiationContract directDebitInitiationContract = (DirectDebitInitiationContract)ScenarioContext.Current["DirectDebitInitiationContract"];
+            DirectDebitRemittance directDebitRemmitance = (DirectDebitRemittance)ScenarioContext.Current["DirectDebitRemittance"];
+            Assert.AreEqual(creationDate, directDebitRemmitance.CreationDate);
+            Assert.AreEqual(directDebitInitiationContract, directDebitRemmitance.DirectDebitInitiationContract);
         }
+
+        [Given(@"I have a will send the payments using ""(.*)"" local instrument")]
+        public void GivenIHaveAWillSendThePaymentsUsingLocalInstrument(string localInstrument)
+        {
+            ScenarioContext.Current.Add("LocalInstrument", localInstrument);
+        }
+
+        [When(@"I generate an empty group of direct debit payments")]
+        public void WhenIGenerateAnEmptyGroupOfDirectDebitPayments()
+        {
+            string localInstrument = (string)ScenarioContext.Current["LocalInstrument"];
+            DirectDebitTransactionsGroupPayment directDebitTransactionsGroupPayment =
+                directDebitRemittancesManager.CreateANewGroupOfDirectDebitTransactions(localInstrument);
+            ScenarioContext.Current.Add("DirectDebitTransactionsGroupPayment", directDebitTransactionsGroupPayment);
+        }
+
+        [Then(@"An empty group of direct debit payments using ""(.*)"" is generated")]
+        public void ThenAnEmptyGroupOfDirectDebitPaymentsUsingIsGenerated(string localInstrument)
+        {
+            DirectDebitTransactionsGroupPayment directDebitTransactionsGroupPayment =
+                (DirectDebitTransactionsGroupPayment)ScenarioContext.Current["DirectDebitTransactionsGroupPayment"];
+            Assert.AreEqual(localInstrument, directDebitTransactionsGroupPayment.LocalInstrument);
+            Assert.AreEqual(0, directDebitTransactionsGroupPayment.NumberOfDirectDebitTransactions);
+        }
+
+        [Given(@"I have a member")]
+        public void GivenIHaveAMember()
+        {
+            ClubMember clubMember = ((Dictionary<string, ClubMember>)ScenarioContext.Current["Members"])["00001"];
+            ScenarioContext.Current.Add("Member", clubMember);
+        }
+
+        [Given(@"The member has a bill")]
+        public void GivenTheMemberHasABill()
+        {
+            ClubMember clubMember = (ClubMember)ScenarioContext.Current["Member"];
+            Invoice invoice = clubMember.InvoicesList.Values.ElementAt(0);
+            Bill bill = invoice.Bills.Values.ElementAt(0);
+            ScenarioContext.Current.Add("Bill", bill);
+        }
+
+        [Given(@"The member has a Direct Debit Mandate")]
+        public void GivenTheMemberHasADirectDebitMandate()
+        {
+            ClubMember clubMember = (ClubMember)ScenarioContext.Current["Member"];
+            DirectDebitMandate directDebitmandate = clubMember.DirectDebitmandates.Values.ElementAt(0);
+            ScenarioContext.Current.Add("DirectDebitMandate", directDebitmandate);
+        }
+
+        [When(@"I generate Direct Debit Transaction")]
+        public void WhenIGenerateDirectDebitTransaction()
+        {
+            Bill bill = (Bill)ScenarioContext.Current["Bill"];
+            DirectDebitMandate directDebitmandate = (DirectDebitMandate)ScenarioContext.Current["DirectDebitMandate"];
+            DirectDebitTransaction directDebitTransaction = directDebitRemittancesManager.CreateANewDirectDebitTransactionFromAGroupOfBills(
+                directDebitmandate,
+                new List<Bill>() { bill });
+            ScenarioContext.Current.Add("DirectDebitTransaction", directDebitTransaction);
+        }
+
+        [Then(@"The direct debit transaction is correctly created")]
+        public void ThenTheDirectDebitTransactionIsCorrectlyCreated()
+        {
+            Bill bill = (Bill)ScenarioContext.Current["Bill"];
+            DirectDebitTransaction directDebitTransaction = (DirectDebitTransaction)ScenarioContext.Current["DirectDebitTransaction"];
+            Assert.AreEqual(1, directDebitTransaction.BillsInTransaction.Count);
+            Assert.AreEqual(bill.Amount, directDebitTransaction.Amount);
+        }
+
+        [Given(@"I have a direct debit with (.*) bill and amount of (.*)")]
+        public void GivenIHaveADirectDebitWithBillAndAmountOf(int numberOfBills, decimal amount)
+        {
+            ClubMember clubMember = ((Dictionary<string, ClubMember>)ScenarioContext.Current["Members"])["00002"];
+            DirectDebitMandate directDebitmandate = clubMember.DirectDebitmandates.Values.ElementAt(0);
+            Invoice invoice = clubMember.InvoicesList.Values.ElementAt(0);
+            Bill bill = invoice.Bills.Values.ElementAt(0);
+            DirectDebitTransaction directDebitTransaction = directDebitRemittancesManager.CreateANewDirectDebitTransactionFromAGroupOfBills(
+                directDebitmandate,
+                new List<Bill>() { bill });
+            Assert.AreEqual(numberOfBills, directDebitTransaction.NumberOfBills);
+            Assert.AreEqual(amount, directDebitTransaction.Amount);
+            ScenarioContext.Current.Add("DirectDebitTransaction", directDebitTransaction);
+        }
+
+        [When(@"I add a new bill with amount of (.*)")]
+        public void WhenIAddANewBillWithAmountOf(decimal amount)
+        {
+            ClubMember clubMember = ((Dictionary<string, ClubMember>)ScenarioContext.Current["Members"])["00002"];
+            Invoice invoice = clubMember.InvoicesList.Values.ElementAt(1);
+            Bill bill = invoice.Bills.Values.ElementAt(0);
+            DirectDebitTransaction directDebitTransaction = (DirectDebitTransaction)ScenarioContext.Current["DirectDebitTransaction"];
+            directDebitRemittancesManager.AddBilllToExistingDirectDebitTransaction(directDebitTransaction, bill);
+        }
+
+        [Then(@"The direct debit transaction is updated with (.*) bills and amount of (.*)")]
+        public void ThenTheDirectDebitTransactionIsUpdatedWithBillsAndAmountOf(int numberOfBills, decimal amount)
+        {
+            DirectDebitTransaction directDebitTransaction = (DirectDebitTransaction)ScenarioContext.Current["DirectDebitTransaction"];
+            Assert.AreEqual(numberOfBills, directDebitTransaction.NumberOfBills);
+            Assert.AreEqual(amount, directDebitTransaction.Amount);
+        }
+
+        [Given(@"I have an empty group of payments")]
+        public void GivenIHaveAnEmptyGroupOfPayments()
+        {
+            DirectDebitTransactionsGroupPayment directDebitTransactionsGroupPayment =
+                directDebitRemittancesManager.CreateANewGroupOfDirectDebitTransactions("COR1");
+            ScenarioContext.Current.Add("DirectDebitTransactionsGroupPayment", directDebitTransactionsGroupPayment);
+        }
+
+        [When(@"I add the direct debit transaction to the group of payments")]
+        public void WhenIAddTheDirectDebitTransactionToTheGroupOfPayments()
+        {
+            DirectDebitTransactionsGroupPayment directDebitTransactionsGroupPayment =
+                (DirectDebitTransactionsGroupPayment)ScenarioContext.Current["DirectDebitTransactionsGroupPayment"];
+            DirectDebitTransaction directDebitTransaction = (DirectDebitTransaction)ScenarioContext.Current["DirectDebitTransaction"];
+            directDebitRemittancesManager.AddDirectDebitTransactionToGroupPayment(directDebitTransaction, directDebitTransactionsGroupPayment);
+        }
+
+        [Then(@"The group of payments is updated with (.*) direct debit and total amount of (.*)")]
+        public void ThenTheGroupOfPaymentsIsUpdatedWithDirectDebitAndTotalAmountOf(int numberOfDirectDebitmandates, decimal amount)
+        {
+            DirectDebitTransactionsGroupPayment directDebitTransactionsGroupPayment =
+                (DirectDebitTransactionsGroupPayment)ScenarioContext.Current["DirectDebitTransactionsGroupPayment"];
+            Assert.AreEqual(numberOfDirectDebitmandates, directDebitTransactionsGroupPayment.NumberOfDirectDebitTransactions);
+            Assert.AreEqual(amount, directDebitTransactionsGroupPayment.TotalAmount);
+        }
+
+        [Given(@"I have a group of payments with (.*) direct debit transaction and amount of (.*)")]
+        public void GivenIHaveAGroupOfPaymentsWithDirectDebitTransactionAndAmountOf(int numberOfDirectDebitTransactions, decimal amount)
+        {
+            ClubMember clubMember = ((Dictionary<string, ClubMember>)ScenarioContext.Current["Members"])["00001"];
+            DirectDebitMandate directDebitmandate = clubMember.DirectDebitmandates.Values.ElementAt(0);
+            Invoice invoice = clubMember.InvoicesList.Values.ElementAt(0);
+            Bill bill = invoice.Bills.Values.ElementAt(0);
+            DirectDebitTransaction directDebitTransaction = directDebitRemittancesManager.CreateANewDirectDebitTransactionFromAGroupOfBills(
+                directDebitmandate,
+                new List<Bill>() { bill });
+            DirectDebitTransactionsGroupPayment directDebitTransactionsGroupPayment =
+                directDebitRemittancesManager.CreateANewGroupOfDirectDebitTransactions("COR1");
+            directDebitRemittancesManager.AddDirectDebitTransactionToGroupPayment(directDebitTransaction, directDebitTransactionsGroupPayment);
+            Assert.AreEqual(numberOfDirectDebitTransactions, directDebitTransactionsGroupPayment.NumberOfDirectDebitTransactions);
+            Assert.AreEqual(amount, directDebitTransactionsGroupPayment.TotalAmount);
+            ScenarioContext.Current.Add("DirectDebitTransactionsGroupPayment", directDebitTransactionsGroupPayment);
+        }
+
+        [When(@"I add a new direct debit transaction with amount of (.*)")]
+        public void WhenIAddANewDirectDebitTransactionWithAmountOf(decimal amount)
+        {
+            ClubMember clubMember = ((Dictionary<string, ClubMember>)ScenarioContext.Current["Members"])["00002"];
+            DirectDebitMandate directDebitmandate = clubMember.DirectDebitmandates.Values.ElementAt(0);
+            Invoice invoice = clubMember.InvoicesList.Values.ElementAt(0);
+            Bill bill = invoice.Bills.Values.ElementAt(0);
+            DirectDebitTransaction directDebitTransaction = directDebitRemittancesManager.CreateANewDirectDebitTransactionFromAGroupOfBills(
+                directDebitmandate,
+                new List<Bill>() { bill });
+            Assert.AreEqual(amount, directDebitTransaction.Amount);
+            DirectDebitTransactionsGroupPayment directDebitTransactionsGroupPayment =
+                (DirectDebitTransactionsGroupPayment)ScenarioContext.Current["DirectDebitTransactionsGroupPayment"];
+            directDebitRemittancesManager.AddDirectDebitTransactionToGroupPayment(directDebitTransaction, directDebitTransactionsGroupPayment);
+        }
+
+        [Given(@"I have an empty direct debit remmitance")]
+        public void GivenIHaveAnEmptyDirectDebitRemmitance()
+        {
+            DateTime creationDate = new DateTime(2013, 11, 11);
+            DirectDebitInitiationContract directDebitInitiationContract = (DirectDebitInitiationContract)ScenarioContext.Current["DirectDebitInitiationContract"];
+            DirectDebitRemittance directDebitRemmitance = directDebitRemittancesManager.CreateADirectDebitRemmitance(creationDate, directDebitInitiationContract);
+            ScenarioContext.Current.Add("DirectDebitRemittance", directDebitRemmitance);
+        }
+
+        [When(@"I add the group to the direct debit remittance")]
+        public void WhenIAddTheGroupToTheDirectDebitRemittance()
+        {
+            DirectDebitTransactionsGroupPayment directDebitTransactionsGroupPayment =
+                (DirectDebitTransactionsGroupPayment)ScenarioContext.Current["DirectDebitTransactionsGroupPayment"];
+            DirectDebitRemittance directDebitRemmitance = (DirectDebitRemittance)ScenarioContext.Current["DirectDebitRemittance"];
+            directDebitRemittancesManager.AddDirectDebitTransactionGroupPaymentToDirectDebitRemittance(directDebitRemmitance, directDebitTransactionsGroupPayment);
+        }
+
+        [Then(@"The direct debit remittance is updated with (.*) direct debit and total amount of (.*)")]
+        public void ThenTheDirectDebitRemittanceIsUpdatedWithDirectDebitAndTotalAmountOf(int numberOfTransactions, decimal controlSum)
+        {
+            DirectDebitRemittance directDebitRemmitance = (DirectDebitRemittance)ScenarioContext.Current["DirectDebitRemittance"];
+            Assert.AreEqual(numberOfTransactions, directDebitRemmitance.NumberOfTransactions);
+            Assert.AreEqual(controlSum, directDebitRemmitance.ControlSum);
+        }
+
+
     }
 }

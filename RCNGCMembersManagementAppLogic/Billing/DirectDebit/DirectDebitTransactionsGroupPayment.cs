@@ -21,6 +21,11 @@ namespace RCNGCMembersManagementAppLogic.Billing.DirectDebit
             directDebitTransactionsCollection = new List<DirectDebitTransaction>();
         }
 
+        public string PaymentInformationID
+        {
+            get { return paymentInformationID; }
+        }
+       
         public string LocalInstrument
         {
             get { return localInstrument; }
@@ -40,6 +45,11 @@ namespace RCNGCMembersManagementAppLogic.Billing.DirectDebit
         {
             this.numberOfDirectDebitTransactions = directDebitTransactionsCollection.Count;
             this.totalAmount = directDebitTransactionsCollection.Select(directDebitTransaction => directDebitTransaction.Amount).Sum();
+        }
+
+        public void GeneratePaymentInformationID(int sequenceNumber)
+        {
+            paymentInformationID = sequenceNumber.ToString("000");
         }
 
         public void AddDirectDebitTransaction(DirectDebitTransaction directDebitTransaction)

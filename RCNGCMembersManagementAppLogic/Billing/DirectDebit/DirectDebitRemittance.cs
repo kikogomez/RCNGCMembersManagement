@@ -70,7 +70,7 @@ namespace RCNGCMembersManagementAppLogic.Billing.DirectDebit
 
         private void GenerateRemmitanceID()
         {
-            messageID = "MSG-" + directDebitInitiationContract.CreditorID + "-" + creationDateTime.ToString("yyyyMMddHH:mm:ss");
+            messageID = directDebitInitiationContract.CreditorID + creationDateTime.ToString("yyyyMMddHH:mm:ss");
         }
     }
 }

@@ -159,6 +159,137 @@ this.FeatureBackground();
 #line hidden
             this.ScenarioCleanup();
         }
+        
+        [Microsoft.VisualStudio.TestTools.UnitTesting.TestMethodAttribute()]
+        [Microsoft.VisualStudio.TestTools.UnitTesting.DescriptionAttribute("Create an empty group of direct debit payments")]
+        [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("FeatureTitle", "Generating Direct Debit Remmitances")]
+        public virtual void CreateAnEmptyGroupOfDirectDebitPayments()
+        {
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Create an empty group of direct debit payments", ((string[])(null)));
+#line 28
+this.ScenarioSetup(scenarioInfo);
+#line 6
+this.FeatureBackground();
+#line 29
+ testRunner.Given("I have a will send the payments using \"COR1\" local instrument", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+#line 30
+ testRunner.When("I generate an empty group of direct debit payments", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#line 31
+ testRunner.Then("An empty group of direct debit payments using \"COR1\" is generated", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line hidden
+            this.ScenarioCleanup();
+        }
+        
+        [Microsoft.VisualStudio.TestTools.UnitTesting.TestMethodAttribute()]
+        [Microsoft.VisualStudio.TestTools.UnitTesting.DescriptionAttribute("Create a Direct Debit Transaction from a bill as specified by a member direct deb" +
+            "it mandate")]
+        [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("FeatureTitle", "Generating Direct Debit Remmitances")]
+        public virtual void CreateADirectDebitTransactionFromABillAsSpecifiedByAMemberDirectDebitMandate()
+        {
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Create a Direct Debit Transaction from a bill as specified by a member direct deb" +
+                    "it mandate", ((string[])(null)));
+#line 33
+this.ScenarioSetup(scenarioInfo);
+#line 6
+this.FeatureBackground();
+#line 34
+ testRunner.Given("I have a member", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+#line 35
+ testRunner.And("The member has a bill", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line 36
+ testRunner.And("The member has a Direct Debit Mandate", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line 37
+ testRunner.When("I generate Direct Debit Transaction", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#line 38
+ testRunner.Then("The direct debit transaction is correctly created", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line hidden
+            this.ScenarioCleanup();
+        }
+        
+        [Microsoft.VisualStudio.TestTools.UnitTesting.TestMethodAttribute()]
+        [Microsoft.VisualStudio.TestTools.UnitTesting.DescriptionAttribute("Add a second bill to a direct debit transaction")]
+        [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("FeatureTitle", "Generating Direct Debit Remmitances")]
+        public virtual void AddASecondBillToADirectDebitTransaction()
+        {
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Add a second bill to a direct debit transaction", ((string[])(null)));
+#line 40
+this.ScenarioSetup(scenarioInfo);
+#line 6
+this.FeatureBackground();
+#line 41
+ testRunner.Given("I have a direct debit with 1 bill and amount of 79", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+#line 42
+ testRunner.When("I add a new bill with amount of 79", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#line 43
+ testRunner.Then("The direct debit transaction is updated with 2 bills and amount of 158", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line hidden
+            this.ScenarioCleanup();
+        }
+        
+        [Microsoft.VisualStudio.TestTools.UnitTesting.TestMethodAttribute()]
+        [Microsoft.VisualStudio.TestTools.UnitTesting.DescriptionAttribute("Add a direct debit transaction to an empty group of payments")]
+        [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("FeatureTitle", "Generating Direct Debit Remmitances")]
+        public virtual void AddADirectDebitTransactionToAnEmptyGroupOfPayments()
+        {
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Add a direct debit transaction to an empty group of payments", ((string[])(null)));
+#line 45
+this.ScenarioSetup(scenarioInfo);
+#line 6
+this.FeatureBackground();
+#line 46
+ testRunner.Given("I have a direct debit with 1 bill and amount of 79", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+#line 47
+ testRunner.And("I have an empty group of payments", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line 48
+ testRunner.When("I add the direct debit transaction to the group of payments", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#line 49
+ testRunner.Then("The group of payments is updated with 1 direct debit and total amount of 79", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line hidden
+            this.ScenarioCleanup();
+        }
+        
+        [Microsoft.VisualStudio.TestTools.UnitTesting.TestMethodAttribute()]
+        [Microsoft.VisualStudio.TestTools.UnitTesting.DescriptionAttribute("Add a second direct debit transaction to a group of payments")]
+        [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("FeatureTitle", "Generating Direct Debit Remmitances")]
+        public virtual void AddASecondDirectDebitTransactionToAGroupOfPayments()
+        {
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Add a second direct debit transaction to a group of payments", ((string[])(null)));
+#line 51
+this.ScenarioSetup(scenarioInfo);
+#line 6
+this.FeatureBackground();
+#line 52
+ testRunner.Given("I have a group of payments with 1 direct debit transaction and amount of 79", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+#line 53
+ testRunner.When("I add a new direct debit transaction with amount of 79", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#line 54
+ testRunner.Then("The group of payments is updated with 2 direct debit and total amount of 158", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line hidden
+            this.ScenarioCleanup();
+        }
+        
+        [Microsoft.VisualStudio.TestTools.UnitTesting.TestMethodAttribute()]
+        [Microsoft.VisualStudio.TestTools.UnitTesting.DescriptionAttribute("Add a group payments to a direct debit remmitance")]
+        [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("FeatureTitle", "Generating Direct Debit Remmitances")]
+        public virtual void AddAGroupPaymentsToADirectDebitRemmitance()
+        {
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Add a group payments to a direct debit remmitance", ((string[])(null)));
+#line 56
+this.ScenarioSetup(scenarioInfo);
+#line 6
+this.FeatureBackground();
+#line 57
+ testRunner.Given("I have an empty direct debit remmitance", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+#line 58
+ testRunner.And("I have a group of payments with 1 direct debit transaction and amount of 79", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line 59
+ testRunner.When("I add the group to the direct debit remittance", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#line 60
+ testRunner.Then("The direct debit remittance is updated with 1 direct debit and total amount of 79" +
+                    "", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line hidden
+            this.ScenarioCleanup();
+        }
     }
 }
 #pragma warning restore

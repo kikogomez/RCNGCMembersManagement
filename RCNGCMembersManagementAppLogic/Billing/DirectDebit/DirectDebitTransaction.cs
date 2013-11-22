@@ -12,6 +12,7 @@ namespace RCNGCMembersManagementAppLogic.Billing.DirectDebit
         List<Bill> billsInTransaction;
         int internalDirectDebitReferenceNumber;
         BankAccount debtorAccount;
+        string mandateID;
 
         decimal totalAmount;
         int numberOfBills;
@@ -22,6 +23,16 @@ namespace RCNGCMembersManagementAppLogic.Billing.DirectDebit
             this.internalDirectDebitReferenceNumber = internalDirectDebitReferenceNumber;
             this.debtorAccount = debtorAccount;
             UpdateAmountAndNumberOfBills();
+        }
+
+        public string DirectDebitTransactionInternalReference
+        {
+            get { return directDebitTransactionInternalReference; }
+        }
+
+        public string MandateID
+        {
+            get { return mandateID; }
         }
 
         public List<Bill> BillsInTransaction
@@ -53,6 +64,23 @@ namespace RCNGCMembersManagementAppLogic.Billing.DirectDebit
         {
             this.billsInTransaction.Add(bill);
             UpdateAmountAndNumberOfBills();
+        }
+
+        public void GenerateDirectDebitTransactionInternalReference(int sequenceNumber)
+        {
+            directDebitTransactionInternalReference = sequenceNumber.ToString("000000");
+        }
+
+        public void GenerateMandateID(string creditorBusinessCode)
+        {
+            string csb19ReferenceNumber = CalculateOldCSB19Code(creditorBusinessCode);
+            SEPAAttributes sEPAttributes = new SEPAAttributes();
+            mandateID = sEPAttributes.AT01MandateReference(csb19ReferenceNumber);
+        }
+
+        private string CalculateOldCSB19Code(string creditorBusinessCode)
+        {
+            return "0000" + creditorBusinessCode + internalDirectDebitReferenceNumber.ToString("00000");
         }
 
         private void UpdateAmountAndNumberOfBills()
