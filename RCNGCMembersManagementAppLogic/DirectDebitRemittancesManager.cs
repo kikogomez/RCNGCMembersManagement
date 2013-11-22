@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using RCNGCMembersManagementAppLogic.Billing;
 using RCNGCMembersManagementAppLogic.Billing.DirectDebit;
 using RCNGCMembersManagementAppLogic.Billing.DirectDebit.ISO20022Elements.CustomerDirectDebitInitiationV02;
+using RCNGCMembersManagementAppLogic.XML;
 using ExtensionMethods;
 
 namespace RCNGCMembersManagementAppLogic
@@ -89,14 +90,28 @@ namespace RCNGCMembersManagementAppLogic
                         directDebitTransaction);
                     directDebitTransactionInfoList.Add(directDebitTransactionInfo_DrctDbtTxInf);
                 }
+                
                 PaymentInstructionInformation4 paymentInformation_PmtInf = GeneratePaymentInformation_PmtInf(
                     creditor,
                     creditorAgent,
                     directDebitInitiationContract,
                     directDebitRemmitance,
                     directDebitTransactionInfoList);
+                
+                paymentInformation_PmtInf_List.Add(paymentInformation_PmtInf);
             }
-            return "";
+
+            PaymentInstructionInformation4[] paymentInformation_PmtInf_Array = paymentInformation_PmtInf_List.ToArray();
+
+            CustomerDirectDebitInitiationV02 customerDebitInitiationV02_Document = new CustomerDirectDebitInitiationV02(
+                groupHeader_GrpHdr,                     //<GrpHdr>
+                paymentInformation_PmtInf_Array);       //<PmtInf>
+
+            Document document_Document = new Document(customerDebitInitiationV02_Document);
+
+            string xMLNamespace = "urn:iso:std:iso:20022:tech:xsd:pain.008.001.02";
+            string xmlString = XMLSerializer.XMLSerializeToString<Document>(document_Document, "Document", xMLNamespace);
+            return xmlString;
         }
 
         private PartyIdentification32 GenerateInitiationParty_InitPty(
@@ -323,7 +338,7 @@ namespace RCNGCMembersManagementAppLogic
                 creditorSchemeIdentification_CdtrSchemeId,  //<CdtrSchemeId>
                 directDebitTransactionInfoCollection);      //<DrctDbtTxInf>
 
-            return null;
+            return paymentInformation_PmtInf;
 
         }
     }
