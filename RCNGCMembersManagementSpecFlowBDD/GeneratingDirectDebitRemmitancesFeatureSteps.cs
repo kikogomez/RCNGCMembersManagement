@@ -8,6 +8,7 @@ using RCNGCMembersManagementAppLogic.MembersManaging;
 using RCNGCMembersManagementAppLogic.Billing;
 using RCNGCMembersManagementAppLogic.Billing.DirectDebit;
 using RCNGCMembersManagementMocks;
+using RCNGCMembersManagementAppLogic.XML;
 
 namespace RCNGCMembersManagementSpecFlowBDD
 {
@@ -359,13 +360,25 @@ namespace RCNGCMembersManagementSpecFlowBDD
         [When(@"I generate de SEPA ISO(.*) XML CustomerDirectDebitInitiation message")]
         public void WhenIGenerateDeSEPAISOXMLCustomerDirectDebitInitiationMessage(int p0)
         {
-            ScenarioContext.Current.Pending();
+            Creditor creditor = (Creditor)ScenarioContext.Current["Creditor"];
+            CreditorAgent creditorAgent = (CreditorAgent)ScenarioContext.Current["CreditorAgent"];
+            DirectDebitInitiationContract directDebitInitiationContract = (DirectDebitInitiationContract)ScenarioContext.Current["DirectDebitInitiationContract"];
+            DirectDebitRemittance directDebitRemittance = (DirectDebitRemittance)ScenarioContext.Current["DirectDebitRemittance"];
+            DateTime generationTime = directDebitRemittance.CreationDate;
+            string xMLString = directDebitRemittancesManager.GenerateISO20022CustomerDirectDebitInitiationMessage(
+                generationTime, creditor, creditorAgent, directDebitInitiationContract, directDebitRemittance);
+            ScenarioContext.Current.Add("xMLString", xMLString);
+
         }
 
         [Then(@"The message is correctly created")]
         public void ThenTheMessageIsCorrectlyCreated()
         {
-            ScenarioContext.Current.Pending();
+            string xMLString = (string)ScenarioContext.Current["xMLString"];
+            string xMLNamespace = "urn:iso:std:iso:20022:tech:xsd:pain.008.001.02";
+            string xSDFilePath = @"XSDFiles\pain.008.001.02.xsd";
+            string validatingErrors = XMLValidator.ValidateXMLStringThroughXSDFile(xMLString, xSDFilePath);
+            Assert.AreEqual("", validatingErrors);
         }
 
 
