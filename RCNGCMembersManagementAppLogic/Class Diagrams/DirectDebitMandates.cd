@@ -2,20 +2,13 @@
 <ClassDiagram MajorVersion="1" MinorVersion="1">
   <Class Name="RCNGCMembersManagementAppLogic.Billing.DirectDebit.DirectDebitMandate" Collapsed="true">
     <Position X="4.5" Y="3.5" Width="2" />
-    <NestedTypes>
-      <Enum Name="RCNGCMembersManagementAppLogic.Billing.DirectDebit.DirectDebitMandate.DirectDebitmandateStatus" Collapsed="true">
-        <TypeIdentifier>
-          <NewMemberFileName>Billing\DirectDebit\DirectDebitMandate.cs</NewMemberFileName>
-        </TypeIdentifier>
-      </Enum>
-    </NestedTypes>
     <TypeIdentifier>
       <HashCode>AAWhAAQFACAEEAAUAAAAAAAAAAAIAAAAAAABoAABoAA=</HashCode>
       <FileName>Billing\DirectDebit\DirectDebitMandate.cs</FileName>
     </TypeIdentifier>
     <ShowAsAssociation>
-      <Field Name="bankAccount" />
       <Field Name="billingDataManager" />
+      <Field Name="bankAccount" />
     </ShowAsAssociation>
     <ShowAsCollectionAssociation>
       <Field Name="bankAccountHistory" />
@@ -80,6 +73,20 @@
     <ShowAsCollectionAssociation>
       <Field Name="directDebitmandates" />
     </ShowAsCollectionAssociation>
+  </Class>
+  <Class Name="RCNGCMembersManagementAppLogic.Billing.DirectDebit.ISO7064CheckDigits" Collapsed="true">
+    <Position X="6.5" Y="6.5" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAAIAAAAAAAEAAAIAAAAIAAAAIAABABAAAAAAABAAAA=</HashCode>
+      <FileName>Billing\DirectDebit\ISO7064CheckDigits.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="RCNGCMembersManagementAppLogic.Billing.DirectDebit.BankAccountCheckNumbersCalculator" Collapsed="true">
+    <Position X="2.75" Y="6.5" Width="2.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAQAAAAAAAEAAAAAABAAAAAAAAAQAAAAAQ=</HashCode>
+      <FileName>Billing\DirectDebit\BankAccountCheckNumbersCalculator.cs</FileName>
+    </TypeIdentifier>
   </Class>
   <Font Name="Segoe UI" Size="9" />
 </ClassDiagram>
