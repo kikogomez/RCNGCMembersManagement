@@ -22,9 +22,6 @@ namespace RCNGCMembersManagementUnitTests
         static BankCodes spanishBankCodes;
         static InvoicesManager invoicesManager;
 
-        //BillingDataManager billingDataManager;
-        //List<Bill> unassignedBillsList;
-
 
         [ClassInitialize]
         public static void ClassInit(TestContext context)
@@ -95,6 +92,7 @@ namespace RCNGCMembersManagementUnitTests
             string expectedMessageId = "ES90777G350087702013113007:15:00";
             Assert.AreEqual(expectedMessageId, directDebitRemmitance.MessageID);
             Assert.AreEqual(creationDate, directDebitRemmitance.CreationDate);
+            Assert.AreEqual(requestedCollectionDate, directDebitRemmitance.RequestedCollectionDate);
         }
 
         [TestMethod]

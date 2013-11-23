@@ -375,13 +375,9 @@ namespace RCNGCMembersManagementSpecFlowBDD
         public void ThenTheMessageIsCorrectlyCreated()
         {
             string xMLString = (string)ScenarioContext.Current["xMLString"];
-            string xMLNamespace = "urn:iso:std:iso:20022:tech:xsd:pain.008.001.02";
             string xSDFilePath = @"XSDFiles\pain.008.001.02.xsd";
             string validatingErrors = XMLValidator.ValidateXMLStringThroughXSDFile(xMLString, xSDFilePath);
             Assert.AreEqual("", validatingErrors);
         }
-
-
-
     }
 }

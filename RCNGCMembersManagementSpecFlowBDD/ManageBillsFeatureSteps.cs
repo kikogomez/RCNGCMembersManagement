@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Linq;
-using System.Globalization;
 using System.Collections.Generic;
 using TechTalk.SpecFlow;
 using Microsoft.VisualStudio.TestTools.UnitTesting;

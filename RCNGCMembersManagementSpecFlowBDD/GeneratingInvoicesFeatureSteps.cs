@@ -9,7 +9,6 @@ using RCNGCMembersManagementAppLogic.ClubStore;
 using RCNGCMembersManagementAppLogic.Billing;
 using RCNGCMembersManagementMocks;
 
-
 namespace RCNGCMembersManagementSpecFlowBDD
 {
     [Binding, Scope(Feature = "Generating invoices")]

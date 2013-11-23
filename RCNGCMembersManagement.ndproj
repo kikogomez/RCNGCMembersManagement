@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <NDepend AppName="RCNGCMembersManagement" Platform="DotNet">
   <OutputDir KeepHistoric="False" KeepXmlFiles="True">C:\Users\Kaikus\Documents\Visual Studio 2012\Projects\RCNGCMembersManagement\NDependOut</OutputDir>
   <Assemblies>
@@ -16,6 +16,8 @@
     <Name>TechTalk.SpecFlow</Name>
     <Name>Microsoft.VisualStudio.QualityTools.UnitTestFramework</Name>
     <Name>System</Name>
+    <Name>System.Xml</Name>
+    <Name>System.Xml.Linq</Name>
   </FrameworkAssemblies>
   <Dirs>
     <Dir>C:\Windows\Microsoft.NET\Framework\v4.0.30319</Dir>
@@ -43,8 +45,7 @@
   <BuildComparisonSetting ProjectMode="DontCompare" BuildMode="MostRecentAnalysisResultAvailable" ProjectFileToCompareWith="" BuildFileToCompareWith="" NDaysAgo="1" />
   <BaselineInUISetting ProjectMode="DontCompare" BuildMode="MostRecentAnalysisResultAvailable" ProjectFileToCompareWith="" BuildFileToCompareWith="" NDaysAgo="1" />
   <CoverageFiles UncoverableAttribute="" />
-  <SourceFileRebasing FromPath="" ToPath="" />
-  <Queries>
+  <SourceFileRebasing FromPath="" ToPath="" /><Queries>
     <Group Name="Code Quality" Active="True" ShownInReport="False">
       <Query Active="True" DisplayList="True" DisplayStat="True" DisplaySelectionView="False" IsCriticalRule="True"><![CDATA[// <Name>Types too big - critical</Name>
 warnif count > 0 from t in JustMyCode.Types where 
@@ -3607,5 +3608,4 @@ from f in Application.Fields where
   f.Name == "components" && f.ParentType.DeriveFrom("System.Windows.Forms.Control".AllowNoMatch())
 select f]]></Query>
     </Group>
-  </Queries>
-</NDepend>
+  </Queries></NDepend>

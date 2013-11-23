@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Globalization;
 using System.Collections.Generic;
 using TechTalk.SpecFlow;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -8,7 +7,6 @@ using RCNGCMembersManagementAppLogic.ClubServices;
 using RCNGCMembersManagementAppLogic.ClubStore;
 using RCNGCMembersManagementAppLogic.Billing;
 using RCNGCMembersManagementMocks;
-
 
 namespace RCNGCMembersManagementSpecFlowBDD
 {

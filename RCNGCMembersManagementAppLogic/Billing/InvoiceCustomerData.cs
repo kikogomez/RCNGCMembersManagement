@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using RCNGCMembersManagementAppLogic.MembersManaging;
+﻿using RCNGCMembersManagementAppLogic.MembersManaging;
 
 namespace RCNGCMembersManagementAppLogic.Billing
 {
@@ -16,15 +11,15 @@ namespace RCNGCMembersManagementAppLogic.Billing
             this.fullName = clubMember.FullName;
         }
 
-        public InvoiceCustomerData()
+/*        public InvoiceCustomerData()
         {
             this.fullName = "";
-        }
+        }*/
 
         public string FullName
         {
             get { return fullName; }
-            set { fullName = value; }
+            //set { fullName = value; }
         }
     }
 }

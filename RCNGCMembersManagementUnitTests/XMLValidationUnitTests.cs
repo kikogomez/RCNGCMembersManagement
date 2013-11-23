@@ -554,6 +554,22 @@ namespace RCNGCMembersManagementUnitTests
             Assert.AreNotEqual(String.Empty, validatingErrors);
         }
 
+        [TestMethod]
+        [ExpectedException(typeof(XmlException))]
+        public void TheXMLValidationEventHandlerWorksOK()
+        {
+            string xSDFilePath = @"XML Test Files\wrongXSDFile.xsd";
+            try
+            {
+                XmlSchema xmlSchema = XmlSchema.Read(new StreamReader(xSDFilePath), XMLValidationEventHandler);
+            }
+            catch (System.Xml.XmlException e)
+            {
+                Assert.IsNotNull(e);
+                throw e;
+            }
+        }
+
         private void XMLValidationEventHandler(object sender, ValidationEventArgs e)
         {
             throw e.Exception;

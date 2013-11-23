@@ -11,7 +11,6 @@ using RCNGCMembersManagementAppLogic.ClubStore;
 using RCNGCMembersManagementAppLogic.Billing;
 using RCNGCMembersManagementMocks;
 
-
 namespace RCNGCMembersManagementSpecFlowBDD
 {
     [Binding, Scope(Feature = "Manage invoices")]
@@ -165,7 +164,7 @@ namespace RCNGCMembersManagementSpecFlowBDD
             Assert.AreEqual(baseCost, amendingInvoice.GrossAmount);
         }
 
-        private void AddTransactionsToTransactionList(List<Transaction> currentTransactionsList, Table newTransactions)
+/*        private void AddTransactionsToTransactionList(List<Transaction> currentTransactionsList, Table newTransactions)
         {
             foreach (var row in newTransactions.Rows)
             {
@@ -188,6 +187,6 @@ namespace RCNGCMembersManagementSpecFlowBDD
                 }
                 currentTransactionsList.Add(transaction);
             }
-        }
+        }*/
     }
 }
