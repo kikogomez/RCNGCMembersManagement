@@ -163,30 +163,5 @@ namespace RCNGCMembersManagementSpecFlowBDD
             Assert.AreEqual(taxValue, amendingInvoice.TaxAmount);
             Assert.AreEqual(baseCost, amendingInvoice.GrossAmount);
         }
-
-/*        private void AddTransactionsToTransactionList(List<Transaction> currentTransactionsList, Table newTransactions)
-        {
-            foreach (var row in newTransactions.Rows)
-            {
-                Transaction transaction;
-                int units = int.Parse(row["Units"]);
-                string elementName = row[1];
-                string description = row["Description"];
-                double unitCost = double.Parse(row["Unit Cost"]);
-                Tax tax = invoiceContextData.taxesDictionary[row["Tax"]];
-                double discount = double.Parse(row["Discount"]);
-                if (newTransactions.Header.Contains("Service Name"))
-                {
-                    ClubService clubService = invoiceContextData.servicesDictionary[elementName];
-                    transaction = new ServiceCharge(clubService, description, units, unitCost, tax, discount);
-                }
-                else
-                {
-                    Product product = invoiceContextData.productsDictionary[elementName];
-                    transaction = new Sale(product, description, units, unitCost, tax, discount);
-                }
-                currentTransactionsList.Add(transaction);
-            }
-        }*/
     }
 }

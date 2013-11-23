@@ -11,15 +11,9 @@ namespace RCNGCMembersManagementAppLogic.Billing
             this.fullName = clubMember.FullName;
         }
 
-/*        public InvoiceCustomerData()
-        {
-            this.fullName = "";
-        }*/
-
         public string FullName
         {
             get { return fullName; }
-            //set { fullName = value; }
         }
     }
 }

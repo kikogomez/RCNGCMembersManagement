@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Text;
 using System.Collections.Generic;
 using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -8,7 +7,6 @@ using RCNGCMembersManagementAppLogic;
 using RCNGCMembersManagementAppLogic.Billing;
 using RCNGCMembersManagementAppLogic.Billing.DirectDebit;
 using RCNGCMembersManagementAppLogic.MembersManaging;
-
 
 namespace RCNGCMembersManagementUnitTests
 {
@@ -21,7 +19,6 @@ namespace RCNGCMembersManagementUnitTests
         static DirectDebitInitiationContract directDebitInitiationContract;
         static BankCodes spanishBankCodes;
         static InvoicesManager invoicesManager;
-
 
         [ClassInitialize]
         public static void ClassInit(TestContext context)
@@ -200,7 +197,7 @@ namespace RCNGCMembersManagementUnitTests
         }
 
         [TestMethod]
-        public void TheInstructionIDOfADirectDebitTransactionIsWellGenerated() //Actualizar los ID al generar el mensaje 
+        public void TheInstructionIDOfADirectDebitTransactionIsWellGenerated() 
         {
             int sequenceNumber = 1;
             ClubMember clubMember = clubMembers["00002"];
@@ -217,7 +214,7 @@ namespace RCNGCMembersManagementUnitTests
         }
 
         [TestMethod]
-        public void TheMandateIDOfADirectDebitIsWellGenerated() //Actualizar los ID al generar el mensaje 
+        public void TheMandateIDOfADirectDebitIsWellGenerated() 
         {
             ClubMember clubMember = clubMembers["00002"];
             Invoice firstInvoice = clubMember.InvoicesList.Values.ElementAt(0);

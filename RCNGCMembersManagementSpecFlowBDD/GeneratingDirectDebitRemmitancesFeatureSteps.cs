@@ -364,8 +364,9 @@ namespace RCNGCMembersManagementSpecFlowBDD
             CreditorAgent creditorAgent = (CreditorAgent)ScenarioContext.Current["CreditorAgent"];
             DirectDebitInitiationContract directDebitInitiationContract = (DirectDebitInitiationContract)ScenarioContext.Current["DirectDebitInitiationContract"];
             DirectDebitRemittance directDebitRemittance = (DirectDebitRemittance)ScenarioContext.Current["DirectDebitRemittance"];
+            SEPAMessagesManager sEPAMessagesManager = new SEPAMessagesManager();
             DateTime generationTime = directDebitRemittance.CreationDate;
-            string xMLString = directDebitRemittancesManager.GenerateISO20022CustomerDirectDebitInitiationMessage(
+            string xMLString = sEPAMessagesManager.GenerateISO20022CustomerDirectDebitInitiationMessage(
                 generationTime, creditor, creditorAgent, directDebitInitiationContract, directDebitRemittance);
             ScenarioContext.Current.Add("xMLString", xMLString);
 

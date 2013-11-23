@@ -64,11 +64,6 @@ namespace RCNGCMembersManagementAppLogic.Billing.DirectDebit
             return spanishBankCodes;
         }
 
-/*        public void ExportBankCodesListToXML(string bankBICCodesXMLFilePath)
-        {
-            XMLSerializer.XMLSerializeToFile<BankCode[]>(bankDictionaryByBIC.Values.ToArray(), null, null, bankBICCodesXMLFilePath);
-        }*/
-
         private void LoadBankCodes(string bankBICCodesFilePath, BankCodesFileFormat bankCodeFileFormat)
         {
             switch (bankCodeFileFormat)

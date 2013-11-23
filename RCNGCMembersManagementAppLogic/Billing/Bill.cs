@@ -22,9 +22,6 @@ namespace RCNGCMembersManagementAppLogic.Billing
         public Bill(string description, decimal amount, DateTime issueDate, DateTime dueDate)
             : this(null, description, amount, issueDate, dueDate, null) { }
 
-/*        public Bill(string description, decimal amount, DateTime issueDate, DateTime dueDate, PaymentMethod paymentMethod)
-           : this(null, description, amount, issueDate, dueDate, paymentMethod) { }*/
-
         public Bill(string billID, string description, decimal amount, DateTime issueDate, DateTime dueDate, PaymentMethod paymentMethod)
         {
             this.billID = billID;
