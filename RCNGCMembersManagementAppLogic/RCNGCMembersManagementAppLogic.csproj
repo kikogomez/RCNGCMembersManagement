@@ -118,6 +118,12 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
+    <None Include="Class Diagrams\DirectDemitMandates.cd" />
+    <None Include="Class Diagrams\Invoices.cd" />
+    <None Include="Class Diagrams\Bills.cd" />
+    <None Include="Class Diagrams\DirectDebitRemmitances.cd" />
+    <None Include="Class Diagrams\HelperClasses.cd" />
+    <None Include="ClassDiagram1.cd" />
     <None Include="CSVFiles\SpanishBankCodes.csv">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>

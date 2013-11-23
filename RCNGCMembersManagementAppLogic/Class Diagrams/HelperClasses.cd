@@ -1,0 +1,25 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="RCNGCMembersManagementAppLogic.Billing.DirectDebit.BankAccountCheckNumbersCalculator" Collapsed="true">
+    <Position X="0.75" Y="0.5" Width="2.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAQAAAAAAAEAAAAAABAAAAAAAAAQAAAAAQ=</HashCode>
+      <FileName>Billing\DirectDebit\BankAccountCheckNumbersCalculator.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="RCNGCMembersManagementAppLogic.Billing.DirectDebit.ISO7064CheckDigits" Collapsed="true">
+    <Position X="1" Y="1.25" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AAAIAAAAAAAEAAAIAAAAIAAAAIAABABAAAAAAABAAAA=</HashCode>
+      <FileName>Billing\DirectDebit\ISO7064CheckDigits.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="RCNGCMembersManagementAppLogic.Billing.DirectDebit.SEPAAttributes" Collapsed="true">
+    <Position X="1.5" Y="2" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAQAAAAAAAAAAEIAAAAAAAABJAAAABAAAAAAAAA=</HashCode>
+      <FileName>Billing\DirectDebit\SEPAAttributes.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

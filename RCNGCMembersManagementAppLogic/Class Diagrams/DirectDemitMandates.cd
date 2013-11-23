@@ -1,0 +1,85 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="RCNGCMembersManagementAppLogic.Billing.DirectDebit.DirectDebitMandate" Collapsed="true">
+    <Position X="4.5" Y="3.5" Width="2" />
+    <NestedTypes>
+      <Enum Name="RCNGCMembersManagementAppLogic.Billing.DirectDebit.DirectDebitMandate.DirectDebitmandateStatus" Collapsed="true">
+        <TypeIdentifier>
+          <NewMemberFileName>Billing\DirectDebit\DirectDebitMandate.cs</NewMemberFileName>
+        </TypeIdentifier>
+      </Enum>
+    </NestedTypes>
+    <TypeIdentifier>
+      <HashCode>AAWhAAQFACAEEAAUAAAAAAAAAAAIAAAAAAABoAABoAA=</HashCode>
+      <FileName>Billing\DirectDebit\DirectDebitMandate.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="bankAccount" />
+      <Field Name="billingDataManager" />
+    </ShowAsAssociation>
+    <ShowAsCollectionAssociation>
+      <Field Name="bankAccountHistory" />
+    </ShowAsCollectionAssociation>
+  </Class>
+  <Class Name="RCNGCMembersManagementAppLogic.Billing.DirectDebit.BankAccount" Collapsed="true">
+    <Position X="4.75" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAIAEAAAAAAAAIAQgAAAAgQQAAIgAAMIAAAAACAAAAA=</HashCode>
+      <FileName>Billing\DirectDebit\BankAccount.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="bankAccountFields" />
+      <Field Name="ccc" />
+      <Field Name="iban" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="RCNGCMembersManagementAppLogic.Billing.DirectDebit.BankAccountHistoricalData" Collapsed="true">
+    <Position X="8" Y="3.5" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AACAAAAAIAAAAAAAACAAAAAgAAAAAAAAAAAAAAAIgAA=</HashCode>
+      <FileName>Billing\DirectDebit\BankAccountHistoricalData.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="bankAccount" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="RCNGCMembersManagementAppLogic.Billing.DirectDebit.BankAccountFields" Collapsed="true">
+    <Position X="2" Y="5.5" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAABAAUABAAAAAQgAACACAAAJAgAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Billing\DirectDebit\BankAccountFields.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="RCNGCMembersManagementAppLogic.Billing.DirectDebit.ClientAccountCodeCCC" Collapsed="true">
+    <Position X="4.5" Y="5.5" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAABEAAAAAAAAAQQgAAEAAAABAhgACIAAgAAAABAABA=</HashCode>
+      <FileName>Billing\DirectDebit\ClientAccountCodeCCC.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="RCNGCMembersManagementAppLogic.Billing.DirectDebit.InternationalAccountBankNumberIBAN" Collapsed="true">
+    <Position X="7" Y="5.5" Width="3" />
+    <TypeIdentifier>
+      <HashCode>AAIAAAAAAAAAAMARAAAAAAgAAAIgAAAIAAAAAIAAAAA=</HashCode>
+      <FileName>Billing\DirectDebit\InternationalAccountBankNumberIBAN.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="RCNGCMembersManagementAppLogic.Billing.BillingDataManager" Collapsed="true">
+    <Position X="2" Y="2.5" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAABAAABAAAAAAABAFAAAGUBABAAAAQQgAgQSJgEEA=</HashCode>
+      <FileName>Billing\BillingDataManager.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="RCNGCMembersManagementAppLogic.MembersManaging.ClubMember" Collapsed="true">
+    <Position X="4.75" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAEACAAAAAEIAIAQAQAAAIRAAACMAACgoIAFgiEBIAE=</HashCode>
+      <FileName>MembersManaging\ClubMember.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsCollectionAssociation>
+      <Field Name="directDebitmandates" />
+    </ShowAsCollectionAssociation>
+  </Class>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>
