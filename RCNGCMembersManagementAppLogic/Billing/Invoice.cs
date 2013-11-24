@@ -98,12 +98,26 @@ namespace RCNGCMembersManagementAppLogic.Billing
             this.invoiceState = InvoicePaymentState.Unpaid;
         }
 
-        public void CheckIfInvoiceHasNotAnyUnpaidBills()
+        public void SetInvoiceToBePaidIfHasNoUnpaidBills()
         {
-            var unpaidBills = invoiceBills.Where(bill=> bill.Value.PaymentResult== Bill.BillPaymentResult.Unpaid);
-            var toCollectBills = invoiceBills.Where(bill=> bill.Value.PaymentResult== Bill.BillPaymentResult.ToCollect);
-            if (unpaidBills.Count()==0 && toCollectBills.Count()!=0) this.invoiceState=InvoicePaymentState.ToBePaid;
+            if (InvoiceHasBillsToCollect() && InvoiceHasNoUnpaidBills()) this.invoiceState = InvoicePaymentState.ToBePaid;
         }
+
+        private bool InvoiceHasNoUnpaidBills()
+        {
+            Dictionary<string, Bill> billsCollection = this.invoiceBills;
+            var unpaidBills = billsCollection.Where(bill => bill.Value.PaymentResult == Bill.BillPaymentResult.Unpaid);
+            return (unpaidBills.Count() == 0);
+        }
+
+        private bool InvoiceHasBillsToCollect()
+        {
+            Dictionary<string, Bill> billsCollection = this.invoiceBills;
+            var toCollectBills = billsCollection.Where(bill => bill.Value.PaymentResult == Bill.BillPaymentResult.ToCollect);
+            return (toCollectBills.Count() != 0);
+        }
+
+        
 
         protected override string GetNewInvoiceID()
         {

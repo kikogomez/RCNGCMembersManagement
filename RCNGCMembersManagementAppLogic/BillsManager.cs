@@ -24,7 +24,7 @@ namespace RCNGCMembersManagementAppLogic
         public void RenewBillDueDate(Invoice invoiceContainingTheBill, Bill billToRenew, DateTime newDueDate, DateTime todayDate)
         {
             billToRenew.RenewDueDate(newDueDate, todayDate);
-            invoiceContainingTheBill.CheckIfInvoiceHasNotAnyUnpaidBills();
+            invoiceContainingTheBill.SetInvoiceToBePaidIfHasNoUnpaidBills();
         }
 
         private void CheckIfAgreementIsAccomplished(Invoice invoiceContainingTheBill, Bill paidBill)
