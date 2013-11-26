@@ -148,6 +148,7 @@ $RECYCLE.BIN/
 
 # NDepend Metrics
 /NDependOut/
+/NDependOut2/
 #/NDependOut1/*
 #/NDependOut1/*/*
 #/NDependOut1/*/*/*
